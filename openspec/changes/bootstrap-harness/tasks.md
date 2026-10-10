@@ -14,6 +14,6 @@
 - [ ] 2.6 Perform live behavioral evaluation with an agreed agent/runtime and model budget before release.
 
 ## 3. Review delivery
-- [ ] 3.1 Create/verify the private manh0303/ai-harness repository using an available authorized creation path.
-- [ ] 3.2 Push the feature branch and open a PR for owner review; do not merge.
+- [x] 3.1 Create/verify the private manh0303/ai-harness repository using an available authorized creation path.
+- [x] 3.2 Push the feature branch and open a PR for owner review; do not merge.
 - [ ] 3.3 After human merge, sync accepted specs and archive the change through OpenSpec.
