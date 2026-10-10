@@ -1,6 +1,6 @@
 schema: spec-driven
 context: |
-  ai-harness is a reusable, offline instruction-distribution framework with a Python stdlib CLI.
+  ai-harness is a reusable, offline instruction-distribution framework with a dependency-free Node.js CLI.
   Target Java/Spring, React/Next.js, React Native and AI/Python projects using explicit adapters.
   Protect consumer-owned files; all work ships through review on a separate branch.
 rules:

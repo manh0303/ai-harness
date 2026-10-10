@@ -1,0 +1,65 @@
+import { parseArgs } from 'node:util';
+import { SOURCE, readJson, targetRoot, install, check, doctor, newChange } from './harness.js';
+import path from 'node:path';
+
+const HELP = `aih — install reusable AI development rules into a project
+
+Usage: aih <command> [options]
+  init                 Install rules and selected adapters
+  update               Update the installed snapshot, preserving project content
+  check                Check installed file hashes and adapter selection
+  doctor               Check installation and tool presence
+  new-change <id>      Create an OpenSpec draft using installed templates
+
+Options:
+  --target <directory> Project directory (default: current directory)
+  --adapters <a,b>     init only: java-spring,react-nextjs,react-native,ai-python
+  --source <directory> init/update: trusted alternate bundle directory
+  --dry-run           init/update: preview without persistent changes
+  --allow-major       init/update: acknowledge a major version migration
+  -h, --help          Show help
+  -v, --version       Show installed CLI version
+
+Examples:
+  aih init --adapters java-spring
+  aih update --dry-run
+  aih new-change add-order
+`;
+
+export function main(argv = process.argv.slice(2)) {
+  let args;
+  try {
+    args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
+      target: { type: 'string' }, adapters: { type: 'string' }, source: { type: 'string' },
+      'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
+      help: { type: 'boolean', short: 'h' }, version: { type: 'boolean', short: 'v' },
+    } });
+    const seen = new Set();
+    for (const token of args.tokens.filter(t => t.kind === 'option')) {
+      if (seen.has(token.name)) throw new Error(`Duplicate option: --${token.name}`);
+      seen.add(token.name);
+    }
+    if (args.values.help || !argv.length) { console.log(HELP); return 0; }
+    if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
+    const [command, name, ...extra] = args.positionals;
+    if (!['init', 'update', 'check', 'doctor', 'new-change'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (extra.length || (command !== 'new-change' && name !== undefined) || (command === 'new-change' && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
+    const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(command === 'init' ? ['adapters'] : [])]);
+    for (const key of Object.keys(args.values)) if (!allowed.has(key)) throw new Error(`--${key} is not supported for ${command}`);
+    for (const key of ['target', 'source', 'adapters']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
+  } catch (error) { console.error(JSON.stringify({ status: 'error', message: error.message })); return 2; }
+  try {
+    const { values, positionals: [command, name] } = args;
+    const root = targetRoot(values.target ?? process.cwd());
+    let result;
+    if (command === 'init' || command === 'update') {
+      result = install(root, targetRoot(values.source ?? SOURCE), {
+        command, adapters: values.adapters === undefined ? undefined : values.adapters.split(',').map(v => v.trim()),
+        dryRun: values['dry-run'], allowMajor: values['allow-major'],
+      });
+    } else if (command === 'new-change') result = newChange(root, name);
+    else result = command === 'doctor' ? doctor(root) : check(root);
+    console.log(JSON.stringify(result, null, 2));
+    return result.status === 'error' ? 1 : 0;
+  } catch (error) { console.error(JSON.stringify({ status: 'error', message: error.message })); return 1; }
+}

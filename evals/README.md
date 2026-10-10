@@ -33,7 +33,7 @@ Write a JSON report with this structure (one result per case in cases.json):
 ```
 
 The example is incomplete by design and must not be reported as a real passing evaluation.
-Run `python3 scripts/score_eval.py /path/to/report.json`. It rejects missing/duplicate/unknown cases,
+Run `node scripts/score-eval.js /path/to/report.json`. It rejects missing/duplicate/unknown cases,
 wrong dataset hashes, missing evidence and non-boolean scores, then computes the pass decision.
 This validates report structure and human scores only. It does not verify that evidence is truthful or
 that model behavior obeys instructions. Review raw traces; preserve artifacts under project data policies.

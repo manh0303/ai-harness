@@ -1,9 +1,9 @@
 # CLI contract
 
-Invocation: `python3 /trusted/ai-harness/cli/harness.py COMMAND --target /existing/project`.
-Python 3.10+; standard library only; no network, subprocesses, remote provider calls or dependency installs.
+Invocation: `aih COMMAND [--target /existing/project]`.
+Node.js 22+; built-in modules only; no network, subprocesses, remote provider calls or dependency installs.
 Output is JSON on stdout on success; errors use stderr. Drift reports from check use stdout with exit 1.
-Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift failure; 2 is argparse usage error.
+Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift failure; 2 is a CLI usage error. Help and version are plain text; no arguments displays help.
 
 | Command | Options | Effect |
 | --- | --- | --- |
@@ -13,7 +13,9 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | doctor | none | check plus executable presence on PATH; no execution |
 | new-change ID | none | Create an unapproved OpenSpec draft using installed templates |
 
-All commands require --target. Source and target cannot contain one another. Symlinks in roots, source
+All commands default --target to the current directory. --source defaults to the installed package.
+--help/-h and --version/-v are available. Unknown, duplicate and inapplicable flags fail.
+Source and target cannot contain one another, except source inside target/node_modules for local npm installs. Symlinks in roots, source
 payload or destination paths are rejected. IDs are lowercase hyphenated slugs; archive is reserved.
 Selection changes belong in .harness/project.json; unknown or duplicate adapters fail validation.
 

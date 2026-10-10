@@ -44,3 +44,12 @@ own model-backed runtime; actual permissions, cost limits and network allowlists
 Add adapters/<id>/adapter.json and rules.md; register the id in harness.yaml; add a consumer smoke case,
 update docs and version. IDs are lowercase hyphenated names. The installer does not auto-detect a stack
 or execute suggested_commands, so installing a new adapter cannot silently run project code.
+
+## npm distribution
+The package exposes bin/aih.js as `aih`. It uses native JavaScript ES modules and Node.js built-ins:
+there is no Python bridge, transpilation step, runtime dependency, network client or install hook.
+Source paths resolve relative to the package, not cwd. The target defaults to cwd. Local node_modules
+installation is an explicit exception to overlap rejection; payload destinations never include node_modules.
+The npm files allowlist ships runtime assets including the hidden OpenSpec template. A smoke test packs
+and installs a real tarball globally and locally without registry access. Development tests and fixtures
+are excluded from distribution. Only the development smoke script launches npm subprocesses.

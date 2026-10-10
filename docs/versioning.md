@@ -1,7 +1,7 @@
 # Versioning and migration
 
-Framework version is in harness.yaml. Use three-part SemVer releases and Git tags vX.Y.Z after review.
-0.1.0 is an initial candidate, not a claim of published/tagged release. Do not publish from a feature PR.
+Framework version is in harness.yaml and package.json; keep both and package-lock.json synchronized. Use three-part SemVer releases and Git tags vX.Y.Z after review.
+0.2.0 is an npm CLI candidate, not a claim of a registry publication or Git tag. Do not publish from a feature PR.
 
 - Patch: compatible corrections to instructions or installer defects.
 - Minor: backward-compatible adapter, skill or CLI additions.
@@ -15,7 +15,7 @@ It does not fetch releases or silently follow main. Pass a reviewed local checko
 
 ## Release procedure
 1. Update harness.yaml, CHANGELOG and migration notes. Review policy/behavior changes as code.
-2. Run structural validation and CLI tests on the supported Python matrix.
+2. Run structural validation and CLI tests on the supported Node.js 22/24 and OS matrix, including actual npm package smoke tests.
 3. Run the behavioral evaluation suite with the intended agent/model if prompts materially changed.
 4. Inspect the install/update diff in a sample consumer; document source commit and limitations.
 5. Merge by human decision, then tag the exact tested commit. No automatic merge/publish job is provided.
@@ -26,3 +26,17 @@ Run update --dry-run; resolve conflicts by moving custom rules into .harness/loc
 managed files from the last installation commit. Apply update and run check plus application tests.
 Commit the installed snapshot, selection and lock together. Revert that commit to roll back.
 No destructive force mode is provided. Do not remove conflict checks or edit hashes to force an upgrade.
+
+## 0.1 → 0.2 migration
+0.2 replaces the Python entry points with Node.js 22+ and the npm `aih` executable. This is an explicitly
+reviewed 0.x CLI change: scripts invoking cli/harness.py or python -m cli must switch to aih or
+node /trusted/package/bin/aih.js. Python is no longer required by the installer. The ai-python adapter
+still documents Python application tooling; that is independent of the installer runtime.
+
+The installed layout and schema-1 lock/config remain compatible. Install the new CLI, commit existing
+consumer state, then run `aih check`, `aih update --dry-run`, `aih update`, and `aih check` in the project.
+The migration test uses a real synthetic Python 0.1 installation, including original SHA-256 hashes.
+Modified managed files block migration; local.md, project config, OpenSpec changes and text outside the
+AGENTS markers survive. The npm tool version and the installed snapshot version may differ until update.
+
+See [npm release procedure](npm-release.md). Repository merge does not publish a registry package.
