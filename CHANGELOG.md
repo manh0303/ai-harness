@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 — adapter capabilities candidate
+- Add strict adapter.yaml schema 2 with technology rules, nine namespaced skills, advisory checks and eight evaluation scenarios.
+- Add list, evidence-based detect and opt-in init --detect; preserve explicit selection and core-only defaults.
+- Add verify plans and eval report generation/scoring tied to installed bundle and dataset hashes.
+- Expose only selected adapter skills alongside shared Core skills; preserve lock/conflict safety.
+- Migrate installed 0.1/0.2 snapshots while replacing old adapter metadata; no automatic model/build execution.
+
+
 ## 0.2.0 — npm CLI candidate
 - Replace the Python installer with dependency-free Node.js 22+ and the `aih` npm executable.
 - Default target to cwd; support --help, --version, global and local package installation.

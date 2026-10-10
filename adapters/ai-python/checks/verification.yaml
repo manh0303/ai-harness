@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "id": "test",
+      "title": "Deterministic Python tests",
+      "command": [
+        "python",
+        "-m",
+        "pytest"
+      ],
+      "when_file": null,
+      "evidence": [
+        "Actual test suite/configuration",
+        "Injection and cross-tenant denial cases"
+      ],
+      "execution": "advisory"
+    },
+    {
+      "id": "live-eval",
+      "title": "Authorized live evaluation",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Dataset hash and model configuration",
+        "Quality latency and cost against baseline",
+        "Explicit live-call authorization"
+      ],
+      "execution": "manual"
+    }
+  ]
+}

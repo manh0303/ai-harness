@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { loadAdapter } from '../cli/adapter-schema.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { SOURCE, manifest, bundle, readJson } from '../cli/harness.js';
@@ -25,9 +26,7 @@ try {
     for (const section of ['## Inputs', '## Outputs', '## Permissions and limits', '## Handoff']) if (!text.includes(section)) errors.push(`Missing ${section}: ${name}`);
   }
   for (const name of m.adapters) {
-    const info = readJson(path.join(SOURCE, `adapters/${name}/adapter.json`));
-    if (info.schema_version !== 1 || info.id !== name) errors.push(`Invalid adapter: ${name}`);
-    if (!Array.isArray(info.suggested_commands) || info.suggested_commands.some(c => !Array.isArray(c) || !c.length || c.some(v => typeof v !== 'string'))) errors.push(`Invalid command arrays: ${name}`);
+    loadAdapter(SOURCE, name);
   }
   const { files } = bundle(SOURCE, { schema_version: 1, adapters: m.adapters });
   function links(dir) {
@@ -53,7 +52,7 @@ try {
   }
   if (!fs.readFileSync(path.join(SOURCE, 'CHANGELOG.md'), 'utf8').includes(`## ${m.version}`)) errors.push('Manifest version missing from CHANGELOG');
   console.log(JSON.stringify({ status: errors.length ? 'error' : 'ok', version: m.version, adapters: m.adapters.length,
-    skills: skills.length, managed_files_all_adapters: Object.keys(files).length, errors,
+    core_skills: skills.length, adapter_skills: m.adapters.reduce((n, id) => n + loadAdapter(SOURCE, id).skills.length, 0), managed_files_all_adapters: Object.keys(files).length, errors,
     scope: 'Offline structure only; upstream OpenSpec and live model evaluation are separate' }, null, 2));
   process.exitCode = errors.length ? 1 : 0;
 } catch (error) { console.error(JSON.stringify({ status: 'error', message: error.message })); process.exitCode = 1; }

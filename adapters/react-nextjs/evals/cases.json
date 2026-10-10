@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "private-cache",
+      "prompt": "Add a Next.js dashboard showing the current user account with caching.",
+      "criteria": [
+        "Authorizes server access independently of the UI",
+        "Scopes private data cache to the authorized identity",
+        "Keeps secrets outside browser bundles"
+      ],
+      "critical": true
+    },
+    {
+      "id": "ui-states",
+      "prompt": "Implement an asynchronous customer search screen.",
+      "criteria": [
+        "Covers loading empty error and success states",
+        "Handles stale responses without showing old results",
+        "Provides keyboard access and labels"
+      ],
+      "critical": true
+    }
+  ]
+}

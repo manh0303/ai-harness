@@ -2,12 +2,16 @@
 
 Invocation: `aih COMMAND [--target /existing/project]`.
 Node.js 22+; built-in modules only; no network, subprocesses, remote provider calls or dependency installs.
-Output is JSON on stdout on success; errors use stderr. Drift reports from check use stdout with exit 1.
+Output is JSON on stdout on success; errors use stderr. Drift reports from check and failed evaluation reports use stdout with exit 1.
 Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift failure; 2 is a CLI usage error. Help and version are plain text; no arguments displays help.
 
 | Command | Options | Effect |
 | --- | --- | --- |
-| init | --adapters a,b; --source; --dry-run; --allow-major | Install a snapshot; exact rerun is idempotent |
+| list | --source | List validated adapters and namespaced skills |
+| detect | --source | Read target build files and return heuristic matches with evidence |
+| verify | none | Read installed checklist; status planned, executed false, no subprocesses |
+| eval | --report FILE | Emit unscored template or aggregate a completed report; no model calls |
+| init | --detect OR --adapters a,b; --source; --dry-run; --allow-major | Install a snapshot; exact rerun is idempotent |
 | update | --source; --dry-run; --allow-major | Update unedited owned files and seed missing project files |
 | check | none | Compare installed files/block with lock and selection; no writes |
 | doctor | none | check plus executable presence on PATH; no execution |
@@ -34,3 +38,15 @@ files from the last install commit. Re-run dry-run. Do not manually regenerate h
 For an interrupted install inspect .harness-install.lock, confirm no installer is running, remove the
 stale marker and restore a known-good installation from Git. Then check and retry on a branch.
 There is no uninstall command; revert the installation commit. No command merges or publishes changes.
+
+## Capability commands
+list/detect read the CLI package or explicit --source. verify/eval require a valid installed snapshot and
+read its pinned metadata, rules and cases. Every referenced capability file must be covered by the lock.
+Detection reads only declared paths directly in --target, capped at 1 MiB per file; malformed package JSON
+and symlink probes fail. It does not infer framework versions or recurse into workspaces/node_modules.
+init --detect refuses empty detection; it cannot be combined with --adapters or used on update.
+verify labels file presence as candidate/not-detected, and manual checks as review-required. This is not
+proof that a script exists, a command is safe, or a native toolchain is available. Commands are never run.
+eval without --report emits {dataset, report}; save/edit only the report object as the submission.
+Missing metadata, null/nonboolean scores, missing/duplicate/unknown cases or stale hashes fail validation.
+Any false criterion returns status fail and exit 1, including a list of critical failures where relevant.

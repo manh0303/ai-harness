@@ -1,0 +1,41 @@
+{
+  "schema_version": 2,
+  "id": "java-spring",
+  "description": "java-spring development capabilities",
+  "detection": [
+    {
+      "file": "pom.xml",
+      "kind": "contains",
+      "values": [
+        "org.springframework.boot"
+      ]
+    },
+    {
+      "file": "build.gradle",
+      "kind": "contains",
+      "values": [
+        "org.springframework.boot"
+      ]
+    },
+    {
+      "file": "build.gradle.kts",
+      "kind": "contains",
+      "values": [
+        "org.springframework.boot"
+      ]
+    }
+  ],
+  "rules": [
+    "rules/architecture.md",
+    "rules/security.md",
+    "rules/database.md",
+    "rules/performance.md"
+  ],
+  "skills": [
+    "harness-java-spring-spring-api",
+    "harness-java-spring-kafka-outbox",
+    "harness-java-spring-database-migration"
+  ],
+  "verification": "checks/verification.yaml",
+  "evaluation": "evals/cases.json"
+}

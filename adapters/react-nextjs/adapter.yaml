@@ -1,0 +1,27 @@
+{
+  "schema_version": 2,
+  "id": "react-nextjs",
+  "description": "react-nextjs development capabilities",
+  "detection": [
+    {
+      "file": "package.json",
+      "kind": "dependencies",
+      "values": [
+        "next",
+        "react-dom"
+      ]
+    }
+  ],
+  "rules": [
+    "rules/architecture.md",
+    "rules/security.md",
+    "rules/database.md",
+    "rules/performance.md"
+  ],
+  "skills": [
+    "harness-react-nextjs-accessible-ui",
+    "harness-react-nextjs-server-boundaries"
+  ],
+  "verification": "checks/verification.yaml",
+  "evaluation": "evals/cases.json"
+}

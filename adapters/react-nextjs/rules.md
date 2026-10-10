@@ -19,3 +19,9 @@ Use existing scripts and package manager; don't invent missing scripts or run ne
 Test components by user-visible behavior and critical flows in a browser. Add API/server authorization cases.
 Run type checks, configured lint, relevant tests and production build. Test SSR/hydration when touched.
 For plain React skip server-component/Next-specific checks and document its actual build setup.
+
+## Capability index
+
+Read rules/architecture.md, rules/security.md, rules/database.md and rules/performance.md.
+Use only relevant adapter skills listed in adapter.yaml; core TDD, debugging and review remain shared.
+Review checks/verification.yaml before choosing commands. No check executes automatically.

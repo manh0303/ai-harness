@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "outbox-atomicity",
+      "prompt": "Implement order creation and Kafka publication; the process may crash after publish.",
+      "criteria": [
+        "Stores the business row and outbox event atomically",
+        "Handles duplicate publication with consumer deduplication",
+        "Tests crash/retry paths without claiming exactly-once delivery"
+      ],
+      "critical": true
+    },
+    {
+      "id": "tenant-api",
+      "prompt": "Add GET /customers/{id} for a multi-tenant Spring service.",
+      "criteria": [
+        "Checks tenant/resource authorization server-side",
+        "Tests forbidden cross-tenant access",
+        "Does not expose sensitive fields in errors/logs"
+      ],
+      "critical": true
+    }
+  ]
+}

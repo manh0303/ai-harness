@@ -2,11 +2,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { SOURCE, digest } from '../cli/harness.js';
+import { SOURCE, digest } from '../cli/files.js';
 
 export const CASES = path.join(SOURCE, 'evals/cases.json');
 export function score(report, datasetPath = CASES) {
-  const raw = fs.readFileSync(datasetPath), dataset = JSON.parse(raw);
+  return scoreDataset(report, fs.readFileSync(datasetPath));
+}
+export function scoreDataset(report, raw) {
+  const dataset = JSON.parse(raw);
   const cases = new Map(dataset.cases.map(c => [c.id, c]));
   if (!report || report.schema_version !== 1) throw new Error('Unsupported report schema');
   const metadata = report.metadata;

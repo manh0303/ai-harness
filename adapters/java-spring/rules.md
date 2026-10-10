@@ -25,4 +25,10 @@ Migrations must match the actual database and deployment process; include compat
 Use the existing JUnit stack. Use slice/unit tests for behavior and integration tests for database,
 transaction and security semantics. Container-backed DB tests should use the deployed dialect where possible.
 Run the declared build verification command, migration checks and boundary checks when applicable.
-Tools/commands in adapter.json are examples for review, never automatically executed.
+Tools/commands in adapter.yaml are examples for review, never automatically executed.
+
+## Capability index
+
+Read rules/architecture.md, rules/security.md, rules/database.md and rules/performance.md.
+Use only relevant adapter skills listed in adapter.yaml; core TDD, debugging and review remain shared.
+Review checks/verification.yaml before choosing commands. No check executes automatically.

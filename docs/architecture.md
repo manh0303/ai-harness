@@ -41,9 +41,11 @@ does not create another agent or supply an API key. Use the same framework in an
 own model-backed runtime; actual permissions, cost limits and network allowlists live in that runtime.
 
 ## Extending adapters
-Add adapters/<id>/adapter.json and rules.md; register the id in harness.yaml; add a consumer smoke case,
-update docs and version. IDs are lowercase hyphenated names. The installer does not auto-detect a stack
-or execute suggested_commands, so installing a new adapter cannot silently run project code.
+Add adapters/<id>/adapter.yaml (schema 2), rules.md, rules/, namespaced skills/, checks/verification.yaml
+and evals/cases.json. Register the id in harness.yaml; add detection, installation and evaluation cases.
+See docs/adapters.md for the strict JSON-compatible YAML contract. Detection is opt-in and read-only;
+checks are advisory and never executed. Installed capabilities are read from the locked snapshot, not
+from the latest global CLI source. Core TDD/debug/review are not duplicated in adapters.
 
 ## npm distribution
 The package exposes bin/aih.js as `aih`. It uses native JavaScript ES modules and Node.js built-ins:

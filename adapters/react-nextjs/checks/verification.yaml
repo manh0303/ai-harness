@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "id": "typecheck",
+      "title": "Configured type check",
+      "command": [
+        "<package-manager>",
+        "run",
+        "typecheck"
+      ],
+      "when_file": "package.json",
+      "evidence": [
+        "Actual package script and exit status"
+      ],
+      "execution": "advisory"
+    },
+    {
+      "id": "test",
+      "title": "Component and flow tests",
+      "command": [
+        "<package-manager>",
+        "run",
+        "test"
+      ],
+      "when_file": "package.json",
+      "evidence": [
+        "Visible UI state assertions",
+        "Keyboard and critical browser flow evidence"
+      ],
+      "execution": "advisory"
+    },
+    {
+      "id": "build",
+      "title": "Production build",
+      "command": [
+        "<package-manager>",
+        "run",
+        "build"
+      ],
+      "when_file": "package.json",
+      "evidence": [
+        "Actual build output",
+        "SSR/hydration checks when applicable"
+      ],
+      "execution": "advisory"
+    }
+  ]
+}

@@ -15,3 +15,9 @@ Test observable component behavior, navigation, deep links, offline transitions 
 Native changes need platform build/simulator or device evidence on the affected platforms.
 Record unavailable iOS/Android verification explicitly; a JavaScript test pass is not native build evidence.
 OTA compatibility, signing and store deployment need their own reviewed release process.
+
+## Capability index
+
+Read rules/architecture.md, rules/security.md, rules/database.md and rules/performance.md.
+Use only relevant adapter skills listed in adapter.yaml; core TDD, debugging and review remain shared.
+Review checks/verification.yaml before choosing commands. No check executes automatically.

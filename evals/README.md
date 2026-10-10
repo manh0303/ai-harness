@@ -39,3 +39,7 @@ This validates report structure and human scores only. It does not verify that e
 that model behavior obeys instructions. Review raw traces; preserve artifacts under project data policies.
 For AI applications add domain quality, retrieval recall, citation accuracy, latency/cost and baseline
 regression thresholds using the harness-ai-evaluation skill. Do not combine those into CLI test results.
+
+Adapter-specific scenarios are installed with each selected adapter. Use `aih eval` and
+`aih eval --report report.json`; see [adapter evaluation](../docs/adapters.md). This is a separate
+dataset from the Core cases scored by scripts/score-eval.js. Neither command invokes a model.
