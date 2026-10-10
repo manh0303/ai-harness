@@ -10,7 +10,7 @@ function projectConfig(root, adapters, capabilities, required = false) {
   const filename = safe(root, CONFIG);
   if (required && !stat(filename)) throw new HarnessError(`Missing ${CONFIG}; restore it from Git`);
   const config = stat(filename) ? readJson(filename) : { schema_version: 1, adapters: adapters ?? [], capabilities: capabilities ?? [] };
-  const keys = Object.keys(config).sort().join(',');
+  const keys = isObject(config) ? Object.keys(config).sort().join(',') : '';
   if (!isObject(config) || !['adapters,schema_version', 'adapters,capabilities,schema_version'].includes(keys)
       || config.schema_version !== 1) throw new HarnessError('Invalid project.json schema');
   validateAdapters(config.adapters);

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { loadAdapter } from '../cli/adapter-schema.js';
+import { loadCapability } from '../cli/capabilities.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { SOURCE, manifest, bundle, readJson } from '../cli/harness.js';
@@ -28,7 +29,8 @@ try {
   for (const name of m.adapters) {
     loadAdapter(SOURCE, name);
   }
-  const { files } = bundle(SOURCE, { schema_version: 1, adapters: m.adapters });
+  for (const name of m.capabilities ?? []) loadCapability(SOURCE, name);
+  const { files } = bundle(SOURCE, { schema_version: 1, adapters: m.adapters, capabilities: m.capabilities ?? [] });
   function links(dir) {
     for (const item of fs.readdirSync(dir, { withFileTypes: true })) {
       if (['.git', 'node_modules', 'fixtures'].includes(item.name)) continue;
@@ -51,7 +53,7 @@ try {
     ids.add(c.id);
   }
   if (!fs.readFileSync(path.join(SOURCE, 'CHANGELOG.md'), 'utf8').includes(`## ${m.version}`)) errors.push('Manifest version missing from CHANGELOG');
-  console.log(JSON.stringify({ status: errors.length ? 'error' : 'ok', version: m.version, adapters: m.adapters.length,
+  console.log(JSON.stringify({ status: errors.length ? 'error' : 'ok', version: m.version, adapters: m.adapters.length, capabilities: (m.capabilities ?? []).length,
     core_skills: skills.length, adapter_skills: m.adapters.reduce((n, id) => n + loadAdapter(SOURCE, id).skills.length, 0), managed_files_all_adapters: Object.keys(files).length, errors,
     scope: 'Offline structure only; upstream OpenSpec and live model evaluation are separate' }, null, 2));
   process.exitCode = errors.length ? 1 : 0;

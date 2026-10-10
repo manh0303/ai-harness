@@ -6,6 +6,8 @@
 3. Read `.harness/local.md` for project facts and reviewed exceptions.
 4. Load only the adapter and skills needed for the current task:
 {{adapters}}
+5. For optional capabilities, read only their selected workflow and relevant skill descriptions:
+{{capabilities}}
 
 Skills: `.agents/skills/harness-*/SKILL.md`. Role contracts: `.harness/core/agents/`.
 OpenSpec: `openspec/config.yaml`, `openspec/specs/`, and `openspec/changes/<id>/`.

@@ -120,7 +120,7 @@ test('real npm 0.2 migration keeps notes, replaces metadata and installs new ski
   const fixture = h.readJson(path.join(h.SOURCE, 'tests/fixtures/npm-v0.2.0.json'));
   for (const [name, content] of Object.entries(fixture.files)) write(name, content);
   assert.equal(h.check(root).version, '0.2.0'); assert.throws(() => verify(root), /aih update/);
-  h.install(root, source, { command: 'update' }); assert.equal(h.check(root).version, '0.3.0');
+  h.install(root, source, { command: 'update' }); assert.equal(h.check(root).version, '0.4.0');
   assert.ok(!fs.existsSync(path.join(root, '.harness/adapters/java-spring/adapter.json')));
   assert.ok(fs.existsSync(path.join(root, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
   assert.ok(fs.readFileSync(path.join(root, 'AGENTS.md'), 'utf8').endsWith('Keep npm project notes.\n'));
