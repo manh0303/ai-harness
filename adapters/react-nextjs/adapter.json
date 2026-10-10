@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "id": "react-nextjs",
+  "detect_files": [
+    "package.json",
+    "next.config.js",
+    "next.config.ts"
+  ],
+  "tools": [
+    "node",
+    "npm"
+  ],
+  "suggested_commands": [
+    [
+      "npm",
+      "run",
+      "lint"
+    ],
+    [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    [
+      "npm",
+      "test"
+    ],
+    [
+      "npm",
+      "run",
+      "build"
+    ]
+  ],
+  "execution": "advisory-only; project owner chooses commands"
+}

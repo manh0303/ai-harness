@@ -1,0 +1,8 @@
+schema: spec-driven
+context: |
+  ai-harness is a reusable, offline instruction-distribution framework with a Python stdlib CLI.
+  Target Java/Spring, React/Next.js, React Native and AI/Python projects using explicit adapters.
+  Protect consumer-owned files; all work ships through review on a separate branch.
+rules:
+  tasks:
+    - Include observable installer behavior and evidence for safety-sensitive operations.

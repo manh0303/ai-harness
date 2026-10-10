@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "react-native",
+  "detect_files": [
+    "package.json",
+    "app.json",
+    "ios",
+    "android"
+  ],
+  "tools": [
+    "node"
+  ],
+  "suggested_commands": [
+    [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    [
+      "npm",
+      "test"
+    ]
+  ],
+  "execution": "advisory-only; project owner chooses commands"
+}
