@@ -1,0 +1,41 @@
+{
+  "name": "@manh0303/ai-harness",
+  "version": "0.2.0",
+  "description": "Reusable AI development rules, skills and workflows with a safe local installer",
+  "type": "module",
+  "bin": {
+    "aih": "bin/aih.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manh0303/ai-harness.git"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "files": [
+    "bin/",
+    "cli/*.js",
+    "core/",
+    "adapters/",
+    "integrations/",
+    "templates/",
+    "harness.yaml",
+    "docs/",
+    "evals/",
+    "scripts/score-eval.js",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "CONTRIBUTING.md"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "validate": "node scripts/validate.js",
+    "test:package": "node scripts/smoke-package.js",
+    "prepublishOnly": "npm test && npm run validate && npm run test:package"
+  }
+}

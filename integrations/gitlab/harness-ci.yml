@@ -1,10 +1,10 @@
 # Opt-in template. The consuming pipeline must define HARNESS_ROOT and a test stage.
 harness:check:
   stage: test
-  image: python:3.12-slim
+  image: node:22-slim
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   script:
     - test -n "$HARNESS_ROOT"
-    - python3 "$HARNESS_ROOT/cli/harness.py" check --target "$CI_PROJECT_DIR"
+    - node "$HARNESS_ROOT/bin/aih.js" check --target "$CI_PROJECT_DIR"

@@ -3,28 +3,39 @@
 Framework tái sử dụng để hướng dẫn AI làm việc theo **Spec → Code → Test → Review** trong nhiều dự án.
 Core dùng chung; adapter chứa quy chuẩn công nghệ; CLI cài một bản có version vào từng repository.
 
-**Trạng thái:** 0.1.0, bản khởi đầu chờ review. Python 3.10+, không cần thư viện ngoài hoặc API key để dùng CLI.
+**Trạng thái:** 0.2.0, CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
+Gói `@manh0303/ai-harness` chưa phát hành lên npm registry; hiện cài từ repository private hoặc tarball.
 Harness không tự gọi LLM, không tự sinh ứng dụng, không tạo agent runtime, không tự merge/deploy.
 Các role/skill hướng dẫn assistant đang dùng; quyền thực tế do IDE/runtime, Git và CI kiểm soát.
 
 ## Bắt đầu
 
-Clone repository private bằng tài khoản có quyền. Các lệnh bên dưới chạy từ thư mục ai-harness;
-project đích phải tồn tại và nằm ngoài checkout framework.
+Cài từ source đã review bằng tài khoản có quyền repository private:
 
 ```bash
 git clone git@github.com:manh0303/ai-harness.git
 cd ai-harness
-# Trong giai đoạn review, checkout branch được cung cấp trong PR.
-# Sau khi có release, pin tag hoặc commit đã review thay vì tự theo main.
+# Khi review PR này: git switch feat/npm-cli
+# Sau merge: checkout commit/tag đã review để pin phiên bản.
+npm pack
+npm install -g ./manh0303-ai-harness-0.2.0.tgz
 
-python3 cli/harness.py init --target ../my-backend --adapters java-spring --dry-run
-python3 cli/harness.py init --target ../my-backend --adapters java-spring
-python3 cli/harness.py check --target ../my-backend
-python3 cli/harness.py new-change add-order --target ../my-backend
+cd /path/to/my-backend
+aih init --adapters java-spring --dry-run
+aih init --adapters java-spring
+aih check
+aih new-change add-order
 ```
 
-Có thể chạy `python3 -m cli ...` khi đứng ở root framework. Không có package công khai trên PyPI/npm.
+Sau khi cài, dùng `aih` từ bất kỳ repository ứng dụng nào. Đích mặc định là thư mục hiện tại;
+`--target /path/to/project` vẫn được hỗ trợ. Thư mục đích phải tồn tại.
+`aih --help` xem lệnh, `aih --version` xem phiên bản công cụ.
+
+Khi chủ sở hữu đã phát hành npm package và cấp quyền, cách cài sẽ là
+`npm install -g @manh0303/ai-harness@0.2.0`. **Lệnh registry này chưa dùng được chỉ vì PR đã merge.**
+Có thể cài tarball vào devDependencies rồi dùng `npx --no-install aih init` nếu không muốn cài global.
+Xem [hướng dẫn đóng gói/phát hành](docs/npm-release.md).
+
 Đây là cài **quy trình và context**, không scaffold source code Spring/React và không sửa build file.
 
 ## Chọn adapter
@@ -60,17 +71,20 @@ CLI không cấu hình tài khoản, plugin cá nhân hoặc MCP server của as
 
 ## Tùy biến và cập nhật
 
+Cài phiên bản công cụ mới trước, rồi chạy `aih update` trong từng dự án để cập nhật snapshot.
+Lockfile từ CLI Python 0.1 vẫn được hỗ trợ; xem [migration](docs/versioning.md).
+
 Thêm quy ước vào `.harness/local.md` hoặc phần ngoài marker trong `AGENTS.md`.
 Muốn đổi stack: chỉnh mảng `adapters` trong `.harness/project.json`, rồi chạy update.
 
 ```bash
-python3 cli/harness.py update --target ../my-backend --dry-run
-python3 cli/harness.py update --target ../my-backend
-python3 cli/harness.py check --target ../my-backend
-python3 cli/harness.py doctor --target ../my-backend
+aih update --dry-run
+aih update
+aih check
+aih doctor
 ```
 
-Source mặc định là checkout chứa CLI; có thể dùng `--source /path/to/reviewed-checkout` với init/update.
+Source mặc định là package đã cài chứa CLI; có thể dùng `--source /path/to/reviewed-checkout` với init/update.
 Cập nhật dừng khi file managed bị sửa, không có chế độ force. Đưa tùy biến sang local.md rồi restore
 file managed từ commit cài trước đó. Major upgrade cần `--allow-major`; downgrade dùng Git revert.
 Dry-run không để lại thay đổi file, nhưng tạo/xóa marker khóa trong lúc lập kế hoạch nên cần quyền ghi.
@@ -92,12 +106,13 @@ Xem [docs/openspec.md](docs/openspec.md). Chỉ archive sau khi mọi PR liên q
 ## Kiểm thử
 
 ```bash
-python3 -m unittest discover -s tests -v
-python3 scripts/validate.py
+npm test
+npm run validate
+npm run test:package
 ```
 
 Test CLI chạy offline trên thư mục tạm: cài/update, preservation, drift, collision, traversal/symlink,
-adapter selection, version guard, reproducibility, rollback và tạo change. CI cấu hình Python 3.10/3.12/3.13.
+adapter selection, version guard, reproducibility, rollback và tạo change. CI cấu hình Node.js 22/24 trên Linux và Windows.
 [evals/README.md](evals/README.md) có bộ tình huống và công cụ tổng hợp đánh giá hành vi AI riêng.
 Test CLI pass không có nghĩa đã chạy Spring/Next/native build hay live evaluation của LLM.
 
@@ -110,5 +125,5 @@ Test CLI pass không có nghĩa đã chạy Spring/Next/native build hay live ev
 - [Hướng dẫn đóng góp](CONTRIBUTING.md)
 - [Thay đổi phiên bản](CHANGELOG.md)
 
-`harness.yaml` cố ý dùng JSON-compatible YAML 1.2 để CLI chỉ cần Python stdlib. Không dùng cú pháp YAML
+`harness.yaml` cố ý dùng JSON-compatible YAML 1.2 để CLI đọc bằng `JSON.parse`. Không dùng cú pháp YAML
 khác cho file này. `openspec/config.yaml` vẫn là YAML thông thường do OpenSpec đọc.

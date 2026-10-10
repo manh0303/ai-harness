@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "name": "ai-harness",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "adapters": ["java-spring", "react-nextjs", "react-native", "ai-python"],
-  "runtime": {"python": ">=3.10", "dependencies": []},
-  "format": "JSON-compatible YAML 1.2; intentionally parsed with Python stdlib json"
+  "runtime": {"node": ">=22", "dependencies": []},
+  "format": "JSON-compatible YAML 1.2; intentionally parsed with JSON.parse"
 }

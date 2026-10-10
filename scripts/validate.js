@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+import fs from 'node:fs';
+import path from 'node:path';
+import { SOURCE, manifest, bundle, readJson } from '../cli/harness.js';
+
+try {
+  const errors = [], m = manifest(SOURCE), pkg = readJson(path.join(SOURCE, 'package.json'));
+  if (m.version !== pkg.version) errors.push('package.json and harness.yaml versions differ');
+  if (pkg.bin?.aih !== 'bin/aih.js') errors.push('aih executable missing');
+  if (Object.keys(pkg.dependencies ?? {}).length) errors.push('Runtime must remain dependency-free');
+  const required = ['README.md', 'AGENTS.md', 'CHANGELOG.md', 'docs/architecture.md', 'docs/versioning.md',
+    'core/rules/foundations.md', 'core/rules/context.md', 'core/policies/security.md', 'core/policies/permissions.md',
+    'core/workflows/spec-to-code.md', 'integrations/github/README.md', 'integrations/gitlab/harness-ci.yml',
+    'integrations/mcp/server-inventory.example.json', '.github/workflows/harness.yml'];
+  for (const name of required) if (!fs.existsSync(path.join(SOURCE, name)) || !fs.statSync(path.join(SOURCE, name)).size) errors.push(`Missing/empty file: ${name}`);
+  const skills = fs.readdirSync(path.join(SOURCE, 'core/skills'));
+  if (skills.length < 5) errors.push('Missing required skills');
+  for (const name of skills) {
+    const text = fs.readFileSync(path.join(SOURCE, 'core/skills', name, 'SKILL.md'), 'utf8');
+    if (!text.startsWith('---\n') || !text.includes(`name: ${name}\n`) || !text.includes('description: ')) errors.push(`Invalid skill metadata: ${name}`);
+    for (const section of ['## Input', '## Procedure', '## Output', '## Constraints']) if (!text.includes(section)) errors.push(`Missing ${section}: ${name}`);
+  }
+  for (const name of ['planner', 'implementer', 'reviewer', 'security-reviewer', 'test-engineer']) {
+    const text = fs.readFileSync(path.join(SOURCE, `core/agents/${name}.md`), 'utf8');
+    for (const section of ['## Inputs', '## Outputs', '## Permissions and limits', '## Handoff']) if (!text.includes(section)) errors.push(`Missing ${section}: ${name}`);
+  }
+  for (const name of m.adapters) {
+    const info = readJson(path.join(SOURCE, `adapters/${name}/adapter.json`));
+    if (info.schema_version !== 1 || info.id !== name) errors.push(`Invalid adapter: ${name}`);
+    if (!Array.isArray(info.suggested_commands) || info.suggested_commands.some(c => !Array.isArray(c) || !c.length || c.some(v => typeof v !== 'string'))) errors.push(`Invalid command arrays: ${name}`);
+  }
+  const { files } = bundle(SOURCE, { schema_version: 1, adapters: m.adapters });
+  function links(dir) {
+    for (const item of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (['.git', 'node_modules', 'fixtures'].includes(item.name)) continue;
+      const filename = path.join(dir, item.name);
+      if (item.isDirectory()) links(filename);
+      else if (item.name.endsWith('.md')) {
+        const text = fs.readFileSync(filename, 'utf8');
+        for (const match of text.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
+          const target = match[1];
+          if (target.includes('://') || target.startsWith('#') || target.startsWith('mailto:')) continue;
+          if (!fs.existsSync(path.resolve(path.dirname(filename), target.split('#')[0]))) errors.push(`Broken link: ${filename} -> ${target}`);
+        }
+      }
+    }
+  }
+  links(SOURCE);
+  const cases = readJson(path.join(SOURCE, 'evals/cases.json')).cases, ids = new Set();
+  for (const c of cases) {
+    if (ids.has(c.id) || !c.criteria.length || typeof c.critical !== 'boolean') errors.push(`Invalid eval case: ${c.id}`);
+    ids.add(c.id);
+  }
+  if (!fs.readFileSync(path.join(SOURCE, 'CHANGELOG.md'), 'utf8').includes(`## ${m.version}`)) errors.push('Manifest version missing from CHANGELOG');
+  console.log(JSON.stringify({ status: errors.length ? 'error' : 'ok', version: m.version, adapters: m.adapters.length,
+    skills: skills.length, managed_files_all_adapters: Object.keys(files).length, errors,
+    scope: 'Offline structure only; upstream OpenSpec and live model evaluation are separate' }, null, 2));
+  process.exitCode = errors.length ? 1 : 0;
+} catch (error) { console.error(JSON.stringify({ status: 'error', message: error.message })); process.exitCode = 1; }

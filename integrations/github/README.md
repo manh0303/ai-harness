@@ -5,7 +5,8 @@ This directory provides review/CI templates, not a GitHub API client. Installati
 Copy/adapt pull_request_template.md to .github/pull_request_template.md after review.
 
 For a consumer pipeline, make a trusted pinned harness checkout available, then run:
-`python3 /path/to/ai-harness/cli/harness.py check --target "$GITHUB_WORKSPACE"`.
+`node /path/to/ai-harness/bin/aih.js check --target "$GITHUB_WORKSPACE"` with Node.js 22+.
+If the reviewed package is already installed, use `aih check --target "$GITHUB_WORKSPACE"`.
 The check compares installed payload against its recorded lock, not against a trusted remote release.
 For independent provenance, review lock changes and compare them with a pinned source commit.
 

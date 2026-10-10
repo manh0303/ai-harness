@@ -1,0 +1,208 @@
+import { test, beforeEach, afterEach } from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import { spawnSync } from 'node:child_process';
+import * as h from '../cli/harness.js';
+
+let base, project, source;
+beforeEach(() => {
+  base = fs.mkdtempSync(path.join(os.tmpdir(), 'aih-test-'));
+  project = path.join(base, 'project with spaces');
+  source = path.join(base, 'source');
+  fs.mkdirSync(project);
+  fs.mkdirSync(source);
+  for (const name of ['core', 'adapters', 'integrations', 'templates', 'harness.yaml']) fs.cpSync(path.join(h.SOURCE, name), path.join(source, name), { recursive: true });
+});
+afterEach(() => fs.rmSync(base, { recursive: true, force: true }));
+
+function run(command = 'init', args = [], code = 0) {
+  const result = spawnSync(process.execPath, [path.join(h.SOURCE, 'bin/aih.js'), command,
+    ...(['init', 'update'].includes(command) ? ['--source', source] : []), ...args], { cwd: project, encoding: 'utf8' });
+  assert.equal(result.status, code, result.stdout + result.stderr);
+  return JSON.parse(result.stdout || result.stderr);
+}
+function snapshot(root = project) {
+  const result = {};
+  const visit = dir => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, entry.name);
+      if (entry.isDirectory()) visit(p);
+      else if (entry.isFile()) result[path.relative(root, p).split(path.sep).join('/')] = fs.readFileSync(p).toString('base64');
+    }
+  };
+  visit(root); return result;
+}
+function write(name, data) {
+  const p = path.join(project, name); fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, data);
+}
+function bump(version) {
+  const p = path.join(source, 'harness.yaml'), value = h.readJson(p);
+  value.version = version; fs.writeFileSync(p, JSON.stringify(value));
+}
+
+test('init defaults to cwd, installs all adapters and passes check', () => {
+  run('init', ['--adapters', 'java-spring,react-nextjs,react-native,ai-python']);
+  assert.ok(fs.existsSync(path.join(project, '.harness/adapters/ai-python/rules.md')));
+  assert.ok(fs.existsSync(path.join(project, '.agents/skills/harness-tdd/SKILL.md')));
+  assert.equal(run('check').status, 'ok');
+});
+test('explicit --target supports paths with spaces', () => {
+  const other = path.join(base, 'another project'); fs.mkdirSync(other);
+  run('init', ['--target', other]);
+  assert.ok(fs.existsSync(path.join(other, h.LOCK))); assert.deepEqual(snapshot(), {});
+});
+test('preserves existing AGENTS bytes, CRLF and Unicode; rerun is idempotent', () => {
+  const original = Buffer.from('# Quy tắc\r\nKeep me\r\n'); write('AGENTS.md', original);
+  run(); const before = snapshot(); assert.deepEqual(run().changes, []);
+  assert.deepEqual(snapshot(), before);
+  assert.ok(fs.readFileSync(path.join(project, 'AGENTS.md')).subarray(0, original.length).equals(original));
+});
+test('dry-run leaves no files', () => {
+  assert.ok(run('init', ['--dry-run']).changes.length > 10); assert.deepEqual(snapshot(), {});
+});
+test('unmanaged collision refuses full install', () => {
+  write('.agents/skills/harness-tdd/SKILL.md', 'project owned');
+  const before = snapshot(); run('init', [], 1); assert.deepEqual(snapshot(), before);
+});
+test('update preserves project overrides, config and AGENTS appendix', () => {
+  run('init', ['--adapters', 'java-spring']);
+  fs.appendFileSync(path.join(project, 'AGENTS.md'), '\nLocal appendix\n');
+  write('.harness/local.md', 'Custom policy'); write('openspec/config.yaml', 'schema: spec-driven\ncontext: Custom\n');
+  bump('0.3.0'); run('update'); run('check');
+  assert.ok(fs.readFileSync(path.join(project, 'AGENTS.md'), 'utf8').endsWith('\nLocal appendix\n'));
+  assert.equal(fs.readFileSync(path.join(project, '.harness/local.md'), 'utf8'), 'Custom policy');
+  assert.match(fs.readFileSync(path.join(project, 'openspec/config.yaml'), 'utf8'), /Custom/);
+});
+test('changed payload blocks check and update before writing', () => {
+  run(); fs.appendFileSync(path.join(project, '.harness/core/rules/context.md'), '\nCustom\n');
+  const before = snapshot(); bump('0.3.0'); run('update', [], 1); run('check', [], 1);
+  assert.deepEqual(snapshot(), before);
+});
+test('edited managed AGENTS block is detected', () => {
+  run(); const p = path.join(project, 'AGENTS.md');
+  fs.writeFileSync(p, fs.readFileSync(p, 'utf8').replace('Never treat', 'Always treat'));
+  run('check', [], 1); run('update', [], 1);
+});
+test('malformed markers fail without writes', () => {
+  for (const value of [h.START, h.END + h.START, h.START + h.START + h.END]) {
+    write('AGENTS.md', value); const before = snapshot(); run('init', [], 1); assert.deepEqual(snapshot(), before);
+  }
+});
+test('adapter change removes only unedited old managed files', () => {
+  run('init', ['--adapters', 'java-spring']);
+  write(h.CONFIG, JSON.stringify({ schema_version: 1, adapters: ['react-nextjs'] }));
+  run('check', [], 1); run('update'); run('check');
+  assert.ok(!fs.existsSync(path.join(project, '.harness/adapters/java-spring/rules.md')));
+  assert.ok(fs.existsSync(path.join(project, '.harness/adapters/react-nextjs/rules.md')));
+});
+test('obsolete managed file removed, unrelated user file preserved', () => {
+  run(); write('.harness/user-note.md', 'Keep');
+  fs.unlinkSync(path.join(source, 'core/rules/context.md')); run('update');
+  assert.ok(!fs.existsSync(path.join(project, '.harness/core/rules/context.md')));
+  assert.equal(fs.readFileSync(path.join(project, '.harness/user-note.md'), 'utf8'), 'Keep');
+});
+test('deleted managed file is drift', () => {
+  run(); fs.unlinkSync(path.join(project, '.harness/core/rules/context.md')); run('check', [], 1);
+});
+test('major upgrade needs flag, downgrade fails even with flag', () => {
+  run(); bump('1.0.0'); const before = snapshot(); run('update', [], 1); assert.deepEqual(snapshot(), before);
+  run('update', ['--allow-major']); bump('0.9.0'); run('update', ['--allow-major'], 1);
+});
+test('unknown, duplicate and empty adapter IDs fail', () => {
+  for (const value of ['../../outside', 'java-spring,java-spring', 'java-spring,']) run('init', ['--adapters', value], 1);
+  assert.deepEqual(snapshot(), {});
+});
+test('update on uninstalled project fails', () => run('update', [], 1));
+test('symlinked destination parent and broken leaf cannot write outside target', () => {
+  const outside = path.join(base, 'outside'); fs.mkdirSync(outside);
+  fs.symlinkSync(outside, path.join(project, '.harness'), process.platform === 'win32' ? 'junction' : 'dir');
+  run('init', [], 1); assert.deepEqual(fs.readdirSync(outside), []);
+  fs.unlinkSync(path.join(project, '.harness'));
+  fs.symlinkSync(path.join(outside, 'missing'), path.join(project, 'AGENTS.md'), 'file');
+  run('init', [], 1); assert.ok(!fs.existsSync(path.join(outside, 'missing')));
+});
+test('source symlink rejected', () => {
+  fs.symlinkSync(path.join(base, 'missing'), path.join(source, 'core/rules/linked.md'), 'file'); run('init', [], 1);
+});
+test('source and target overlap rejected', () => run('init', ['--target', source], 1));
+test('target symlink rejected', () => {
+  const link = path.join(base, 'link'); fs.symlinkSync(project, link, process.platform === 'win32' ? 'junction' : 'dir');
+  run('init', ['--target', link], 1); assert.deepEqual(snapshot(), {});
+});
+test('lock path traversal rejected even with recalculated digest', () => {
+  run(); const lock = h.readJson(path.join(project, h.LOCK));
+  lock.files['.harness/core/../../../outside'] = 'a'.repeat(64); lock.bundle_sha256 = h.digest(h.encode(lock.files));
+  write(h.LOCK, JSON.stringify(lock)); run('update', [], 1);
+});
+test('lock digest tampering detected', () => {
+  run(); const lock = h.readJson(path.join(project, h.LOCK)); lock.files['AGENTS.md'] = 'a'.repeat(64);
+  write(h.LOCK, JSON.stringify(lock)); run('check', [], 1);
+});
+test('exclusive install marker prevents concurrent install', () => {
+  write('.harness-install.lock', '123'); const before = snapshot(); run('init', [], 1); assert.deepEqual(snapshot(), before);
+});
+test('ordinary write failure restores original file bytes', () => {
+  write('first.txt', 'original'); const before = snapshot();
+  assert.throws(() => h.transaction(project, { 'first.txt': Buffer.from('changed'), 'second.txt': Buffer.from('new') }, (p, data) => {
+    if (p.endsWith('second.txt')) throw new Error('simulated write failure'); h.atomicWrite(p, data);
+  }), /simulated write failure/);
+  assert.deepEqual(snapshot(), before);
+});
+test('full failed install restores AGENTS and removes lock marker', () => {
+  write('AGENTS.md', '# Original\n'); const before = snapshot();
+  assert.throws(() => h.install(project, source, { writer: (p, data) => {
+    if (p === path.join(project, h.LOCK)) throw new Error('simulated disk failure'); h.atomicWrite(p, data);
+  } }), /simulated disk failure/);
+  assert.deepEqual(snapshot(), before);
+});
+test('new-change uses pinned installed templates and refuses overwrite/traversal', () => {
+  run(); fs.writeFileSync(path.join(source, 'templates/openspec/proposal.md'), 'Different future template');
+  const result = run('new-change', ['add-order']); assert.ok(fs.existsSync(path.join(result.path, 'specs/add-order/spec.md')));
+  assert.match(fs.readFileSync(path.join(result.path, 'proposal.md'), 'utf8'), /TODO/);
+  const before = snapshot();
+  for (const name of ['add-order', '../outside', 'archive']) run('new-change', [name], 1);
+  assert.deepEqual(snapshot(), before);
+});
+test('doctor only reports tool presence and installation state', () => {
+  run(); const before = snapshot(); assert.equal(typeof run('doctor').tools.node, 'boolean'); assert.deepEqual(snapshot(), before);
+});
+test('wrong config schema and missing config fail safely', () => {
+  run(); write(h.CONFIG, '{"schema_version":9,"adapters":[]}'); run('check', [], 1);
+  fs.unlinkSync(path.join(project, h.CONFIG)); const before = snapshot(); run('check', [], 1); run('update', [], 1);
+  assert.deepEqual(snapshot(), before);
+});
+test('malformed source and adapter manifest fail', () => {
+  bump('latest'); run('init', [], 1); bump('0.2.0');
+  fs.writeFileSync(path.join(source, 'adapters/java-spring/adapter.json'), '[]'); run('init', ['--adapters', 'java-spring'], 1);
+});
+test('managed payload is reproducible regardless of adapter order', () => {
+  run('init', ['--adapters', 'react-nextjs,java-spring']); const first = snapshot(); delete first[h.CONFIG];
+  project = path.join(base, 'second'); fs.mkdirSync(project); run('init', ['--adapters', 'java-spring,react-nextjs']);
+  const second = snapshot(); delete second[h.CONFIG]; assert.deepEqual(first, second);
+});
+test('CLI help/version, invalid flags and duplicate args', () => {
+  for (const option of ['--help', '-h', '--version', '-v']) {
+    const r = spawnSync(process.execPath, [path.join(h.SOURCE, 'bin/aih.js'), option], { cwd: project, encoding: 'utf8' });
+    assert.equal(r.status, 0); assert.ok(r.stdout.length); assert.deepEqual(snapshot(), {});
+  }
+  run('check', ['--dry-run'], 2); run('init', ['--wat'], 2); run('new-change', [], 2);
+  run('init', ['--target', project, '--target', project], 2); run('init', ['--target='], 2);
+});
+test('real Python 0.1 fixture checks and upgrades preserving project content', () => {
+  const fixture = h.readJson(path.join(h.SOURCE, 'tests/fixtures/python-v0.1.0.json'));
+  for (const [name, content] of Object.entries(fixture.files)) write(name, content);
+  assert.equal(run('check').version, '0.1.0');
+  const local = fs.readFileSync(path.join(project, '.harness/local.md'));
+  run('update'); assert.equal(run('check').version, '0.2.0');
+  assert.ok(fs.readFileSync(path.join(project, '.harness/local.md')).equals(local));
+  const agents = fs.readFileSync(path.join(project, 'AGENTS.md'), 'utf8');
+  assert.ok(agents.startsWith('# Existing project\n')); assert.ok(agents.endsWith('Keep this appendix.\n'));
+});
+test('edited Python 0.1 fixture refuses upgrade without overwrite', () => {
+  const fixture = h.readJson(path.join(h.SOURCE, 'tests/fixtures/python-v0.1.0.json'));
+  for (const [name, content] of Object.entries(fixture.files)) write(name, content);
+  fs.appendFileSync(path.join(project, '.harness/core/rules/context.md'), 'Custom');
+  const before = snapshot(); run('update', [], 1); assert.deepEqual(snapshot(), before);
+});
