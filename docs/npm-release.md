@@ -12,14 +12,14 @@ npm test
 npm run validate
 npm run test:package
 npm pack
-npm install -g ./manh0303-ai-harness-0.2.0.tgz
+npm install -g ./manh0303-ai-harness-0.3.0.tgz
 cd /path/to/existing-project
 aih init --adapters java-spring,react-nextjs
 aih check
 ```
 
 The tarball contains the framework and no runtime dependencies; installing it requires no Python.
-For a project-local tool, use `npm install --save-dev /absolute/path/manh0303-ai-harness-0.2.0.tgz`,
+For a project-local tool, use `npm install --save-dev /absolute/path/manh0303-ai-harness-0.3.0.tgz`,
 then `npx --no-install aih init`. Keep the tarball available to teammates/CI or replace the dependency
 with the eventual authenticated registry release. Do not commit a dependency pointing to your personal
 absolute filesystem path. A private registry requires its own authentication, separate from GitHub.
@@ -45,7 +45,7 @@ approval and a licensing decision; do not change visibility as a workaround for 
 Once that release exists and the user has registry access:
 
 ```bash
-npm install -g @manh0303/ai-harness@0.2.0
+npm install -g @manh0303/ai-harness@0.3.0
 aih --version
 cd /path/to/existing-project
 aih update --dry-run

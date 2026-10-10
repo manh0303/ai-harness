@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "id": "test",
+      "title": "JavaScript behavior tests",
+      "command": [
+        "<package-manager>",
+        "run",
+        "test"
+      ],
+      "when_file": "package.json",
+      "evidence": [
+        "Offline and permission-denial tests"
+      ],
+      "execution": "advisory"
+    },
+    {
+      "id": "native",
+      "title": "Affected platform build/device verification",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Actual iOS/Android build result",
+        "Deep-link and permission checks on affected platform"
+      ],
+      "execution": "manual"
+    }
+  ]
+}

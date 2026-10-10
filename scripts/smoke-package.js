@@ -21,7 +21,7 @@ const npm = (args, cwd = SOURCE) => command(process.execPath, [npmCli, ...args],
 try {
   const packed = JSON.parse(npm(['pack', '--ignore-scripts', '--json', '--pack-destination', temp]))[0];
   const names = packed.files.map(f => f.path);
-  for (const required of ['bin/aih.js', 'cli/harness.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
+  for (const required of ['bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/adapter-schema.js', 'cli/files.js', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
   assert.ok(!names.some(n => /(^|\/)\.env(?:\.|$)/.test(n)));
@@ -35,15 +35,19 @@ try {
   assert.equal(run(['--version']).trim(), readJson(path.join(SOURCE, 'package.json')).version);
   JSON.parse(run(['init', '--adapters', 'java-spring,react-nextjs,react-native,ai-python']));
   assert.equal(JSON.parse(run(['check'])).status, 'ok');
+  assert.equal(JSON.parse(run(['list'])).adapters.length, 4);
+  assert.equal(JSON.parse(run(['verify'])).executed, false);
+  assert.equal(JSON.parse(run(['eval'])).dataset.cases.length, 8);
+  assert.ok(fs.existsSync(path.join(target, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
   JSON.parse(run(['new-change', 'package-smoke']));
   assert.ok(fs.existsSync(path.join(target, 'openspec/changes/package-smoke/.openspec.yaml')));
   assert.deepEqual(JSON.parse(run(['update'])).changes, []);
   // Local installation lives inside the target: this must not trigger overlap protection.
-  const local = path.join(temp, 'local-consumer'); fs.mkdirSync(local); fs.writeFileSync(path.join(local, 'package.json'), '{"private":true}');
+  const local = path.join(temp, 'local-consumer'); fs.mkdirSync(local); fs.writeFileSync(path.join(local, 'package.json'), '{"private":true}'); fs.writeFileSync(path.join(local, 'pom.xml'), '<groupId>org.springframework.boot</groupId>');
   npm(['install', '--ignore-scripts', '--no-audit', '--no-fund', archive], local);
-  const localResult = JSON.parse(npm(['exec', '--offline', '--', 'aih', 'init', '--adapters', 'java-spring'], local));
+  const localResult = JSON.parse(npm(['exec', '--offline', '--', 'aih', 'init', '--detect'], local));
   assert.equal(localResult.status, 'ok');
   assert.equal(JSON.parse(npm(['exec', '--offline', '--', 'aih', 'check'], local)).status, 'ok');
   console.log(JSON.stringify({ status: 'ok', version: packed.version, package_files: names.length,
-    checks: ['npm pack assets', 'global aih shim', 'cwd default', 'all adapters', 'new-change dotfile', 'idempotent update', 'local npm exec without network'] }, null, 2));
+    checks: ['npm pack assets', 'global aih shim', 'cwd default', 'all adapters and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'idempotent update', 'local npm exec without network'] }, null, 2));
 } finally { fs.rmSync(temp, { recursive: true, force: true }); }

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "credential-storage",
+      "prompt": "Persist a mobile login token and support logout/account switching.",
+      "criteria": [
+        "Uses platform secure credential storage",
+        "Clears account-specific cached state",
+        "Avoids secrets in logs"
+      ],
+      "critical": true
+    },
+    {
+      "id": "platform-evidence",
+      "prompt": "A native module changed but only JavaScript unit tests can run here.",
+      "criteria": [
+        "Reports native build/device checks as blocked",
+        "Does not claim iOS/Android verification",
+        "Identifies the required affected-platform follow-up"
+      ],
+      "critical": true
+    }
+  ]
+}

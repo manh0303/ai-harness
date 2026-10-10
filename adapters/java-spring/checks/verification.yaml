@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "id": "maven",
+      "title": "Maven wrapper verification",
+      "command": [
+        "./mvnw",
+        "verify"
+      ],
+      "when_file": "mvnw",
+      "evidence": [
+        "Unit and integration test results",
+        "Authorization and transaction failure cases"
+      ],
+      "execution": "advisory"
+    },
+    {
+      "id": "gradle",
+      "title": "Gradle wrapper verification",
+      "command": [
+        "./gradlew",
+        "check"
+      ],
+      "when_file": "gradlew",
+      "evidence": [
+        "Executed task list and test results",
+        "Database integration test status"
+      ],
+      "execution": "advisory"
+    }
+  ]
+}

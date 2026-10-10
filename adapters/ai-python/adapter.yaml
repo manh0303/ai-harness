@@ -1,0 +1,45 @@
+{
+  "schema_version": 2,
+  "id": "ai-python",
+  "description": "ai-python development capabilities",
+  "detection": [
+    {
+      "file": "pyproject.toml",
+      "kind": "contains",
+      "values": [
+        "openai",
+        "anthropic",
+        "langchain",
+        "llama-index",
+        "transformers",
+        "torch",
+        "sentence-transformers"
+      ]
+    },
+    {
+      "file": "requirements.txt",
+      "kind": "contains",
+      "values": [
+        "openai",
+        "anthropic",
+        "langchain",
+        "llama-index",
+        "transformers",
+        "torch",
+        "sentence-transformers"
+      ]
+    }
+  ],
+  "rules": [
+    "rules/architecture.md",
+    "rules/security.md",
+    "rules/database.md",
+    "rules/performance.md"
+  ],
+  "skills": [
+    "harness-ai-python-rag-access",
+    "harness-ai-python-tool-safety"
+  ],
+  "verification": "checks/verification.yaml",
+  "evaluation": "evals/cases.json"
+}

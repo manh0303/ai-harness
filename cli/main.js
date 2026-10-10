@@ -1,3 +1,4 @@
+import { listAdapters, detect, verify, evaluate } from './adapters.js';
 import { parseArgs } from 'node:util';
 import { SOURCE, readJson, targetRoot, install, check, doctor, newChange } from './harness.js';
 import path from 'node:path';
@@ -5,6 +6,10 @@ import path from 'node:path';
 const HELP = `aih — install reusable AI development rules into a project
 
 Usage: aih <command> [options]
+  list                 List available adapters and skills
+  detect               Suggest adapters with evidence from target files
+  verify               Show installed advisory checks (does not execute)
+  eval                 Emit evaluation template, or score --report <file>
   init                 Install rules and selected adapters
   update               Update the installed snapshot, preserving project content
   check                Check installed file hashes and adapter selection
@@ -13,8 +18,10 @@ Usage: aih <command> [options]
 
 Options:
   --target <directory> Project directory (default: current directory)
+  --detect            init only: opt in to detected stack selection
+  --report <file>     eval only: score a reviewer-completed JSON report
   --adapters <a,b>     init only: java-spring,react-nextjs,react-native,ai-python
-  --source <directory> init/update: trusted alternate bundle directory
+  --source <directory> init/update/list/detect: trusted alternate bundle directory
   --dry-run           init/update: preview without persistent changes
   --allow-major       init/update: acknowledge a major version migration
   -h, --help          Show help
@@ -31,6 +38,7 @@ export function main(argv = process.argv.slice(2)) {
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
       target: { type: 'string' }, adapters: { type: 'string' }, source: { type: 'string' },
+      detect: { type: 'boolean' }, report: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
       help: { type: 'boolean', short: 'h' }, version: { type: 'boolean', short: 'v' },
     } });
@@ -42,24 +50,32 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['init', 'update', 'check', 'doctor', 'new-change'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (!['init', 'update', 'check', 'doctor', 'new-change', 'list', 'detect', 'verify', 'eval'].includes(command)) throw new Error(`Unknown command: ${command}`);
     if (extra.length || (command !== 'new-change' && name !== undefined) || (command === 'new-change' && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
-    const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(command === 'init' ? ['adapters'] : [])]);
+    const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(command === 'init' ? ['adapters', 'detect'] : []), ...(['list', 'detect'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : [])]);
     for (const key of Object.keys(args.values)) if (!allowed.has(key)) throw new Error(`--${key} is not supported for ${command}`);
-    for (const key of ['target', 'source', 'adapters']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
+    if (args.values.detect && args.values.adapters !== undefined) throw new Error('Choose either --detect or --adapters');
+    for (const key of ['target', 'source', 'adapters', 'report']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
   } catch (error) { console.error(JSON.stringify({ status: 'error', message: error.message })); return 2; }
   try {
     const { values, positionals: [command, name] } = args;
     const root = targetRoot(values.target ?? process.cwd());
     let result;
     if (command === 'init' || command === 'update') {
-      result = install(root, targetRoot(values.source ?? SOURCE), {
-        command, adapters: values.adapters === undefined ? undefined : values.adapters.split(',').map(v => v.trim()),
+      const source = targetRoot(values.source ?? SOURCE);
+      const selection = values.detect ? detect(root, source).adapters : undefined;
+      if (values.detect && !selection.length) throw new Error('No stack detected; choose --adapters explicitly or omit --detect for core only');
+      result = install(root, source, {
+        command, adapters: selection ?? (values.adapters === undefined ? undefined : values.adapters.split(',').map(v => v.trim())),
         dryRun: values['dry-run'], allowMajor: values['allow-major'],
       });
-    } else if (command === 'new-change') result = newChange(root, name);
+    } else if (command === 'list') result = listAdapters(targetRoot(values.source ?? SOURCE));
+    else if (command === 'detect') result = detect(root, targetRoot(values.source ?? SOURCE));
+    else if (command === 'verify') result = verify(root);
+    else if (command === 'eval') result = evaluate(root, values.report);
+    else if (command === 'new-change') result = newChange(root, name);
     else result = command === 'doctor' ? doctor(root) : check(root);
     console.log(JSON.stringify(result, null, 2));
-    return result.status === 'error' ? 1 : 0;
+    return ['error', 'fail'].includes(result.status) ? 1 : 0;
   } catch (error) { console.error(JSON.stringify({ status: 'error', message: error.message })); return 1; }
 }

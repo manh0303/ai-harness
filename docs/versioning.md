@@ -1,7 +1,7 @@
 # Versioning and migration
 
 Framework version is in harness.yaml and package.json; keep both and package-lock.json synchronized. Use three-part SemVer releases and Git tags vX.Y.Z after review.
-0.2.0 is an npm CLI candidate, not a claim of a registry publication or Git tag. Do not publish from a feature PR.
+0.3.0 is an adapter-capabilities candidate, not a claim of a registry publication or Git tag. Do not publish from a feature PR.
 
 - Patch: compatible corrections to instructions or installer defects.
 - Minor: backward-compatible adapter, skill or CLI additions.
@@ -40,3 +40,21 @@ Modified managed files block migration; local.md, project config, OpenSpec chang
 AGENTS markers survive. The npm tool version and the installed snapshot version may differ until update.
 
 See [npm release procedure](npm-release.md). Repository merge does not publish a registry package.
+
+## 0.2 → 0.3 migration
+Adapter metadata moves from adapter.json schema 1 to adapter.yaml schema 2. All YAML files parsed by
+the harness remain JSON-compatible YAML 1.2; no generic YAML parser or runtime dependency is added.
+Installed project/lock schema stays 1. Both Python 0.1 and npm 0.2 snapshots can update directly to 0.3.
+
+On a consumer branch, run aih check, aih update --dry-run, aih update and aih check. Unmodified old
+adapter.json files are removed; new rule/check/evaluation files and exposed skills are added. Edited
+old files block the whole update. Project config, local.md, OpenSpec changes and AGENTS text outside
+markers remain project-owned. Review the expanded managed snapshot before committing.
+
+Existing snapshots still support check/doctor with the new CLI. verify/eval require 0.3 adapter assets
+and explain when update is required. Changing adapters in project.json plus update removes only unchanged
+managed skills of deselected adapters. init still defaults to core-only; detection never silently changes
+an installed selection. Installing the CLI alone does not update the consumer snapshot.
+
+Custom source adapters must adopt schema 2 before use with the 0.3 installer. The legacy adapter.json
+source format is not accepted; backward compatibility covers installed snapshots, not old source bundles.

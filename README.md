@@ -3,7 +3,7 @@
 Framework tái sử dụng để hướng dẫn AI làm việc theo **Spec → Code → Test → Review** trong nhiều dự án.
 Core dùng chung; adapter chứa quy chuẩn công nghệ; CLI cài một bản có version vào từng repository.
 
-**Trạng thái:** 0.2.0, CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
+**Trạng thái:** 0.3.0, adapter capabilities và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
 Gói `@manh0303/ai-harness` chưa phát hành lên npm registry; hiện cài từ repository private hoặc tarball.
 Harness không tự gọi LLM, không tự sinh ứng dụng, không tạo agent runtime, không tự merge/deploy.
 Các role/skill hướng dẫn assistant đang dùng; quyền thực tế do IDE/runtime, Git và CI kiểm soát.
@@ -15,10 +15,10 @@ Cài từ source đã review bằng tài khoản có quyền repository private:
 ```bash
 git clone git@github.com:manh0303/ai-harness.git
 cd ai-harness
-# Khi review PR này: git switch feat/npm-cli
+# Khi review PR này: git switch feat/adapter-capabilities
 # Sau merge: checkout commit/tag đã review để pin phiên bản.
 npm pack
-npm install -g ./manh0303-ai-harness-0.2.0.tgz
+npm install -g ./manh0303-ai-harness-0.3.0.tgz
 
 cd /path/to/my-backend
 aih init --adapters java-spring --dry-run
@@ -32,7 +32,7 @@ Sau khi cài, dùng `aih` từ bất kỳ repository ứng dụng nào. Đích m
 `aih --help` xem lệnh, `aih --version` xem phiên bản công cụ.
 
 Khi chủ sở hữu đã phát hành npm package và cấp quyền, cách cài sẽ là
-`npm install -g @manh0303/ai-harness@0.2.0`. **Lệnh registry này chưa dùng được chỉ vì PR đã merge.**
+`npm install -g @manh0303/ai-harness@0.3.0`. **Lệnh registry này chưa dùng được chỉ vì PR đã merge.**
 Có thể cài tarball vào devDependencies rồi dùng `npx --no-install aih init` nếu không muốn cài global.
 Xem [hướng dẫn đóng gói/phát hành](docs/npm-release.md).
 
@@ -51,6 +51,30 @@ Xem [hướng dẫn đóng gói/phát hành](docs/npm-release.md).
 
 AI bằng Java có thể dùng `java-spring` cùng skill `harness-ai-evaluation`; không bắt buộc chuyển sang Python.
 Với multi-repo, cài vào từng repo có thực hiện công việc. Ghi danh sách repo và thứ tự merge trong change.
+
+## Nhận diện stack và dùng adapter
+
+```bash
+aih list
+aih detect
+aih init --detect --dry-run
+aih init --detect
+aih verify
+aih eval
+```
+
+`detect` báo adapter đề xuất kèm bằng chứng; chỉ đọc file ngay trong thư mục đích, không quét đệ quy
+monorepo. Dùng `--target apps/backend` cho từng module. Spring cần dấu hiệu Spring Boot trong Maven/Gradle;
+React Native được phân biệt với web; AI/Python dựa trên tên thư viện trong pyproject/requirements.
+Đây là heuristic: có thể bỏ sót dependency gián tiếp hoặc khớp comment. Review kết quả trước khi cài.
+`init --detect` là lựa chọn chủ động; không tìm thấy stack thì dừng. `init` không có flag vẫn cài core-only.
+Có thể dùng `--adapters` để chọn chính xác. Update giữ lựa chọn trong project.json, không tự nhận diện lại.
+
+Mỗi adapter có `adapter.yaml`, `rules/`, `skills/`, `checks/verification.yaml` và `evals/cases.json`.
+Skills của adapter đã chọn được cài vào `.agents/skills/harness-<adapter>-*`; Core giữ TDD/debug/review dùng chung.
+`aih verify` chỉ xuất checklist và lệnh gợi ý, **không chạy test/build**. `aih eval` xuất tình huống và mẫu
+báo cáo chưa chấm; `aih eval --report report.json` tổng hợp điểm có bằng chứng, **không gọi model**.
+Xem [hướng dẫn adapter và đánh giá](docs/adapters.md) trước khi điền báo cáo.
 
 ## Dự án nhận những gì?
 

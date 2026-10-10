@@ -21,3 +21,9 @@ Version prompt, model, dataset and retrieval configuration separately from the h
 Use deterministic mocked tests for code paths and separately authorized live evaluations for model behavior.
 Track quality, groundedness, denial of unsafe tools, latency and cost; compare to a defined baseline.
 Use synthetic/redacted fixtures and record dataset hash. Never treat mocks as live model quality evidence.
+
+## Capability index
+
+Read rules/architecture.md, rules/security.md, rules/database.md and rules/performance.md.
+Use only relevant adapter skills listed in adapter.yaml; core TDD, debugging and review remain shared.
+Review checks/verification.yaml before choosing commands. No check executes automatically.
