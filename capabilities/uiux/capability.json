@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "id": "uiux",
+  "description": "Evidence-grounded product requirements to reviewed, editable Figma designs.",
+  "skills": [
+    "harness-uiux-requirements-analysis",
+    "harness-uiux-user-flow",
+    "harness-uiux-screen-planning",
+    "harness-uiux-design-system",
+    "harness-uiux-figma-design",
+    "harness-uiux-design-review"
+  ],
+  "workflows": [
+    "workflows/docs-to-figma.md",
+    "workflows/idea-to-figma.md"
+  ]
+}
