@@ -109,6 +109,7 @@ export function manifest(source) {
     throw new HarnessError('Invalid harness manifest schema/version');
   }
   validateAdapters(m.adapters);
+  validateCapabilities(m.capabilities ?? []);
   if (!m.adapters.length) throw new HarnessError('Empty adapter registry');
   return m;
 }
@@ -116,4 +117,9 @@ export function manifest(source) {
 export function validateAdapters(names) {
   if (!Array.isArray(names) || names.some(a => typeof a !== 'string' || !SLUG.test(a))
       || new Set(names).size !== names.length) throw new HarnessError('Invalid or duplicate adapters');
+}
+
+export function validateCapabilities(names) {
+  if (!Array.isArray(names) || names.some(a => typeof a !== 'string' || !SLUG.test(a))
+      || new Set(names).size !== names.length) throw new HarnessError('Invalid or duplicate capabilities');
 }
