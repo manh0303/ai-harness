@@ -1,12 +1,15 @@
 import { listAdapters, detect, verify, evaluate } from './adapters.js';
+import { listCapabilities, skillCatalog, readSkill } from './capabilities.js';
 import { parseArgs } from 'node:util';
-import { SOURCE, readJson, targetRoot, install, check, doctor, newChange } from './harness.js';
+import { SOURCE, readJson, targetRoot, install, check, doctor, newChange, loadLock } from './harness.js';
 import path from 'node:path';
 
 const HELP = `aih — install reusable AI development rules into a project
 
 Usage: aih <command> [options]
-  list                 List available adapters and skills
+  list                 List available adapters and capabilities
+  skills               List installed skill names/descriptions without full content
+  skill <name>         Load one installed skill on demand
   detect               Suggest adapters with evidence from target files
   verify               Show installed advisory checks (does not execute)
   eval                 Emit evaluation template, or score --report <file>
@@ -21,6 +24,7 @@ Options:
   --detect            init only: opt in to detected stack selection
   --report <file>     eval only: score a reviewer-completed JSON report
   --adapters <a,b>     init only: java-spring,react-nextjs,react-native,ai-python
+  --capabilities <a,b> init only: uiux
   --source <directory> init/update/list/detect: trusted alternate bundle directory
   --dry-run           init/update: preview without persistent changes
   --allow-major       init/update: acknowledge a major version migration
@@ -28,7 +32,9 @@ Options:
   -v, --version       Show installed CLI version
 
 Examples:
-  aih init --adapters java-spring
+  aih init --adapters java-spring --capabilities uiux
+  aih skills
+  aih skill harness-uiux-figma-design
   aih update --dry-run
   aih new-change add-order
 `;
@@ -37,7 +43,7 @@ export function main(argv = process.argv.slice(2)) {
   let args;
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
-      target: { type: 'string' }, adapters: { type: 'string' }, source: { type: 'string' },
+      target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, source: { type: 'string' },
       detect: { type: 'boolean' }, report: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
       help: { type: 'boolean', short: 'h' }, version: { type: 'boolean', short: 'v' },
@@ -50,12 +56,12 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['init', 'update', 'check', 'doctor', 'new-change', 'list', 'detect', 'verify', 'eval'].includes(command)) throw new Error(`Unknown command: ${command}`);
-    if (extra.length || (command !== 'new-change' && name !== undefined) || (command === 'new-change' && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
-    const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(command === 'init' ? ['adapters', 'detect'] : []), ...(['list', 'detect'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : [])]);
+    if (!['init', 'update', 'check', 'doctor', 'new-change', 'list', 'detect', 'verify', 'eval', 'skills', 'skill'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (extra.length || (!['new-change', 'skill'].includes(command) && name !== undefined) || (['new-change', 'skill'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
+    const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(command === 'init' ? ['adapters', 'capabilities', 'detect'] : []), ...(['list', 'detect'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : [])]);
     for (const key of Object.keys(args.values)) if (!allowed.has(key)) throw new Error(`--${key} is not supported for ${command}`);
     if (args.values.detect && args.values.adapters !== undefined) throw new Error('Choose either --detect or --adapters');
-    for (const key of ['target', 'source', 'adapters', 'report']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
+    for (const key of ['target', 'source', 'adapters', 'capabilities', 'report']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
   } catch (error) { console.error(JSON.stringify({ status: 'error', message: error.message })); return 2; }
   try {
     const { values, positionals: [command, name] } = args;
@@ -67,9 +73,16 @@ export function main(argv = process.argv.slice(2)) {
       if (values.detect && !selection.length) throw new Error('No stack detected; choose --adapters explicitly or omit --detect for core only');
       result = install(root, source, {
         command, adapters: selection ?? (values.adapters === undefined ? undefined : values.adapters.split(',').map(v => v.trim())),
+        capabilities: values.capabilities === undefined ? undefined : values.capabilities.split(',').map(v => v.trim()),
         dryRun: values['dry-run'], allowMajor: values['allow-major'],
       });
-    } else if (command === 'list') result = listAdapters(targetRoot(values.source ?? SOURCE));
+    } else if (command === 'list') { const source = targetRoot(values.source ?? SOURCE); result = { ...listAdapters(source), capabilities: listCapabilities(source) }; }
+    else if (command === 'skills' || command === 'skill') {
+      const state = check(root);
+      if (state.status !== 'ok') throw new Error(`Fix installation drift before loading skills: ${state.problems.join(', ')}`);
+      const lock = loadLock(root);
+      result = command === 'skills' ? skillCatalog(root, lock) : readSkill(root, lock, name);
+    }
     else if (command === 'detect') result = detect(root, targetRoot(values.source ?? SOURCE));
     else if (command === 'verify') result = verify(root);
     else if (command === 'eval') result = evaluate(root, values.report);
