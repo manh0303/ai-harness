@@ -2,19 +2,26 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { loadAdapter } from './adapter-schema.js';
-import { safe, readJson, manifest, encode, digest, stat, block, mergeAgents, payload, validateAdapters, assertSeparate, HarnessError, LOCK, CONFIG, VERSION, SLUG, isObject } from './files.js';
+import { loadCapability } from './capabilities.js';
+import { safe, readJson, manifest, encode, digest, stat, block, mergeAgents, payload, validateAdapters, validateCapabilities, assertSeparate, HarnessError, LOCK, CONFIG, VERSION, SLUG, isObject } from './files.js';
 export * from './files.js';
 
-function projectConfig(root, adapters, required = false) {
+function projectConfig(root, adapters, capabilities, required = false) {
   const filename = safe(root, CONFIG);
   if (required && !stat(filename)) throw new HarnessError(`Missing ${CONFIG}; restore it from Git`);
-  const config = stat(filename) ? readJson(filename) : { schema_version: 1, adapters: adapters ?? [] };
-  if (!isObject(config) || Object.keys(config).sort().join(',') !== 'adapters,schema_version'
+  const config = stat(filename) ? readJson(filename) : { schema_version: 1, adapters: adapters ?? [], capabilities: capabilities ?? [] };
+  const keys = Object.keys(config).sort().join(',');
+  if (!isObject(config) || !['adapters,schema_version', 'adapters,capabilities,schema_version'].includes(keys)
       || config.schema_version !== 1) throw new HarnessError('Invalid project.json schema');
   validateAdapters(config.adapters);
+  validateCapabilities(config.capabilities ?? []);
   if (adapters !== undefined && stat(filename)
       && JSON.stringify([...adapters].sort()) !== JSON.stringify([...config.adapters].sort())) {
     throw new HarnessError('Edit .harness/project.json to select adapters, then run update');
+  }
+  if (capabilities !== undefined && stat(filename)
+      && JSON.stringify([...capabilities].sort()) !== JSON.stringify([...(config.capabilities ?? [])].sort())) {
+    throw new HarnessError('Edit .harness/project.json to select capabilities, then run update');
   }
   return config;
 }
@@ -36,11 +43,13 @@ export function collect(source, folder) {
 }
 
 export function bundle(source, config) {
-  const m = manifest(source), adapters = [...config.adapters].sort();
+  const m = manifest(source), adapters = [...config.adapters].sort(), capabilities = [...(config.capabilities ?? [])].sort();
   const unknown = adapters.filter(a => !m.adapters.includes(a));
   if (unknown.length) throw new HarnessError(`Unknown adapters: ${unknown.join(', ')}`);
+  const unknownCapabilities = capabilities.filter(c => !(m.capabilities ?? []).includes(c));
+  if (unknownCapabilities.length) throw new HarnessError(`Unknown capabilities: ${unknownCapabilities.join(', ')}`);
   const files = {};
-  for (const folder of ['core', 'integrations', 'templates', ...adapters.map(a => `adapters/${a}`)]) {
+  for (const folder of ['core', 'integrations', 'templates', ...adapters.map(a => `adapters/${a}`), ...capabilities.map(c => `capabilities/${c}`)]) {
     for (const [name, data] of Object.entries(collect(source, folder))) {
       files[`.harness/${name}`] = data;
       if (name.startsWith('core/skills/')) files[`.agents/skills/${name.slice('core/skills/'.length)}`] = data;
@@ -54,25 +63,37 @@ export function bundle(source, config) {
       files[dest] = fs.readFileSync(safe(source, `adapters/${a}/skills/${name}/SKILL.md`));
     }
   }
+  for (const c of capabilities) {
+    const info = loadCapability(source, c);
+    for (const name of info.skills) {
+      const dest = `.agents/skills/${name}/SKILL.md`;
+      if (Object.hasOwn(files, dest)) throw new HarnessError(`Skill collision: ${name}`);
+      files[dest] = fs.readFileSync(safe(source, `capabilities/${c}/skills/${name}/SKILL.md`));
+    }
+  }
+  const capabilityLinks = capabilities.map(c => `- For ${c} tasks, read \`.harness/capabilities/${c}/workflows/\` and discover relevant \`.agents/skills/harness-${c}-*/SKILL.md\` by description.`).join('\n')
+    || '- No optional capability selected.';
   const links = adapters.map(a => `- Read \`.harness/adapters/${a}/rules.md\` and \`.harness/adapters/${a}/adapter.yaml\`; load relevant skills from \`.agents/skills/harness-${a}-*\`.`).join('\n') || '- No technology adapter selected.';
   const template = fs.readFileSync(safe(source, 'templates/AGENTS.md'), 'utf8');
-  const generated = Buffer.from(template.replaceAll('{{version}}', m.version).replaceAll('{{adapters}}', links).trim());
+  const generated = Buffer.from(template.replaceAll('{{version}}', m.version).replaceAll('{{adapters}}', links).replaceAll('{{capabilities}}', capabilityLinks).trim());
   if (!block(generated)?.equals(generated)) throw new HarnessError('AGENTS template must be one managed block');
   files['AGENTS.md'] = generated;
   const hashes = Object.fromEntries(Object.keys(files).sort().map(k => [k, digest(files[k])]));
-  return { files, lock: { schema_version: 1, version: m.version, adapters, files: hashes, bundle_sha256: digest(encode(hashes)) } };
+  return { files, lock: { schema_version: 1, version: m.version, adapters, capabilities, files: hashes, bundle_sha256: digest(encode(hashes)) } };
 }
 
 function managedName(name) {
-  return name === 'AGENTS.md' || ['.harness/core/', '.harness/adapters/', '.harness/integrations/', '.harness/templates/', '.agents/skills/harness-'].some(prefix => name.startsWith(prefix));
+  return name === 'AGENTS.md' || ['.harness/core/', '.harness/adapters/', '.harness/capabilities/', '.harness/integrations/', '.harness/templates/', '.agents/skills/harness-'].some(prefix => name.startsWith(prefix));
 }
 
 export function loadLock(root) {
   const lock = readJson(safe(root, LOCK));
-  if (!isObject(lock) || Object.keys(lock).sort().join(',') !== 'adapters,bundle_sha256,files,schema_version,version'
+  if (!isObject(lock) || !['adapters,bundle_sha256,files,schema_version,version',
+      'adapters,bundle_sha256,capabilities,files,schema_version,version'].includes(Object.keys(lock).sort().join(','))
       || lock.schema_version !== 1 || !VERSION.test(lock.version) || !isObject(lock.files)
       || !Object.hasOwn(lock.files, 'AGENTS.md')) throw new HarnessError('Invalid lock schema/content');
   validateAdapters(lock.adapters);
+  validateCapabilities(lock.capabilities ?? []);
   for (const [name, sha] of Object.entries(lock.files)) {
     if (!managedName(name) || typeof sha !== 'string' || !/^[0-9a-f]{64}$/.test(sha)) throw new HarnessError(`Invalid lock entry: ${name}`);
     safe(root, name);
@@ -133,13 +154,13 @@ export function transaction(root, changes, writer = atomicWrite) {
   }
 }
 
-export function install(root, source, { command = 'init', adapters, dryRun = false, allowMajor = false, writer } = {}) {
+export function install(root, source, { command = 'init', adapters, capabilities, dryRun = false, allowMajor = false, writer } = {}) {
   assertSeparate(root, source);
   return guard(root, () => {
     const hasLock = Boolean(stat(safe(root, LOCK)));
     if (command === 'update' && !hasLock) throw new HarnessError('Not installed; run init first');
     const old = hasLock ? loadLock(root) : null;
-    const config = projectConfig(root, adapters, hasLock);
+    const config = projectConfig(root, adapters, capabilities, hasLock);
     const { files, lock } = bundle(source, config);
     if (old) {
       const conflicts = drift(root, old);
@@ -176,9 +197,10 @@ export function install(root, source, { command = 'init', adapters, dryRun = fal
 }
 
 export function check(root) {
-  const lock = loadLock(root), config = projectConfig(root, undefined, true);
+  const lock = loadLock(root), config = projectConfig(root, undefined, undefined, true);
   const problems = drift(root, lock);
   if (JSON.stringify([...config.adapters].sort()) !== JSON.stringify([...lock.adapters].sort())) problems.push(`${CONFIG}: adapter selection changed; run update`);
+  if (JSON.stringify([...(config.capabilities ?? [])].sort()) !== JSON.stringify([...(lock.capabilities ?? [])].sort())) problems.push(`${CONFIG}: capability selection changed; run update`);
   return { status: problems.length ? 'error' : 'ok', version: lock.version, problems };
 }
 
