@@ -30,7 +30,7 @@ try {
   const target = path.join(temp, 'consumer project'); fs.mkdirSync(target);
   const bin = process.platform === 'win32' ? path.join(prefix, 'aih.cmd') : path.join(prefix, 'bin/aih');
   const run = args => process.platform === 'win32'
-    ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" ${args.join(' ')}"`], target)
+    ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" ${args.join(' ')}"`], target, { windowsVerbatimArguments: true })
     : command(bin, args, target);
   assert.equal(run(['--version']).trim(), readJson(path.join(SOURCE, 'package.json')).version);
   JSON.parse(run(['init', '--adapters', 'java-spring,react-nextjs,react-native,ai-python']));
