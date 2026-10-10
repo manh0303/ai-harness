@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "id": "java-spring",
+  "detect_files": [
+    "pom.xml",
+    "build.gradle",
+    "build.gradle.kts"
+  ],
+  "tools": [
+    "java",
+    "mvn"
+  ],
+  "suggested_commands": [
+    [
+      "./mvnw",
+      "verify"
+    ]
+  ],
+  "execution": "advisory-only; project owner chooses commands"
+}
