@@ -6,6 +6,7 @@ import os from 'node:os';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { SOURCE, manifest, readJson } from '../cli/harness.js';
+import { parsePackMetadata } from './pack-metadata.js';
 
 const npmCli = process.env.npm_execpath;
 if (!npmCli || !fs.existsSync(npmCli)) throw new Error('Run this check through: npm run test:package');
@@ -19,13 +20,16 @@ function command(exe, args, cwd, options = {}) {
 }
 const npm = (args, cwd = SOURCE) => command(process.execPath, [npmCli, ...args], cwd);
 try {
-  const packed = JSON.parse(npm(['pack', '--ignore-scripts', '--json', '--pack-destination', temp]))[0];
+  const packageName = readJson(path.join(SOURCE, 'package.json')).name;
+  const packed = parsePackMetadata(npm(['pack', '--ignore-scripts', '--json', '--pack-destination', temp]), packageName);
   const names = packed.files.map(f => f.path);
   for (const required of ['LICENSE', 'bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/composition.js', 'cli/module-contract.js', 'cli/evaluation-contract.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'capabilities/product/capability.json', 'capabilities/devops/capability.json', 'capabilities/devops/evals/cases.json', 'capabilities/monetization/capability.json', 'capabilities/monetization/skills/harness-monetization-adsense-integration/SKILL.md', 'capabilities/monetization/templates/analytics-report.md', 'core/evals/composition.json', 'adapters/kubernetes/adapter.yaml', 'adapters/astro/adapter.yaml', 'adapters/astro/skills/harness-astro-islands/SKILL.md', 'capabilities/product/templates/brd.md', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
   assert.ok(!names.some(n => /(^|\/)\.env(?:\.|$)/.test(n)));
+  assert.equal(path.basename(packed.filename), packed.filename, 'npm pack returned an unsafe archive filename');
   const archive = path.join(temp, packed.filename), prefix = path.join(temp, 'global');
+  assert.ok(fs.existsSync(archive) && fs.statSync(archive).isFile(), `npm pack did not write ${archive}`);
   npm(['install', '--global', '--prefix', prefix, '--ignore-scripts', '--no-audit', '--no-fund', archive]);
   const target = path.join(temp, 'consumer project'); fs.mkdirSync(target);
   const bin = process.platform === 'win32' ? path.join(prefix, 'aih.cmd') : path.join(prefix, 'bin/aih');

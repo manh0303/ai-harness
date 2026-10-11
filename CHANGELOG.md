@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — npm 12 pack metadata compatibility
+- Make package smoke tests support both npm 10/11 array-form and npm 12 package-keyed JSON output from `npm pack --json`.
+- Validate archive metadata before accessing `files`, with explicit diagnostics instead of an undefined-property crash.
+- Add parser regression tests and a Windows/Node 24/npm 12 CI smoke job; do not relax package safety checks.
+
 ## Unreleased — npm public release setup
 - Align public npm package scope `@manhd_d/ai-harness` and lockfile while GitHub repository stays private under `manh0303`.
 - Add explicit GitHub Release-triggered npm OIDC publishing, tag/version checks, package tests and maintainer-controlled first publication.
