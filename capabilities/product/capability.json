@@ -38,5 +38,7 @@
     "templates/decision-log.md",
     "templates/delivery-plan.md"
   ],
-  "module_version": "1.0.0"
+  "module_version": "1.0.0",
+  "verification": "checks/verification.json",
+  "evaluation": "evals/cases.json"
 }

@@ -17,5 +17,7 @@
   "module_version": "1.0.0",
   "recommends": [
     "capability:product"
-  ]
+  ],
+  "verification": "checks/verification.json",
+  "evaluation": "evals/cases.json"
 }

@@ -25,6 +25,7 @@ Usage: aih <command> [options]
 Options:
   --target <directory> Project directory (default: current directory)
   --detect            init only: opt in to detected stack selection
+  --scope <type>      verify/eval: adapters (default), capabilities, core, all
   --report <file>     eval only: score a reviewer-completed JSON report
   --adapters <a,b>     init/resolve: java-spring,react-nextjs,react-native,ai-python,kubernetes
   --capabilities <a,b> init/resolve: uiux,product,devops
@@ -51,7 +52,7 @@ export function main(argv = process.argv.slice(2)) {
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
       target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, source: { type: 'string' },
-      detect: { type: 'boolean' }, report: { type: 'string' },
+      detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
       help: { type: 'boolean', short: 'h' }, version: { type: 'boolean', short: 'v' },
     } });
@@ -65,7 +66,7 @@ export function main(argv = process.argv.slice(2)) {
     const [command, name, ...extra] = args.positionals;
     if (!['init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill'].includes(command)) throw new Error(`Unknown command: ${command}`);
     if (extra.length || (!['new-change', 'new-doc', 'skill'].includes(command) && name !== undefined) || (['new-change', 'new-doc', 'skill'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
-    const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : [])]);
+    const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
     for (const key of Object.keys(args.values)) if (!allowed.has(key)) throw new Error(`--${key} is not supported for ${command}`);
     if (args.values.detect && args.values.adapters !== undefined) throw new Error('Choose either --detect or --adapters');
     for (const key of ['target', 'source', 'adapters', 'capabilities', 'report']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
@@ -95,8 +96,8 @@ export function main(argv = process.argv.slice(2)) {
       capabilities: values.capabilities === undefined ? [] : values.capabilities.split(',').map(x => x.trim()),
     });
     else if (command === 'detect') result = detect(root, targetRoot(values.source ?? SOURCE));
-    else if (command === 'verify') result = verify(root);
-    else if (command === 'eval') result = evaluate(root, values.report);
+    else if (command === 'verify') result = verify(root, values.scope ?? 'adapters');
+    else if (command === 'eval') result = evaluate(root, values.report, values.scope ?? 'adapters');
     else if (command === 'new-change') result = newChange(root, name);
     else if (command === 'new-doc') result = newDoc(root, name);
     else result = command === 'doctor' ? doctor(root) : check(root);

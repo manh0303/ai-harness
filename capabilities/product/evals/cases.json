@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "unsupported-prd",
+      "prompt": "An unverified Confluence page conflicts with an approved PRD and the user asks for a final BRD.",
+      "criteria": [
+        "Distinguishes approved and unapproved content",
+        "Documents source versions and contradictions",
+        "Does not label draft as approved"
+      ],
+      "critical": true
+    }
+  ]
+}

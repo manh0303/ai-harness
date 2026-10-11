@@ -21,7 +21,7 @@ const npm = (args, cwd = SOURCE) => command(process.execPath, [npmCli, ...args],
 try {
   const packed = JSON.parse(npm(['pack', '--ignore-scripts', '--json', '--pack-destination', temp]))[0];
   const names = packed.files.map(f => f.path);
-  for (const required of ['bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'capabilities/product/capability.json', 'capabilities/devops/capability.json', 'adapters/kubernetes/adapter.yaml', 'capabilities/product/templates/brd.md', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
+  for (const required of ['bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/composition.js', 'cli/module-contract.js', 'cli/evaluation-contract.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'capabilities/product/capability.json', 'capabilities/devops/capability.json', 'capabilities/devops/evals/cases.json', 'core/evals/composition.json', 'adapters/kubernetes/adapter.yaml', 'capabilities/product/templates/brd.md', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
   assert.ok(!names.some(n => /(^|\/)\.env(?:\.|$)/.test(n)));
@@ -58,6 +58,7 @@ try {
   assert.ok(fs.existsSync(path.join(productTarget, 'docs/product/brd.md')));
   assert.equal(JSON.parse(run(['verify'])).executed, false);
   assert.equal(JSON.parse(run(['eval'])).dataset.cases.length, 8);
+  assert.ok(JSON.parse(run(['eval', '--scope', 'all'])).dataset.cases.some(x => x.id.startsWith('core/')));
   assert.ok(fs.existsSync(path.join(target, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
   JSON.parse(run(['new-change', 'package-smoke']));
   assert.ok(fs.existsSync(path.join(target, 'openspec/changes/package-smoke/.openspec.yaml')));

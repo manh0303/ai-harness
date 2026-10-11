@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import { safe, readJson, HarnessError } from './files.js';
 import { validateContract } from './module-contract.js';
+import { checksFrom, casesFrom } from './evaluation-contract.js';
 
 const slug = value => typeof value === 'string' && /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(value);
 const text = value => typeof value === 'string' && Boolean(value.trim());
@@ -35,27 +36,7 @@ export function loadAdapter(source, id) {
       && ['## Input', '## Procedure', '## Output', '## Constraints'].every(s => body.includes(s)), `Invalid skill: ${name}`);
   }
   requireThat(m.verification === 'checks/verification.yaml' && m.evaluation === 'evals/cases.json', `Invalid capability paths: ${id}`);
-  const verification = readJson(safe(source, prefix + m.verification));
-  fields(verification, ['schema_version', 'checks'], 'verification');
-  requireThat(verification.schema_version === 1 && Array.isArray(verification.checks) && verification.checks.length > 0, `Invalid checks: ${id}`);
-  const checkIds = [];
-  for (const c of verification.checks) {
-    fields(c, ['id', 'title', 'command', 'when_file', 'evidence', 'execution'], 'check');
-    requireThat(slug(c.id) && text(c.title) && Array.isArray(c.command) && c.command.every(text)
-      && strings(c.evidence) && (c.execution === 'advisory' ? c.command.length > 0 : c.execution === 'manual' && c.command.length === 0), `Invalid check: ${id}`);
-    if (c.when_file !== null) safe(source, c.when_file);
-    checkIds.push(c.id);
-  }
-  requireThat(unique(checkIds), `Duplicate checks: ${id}`);
-  const evaluation = readJson(safe(source, prefix + m.evaluation));
-  fields(evaluation, ['schema_version', 'cases'], 'evaluation');
-  requireThat(evaluation.schema_version === 1 && Array.isArray(evaluation.cases) && evaluation.cases.length > 0, `Invalid evals: ${id}`);
-  const caseIds = [];
-  for (const c of evaluation.cases) {
-    fields(c, ['id', 'prompt', 'criteria', 'critical'], 'eval case');
-    requireThat(slug(c.id) && text(c.prompt) && strings(c.criteria) && typeof c.critical === 'boolean', `Invalid eval case: ${id}`);
-    caseIds.push(c.id);
-  }
-  requireThat(unique(caseIds), `Duplicate eval cases: ${id}`);
-  return { ...m, checks: verification.checks, cases: evaluation.cases };
+  const checks = checksFrom(source, prefix + m.verification);
+  const cases = casesFrom(source, prefix + m.evaluation);
+  return { ...m, checks, cases };
 }

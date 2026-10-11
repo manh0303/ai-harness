@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import { loadAdapter } from '../cli/adapter-schema.js';
 import { loadCapability } from '../cli/capabilities.js';
+import { resolveModules } from '../cli/composition.js';
+import { checksFrom, casesFrom } from '../cli/evaluation-contract.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { SOURCE, manifest, bundle, readJson } from '../cli/harness.js';
@@ -30,6 +32,9 @@ try {
     loadAdapter(SOURCE, name);
   }
   for (const name of m.capabilities ?? []) loadCapability(SOURCE, name);
+  resolveModules(SOURCE, { adapters: m.adapters, capabilities: m.capabilities ?? [] });
+  checksFrom(SOURCE, 'core/checks/verification.json');
+  casesFrom(SOURCE, 'core/evals/cases.json');
   const { files } = bundle(SOURCE, { schema_version: 1, adapters: m.adapters, capabilities: m.capabilities ?? [] });
   function links(dir) {
     for (const item of fs.readdirSync(dir, { withFileTypes: true })) {
