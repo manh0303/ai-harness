@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased — Release migration tests
+- Fix legacy upgrade tests to assert the current Harness source version rather than hardcoding 0.6.0, allowing Release Please version PRs to pass CI without weakening migration checks.
+
 ## Unreleased — npm 12 pack metadata compatibility
 - Make package smoke tests support both npm 10/11 array-form and npm 12 package-keyed JSON output from `npm pack --json`.
 - Validate archive metadata before accessing `files`, with explicit diagnostics instead of an undefined-property crash.
