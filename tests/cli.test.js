@@ -70,14 +70,14 @@ test('update preserves project overrides, config and AGENTS appendix', () => {
   run('init', ['--adapters', 'java-spring']);
   fs.appendFileSync(path.join(project, 'AGENTS.md'), '\nLocal appendix\n');
   write('.harness/local.md', 'Custom policy'); write('openspec/config.yaml', 'schema: spec-driven\ncontext: Custom\n');
-  bump('0.4.0'); run('update'); run('check');
+  bump('0.6.0'); run('update'); run('check');
   assert.ok(fs.readFileSync(path.join(project, 'AGENTS.md'), 'utf8').endsWith('\nLocal appendix\n'));
   assert.equal(fs.readFileSync(path.join(project, '.harness/local.md'), 'utf8'), 'Custom policy');
   assert.match(fs.readFileSync(path.join(project, 'openspec/config.yaml'), 'utf8'), /Custom/);
 });
 test('changed payload blocks check and update before writing', () => {
   run(); fs.appendFileSync(path.join(project, '.harness/core/rules/context.md'), '\nCustom\n');
-  const before = snapshot(); bump('0.4.0'); run('update', [], 1); run('check', [], 1);
+  const before = snapshot(); bump('0.6.0'); run('update', [], 1); run('check', [], 1);
   assert.deepEqual(snapshot(), before);
 });
 test('edited managed AGENTS block is detected', () => {
@@ -195,7 +195,7 @@ test('real Python 0.1 fixture checks and upgrades preserving project content', (
   for (const [name, content] of Object.entries(fixture.files)) write(name, content);
   assert.equal(run('check').version, '0.1.0');
   const local = fs.readFileSync(path.join(project, '.harness/local.md'));
-  run('update'); assert.equal(run('check').version, '0.4.0');
+  run('update'); assert.equal(run('check').version, '0.5.0');
   assert.ok(fs.readFileSync(path.join(project, '.harness/local.md')).equals(local));
   const agents = fs.readFileSync(path.join(project, 'AGENTS.md'), 'utf8');
   assert.ok(agents.startsWith('# Existing project\n')); assert.ok(agents.endsWith('Keep this appendix.\n'));
