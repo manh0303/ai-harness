@@ -3,7 +3,7 @@
 Framework tái sử dụng để hướng dẫn AI làm việc theo **Spec → Code → Test → Review** trong nhiều dự án.
 Core dùng chung; adapter chứa quy chuẩn công nghệ; CLI cài một bản có version vào từng repository.
 
-**Trạng thái:** 0.6.0 candidate; 5 adapters, 3 optional capabilities, 42 skills và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
+**Trạng thái:** 0.6.0 candidate; 6 adapters, 3 optional capabilities, 48 skills và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
 Gói `@manh0303/ai-harness` chưa phát hành lên npm registry; hiện cài từ repository private hoặc tarball.
 Harness không tự gọi LLM, không tự sinh ứng dụng, không tạo agent runtime, không tự merge/deploy.
 Các role/skill hướng dẫn assistant đang dùng; quyền thực tế do IDE/runtime, Git và CI kiểm soát.
@@ -15,15 +15,15 @@ Nếu lần đầu sử dụng, đọc theo thứ tự: **Cài → Product/BA/PO
 - **[Getting started](docs/getting-started.md)** — cài CLI, chọn module, tạo change và kiểm tra.
 - **[Hai luồng tài liệu](docs/documentation-workflows.md)** — idea-driven và document-driven, lưu trữ, version và handoff.
 - **[Full SDLC: Idea → Production](docs/end-to-end-workflow.md)** — input/output, approval gate, cách phối hợp capabilities/adapters.
-- **[Ma trận 42 skills](docs/skill-matrix.md)** — tra cứu skills theo stage/công nghệ và ID thật.
+- **[Ma trận 48 skills](docs/skill-matrix.md)** — tra cứu skills theo stage/công nghệ và ID thật.
 - **[Agent handoffs](docs/agent-handoffs.md)** — roles, trách nhiệm, ownership, evidence và bàn giao.
-- **Walkthrough:** [Spring Boot API](docs/examples/spring-boot-api.md) · [Full-stack Next.js + Spring](docs/examples/fullstack-web.md) · [React Native](docs/examples/react-native-app.md) · [Python AI/RAG](docs/examples/ai-rag-service.md).
+- **Walkthrough:** [Spring Boot API](docs/examples/spring-boot-api.md) · [Full-stack Next.js + Spring](docs/examples/fullstack-web.md) · [React Native](docs/examples/react-native-app.md) · [Python AI/RAG](docs/examples/ai-rag-service.md) · [Astro micro-tools](docs/examples/astro-micro-tools.md).
 
 Harness cung cấp hướng dẫn cho AI runtime, **không** tự điều phối AI agent, tạo code, chạy test, merge hay deploy.
 
 ## Bắt đầu
 
-**Nếu muốn thử tính năng trong PR #10 khi chưa merge**, checkout branch `feat/documentation-discovery-v0.7` trước `npm pack` và lưu ý package vẫn hiển thị version 0.6.0. Sau merge, dùng commit/tag được review trên main. Dùng branch này chỉ để review/test, không xem đây là npm release.
+**Để thử adapter Astro trước khi PR được merge**, checkout branch `feat/astro-lightweight-adapter` trước `npm pack`. Sau merge, ưu tiên commit/tag chính thức đã review. CLI vẫn báo 0.6.0 vì adapter mới chưa được phát hành qua release PR riêng.
 
 Cài từ source đã review bằng tài khoản có quyền repository private:
 
@@ -31,7 +31,7 @@ Cài từ source đã review bằng tài khoản có quyền repository private:
 git clone git@github.com:manh0303/ai-harness.git
 cd ai-harness
 # Nếu thử các tính năng chưa merge trong PR #10:
-git switch feat/documentation-discovery-v0.7
+git switch feat/astro-lightweight-adapter
 # Sau khi merge, ưu tiên tag/commit đã review thay vì feature branch.
 npm pack
 npm install -g ./manh0303-ai-harness-0.6.0.tgz
@@ -97,6 +97,25 @@ Dự án đã cài đặt cần sửa `.harness/project.json`, bổ sung `produc
 CLI chỉ tạo **bản mẫu** khi dùng `new-doc`. Việc phân tích và điền nội dung cần
 AI runtime có quyền đọc nguồn, kiểm tra bằng chứng và được BA/PM/PO phê duyệt.
 Xem [Product capability](capabilities/product/README.md).
+
+## Astro cho micro-tools, React Islands và Cloudflare
+
+Chọn [adapter Astro](adapters/astro/README.md) nếu bạn làm trang công cụ nhỏ, SEO landing page hoặc portfolio nhiều utilities. **Static-first:** TypeScript/browser xử lý trước; React Islands chỉ cho UI tương tác; Cloudflare Workers/API và MFE chỉ khi có nhu cầu thực. Astro Islands không phải các micro frontend deploy độc lập. Xem [walkthrough đầy đủ](docs/examples/astro-micro-tools.md).
+
+```bash
+cd /path/to/existing-astro-project
+aih resolve --adapters astro --capabilities product,uiux
+aih init --adapters astro --capabilities product,uiux --dry-run
+aih init --adapters astro --capabilities product,uiux
+aih check
+aih skills
+aih skill harness-astro-project-architecture
+aih skill harness-astro-islands
+aih skill harness-astro-cloudflare
+aih verify --scope all  # advisory; không tự chạy build/deploy
+```
+
+Không bắt buộc Product/UIUX; nếu chỉ cần code, dùng `aih init --adapters astro`. Trong dự án đã cài Harness: sửa `.harness/project.json` và chạy `aih update --dry-run`, `aih update`, `aih check`. `aih detect` nhận diện `astro` từ `package.json`; `react-dom` vì React Islands không tự khiến CLI cài `react-nextjs` trừ khi dự án còn dùng `next`. CLI chỉ cài rules/skills, **không** tạo Astro app, cài React hay deploy lên Cloudflare.
 
 ## Optional UI/UX capability
 
@@ -165,6 +184,7 @@ Chế độ mặc định không có `--scope` vẫn chỉ gồm adapters. Found
 | --- | --- |
 | Java / Spring Boot | `java-spring` |
 | React hoặc Next.js | `react-nextjs` |
+| Astro micro-tools / static SEO | `astro` |
 | React Native / Expo | `react-native` |
 | Python AI, agent hoặc RAG | `ai-python` |
 | Kubernetes / Helm workloads | `kubernetes` |
@@ -272,6 +292,7 @@ Dự án được cấp phép theo [MIT License](LICENSE) — cho phép sử d�
 - [Documentation workflows](docs/documentation-workflows.md)
 - [Walkthrough Idea-driven](docs/examples/idea-driven-project.md)
 - [Walkthrough Document-driven](docs/examples/document-driven-project.md)
+- [Astro micro-tool walkthrough](docs/examples/astro-micro-tools.md)
 - [Full SDLC](docs/end-to-end-workflow.md)
 - [Skill matrix](docs/skill-matrix.md)
 - [Agent handoffs](docs/agent-handoffs.md)
