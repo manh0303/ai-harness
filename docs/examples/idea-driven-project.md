@@ -11,6 +11,8 @@ mkdir expense-app
 cd expense-app
 git init
 aih init --capabilities product
+aih new-doc idea
+aih new-doc decision-log
 aih check
 aih skills
 aih skill harness-product-idea-discovery
@@ -25,12 +27,11 @@ Dán prompt này vào AI host có quyền đọc repository (hoặc thảo luậ
 
 > Đọc AGENTS.md và skill harness-product-idea-discovery đã cài. Ý tưởng ban đầu của tôi: “Ứng dụng quản lý chi tiêu cá nhân cho phép nhập giao dịch, AI đề xuất phân loại, có báo cáo theo tháng”. Hãy giữ nguyên ý tưởng gốc, đóng vai BA/PM/PO và thảo luận từng nhóm vấn đề quan trọng với tôi. Đề xuất user personas, MVP, non-goals và trade-off; không tự cho rằng các đề xuất là quyết định của tôi. Phân biệt FACT / INFERENCE / DECISION / UNKNOWN. Chưa code hay tự duyệt scope.
 
-Sau mỗi vòng thảo luận, AI host cập nhật `docs/discovery/idea.md` và `docs/product/decision-log.md` (nếu được cấp quyền). Bạn là người chốt mục tiêu và MVP, không cần có BA/PM/PO riêng cho dự án cá nhân.
+Sau mỗi vòng thảo luận, AI host cập nhật các file đã tạo trước đó: `docs/discovery/idea.md` và `docs/product/decision-log.md` (nếu được cấp quyền). Bạn là người chốt mục tiêu và MVP, không cần có BA/PM/PO riêng cho dự án cá nhân.
 
 ## 3. Tạo draft tài liệu có cấu trúc
 
 ```bash
-aih new-doc idea
 aih new-doc research
 aih new-doc prd-lite
 aih new-doc acceptance-criteria
@@ -38,7 +39,7 @@ aih new-doc traceability
 aih check
 ```
 
-Các lệnh chỉ chạy **một lần trên mỗi file** và sẽ từ chối ghi đè. Khi đã có file, AI host điền nội dung vào đúng file dựa trên thảo luận, không chạy lại `new-doc`.
+`idea.md` và `decision-log.md` đã tạo tại bước 1; không chạy lại. Các lệnh chỉ chạy **một lần trên mỗi file** và sẽ từ chối ghi đè. Khi đã có file, AI host điền nội dung vào đúng file dựa trên thảo luận, không chạy lại `new-doc`.
 
 Prompt mẫu:
 
