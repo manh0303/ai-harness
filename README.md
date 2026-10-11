@@ -4,7 +4,7 @@ Framework tái sử dụng để hướng dẫn AI làm việc theo **Spec → C
 Core dùng chung; adapter chứa quy chuẩn công nghệ; CLI cài một bản có version vào từng repository.
 
 **Trạng thái:** 0.6.0 candidate; 6 adapters, 4 optional capabilities, 53 skills và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
-Gói `@manh0303/ai-harness` chưa phát hành lên npm registry; hiện cài từ repository private hoặc tarball.
+Gói `@manhd_d/ai-harness` chưa phát hành lên npm registry; hiện cài từ repository private hoặc tarball.
 Harness không tự gọi LLM, không tự sinh ứng dụng, không tạo agent runtime, không tự merge/deploy.
 Các role/skill hướng dẫn assistant đang dùng; quyền thực tế do IDE/runtime, Git và CI kiểm soát.
 
@@ -34,7 +34,7 @@ cd ai-harness
 git switch feat/astro-lightweight-adapter
 # Sau khi merge, ưu tiên tag/commit đã review thay vì feature branch.
 npm pack
-npm install -g ./manh0303-ai-harness-0.6.0.tgz
+npm install -g ./manhd_d-ai-harness-0.6.0.tgz
 
 cd /path/to/my-backend
 aih init --adapters java-spring --dry-run
@@ -47,8 +47,8 @@ Sau khi cài, dùng `aih` từ bất kỳ repository ứng dụng nào. Đích m
 `--target /path/to/project` vẫn được hỗ trợ. Thư mục đích phải tồn tại.
 `aih --help` xem lệnh, `aih --version` xem phiên bản công cụ.
 
-Khi chủ sở hữu đã phát hành npm package và cấp quyền, cách cài sẽ là
-`npm install -g @manh0303/ai-harness@0.6.0`. **Lệnh registry này chưa dùng được chỉ vì PR đã merge.**
+Khi chủ sở hữu đã phát hành npm package công khai, cách cài sẽ là
+`npm install -g @manhd_d/ai-harness@0.6.0`. **Lệnh registry này chưa dùng được chỉ vì PR đã merge.**
 Có thể cài tarball vào devDependencies rồi dùng `npx --no-install aih init` nếu không muốn cài global.
 Xem [hướng dẫn đóng gói/phát hành](docs/npm-release.md).
 
@@ -304,7 +304,7 @@ Test CLI pass không có nghĩa đã chạy Spring/Next/native build hay live ev
 
 ## License
 
-Dự án được cấp phép theo [MIT License](LICENSE) — cho phép sử dụng, sửa đổi và phân phối (kể cả thương mại) theo các điều kiện trong giấy phép. Repository vẫn **private** và package npm vẫn ở chế độ `restricted`; việc thêm license không tự thay đổi quyền truy cập hoặc phát hành package.
+Dự án được cấp phép theo [MIT License](LICENSE) — cho phép sử dụng, sửa đổi và phân phối (kể cả thương mại) theo các điều kiện trong giấy phép. Repository vẫn **private** và package npm đã cấu hình `public`; việc thêm license không tự thay đổi quyền truy cập hoặc phát hành package.
 
 ## Tài liệu
 

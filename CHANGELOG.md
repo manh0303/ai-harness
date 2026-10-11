@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased — npm public release setup
+- Align public npm package scope `@manhd_d/ai-harness` and lockfile while GitHub repository stays private under `manh0303`.
+- Add explicit GitHub Release-triggered npm OIDC publishing, tag/version checks, package tests and maintainer-controlled first publication.
+
 ## Unreleased — Optional monetization capability
 - Add stack-independent `monetization` capability with five instruction skills (AdSense integration, safe ad placement, SEO growth, analytics/revenue, publisher compliance), two review-gated workflows, four project-owned Markdown templates, four advisory checks and four synthetic evaluation cases.
 - Document owner-approved ads.txt/publisher account information, EEA/UK/Swiss consent/CMP review, invalid traffic safeguards and evidence-labeled Page RPM scenarios; no guarantees of approval, clicks, ranking or earnings.

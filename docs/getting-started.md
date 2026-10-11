@@ -6,11 +6,11 @@ AI Harness phân phối **rules, role contracts, skills và workflows** tới re
 
 ## 1. Chuẩn bị
 
-- Node.js >=22, Git, npm và quyền đọc repository private `manh0303/ai-harness`.
+- Node.js >=22, Git và npm (cần quyền repository private chỉ khi cài từ source).
 - Một **repository ứng dụng đã tồn tại** và AI IDE/assistant có thể đọc file trong repository đó.
 - Chỉ kết nối GitHub, Confluence, Figma hay nền tảng khác trong AI host khi cần, theo quyền đã phê duyệt.
 - **OpenSpec CLI là tùy chọn**: `aih new-change` tạo bản nháp offline, còn `openspec validate` cần OpenSpec CLI cài riêng. Xem [OpenSpec](openspec.md).
-- Bản nguồn hiện tại là candidate; chưa mặc định có một bản `@manh0303/ai-harness` được phát hành trên npm registry. Xem [npm release](npm-release.md).
+- Bản nguồn hiện tại là candidate; chưa mặc định có một bản `@manhd_d/ai-harness` được phát hành trên npm registry. Xem [npm release](npm-release.md).
 
 ## 2. Cài một lần từ source đã review
 
@@ -24,11 +24,11 @@ npm test
 npm run validate
 npm run test:package
 npm pack
-npm install -g ./manh0303-ai-harness-0.6.0.tgz
+npm install -g ./manhd_d-ai-harness-0.6.0.tgz
 aih --version
 ~~~
 
-Nếu package đã được publish và bạn có quyền truy cập thì có thể cài qua registry; **đừng coi lệnh cài registry là dùng được trước khi xác minh việc phát hành**. Cài bộ `aih` không tự cài OpenSpec hay dependency Spring/React/Python cho ứng dụng.
+Nếu package đã được publish công khai thì có thể cài bằng `npm install -g @manhd_d/ai-harness`; **đừng coi lệnh cài registry là dùng được trước khi xác minh việc phát hành**. Cài bộ `aih` không tự cài OpenSpec hay dependency Spring/React/Python cho ứng dụng.
 
 ## 3. Cài Harness vào repository ứng dụng
 
