@@ -3,7 +3,7 @@
 Framework tái sử dụng để hướng dẫn AI làm việc theo **Spec → Code → Test → Review** trong nhiều dự án.
 Core dùng chung; adapter chứa quy chuẩn công nghệ; CLI cài một bản có version vào từng repository.
 
-**Trạng thái:** 0.6.0 candidate; 5 adapters, 3 optional capabilities, 38 skills và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
+**Trạng thái:** 0.6.0 candidate; 5 adapters, 3 optional capabilities, 42 skills và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
 Gói `@manh0303/ai-harness` chưa phát hành lên npm registry; hiện cài từ repository private hoặc tarball.
 Harness không tự gọi LLM, không tự sinh ứng dụng, không tạo agent runtime, không tự merge/deploy.
 Các role/skill hướng dẫn assistant đang dùng; quyền thực tế do IDE/runtime, Git và CI kiểm soát.
@@ -14,7 +14,7 @@ Nếu lần đầu sử dụng, đọc theo thứ tự: **Cài → Product/BA/PO
 
 - **[Getting started](docs/getting-started.md)** — cài CLI, chọn module, tạo change và kiểm tra.
 - **[Full SDLC: Idea → Production](docs/end-to-end-workflow.md)** — input/output, approval gate, cách phối hợp capabilities/adapters.
-- **[Ma trận 38 skills](docs/skill-matrix.md)** — tra cứu skills theo stage/công nghệ và ID thật.
+- **[Ma trận 42 skills](docs/skill-matrix.md)** — tra cứu skills theo stage/công nghệ và ID thật.
 - **[Agent handoffs](docs/agent-handoffs.md)** — roles, trách nhiệm, ownership, evidence và bàn giao.
 - **Walkthrough:** [Spring Boot API](docs/examples/spring-boot-api.md) · [Full-stack Next.js + Spring](docs/examples/fullstack-web.md) · [React Native](docs/examples/react-native-app.md) · [Python AI/RAG](docs/examples/ai-rag-service.md).
 
@@ -49,9 +49,24 @@ Xem [hướng dẫn đóng gói/phát hành](docs/npm-release.md).
 
 Đây là cài **quy trình và context**, không scaffold source code Spring/React và không sửa build file.
 
+## Two documentation inputs — Idea-driven / Document-driven
+
+AI Harness supports two paths that converge on approved requirements → OpenSpec → code. **Idea-driven:** developer idea → discussion + authorized research → draft PRD-lite or BRD/PRD/SRS/use cases. **Document-driven:** existing BA/Confluence/BRD/PRD/SRS → versioned source inventory, gaps and traceability → engineering; do not replace approved BA source. Both paths can coexist, with a human approval gate before treating generated requirements as authoritative.
+
+See [Documentation workflows](docs/documentation-workflows.md) and [Confluence integration contract](integrations/confluence/README.md). `aih` only creates templates and ships instructions; AI host handles research/content, and external publishing requires independently authorized tooling.
+
+```bash
+aih init --capabilities product
+aih new-doc idea       # docs/discovery/idea.md
+aih new-doc research   # docs/discovery/research.md
+aih new-doc prd-lite   # docs/product/prd-lite.md
+aih new-doc srs        # docs/product/srs.md
+aih new-doc use-cases  # docs/product/use-cases.md
+```
+
 ## Product documentation capability — BA / PM / PO
 
-Capability `product` cung cấp 5 role contracts, 9 skills, 3 workflows và 11 templates
+Capability `product` cung cấp 5 role contracts, 13 skills, 5 workflows và 16 templates
 để chuyển ý tưởng hoặc nguồn Confluence được cấp quyền thành BRD, PRD, user stories,
 acceptance criteria và requirement traceability. Mọi tài liệu hoàn thiện là dữ liệu
 **do dự án sở hữu**, nằm trong `docs/product/` của repository ứng dụng.
@@ -249,6 +264,7 @@ Dự án được cấp phép theo [MIT License](LICENSE) — cho phép sử d�
 ## Tài liệu
 
 - [Getting started](docs/getting-started.md)
+- [Documentation workflows](docs/documentation-workflows.md)
 - [Full SDLC](docs/end-to-end-workflow.md)
 - [Skill matrix](docs/skill-matrix.md)
 - [Agent handoffs](docs/agent-handoffs.md)
