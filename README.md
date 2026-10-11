@@ -3,8 +3,8 @@
 Framework tái sử dụng để hướng dẫn AI làm việc theo **Spec → Code → Test → Review** trong nhiều dự án.
 Core dùng chung; adapter chứa quy chuẩn công nghệ; CLI cài một bản có version vào từng repository.
 
-**Trạng thái:** 0.6.0 candidate; 6 adapters, 4 optional capabilities, 53 skills và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
-Gói `@manhd_d/ai-harness` chưa phát hành lên npm registry; hiện cài từ repository private hoặc tarball.
+**Trạng thái:** `@manhd_d/ai-harness@0.6.0` đã phát hành công khai; bản source trên main có thể chứa thay đổi chưa release. CLI hỗ trợ Node.js 22+, 6 adapters, 4 optional capabilities và 53 skills, không cần Python hay dependency runtime ngoài.
+Cài từ npm Registry bằng `npm install -g @manhd_d/ai-harness`; GitHub repository `manh0303/ai-harness` vẫn private.
 Harness không tự gọi LLM, không tự sinh ứng dụng, không tạo agent runtime, không tự merge/deploy.
 Các role/skill hướng dẫn assistant đang dùng; quyền thực tế do IDE/runtime, Git và CI kiểm soát.
 
@@ -23,7 +23,7 @@ Harness cung cấp hướng dẫn cho AI runtime, **không** tự điều phối
 
 ## Bắt đầu
 
-**Để thử adapter Astro trước khi PR được merge**, checkout branch `feat/astro-lightweight-adapter` trước `npm pack`. Sau merge, ưu tiên commit/tag chính thức đã review. CLI vẫn báo 0.6.0 vì adapter mới chưa được phát hành qua release PR riêng.
+Nếu muốn thử thay đổi trong PR chưa merge, checkout đúng branch đã review trước `npm pack`. Người dùng thông thường nên cài bản npm được phát hành và chỉ cập nhật snapshot sau khi review.
 
 Cài từ source đã review bằng tài khoản có quyền repository private:
 
@@ -47,8 +47,7 @@ Sau khi cài, dùng `aih` từ bất kỳ repository ứng dụng nào. Đích m
 `--target /path/to/project` vẫn được hỗ trợ. Thư mục đích phải tồn tại.
 `aih --help` xem lệnh, `aih --version` xem phiên bản công cụ.
 
-Khi chủ sở hữu đã phát hành npm package công khai, cách cài sẽ là
-`npm install -g @manhd_d/ai-harness@0.6.0`. **Lệnh registry này chưa dùng được chỉ vì PR đã merge.**
+Cài bản đã phát hành từ npm bằng `npm install -g @manhd_d/ai-harness@0.6.0`; hoặc bỏ `@0.6.0` để lấy bản `latest` sau khi xác minh registry.
 Có thể cài tarball vào devDependencies rồi dùng `npx --no-install aih init` nếu không muốn cài global.
 Xem [hướng dẫn đóng gói/phát hành](docs/npm-release.md). Từ các phiên bản sau v0.6.0, Release Please tự đề xuất Release PR; sau khi bạn review/merge, GitHub Actions tự tạo tag/release và publish npm bằng OIDC trong workflow `npm-publish.yml` (không cần token/OTP).
 
@@ -196,7 +195,7 @@ aih verify --scope all     # checklist tư vấn, không chạy
 aih eval --scope all       # báo cáo chưa chấm, không gọi model
 ```
 
-Chế độ mặc định không có `--scope` vẫn chỉ gồm adapters. Foundation Hardening đã có trong source; đây vẫn là source candidate, chưa chứng minh npm registry có bản phát hành. Xem [release policy](docs/release-policy.md).
+Chế độ mặc định không có `--scope` vẫn chỉ gồm adapters. Foundation Hardening đã có trong source; người dùng registry cần kiểm tra version đã phát hành bằng `npm view @manhd_d/ai-harness version` để không nhầm với thay đổi mới chưa phát hành. Xem [release policy](docs/release-policy.md).
 
 ## Chọn adapter
 

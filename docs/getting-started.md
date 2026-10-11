@@ -10,7 +10,7 @@ AI Harness phân phối **rules, role contracts, skills và workflows** tới re
 - Một **repository ứng dụng đã tồn tại** và AI IDE/assistant có thể đọc file trong repository đó.
 - Chỉ kết nối GitHub, Confluence, Figma hay nền tảng khác trong AI host khi cần, theo quyền đã phê duyệt.
 - **OpenSpec CLI là tùy chọn**: `aih new-change` tạo bản nháp offline, còn `openspec validate` cần OpenSpec CLI cài riêng. Xem [OpenSpec](openspec.md).
-- Bản nguồn hiện tại là candidate; chưa mặc định có một bản `@manhd_d/ai-harness` được phát hành trên npm registry. Xem [npm release](npm-release.md).
+- Bản npm public `@manhd_d/ai-harness@0.6.0` đã phát hành thủ công. Các phiên bản kế tiếp được đề xuất bằng Release Please và phát hành sau khi duyệt Release PR; xem [npm release](npm-release.md).
 
 ## 2. Cài một lần từ source đã review
 
@@ -28,7 +28,7 @@ npm install -g ./manhd_d-ai-harness-0.6.0.tgz
 aih --version
 ~~~
 
-Nếu package đã được publish công khai thì có thể cài bằng `npm install -g @manhd_d/ai-harness`; **đừng coi lệnh cài registry là dùng được trước khi xác minh việc phát hành**. Cài bộ `aih` không tự cài OpenSpec hay dependency Spring/React/Python cho ứng dụng.
+Có thể cài bản public bằng `npm install -g @manhd_d/ai-harness`; dùng `npm view @manhd_d/ai-harness version` để xác nhận version mới nhất trước khi cài. Cài bộ `aih` không tự cài OpenSpec hay dependency Spring/React/Python cho ứng dụng.
 
 ## 3. Cài Harness vào repository ứng dụng
 

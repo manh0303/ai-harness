@@ -1,7 +1,7 @@
 # Versioning and migration
 
 Framework version is in harness.yaml and package.json; keep both and package-lock.json synchronized. Use three-part SemVer releases and Git tags vX.Y.Z after review.
-0.6.0 is a DevOps/Kubernetes candidate (0.5.0 added the Product documentation capability), not a claim of a registry publication or Git tag. Do not publish from a feature PR.
+0.6.0 was initially published manually to npm. Future versions are prepared by Release Please after human PR review; do not publish directly from a feature PR.
 
 - Patch: compatible corrections to instructions or installer defects.
 - Minor: backward-compatible adapter, skill or CLI additions.
@@ -84,8 +84,8 @@ Do not treat raw Confluence data, drafts or AI review as approved business decis
 
 ## 0.5 → 0.6 migration
 
-No new configuration/lock schema version: 0.5 Product templates, `aih new-doc`, UI/UX and all earlier adapter selections stay compatible. New DevOps and Kubernetes modules are opt-in. On a consumer branch, pin a reviewed 0.6 source/package, add `"devops"` to `.harness/project.json` capabilities and/or `"kubernetes"` to adapters, then run `aih update --dry-run`, `aih update` and `aih check`. Unmodified installed payload updates safely; any drift still blocks update. Application DevOps workflows remain instruction-only and do not deploy production workloads; a separate repository-level npm workflow publishes only after a human-approved GitHub Release.
+No new configuration/lock schema version: 0.5 Product templates, `aih new-doc`, UI/UX and all earlier adapter selections stay compatible. New DevOps and Kubernetes modules are opt-in. On a consumer branch, pin a reviewed 0.6 source/package, add `"devops"` to `.harness/project.json` capabilities and/or `"kubernetes"` to adapters, then run `aih update --dry-run`, `aih update` and `aih check`. Unmodified installed payload updates safely; any drift still blocks update. Application DevOps workflows remain instruction-only and do not deploy production workloads; a separate repository-level npm workflow publishes only after a human-approved Release Please PR creates a tagged GitHub Release.
 
 ## Foundation hardening (unreleased after 0.6)
 
-Module contracts gain optional version and dependency fields without changing config/lock schema 1. Existing consumer snapshots retain default adapter-only verify/eval. After a reviewed update, `--scope all` enables locked Core/capability/composition evaluation, and `--scope core` works in core-only projects. Feature branches retain distribution version 0.6.0; release PR chooses the next number. Use tagged releases for other consumers rather than interpreting an unreleased commit as a published update.
+Module contracts gain optional version and dependency fields without changing config/lock schema 1. Existing consumer snapshots retain default adapter-only verify/eval. After a reviewed update, `--scope all` enables locked Core/capability/composition evaluation, and `--scope core` works in core-only projects. Feature branches keep the latest release version; Release Please's generated PR chooses and synchronizes the next number. Use tagged releases for other consumers rather than interpreting an unreleased commit as a published update.
