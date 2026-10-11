@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
+import { hasReleaseHeading } from './release-heading.js';
 import path from 'node:path';
 import { SOURCE, VERSION, manifest, readJson } from '../cli/files.js';
 import { listCapabilities } from '../cli/capabilities.js';
@@ -15,9 +16,7 @@ if (pkg.publishConfig?.access !== 'public') throw new Error('npm distribution mu
 const releaseManifest = readJson(path.join(SOURCE, '.release-please-manifest.json'));
 if (releaseManifest['.'] !== versions[0]) throw new Error('Release Please manifest version mismatch');
 const changelog = fs.readFileSync(path.join(SOURCE, 'CHANGELOG.md'), 'utf8');
-const escapedVersion = versions[0].replace(/\./g, '\\.');
-const releaseHeading = new RegExp('^##\\s+\\[?v?' + escapedVersion + '\\]?(?:\\s|\\(|—|$)', 'm');
-if (!releaseHeading.test(changelog)) throw new Error('Distribution version missing from CHANGELOG');
+if (!hasReleaseHeading(changelog, versions[0])) throw new Error('Distribution version missing from CHANGELOG');
 const modules = [...listAdapters(SOURCE).adapters, ...listCapabilities(SOURCE)];
 for (const mod of modules) if (mod.module_version != null && !VERSION.test(mod.module_version)) {
   throw new Error(`Invalid module version: ${mod.id}`);
