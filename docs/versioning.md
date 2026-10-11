@@ -68,3 +68,12 @@ check on a branch. Existing adapters, local overrides, old OpenSpec changes and 
 content outside markers remain preserved. Unmodified deselected capability files may be
 removed through update; edited managed files block changes. This is a monorepo single-package
 release, not remote lazy downloads. Figma/Confluence accounts are not configured by CLI.
+
+## 0.4 → 0.5 migration
+
+Installed project config and lock remain schema 1. `product` is opt-in for new
+or already-installed consumers. Existing UI/UX capability metadata remains valid;
+Product additionally declares optional validated agents/templates lists. Review
+`aih update --dry-run` before update. Generated `docs/product/` drafts from
+`aih new-doc` are project-owned, never managed or removed by subsequent updates.
+Do not treat raw Confluence data, drafts or AI review as approved business decisions.
