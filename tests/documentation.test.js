@@ -72,3 +72,23 @@ test('DevOps README reflects unified advisory eval without claiming execution', 
   assert.match(doc, /--scope all/);
   assert.match(doc, /Neither command executes/);
 });
+
+test('Idea/document entry points and SRS are registered with real templates and appropriate storage', () => {
+  const product = loadCapability(SOURCE, 'product');
+  const workflowNames = ['workflows/idea-driven.md', 'workflows/document-driven.md'];
+  for (const workflow of workflowNames) assert.ok(product.workflows.includes(workflow));
+  for (const type of ['idea','research','prd-lite','srs','use-cases']) {
+    assert.ok(product.templates.includes(`templates/${type}.md`));
+    const body = read(`capabilities/product/templates/${type}.md`);
+    assert.match(body, /Status:/);
+    assert.match(body, /pending|draft/i);
+  }
+  const guide = read('docs/documentation-workflows.md');
+  for (const phrase of ['Idea-driven', 'Document-driven', 'docs/discovery/', 'docs/product/', 'Confluence']) {
+    assert.ok(guide.includes(phrase), 'Missing documentation topic: ' + phrase);
+  }
+  assert.ok(read('README.md').includes('docs/documentation-workflows.md'));
+  assert.ok(read('README.md').includes('integrations/confluence/README.md'));
+  assert.match(read('integrations/confluence/README.md'), /human approval/i);
+  assert.match(read('integrations/confluence/README.md'), /non-executable/i);
+});
