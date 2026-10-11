@@ -2,6 +2,13 @@
 
 AI Harness intentionally supports **two entry points feeding one engineering pipeline**. The Product capability supplies role contracts, skills and drafts to an authorized AI host; the `aih` CLI never performs conversations, web research, ingestion, writes to Confluence or automatic approval.
 
+## Bắt đầu nhanh — ví dụ đầy đủ
+
+- [Walkthrough A: Từ ý tưởng developer đến spec và PR](examples/idea-driven-project.md): lệnh CLI, prompt thảo luận/research, cách review và chuyển sang OpenSpec.
+- [Walkthrough B: Dự án có BRD/PRD/SRS của BA](examples/document-driven-project.md): đọc đúng nguồn, kiểm tra gap, tránh viết lại tài liệu chính thức và tạo OpenSpec theo approved AC.
+
+Để thử tài liệu chưa merge, cài CLI từ **branch PR #10 đã review** thay vì mặc định `main` (xem [Getting started](getting-started.md)).
+
 ## Mode A — Idea-driven (developer → BA/PM/PO)
 
 1. Install with `aih init --capabilities product` (add optional UI/UX/adapters only if needed).
