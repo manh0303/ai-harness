@@ -39,8 +39,8 @@ npm publish --access restricted
 ```
 
 `prepublishOnly` repeats verification before publication. Record the published version and tag the
-exact tested commit only after confirming success. A decision to distribute publicly requires owner
-approval and a licensing decision; do not change visibility as a workaround for access errors.
+exact tested commit only after confirming success. A decision to distribute publicly still requires owner approval; the code is MIT-licensed,
+but adding a license does not change repository visibility or npm publish access. Do not change visibility as a workaround for access errors.
 
 Once that release exists and the user has registry access:
 

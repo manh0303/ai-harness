@@ -12,6 +12,13 @@ try {
   if (m.version !== pkg.version) errors.push('package.json and harness.yaml versions differ');
   if (readJson(path.join(SOURCE, 'package-lock.json')).version !== pkg.version) errors.push('package-lock version mismatch');
   if (pkg.bin?.aih !== 'bin/aih.js') errors.push('aih executable missing');
+  if (pkg.license !== 'MIT' || readJson(path.join(SOURCE, 'package-lock.json')).packages?.['']?.license !== 'MIT') {
+    errors.push('npm license metadata must be MIT');
+  }
+  const licenseFile = path.join(SOURCE, 'LICENSE');
+  if (!fs.existsSync(licenseFile) || !fs.readFileSync(licenseFile, 'utf8').startsWith('MIT License\n')) {
+    errors.push('Missing or invalid MIT LICENSE file');
+  }
   if (Object.keys(pkg.dependencies ?? {}).length) errors.push('Runtime must remain dependency-free');
   const required = ['README.md', 'AGENTS.md', 'CHANGELOG.md', 'docs/architecture.md', 'docs/versioning.md',
     'core/rules/foundations.md', 'core/rules/context.md', 'core/policies/security.md', 'core/policies/permissions.md',
