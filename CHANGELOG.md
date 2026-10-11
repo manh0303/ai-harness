@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0 — DevOps capability and Kubernetes adapter candidate
+- Add optional DevOps capability with six namespaced skills and two review-gated release/incident workflows.
+- Add Kubernetes adapter with three skills, advisory manifest/Helm checks and two safety evaluation cases.
+- Preserve safe selective installation, lock-based integrity and human approvals for production changes.
+- Clarify that adapter verify/eval do not yet score capability workflows; no live deploy, npm publication or self-merge.
+
 ## 0.4.0 — modular UI/UX capability candidate
 - Add explicit `uiux` capability, six review-gated skills and document/idea-to-Figma workflows.
 - Add `aih init --capabilities uiux` independent from technology adapters; update selection through project.json.

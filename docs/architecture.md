@@ -68,3 +68,6 @@ the selected capability under `.harness/capabilities/<id>/` and exposes its skil
 skill after drift validation. The agent host controls actual skill activation and remote MCP.
 For package size, source npm distribution currently bundles all capabilities, but consumer
 snapshot and AI context are selective; split distributable packages only when size warrants it.
+
+## DevOps composition (0.5.0)
+The `devops` capability owns cross-stack delivery, infrastructure planning and SRE procedures; the `kubernetes` adapter owns manifest and Helm rules/checks. The existing selection/lock/skill discovery mechanism composes them without an orchestrator. Provider writes require separately configured integrations, runtime permissions and action-specific authorization. `verify/eval` remain adapter-focused.

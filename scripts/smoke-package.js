@@ -21,7 +21,7 @@ const npm = (args, cwd = SOURCE) => command(process.execPath, [npmCli, ...args],
 try {
   const packed = JSON.parse(npm(['pack', '--ignore-scripts', '--json', '--pack-destination', temp]))[0];
   const names = packed.files.map(f => f.path);
-  for (const required of ['bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
+  for (const required of ['bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'capabilities/devops/capability.json', 'adapters/kubernetes/adapter.yaml', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
   assert.ok(!names.some(n => /(^|\/)\.env(?:\.|$)/.test(n)));
@@ -35,8 +35,8 @@ try {
   assert.equal(run(['--version']).trim(), readJson(path.join(SOURCE, 'package.json')).version);
   JSON.parse(run(['init', '--adapters', 'java-spring,react-nextjs,react-native,ai-python']));
   assert.equal(JSON.parse(run(['check'])).status, 'ok');
-  assert.equal(JSON.parse(run(['list'])).adapters.length, 4);
-  assert.equal(JSON.parse(run(['list'])).capabilities.length, 1);
+  assert.equal(JSON.parse(run(['list'])).adapters.length, 5);
+  assert.equal(JSON.parse(run(['list'])).capabilities.length, 2);
   const uiuxTarget = path.join(temp, 'uiux project'); fs.mkdirSync(uiuxTarget);
   const uiuxOut = process.platform === 'win32'
     ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" init --capabilities uiux"`], uiuxTarget, { windowsVerbatimArguments: true })

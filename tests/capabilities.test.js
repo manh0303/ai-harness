@@ -42,7 +42,9 @@ function snapshot() {
 
 test('registered UI/UX capability has validated skills and two workflows', () => {
   const registered = listCapabilities(source);
-  assert.equal(registered.length, 1);
+  assert.equal(registered.length, 2);
+  assert.equal(registered.find(x => x.id === 'devops').skills.length, 6);
+  assert.equal(loadCapability(source, 'devops').workflows.length, 2);
   assert.equal(registered[0].id, 'uiux');
   assert.equal(registered[0].skills.length, 6);
   assert.equal(loadCapability(source, 'uiux').workflows.length, 2);
@@ -82,7 +84,7 @@ test('UI/UX combines with a stack adapter without installing unrelated adapters'
 
 test('list, skills and skill disclose metadata before locked full content', () => {
   run(['init', '--source', source, '--capabilities', 'uiux']);
-  assert.equal(run(['list', '--source', source]).capabilities.length, 1);
+  assert.equal(run(['list', '--source', source]).capabilities.length, 2);
   const before = snapshot(), result = run(['skills']);
   assert.equal(result.skills.length, 11);
   const entry = result.skills.find(s => s.name === 'harness-uiux-figma-design');
@@ -154,4 +156,32 @@ test('legacy lock and project config without capabilities remain compatible', ()
   run(['update', '--source', source]);
   assert.equal(run(['check']).status, 'ok');
   assert.deepEqual(h.loadLock(project).capabilities, []);
+});
+
+test('DevOps capability and Kubernetes adapter install together without external effects', () => {
+  run(['init', '--source', source, '--adapters', 'java-spring,kubernetes', '--capabilities', 'devops']);
+  assert.deepEqual(h.loadLock(project).adapters, ['java-spring', 'kubernetes']);
+  assert.deepEqual(h.loadLock(project).capabilities, ['devops']);
+  assert.ok(fs.existsSync(path.join(project, '.agents/skills/harness-devops-deployment/SKILL.md')));
+  assert.ok(fs.existsSync(path.join(project, '.agents/skills/harness-kubernetes-workload-review/SKILL.md')));
+  assert.ok(!fs.existsSync(path.join(project, '.harness/capabilities/uiux')));
+  assert.equal(run(['check']).status, 'ok');
+  assert.equal(run(['verify']).executed, false);
+  assert.ok(run(['eval']).dataset.cases.some(c => c.id === 'kubernetes/unsafe-rollout'));
+  const before = snapshot();
+  run(['skill', 'harness-devops-incident-response']);
+  assert.deepEqual(snapshot(), before);
+});
+
+test('DevOps can be removed and drift blocks updates', () => {
+  run(['init', '--source', source, '--capabilities', 'devops']);
+  const config = h.readJson(path.join(project, h.CONFIG));
+  config.capabilities = []; write(h.CONFIG, config);
+  run(['update', '--source', source]);
+  assert.ok(!fs.existsSync(path.join(project, '.agents/skills/harness-devops-ci-cd/SKILL.md')));
+  config.capabilities = ['devops']; write(h.CONFIG, config);
+  run(['update', '--source', source]); assert.equal(run(['check']).status, 'ok');
+  write('.harness/capabilities/devops/workflows/pr-to-production.md', 'tampered');
+  const before = snapshot(); run(['update', '--source', source], 1);
+  assert.deepEqual(snapshot(), before);
 });

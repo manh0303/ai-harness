@@ -3,7 +3,7 @@
 Framework tái sử dụng để hướng dẫn AI làm việc theo **Spec → Code → Test → Review** trong nhiều dự án.
 Core dùng chung; adapter chứa quy chuẩn công nghệ; CLI cài một bản có version vào từng repository.
 
-**Trạng thái:** 0.4.0 candidate, adapter + selective UI/UX capabilities và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
+**Trạng thái:** 0.5.0 candidate, adapter + selective UI/UX capabilities và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
 Gói `@manh0303/ai-harness` chưa phát hành lên npm registry; hiện cài từ repository private hoặc tarball.
 Harness không tự gọi LLM, không tự sinh ứng dụng, không tạo agent runtime, không tự merge/deploy.
 Các role/skill hướng dẫn assistant đang dùng; quyền thực tế do IDE/runtime, Git và CI kiểm soát.
@@ -18,7 +18,7 @@ cd ai-harness
 # Khi review PR này: git switch feat/adapter-capabilities
 # Sau merge: checkout commit/tag đã review để pin phiên bản.
 npm pack
-npm install -g ./manh0303-ai-harness-0.4.0.tgz
+npm install -g ./manh0303-ai-harness-0.5.0.tgz
 
 cd /path/to/my-backend
 aih init --adapters java-spring --dry-run
@@ -32,7 +32,7 @@ Sau khi cài, dùng `aih` từ bất kỳ repository ứng dụng nào. Đích m
 `aih --help` xem lệnh, `aih --version` xem phiên bản công cụ.
 
 Khi chủ sở hữu đã phát hành npm package và cấp quyền, cách cài sẽ là
-`npm install -g @manh0303/ai-harness@0.4.0`. **Lệnh registry này chưa dùng được chỉ vì PR đã merge.**
+`npm install -g @manh0303/ai-harness@0.5.0`. **Lệnh registry này chưa dùng được chỉ vì PR đã merge.**
 Có thể cài tarball vào devDependencies rồi dùng `npx --no-install aih init` nếu không muốn cài global.
 Xem [hướng dẫn đóng gói/phát hành](docs/npm-release.md).
 
@@ -68,6 +68,20 @@ aih check
 download độc lập: npm tarball vẫn chứa mọi capability, nhưng dự án chỉ nhận capability đã chọn.
 Xem [tài liệu capability](capabilities/uiux/README.md) và [quy trình docs-to-figma](capabilities/uiux/workflows/docs-to-figma.md).
 
+## DevOps capability + Kubernetes adapter
+
+DevOps chứa CI/CD, Docker, release, infrastructure review, observability và incident response. Kubernetes là adapter cho manifests/Helm/rollout. Có thể kết hợp:
+
+```bash
+aih init --adapters java-spring,kubernetes --capabilities devops
+aih skills
+aih skill harness-devops-deployment
+aih verify  # checklist tham khảo, không thực thi
+aih check
+```
+
+CLI không gọi CI, cluster API, cloud provider hay tự triển khai production. [Tài liệu DevOps](capabilities/devops/README.md).
+
 ## Chọn adapter
 
 | Dự án | `--adapters` |
@@ -76,6 +90,7 @@ Xem [tài liệu capability](capabilities/uiux/README.md) và [quy trình docs-t
 | React hoặc Next.js | `react-nextjs` |
 | React Native / Expo | `react-native` |
 | Python AI, agent hoặc RAG | `ai-python` |
+| Kubernetes / Helm workloads | `kubernetes` |
 | Full-stack trong cùng repository | `java-spring,react-nextjs` |
 | Chỉ core rules và workflow | Bỏ tùy chọn `--adapters` |
 
