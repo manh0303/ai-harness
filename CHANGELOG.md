@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased — Release validation compatibility
+- Accept Release Please's linked version headings for version 0.6.1 in both validation commands while retaining strict matching of the current distribution version.
+
 ## Unreleased — Release migration tests
 - Fix legacy upgrade tests to assert the current Harness source version rather than hardcoding 0.6.0, allowing Release Please version PRs to pass CI without weakening migration checks.
 

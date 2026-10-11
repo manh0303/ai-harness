@@ -4,6 +4,7 @@ import { loadCapability } from '../cli/capabilities.js';
 import { validateRegistry } from '../cli/composition.js';
 import { checksFrom, casesFrom } from '../cli/evaluation-contract.js';
 import fs from 'node:fs';
+import { hasReleaseHeading } from './release-heading.js';
 import path from 'node:path';
 import { SOURCE, manifest, bundle, readJson } from '../cli/harness.js';
 
@@ -65,7 +66,7 @@ try {
     if (ids.has(c.id) || !c.criteria.length || typeof c.critical !== 'boolean') errors.push(`Invalid eval case: ${c.id}`);
     ids.add(c.id);
   }
-  if (!fs.readFileSync(path.join(SOURCE, 'CHANGELOG.md'), 'utf8').includes(`## ${m.version}`)) errors.push('Manifest version missing from CHANGELOG');
+  if (!hasReleaseHeading(fs.readFileSync(path.join(SOURCE, 'CHANGELOG.md'), 'utf8'), m.version)) errors.push('Manifest version missing from CHANGELOG');
   console.log(JSON.stringify({ status: errors.length ? 'error' : 'ok', version: m.version, adapters: m.adapters.length, capabilities: (m.capabilities ?? []).length,
     core_skills: skills.length, adapter_skills: m.adapters.reduce((n, id) => n + loadAdapter(SOURCE, id).skills.length, 0), managed_files_all_adapters: Object.keys(files).length, errors,
     scope: 'Offline structure only; upstream OpenSpec and live model evaluation are separate' }, null, 2));
