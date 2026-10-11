@@ -17,7 +17,9 @@ AI Harness phân phối **rules, role contracts, skills và workflows** tới re
 ~~~bash
 git clone git@github.com:manh0303/ai-harness.git
 cd ai-harness
-# Kiểm tra checkout/commit đã review; không tự giả định main là release tag.
+# Để thử tính năng PR #10 chưa merge, checkout feature branch được review:
+git switch feat/documentation-discovery-v0.7
+# Sau khi merge, ưu tiên commit/tag chính thức đã review.
 npm test
 npm run validate
 npm run test:package
@@ -60,6 +62,13 @@ aih skills
 | Core-only | Không truyền adapters/capabilities |
 
 `aih detect` kiểm tra heuristic các file trực tiếp ở target, không tìm đệ quy monorepo. Với mỗi microservice/repository độc lập, cài riêng và chỉ chọn những module thực sự cần.
+
+## Hai hướng dẫn theo loại dự án
+
+- [Idea-driven — có ý tưởng và muốn AI cùng thảo luận, nghiên cứu, viết tài liệu](examples/idea-driven-project.md).
+- [Document-driven — có BRD/PRD/SRS từ BA, cần AI đưa vào phát triển phần mềm](examples/document-driven-project.md).
+
+**Lưu ý:** khi PR chứa tính năng chưa merge, cần checkout đúng branch/commit đã review trước khi `npm pack`; cài từ `main` không mặc định có các tính năng chỉ có trong PR.
 
 ## 4. Bắt đầu một thay đổi có traceability
 
