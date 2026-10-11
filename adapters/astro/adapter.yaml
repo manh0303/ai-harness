@@ -27,9 +27,5 @@
   ],
   "verification": "checks/verification.yaml",
   "evaluation": "evals/cases.json",
-  "module_version": "1.0.0",
-  "recommends": [
-    "capability:product",
-    "capability:uiux"
-  ]
+  "module_version": "1.0.0"
 }
