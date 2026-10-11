@@ -10,6 +10,8 @@ const m = manifest(SOURCE);
 const versions = [pkg.version, lock.version, lock.packages?.['']?.version, m.version];
 if (!versions.every(v => v === versions[0])) throw new Error('Distribution version mismatch: package.json, package-lock.json and harness.yaml');
 if (!VERSION.test(versions[0])) throw new Error('Invalid release semver');
+if (pkg.name !== '@manhd_d/ai-harness' || lock.name !== pkg.name || lock.packages?.['']?.name !== pkg.name) throw new Error('npm package name or scope mismatch');
+if (pkg.publishConfig?.access !== 'public') throw new Error('npm distribution must be public');
 if (!fs.readFileSync(path.join(SOURCE,'CHANGELOG.md'),'utf8').includes(`## ${versions[0]}`)) throw new Error('Distribution version missing from CHANGELOG');
 const modules = [...listAdapters(SOURCE).adapters, ...listCapabilities(SOURCE)];
 for (const mod of modules) if (mod.module_version != null && !VERSION.test(mod.module_version)) {

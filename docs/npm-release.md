@@ -1,63 +1,70 @@
 # npm installation and release
 
-Requires Node.js 22+ and npm. The proposed package name is `@manh0303/ai-harness`.
-This repository does not assert that the npm scope is owned or that the package is published.
-The repository remains private; publishConfig defaults to restricted access. No workflow publishes.
+The public npm package is `@manhd_d/ai-harness` (executable: `aih`). The private GitHub repository stays `manh0303/ai-harness`. Different npm and GitHub usernames are expected.
 
-## Install before registry publication
-From the reviewed checkout, run:
+**Changing this configuration and merging a PR does not publish a package.** Public npm publication makes every file inside the npm tarball publicly accessible, regardless of GitHub repository visibility.
 
-```bash
-npm test
-npm run validate
-npm run check:release
-npm run test:package
-npm pack
-npm install -g ./manh0303-ai-harness-0.6.0.tgz
-cd /path/to/existing-project
-aih init --adapters java-spring,react-nextjs
-aih check
-```
+## First publication: manual, maintainer-controlled
 
-The tarball contains the framework and no runtime dependencies; installing it requires no Python.
-For a project-local tool, use `npm install --save-dev /absolute/path/manh0303-ai-harness-0.6.0.tgz`,
-then `npx --no-install aih init`. Keep the tarball available to teammates/CI or replace the dependency
-with the eventual authenticated registry release. Do not commit a dependency pointing to your personal
-absolute filesystem path. A private registry requires its own authentication, separate from GitHub.
-
-## Maintainer release checklist
-After human review/merge, verify ownership of the npm scope and availability of restricted publishing
-for the selected account. If the scope changes, update package metadata, lockfile and examples together.
-Authenticate with npm interactively; never put tokens in this repository. Then:
+1. Confirm the verified npm account is `manhd_d`, with 2FA enabled, and the publishing machine uses the official npm registry.
+2. Merge the reviewed PR. Check out the approved `main` commit. Review `npm pack --dry-run` for secrets before sharing the archive.
+3. Run:
 
 ```bash
+git switch main
+git pull --ff-only
+npm login
 npm whoami
+npm config get registry
+npm ci --ignore-scripts --no-audit --no-fund
 npm test
 npm run validate
 npm run check:release
 npm run test:package
 npm pack --dry-run
-npm publish --access restricted
+npm publish --access public
+npm view @manhd_d/ai-harness version
 ```
 
-`prepublishOnly` repeats verification before publication. Record the published version and tag the
-exact tested commit only after confirming success. A decision to distribute publicly still requires owner approval; the code is MIT-licensed,
-but adding a license does not change repository visibility or npm publish access. Do not change visibility as a workaround for access errors.
+`npm whoami` must return `manhd_d`. The expected first package version is `0.6.0`, if the maintainer has approved that release and the version is not already published. Publishing may require browser/2FA confirmation. Never commit npm credentials or tokens.
 
-Once that release exists and the user has registry access:
+A successful publish is independently verifiable with `npm view`. You can add an annotated git tag `v0.6.0` to the exact commit afterwards, but **do not create/publish a GitHub Release for a version already published manually**.
+
+## Later releases: npm Trusted Publishing via GitHub Actions
+
+After the first successful manual publication, go to [npm](https://www.npmjs.com) → package `@manhd_d/ai-harness` → Settings → Trusted publishing and configure a GitHub Actions publisher:
+
+| Field | Value |
+| --- | --- |
+| GitHub user/organization | `manh0303` |
+| Repository | `ai-harness` |
+| Workflow file | `npm-publish.yml` |
+| Environment | Leave empty (workflow does not use an environment) |
+
+Select direct **npm publish** permissions if npm offers a stage-only option. Configure the trusted publisher shortly before the next release if npm applies an initial activation deadline. No long-lived `NPM_TOKEN` is required.
+
+For each subsequent version: use a dedicated release PR to update `package.json`, `package-lock.json`, `harness.yaml` and `CHANGELOG.md` together, run CI, review and merge. Create a tag `vX.Y.Z` at the tested main commit and **publish the corresponding GitHub Release**. Only this Release publication triggers `.github/workflows/npm-publish.yml`. The workflow checks that the commit is reachable from main, that the tag matches the package version, and that tests and tarball smoke checks pass before attempting OIDC-based publication.
+
+A private GitHub source repository does not support npm provenance attestation even though the public package can use OIDC. Do not enable npm provenance for this private repository. See [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/).
+
+## Local installation before npm publication
 
 ```bash
-npm install -g @manh0303/ai-harness@0.6.0
+npm pack
+npm install -g ./manhd_d-ai-harness-0.6.0.tgz
+aih --version
+```
+
+## Installation after verified npm publication
+
+```bash
+npm install -g @manhd_d/ai-harness
 aih --version
 cd /path/to/existing-project
-aih update --dry-run
-aih update
+aih init --adapters java-spring
 aih check
 ```
 
-Updating the global tool does not rewrite any consumer automatically. Review and commit each project's
-snapshot/lock changes on a branch. The CLI has no self-update or remote release lookup.
+Existing consumers can update the CLI with `npm update -g @manhd_d/ai-harness`. Use `aih update --dry-run`, `aih update`, `aih check` to update a consumer project's snapshot on a branch. CLI installation does not install OpenSpec, an AI runtime or application dependencies.
 
-## First-use documentation
-
-After installation, follow [Getting started](getting-started.md), [Full SDLC](end-to-end-workflow.md) and [Skill matrix](skill-matrix.md). npm distribution and CLI installation alone do not provide an AI runtime, OpenSpec CLI, Confluence/Figma access or deployment permissions.
+Read [Getting started](getting-started.md) and [Release policy](release-policy.md).

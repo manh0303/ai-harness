@@ -7,7 +7,7 @@ Distribution version is `harness.yaml` + `package.json` + `package-lock.json`. O
 2. Each module maintainer changes `module_version` only for real contract changes, describing compatibility impact in the PR.
 3. One **release PR** assigns the next distribution version, updates all three metadata files, and moves Unreleased notes into a version heading.
 4. Check CI on Linux/Windows and Node 22/24; run behavioral agent evaluations when instructions change, not just synthetic unit tests.
-5. A human merges the release PR, tags the reviewed commit and separately approves npm publication. No automatic merging or publishing.
+5. A human merges the release PR and separately approves npm publication: first version is manually published; subsequent versions require a human-published matching GitHub Release. No publishing merely on merge or tag.
 
 ## Compatibility
 - Existing schema-1 config and locks remain valid. Optional module contract fields are additive.

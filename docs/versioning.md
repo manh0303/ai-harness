@@ -20,7 +20,7 @@ See [release policy](release-policy.md) for independently versioned module contr
 2. Run structural validation and CLI tests on the supported Node.js 22/24 and OS matrix, including actual npm package smoke tests.
 3. Run the behavioral evaluation suite with the intended agent/model if prompts materially changed.
 4. Inspect the install/update diff in a sample consumer; document source commit and limitations.
-5. Merge by human decision, then tag the exact tested commit. No automatic merge/publish job is provided.
+5. Merge by human decision. First npm publication is manual. Subsequent releases use an approved GitHub Release triggering npm Trusted Publishing; merge or tag alone never publishes.
 
 ## Consumer update
 Create a branch, commit current state, obtain the reviewed source commit/tag and inspect CHANGELOG.
@@ -82,7 +82,7 @@ Do not treat raw Confluence data, drafts or AI review as approved business decis
 
 ## 0.5 → 0.6 migration
 
-No new configuration/lock schema version: 0.5 Product templates, `aih new-doc`, UI/UX and all earlier adapter selections stay compatible. New DevOps and Kubernetes modules are opt-in. On a consumer branch, pin a reviewed 0.6 source/package, add `"devops"` to `.harness/project.json` capabilities and/or `"kubernetes"` to adapters, then run `aih update --dry-run`, `aih update` and `aih check`. Unmodified installed payload updates safely; any drift still blocks update. Release workflows remain instruction-only, do not publish npm packages, create CI provider jobs or deploy production workloads.
+No new configuration/lock schema version: 0.5 Product templates, `aih new-doc`, UI/UX and all earlier adapter selections stay compatible. New DevOps and Kubernetes modules are opt-in. On a consumer branch, pin a reviewed 0.6 source/package, add `"devops"` to `.harness/project.json` capabilities and/or `"kubernetes"` to adapters, then run `aih update --dry-run`, `aih update` and `aih check`. Unmodified installed payload updates safely; any drift still blocks update. Application DevOps workflows remain instruction-only and do not deploy production workloads; a separate repository-level npm workflow publishes only after a human-approved GitHub Release.
 
 ## Foundation hardening (unreleased after 0.6)
 
