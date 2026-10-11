@@ -92,3 +92,23 @@ test('Idea/document entry points and SRS are registered with real templates and 
   assert.match(read('integrations/confluence/README.md'), /human approval/i);
   assert.match(read('integrations/confluence/README.md'), /non-executable/i);
 });
+
+test('end-to-end Idea and BA-document tutorials stay linked and actionable', () => {
+  const readme = read('README.md');
+  const guide = read('docs/documentation-workflows.md');
+  for (const name of ['idea-driven-project.md', 'document-driven-project.md']) {
+    const path = 'docs/examples/' + name;
+    const content = read(path);
+    assert.ok(readme.includes('](' + path + ')'), 'README must link ' + path);
+    assert.ok(guide.includes('](examples/' + name + ')'), 'Documentation guide must link ' + name);
+    assert.match(content, /aih init/);
+    assert.match(content, /aih new-doc/);
+    assert.match(content, /aih new-change/);
+    assert.match(content, /AGENTS\.md/);
+    assert.match(content, /review|approve|duyệt/i);
+    assert.match(content, /không tự|không thể|không cần/i);
+  }
+  const cli = read('docs/cli.md');
+  assert.match(cli, /docs\/discovery\//);
+  assert.match(cli, /docs\/product\//);
+});
