@@ -45,7 +45,13 @@ export function detect(root, source) {
     }
     if (evidence.length) matches.push({ id, evidence });
   }
-  return { status: 'ok', adapters: matches.map(m => m.id).sort(), matches,
+  // Astro can use @astrojs/react islands (react-dom dependency) without being a
+  // React/Next.js application. Suppress that heuristic-only overlap unless Next
+  // itself is present. Explicit adapter selection remains unrestricted.
+  const astroDetected = matches.some(match => match.id === 'astro');
+  const filtered = matches.filter(match => !(astroDetected && match.id === 'react-nextjs'
+    && !match.evidence.some(row => row.matched.includes('next'))));
+  return { status: 'ok', adapters: filtered.map(m => m.id).sort(), matches: filtered,
     note: 'Heuristic, current target only; review evidence. No recursive monorepo scan or application execution.' };
 }
 
