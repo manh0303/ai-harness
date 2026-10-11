@@ -33,7 +33,7 @@ Version: 0.1-draft | Status: pending-review | Owner: <developer>
 
 ## Handoff
 - Approved scope and decision record: pending
-- Link to detailed [PRD](prd.md), [SRS](srs.md), or OpenSpec changes only if they exist
+- Link to detailed `docs/product/prd.md`, `docs/product/srs.md`, or OpenSpec changes only if they exist
 - Tests and verification required:
 
 This compact document may replace a full BRD/PRD for small projects only by human choice. AI never self-approves.
