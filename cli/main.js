@@ -27,7 +27,7 @@ Options:
   --detect            init only: opt in to detected stack selection
   --scope <type>      verify/eval: adapters (default), capabilities, core, all
   --report <file>     eval only: score a reviewer-completed JSON report
-  --adapters <a,b>     init/resolve: java-spring,react-nextjs,react-native,ai-python,kubernetes
+  --adapters <a,b>     init/resolve: java-spring,react-nextjs,react-native,ai-python,kubernetes,astro
   --capabilities <a,b> init/resolve: uiux,product,devops
   --source <directory> init/update/list/detect/resolve: trusted alternate bundle directory
   --dry-run           init/update: preview without persistent changes
@@ -37,6 +37,7 @@ Options:
 
 Examples:
   aih init --adapters java-spring --capabilities uiux
+  aih init --adapters astro --capabilities product,uiux
   aih resolve --adapters java-spring,kubernetes --capabilities product,uiux,devops
   aih skills
   aih new-doc brd

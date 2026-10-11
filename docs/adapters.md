@@ -7,6 +7,7 @@ review and the general workflow. Adapter skills address technology-specific deci
 | --- | --- |
 | java-spring | Spring API, Kafka outbox, database migration |
 | react-nextjs | Accessible UI, server/client authorization and caching |
+| astro | Static-first micro-tools, islands, SEO, performance, Cloudflare and optional MFE migration |
 | react-native | Offline synchronization, permissions and deep links |
 | ai-python | RAG access filtering, model tool safety |
 | kubernetes | Workload review, Helm release and safe rollout planning |
@@ -70,6 +71,10 @@ This validates report completeness and aggregates human judgments. It does not i
 transcripts, prove agent compliance, authenticate the reviewer, or run a live LLM. Hashes detect accidental
 mismatch, not forgery. Report actual behavior, not expected behavior. Do not treat synthetic unit-test
 reports as evidence of model quality. Review the Core evaluation scenarios separately using evals/README.md.
+
+## Astro lightweight websites
+
+See [Astro micro-tool walkthrough](examples/astro-micro-tools.md), [Astro adapter README](../adapters/astro/README.md) and the six Astro skills. Static-first, no backend by default; selective React islands do not equal independently deployable MFE. Cloudflare deployment requires a compatible Astro runtime and explicit approval. `aih` does not deploy or install Astro dependencies.
 
 ## Adding a capability
 Add rules and a concrete technology skill with testable inputs/outputs; avoid duplicating Core procedures.

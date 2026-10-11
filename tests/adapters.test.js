@@ -20,9 +20,9 @@ function cli(args, expected = 0) { const r = spawnSync(process.execPath, [path.j
 function install(adapters = ['java-spring']) { h.install(root, source, { adapters }); }
 function report() { const r = evaluate(root).report; Object.assign(r.metadata, { model: 'synthetic-fixture', harness_commit: 'fixture', reviewer: 'test', run_id: 'test', parameters: 'none' }); for (const row of r.results) { row.scores.fill(true); row.evidence = 'Synthetic test evidence; no model execution'; } return r; }
 
-test('list validates four adapters and nine namespaced skills', () => {
-  const result = listAdapters(source); assert.equal(result.adapters.length, 5);
-  assert.equal(result.adapters.flatMap(a => a.skills).length, 12);
+test('list validates six adapters and eighteen namespaced skills', () => {
+  const result = listAdapters(source); assert.equal(result.adapters.length, 6);
+  assert.equal(result.adapters.flatMap(a => a.skills).length, 18);
   assert.deepEqual(snapshot(), {});
 });
 test('detection distinguishes generic Java/Python from Spring/AI', () => {
@@ -142,4 +142,62 @@ test('Kubernetes detector is shallow and its checks are advisory', () => {
   install(['kubernetes']);
   assert.equal(verify(root).checks.find(c => c.id === 'helm-lint').applicability, 'candidate');
   assert.equal(evaluate(root).dataset.cases.length, 2);
+});
+
+test('Astro detector prioritizes Astro over React islands, but preserves explicit Next projects', () => {
+  write('package.json', { dependencies: { astro: '^5.0.0' } });
+  assert.deepEqual(detect(root, source).adapters, ['astro']);
+  write('package.json', { dependencies: { astro: '^5.0.0', '@astrojs/react': '^4.0.0', 'react-dom': '^19.0.0' } });
+  const before = snapshot();
+  const islands = detect(root, source);
+  assert.deepEqual(islands.adapters, ['astro']);
+  assert.deepEqual(islands.matches.map(m => m.id), ['astro']);
+  assert.deepEqual(snapshot(), before, 'Detection must be read-only');
+  write('package.json', { dependencies: { astro: '^5.0.0', next: '^15.0.0', 'react-dom': '^19.0.0' } });
+  assert.deepEqual(detect(root, source).adapters, ['astro', 'react-nextjs']);
+  write('package.json', { dependencies: { 'react-dom': '^19.0.0' } });
+  assert.deepEqual(detect(root, source).adapters, ['react-nextjs']);
+});
+
+test('Astro selected adapter exposes exactly six locked skills and advisory checks', () => {
+  cli(['init', '--source', source, '--adapters', 'astro']);
+  assert.equal(h.check(root).status, 'ok');
+  assert.deepEqual(h.loadLock(root).adapters, ['astro']);
+  for (const id of ['project-architecture', 'islands', 'seo', 'performance', 'cloudflare', 'microfrontend']) {
+    const name = 'harness-astro-' + id;
+    const local = path.join(root, '.agents/skills', name, 'SKILL.md');
+    assert.ok(fs.existsSync(local), 'Missing installed Astro skill ' + name);
+    assert.equal(cli(['skill', name]).name, name);
+  }
+  assert.equal(cli(['skills']).skills.length, 11, 'Five core skills plus six Astro skills');
+  const before = snapshot();
+  const checks = cli(['verify']);
+  assert.equal(checks.executed, false);
+  assert.equal(checks.checks.length, 4);
+  assert.equal(checks.checks.find(c => c.id === 'tool-browser').applicability, 'review-required');
+  const evaluation = cli(['eval']);
+  assert.equal(evaluation.dataset.cases.length, 4);
+  assert.ok(evaluation.report.results.every(row => row.scores.every(score => score === null)));
+  assert.deepEqual(snapshot(), before, 'Advisory reads must not mutate project');
+});
+
+test('Astro init --detect and composition with Product and UI/UX remain selective', () => {
+  write('package.json', { dependencies: { astro: '^5', '@astrojs/react': '^4', 'react-dom': '^19' } });
+  cli(['init', '--source', source, '--detect', '--dry-run']);
+  const r = cli(['init', '--source', source, '--detect']);
+  assert.equal(r.status, 'ok');
+  assert.deepEqual(h.loadLock(root).adapters, ['astro']);
+  assert.ok(!fs.existsSync(path.join(root, '.harness/adapters/react-nextjs')));
+  assert.equal(cli(['check']).status, 'ok');
+});
+
+test('Astro deselection removes unmodified managed assets but preserves project-owned notes', () => {
+  install(['astro']);
+  write('.harness/local.md', 'Original project guidance');
+  write(h.CONFIG, { schema_version: 1, adapters: [] });
+  cli(['update', '--source', source]);
+  assert.deepEqual(h.loadLock(root).adapters, []);
+  assert.equal(fs.readFileSync(path.join(root, '.harness/local.md'), 'utf8'), 'Original project guidance');
+  assert.ok(!fs.existsSync(path.join(root, '.agents/skills/harness-astro-islands/SKILL.md')));
+  assert.equal(cli(['check']).status, 'ok');
 });

@@ -1,8 +1,12 @@
 # Full SDLC — Idea → Product → UI/UX → Spec → Code → Test → PR → Release → Operate
 
-Tài liệu này là **bản đồ điều phối** toàn bộ Core + Product + UI/UX + technology adapters + DevOps. Mỗi module vẫn có workflow riêng; chỉ **kích hoạt module đã cài và thật sự liên quan**, không bắt buộc dùng đủ tất cả cho một change. Bắt đầu với [Getting started](getting-started.md); xem [ma trận 42 skills](skill-matrix.md) và [role handoffs](agent-handoffs.md).
+Tài liệu này là **bản đồ điều phối** toàn bộ Core + Product + UI/UX + technology adapters + DevOps. Mỗi module vẫn có workflow riêng; chỉ **kích hoạt module đã cài và thật sự liên quan**, không bắt buộc dùng đủ tất cả cho một change. Bắt đầu với [Getting started](getting-started.md); xem [ma trận 48 skills](skill-matrix.md) và [role handoffs](agent-handoffs.md).
 
 > **Ranh giới thực thi:** `aih` cài/gợi ý rules, templates, skills và check/eval **advisory**. AI host/IDE và các công cụ bên ngoài thực hiện phân tích, code, test và tương tác hệ thống trong phạm vi được cấp quyền. Không có `aih run` hay `aih deploy`; các hành động ghi Figma, production hoặc merge phải có phê duyệt.
+
+## Astro micro-tools: một stack tùy chọn
+
+Website tiện ích nhỏ có thể chọn riêng adapter `astro` để theo hướng static-first và chỉ thêm React Islands, API/Cloudflare Workers hoặc tách Micro Frontend khi có nhu cầu thật. Product/UX vẫn là optional capabilities như các stack khác. Đọc [Astro walkthrough](examples/astro-micro-tools.md). Không cần backend hay Kubernetes cho tool xử lý hoàn toàn trong trình duyệt.
 
 ## Hai chế độ bắt đầu
 

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "id": "typecheck",
+      "title": "Run configured Astro TypeScript checking after reviewing the actual script/dependencies",
+      "command": [
+        "<package-manager>",
+        "run",
+        "check"
+      ],
+      "when_file": "package.json",
+      "evidence": [
+        "Existing check script or explicitly installed Astro check command",
+        "Actual TypeScript/Astro diagnostic output"
+      ],
+      "execution": "advisory"
+    },
+    {
+      "id": "build",
+      "title": "Run production Astro build with target deployment output",
+      "command": [
+        "<package-manager>",
+        "run",
+        "build"
+      ],
+      "when_file": "package.json",
+      "evidence": [
+        "Actual build exit status",
+        "Static route generation and server bundle compatibility where applicable"
+      ],
+      "execution": "advisory"
+    },
+    {
+      "id": "tool-browser",
+      "title": "Review micro-tool accessibility, privacy and browser workflows",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Loading/empty/error/success and keyboard/focus coverage for relevant tools",
+        "No unauthorized uploads, server secrets or third-party fetching",
+        "Hydration and JS payload measured in actual build"
+      ],
+      "execution": "manual"
+    },
+    {
+      "id": "cloudflare-release",
+      "title": "Confirm Cloudflare runtime compatibility and explicit deployment approval",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Correct Astro output mode/adapter and selected Cloudflare target",
+        "Preview asset/routing/caching verification",
+        "Named owner approved production change; no deploy executed by Harness"
+      ],
+      "execution": "manual"
+    }
+  ]
+}

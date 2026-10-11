@@ -17,8 +17,8 @@ AI Harness phân phối **rules, role contracts, skills và workflows** tới re
 ~~~bash
 git clone git@github.com:manh0303/ai-harness.git
 cd ai-harness
-# Để thử tính năng PR #10 chưa merge, checkout feature branch được review:
-git switch feat/documentation-discovery-v0.7
+# Nếu thử PR Astro chưa merge, chọn branch đã review:
+git switch feat/astro-lightweight-adapter
 # Sau khi merge, ưu tiên commit/tag chính thức đã review.
 npm test
 npm run validate
@@ -55,6 +55,7 @@ aih skills
 | --- | --- |
 | API Spring | `--adapters java-spring` |
 | Web React/Next.js | `--adapters react-nextjs --capabilities uiux` |
+| Astro web tools (static-first) | `--adapters astro` (tùy chọn `--capabilities product,uiux`) |
 | React Native/Expo | `--adapters react-native --capabilities product,uiux` |
 | Python AI/RAG | `--adapters ai-python --capabilities product` |
 | Full-stack một repo | `--adapters java-spring,react-nextjs,kubernetes --capabilities product,uiux,devops` |
@@ -62,6 +63,10 @@ aih skills
 | Core-only | Không truyền adapters/capabilities |
 
 `aih detect` kiểm tra heuristic các file trực tiếp ở target, không tìm đệ quy monorepo. Với mỗi microservice/repository độc lập, cài riêng và chỉ chọn những module thực sự cần.
+
+## Astro cho web tools nhỏ
+
+Nếu xây nhiều tiện ích như QR, JSON hoặc image tools: dùng [Astro micro-tools walkthrough](examples/astro-micro-tools.md) với lệnh `aih init --adapters astro` và skill islands, SEO, performance, Cloudflare. `astro` được nhận diện từ dependencies. React Islands không bắt buộc; MFE/Workers không được cài tự động.
 
 ## Hai hướng dẫn theo loại dự án
 

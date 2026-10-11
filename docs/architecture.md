@@ -40,6 +40,10 @@ Roles are Markdown handoff contracts. The host decides tool execution and delega
 does not create another agent or supply an API key. Use the same framework in an IDE assistant or your
 own model-backed runtime; actual permissions, cost limits and network allowlists live in that runtime.
 
+## Astro static-first adapter
+
+Astro là technology adapter độc lập (`adapters/astro/`), không phải capability chung, dùng chung Core/Product/UIUX/DevOps khi được chọn. Sáu skills tập trung website tool tĩnh, islands, SEO, performance, Cloudflare và đường nâng cấp Micro Frontend. `aih detect` nhận diện `astro` trong root `package.json` và bỏ nhận diện React/Next chỉ đến từ `react-dom` khi dùng Astro Islands (trừ khi có `next`). Không thêm Astro runtime vào Harness và không tự chạy build/deployment. Xem [Astro walkthrough](examples/astro-micro-tools.md).
+
 ## Extending adapters
 Add adapters/<id>/adapter.yaml (schema 2), rules.md, rules/, namespaced skills/, checks/verification.yaml
 and evals/cases.json. Register the id in harness.yaml; add detection, installation and evaluation cases.
@@ -95,4 +99,4 @@ DevOps is an optional stack-neutral capability for release procedures and SRE; t
 
 ## Documented end-to-end usage
 
-The cross-module route is described in [Getting started](getting-started.md), [Full SDLC](end-to-end-workflow.md), [38-skill matrix](skill-matrix.md) and [Agent handoffs](agent-handoffs.md). All roles/skills remain instruction contracts. The four [stack walkthroughs](examples/spring-boot-api.md) illustrate permitted integrations, not a runnable scaffold or orchestration engine.
+The cross-module route is described in [Getting started](getting-started.md), [Full SDLC](end-to-end-workflow.md), [48-skill matrix](skill-matrix.md) and [Agent handoffs](agent-handoffs.md). All roles/skills remain instruction contracts. The four [stack walkthroughs](examples/spring-boot-api.md) illustrate permitted integrations, not a runnable scaffold or orchestration engine.

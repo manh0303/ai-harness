@@ -31,12 +31,13 @@ test('skill matrix covers exactly every registered Core, adapter and capability 
   }
 });
 
-test('SDLC, handoffs and four stack examples stay discoverable from README', () => {
+test('SDLC, handoffs and five stack examples stay discoverable from README', () => {
   const pages = [
     'docs/getting-started.md', 'docs/end-to-end-workflow.md',
     'docs/skill-matrix.md', 'docs/agent-handoffs.md',
     'docs/examples/spring-boot-api.md', 'docs/examples/fullstack-web.md',
     'docs/examples/react-native-app.md', 'docs/examples/ai-rag-service.md',
+    'docs/examples/astro-micro-tools.md',
   ];
   const readme = read('README.md');
   for (const page of pages) {
@@ -111,4 +112,25 @@ test('end-to-end Idea and BA-document tutorials stay linked and actionable', () 
   const cli = read('docs/cli.md');
   assert.match(cli, /docs\/discovery\//);
   assert.match(cli, /docs\/product\//);
+});
+
+test('Astro adapter guide, skill matrix and CLI help remain discoverable', () => {
+  const m = manifest(SOURCE);
+  assert.ok(m.adapters.includes('astro'));
+  const astro = loadAdapter(SOURCE, 'astro');
+  assert.equal(astro.skills.length, 6);
+  assert.equal(astro.checks.length, 4);
+  assert.equal(astro.cases.length, 4);
+  const matrix = read('docs/skill-matrix.md');
+  assert.match(matrix, /Astro adapter \(6\)/);
+  for (const name of astro.skills) {
+    assert.ok(matrix.includes('[' + String.fromCharCode(96) + name + String.fromCharCode(96) + ']'));
+  }
+  const readme = read('README.md');
+  for (const section of ['docs/examples/astro-micro-tools.md', 'adapters/astro/README.md']) {
+    assert.ok(readme.includes(section), 'Missing Astro README link: ' + section);
+  }
+  assert.match(read('docs/getting-started.md'), /--adapters astro/);
+  assert.match(read('docs/adapters.md'), /\| astro \|/);
+  assert.match(read('docs/architecture.md'), /Astro static-first adapter/);
 });

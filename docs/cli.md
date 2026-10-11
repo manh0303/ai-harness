@@ -25,7 +25,7 @@ All commands default --target to the current directory. --source defaults to the
 --help/-h and --version/-v are available. Unknown, duplicate and inapplicable flags fail.
 Source and target cannot contain one another, except source inside target/node_modules for local npm installs. Symlinks in roots, source
 payload or destination paths are rejected. IDs are lowercase hyphenated slugs; archive is reserved.
-Selection changes belong in .harness/project.json; unknown or duplicate adapters fail validation.
+Astro projects are detected from `astro` in package.json dependencies; `react-dom` used only for Astro islands is not a standalone React/Next.js detection when `next` is absent. Explicit `--adapters astro,react-nextjs` remains valid. `aih init --adapters astro` installs static-first rules/skills but no Astro packages or Cloudflare deployment.\nSelection changes belong in .harness/project.json; unknown or duplicate adapters fail validation.
 
 ## Ownership and conflict behavior
 AGENTS.md ownership covers only text between the unique start/end markers, inclusive. Any modification

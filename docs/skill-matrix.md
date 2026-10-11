@@ -1,6 +1,6 @@
-# Skill matrix — 42 skills, 9 nhóm module
+# Skill matrix — 48 skills, 10 nhóm module
 
-Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (5 Core, 25 capability, 12 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 42 skill vào prompt.
+Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (5 Core, 25 capability, 18 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 48 skill vào prompt.
 
 **Cách dùng:** `aih skills` xem skills đã cài, sau đó `aih skill harness-...` lấy nội dung. Danh mục này mô tả chức năng; **không** có nghĩa `aih` thực thi skills hoặc agent. Tech adapters và capabilities chỉ xuất hiện trong consumer khi được chọn; Core dùng chung.
 
@@ -90,6 +90,18 @@
 | --- | --- | --- | --- |
 | [`harness-ai-python-rag-access`](../adapters/ai-python/skills/harness-ai-python-rag-access/SKILL.md) | RAG | Áp dụng ACL/tenant filters trước retrieval | Access-filtered retrieval + groundedness plan |
 | [`harness-ai-python-tool-safety`](../adapters/ai-python/skills/harness-ai-python-tool-safety/SKILL.md) | Agent tools | Bounded tools, explicit auth, no escalation | Policy wrapper + security tests |
+
+
+## Astro adapter (6)
+
+| Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
+| --- | --- | --- | --- |
+| [`harness-astro-project-architecture`](../adapters/astro/skills/harness-astro-project-architecture/SKILL.md) | Tool architecture | Static-first, tách route/tool và browser processing | Cấu trúc Astro và ADR nhỏ |
+| [`harness-astro-islands`](../adapters/astro/skills/harness-astro-islands/SKILL.md) | React Islands | Hydrate tương tác có chọn lọc, không nhầm Islands với MFE | Island component và UX tests |
+| [`harness-astro-seo`](../adapters/astro/skills/harness-astro-seo/SKILL.md) | SEO | Metadata, sitemap, nội dung hữu ích và a11y | Trang có metadata và kiểm chứng HTML |
+| [`harness-astro-performance`](../adapters/astro/skills/harness-astro-performance/SKILL.md) | Performance | JS budget, lazy loading, Web Vitals thực đo | Benchmark/build evidence |
+| [`harness-astro-cloudflare`](../adapters/astro/skills/harness-astro-cloudflare/SKILL.md) | Deploy | Static/CDN trước, Workers khi cần backend có kiểm soát | Kế hoạch Cloudflare và approval |
+| [`harness-astro-microfrontend`](../adapters/astro/skills/harness-astro-microfrontend/SKILL.md) | Scale | Lộ trình tách công cụ thành deploy riêng nếu thực cần | ADR/MFE migration checklist |
 
 ## Kubernetes adapter (3)
 

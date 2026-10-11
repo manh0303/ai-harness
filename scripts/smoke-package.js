@@ -21,7 +21,7 @@ const npm = (args, cwd = SOURCE) => command(process.execPath, [npmCli, ...args],
 try {
   const packed = JSON.parse(npm(['pack', '--ignore-scripts', '--json', '--pack-destination', temp]))[0];
   const names = packed.files.map(f => f.path);
-  for (const required of ['LICENSE', 'bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/composition.js', 'cli/module-contract.js', 'cli/evaluation-contract.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'capabilities/product/capability.json', 'capabilities/devops/capability.json', 'capabilities/devops/evals/cases.json', 'core/evals/composition.json', 'adapters/kubernetes/adapter.yaml', 'capabilities/product/templates/brd.md', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
+  for (const required of ['LICENSE', 'bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/composition.js', 'cli/module-contract.js', 'cli/evaluation-contract.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'capabilities/product/capability.json', 'capabilities/devops/capability.json', 'capabilities/devops/evals/cases.json', 'core/evals/composition.json', 'adapters/kubernetes/adapter.yaml', 'adapters/astro/adapter.yaml', 'adapters/astro/skills/harness-astro-islands/SKILL.md', 'capabilities/product/templates/brd.md', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
   assert.ok(!names.some(n => /(^|\/)\.env(?:\.|$)/.test(n)));
@@ -35,7 +35,7 @@ try {
   assert.equal(run(['--version']).trim(), readJson(path.join(SOURCE, 'package.json')).version);
   JSON.parse(run(['init', '--adapters', 'java-spring,react-nextjs,react-native,ai-python']));
   assert.equal(JSON.parse(run(['check'])).status, 'ok');
-  assert.equal(JSON.parse(run(['list'])).adapters.length, 5);
+  assert.equal(JSON.parse(run(['list'])).adapters.length, manifest(SOURCE).adapters.length);
   assert.equal(JSON.parse(run(['list'])).capabilities.length, 3);
   const uiuxTarget = path.join(temp, 'uiux project'); fs.mkdirSync(uiuxTarget);
   const uiuxOut = process.platform === 'win32'
@@ -43,6 +43,16 @@ try {
     : command(bin, ['init', '--capabilities', 'uiux'], uiuxTarget);
   assert.equal(JSON.parse(uiuxOut).status, 'ok');
   assert.ok(fs.existsSync(path.join(uiuxTarget, '.agents/skills/harness-uiux-figma-design/SKILL.md')));
+  const astroTarget = path.join(temp, 'astro project'); fs.mkdirSync(astroTarget);
+  fs.writeFileSync(path.join(astroTarget, 'package.json'), JSON.stringify({ private:true,
+    dependencies: { astro: '^5', '@astrojs/react': '^4', 'react-dom': '^19' } }));
+  const inAstro = args => process.platform === 'win32'
+    ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" ${args.join(' ')}"`], astroTarget, { windowsVerbatimArguments: true })
+    : command(bin, args, astroTarget);
+  assert.deepEqual(JSON.parse(inAstro(['detect'])).adapters, ['astro']);
+  assert.equal(JSON.parse(inAstro(['init', '--detect'])).status, 'ok');
+  assert.ok(fs.existsSync(path.join(astroTarget, '.agents/skills/harness-astro-islands/SKILL.md')));
+  assert.equal(JSON.parse(inAstro(['check'])).status, 'ok');
   const productTarget = path.join(temp, 'product project'); fs.mkdirSync(productTarget);
   const productOut = process.platform === 'win32'
     ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" init --capabilities product,uiux"`], productTarget, { windowsVerbatimArguments: true })
@@ -70,5 +80,5 @@ try {
   assert.equal(localResult.status, 'ok');
   assert.equal(JSON.parse(npm(['exec', '--offline', '--', 'aih', 'check'], local)).status, 'ok');
   console.log(JSON.stringify({ status: 'ok', version: packed.version, package_files: names.length,
-    checks: ['npm pack assets', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'idempotent update', 'local npm exec without network'] }, null, 2));
+    checks: ['npm pack assets', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'Astro packaged detection and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'idempotent update', 'local npm exec without network'] }, null, 2));
 } finally { fs.rmSync(temp, { recursive: true, force: true }); }

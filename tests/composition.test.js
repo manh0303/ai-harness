@@ -85,3 +85,20 @@ test('registry validation permits alternative incompatible modules but checks al
   change('product',m=>m.recommends=['capability:unknown']);
   assert.throws(()=>validateRegistry(source),/Unknown recommends/);
 });
+
+test('Astro can be used core-only or combined with optional Product and UI/UX', () => {
+  const minimal = cli(['resolve','--source',source,'--adapters','astro']);
+  assert.deepEqual(minimal.adapters, ['astro']);
+  assert.deepEqual(minimal.capabilities, []);
+  const composed = cli(['resolve','--source',source,'--adapters','astro','--capabilities','product,uiux']);
+  assert.deepEqual(composed.adapters, ['astro']);
+  assert.deepEqual(composed.capabilities, ['product','uiux']);
+  const installed = cli(['init','--source',source,'--adapters','astro','--capabilities','product,uiux']);
+  assert.equal(installed.status, 'ok');
+  assert.equal(h.check(root).status, 'ok');
+  assert.ok(fs.existsSync(path.join(root,'.agents/skills/harness-astro-seo/SKILL.md')));
+  assert.ok(fs.existsSync(path.join(root,'.agents/skills/harness-product-srs-generation/SKILL.md')));
+  assert.ok(fs.existsSync(path.join(root,'.agents/skills/harness-uiux-figma-design/SKILL.md')));
+  const plan = cli(['verify','--scope','all']);
+  assert.equal(plan.executed, false);
+});
