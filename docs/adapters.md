@@ -9,6 +9,7 @@ review and the general workflow. Adapter skills address technology-specific deci
 | react-nextjs | Accessible UI, server/client authorization and caching |
 | react-native | Offline synchronization, permissions and deep links |
 | ai-python | RAG access filtering, model tool safety |
+| kubernetes | Workload review, Helm release and safe rollout planning |
 
 ## Source contract
 adapter.yaml uses **JSON-compatible YAML 1.2**, parsed with JSON.parse. Arbitrary YAML syntax is not supported.

@@ -24,8 +24,8 @@ Options:
   --target <directory> Project directory (default: current directory)
   --detect            init only: opt in to detected stack selection
   --report <file>     eval only: score a reviewer-completed JSON report
-  --adapters <a,b>     init only: java-spring,react-nextjs,react-native,ai-python
-  --capabilities <a,b> init only: uiux,product
+  --adapters <a,b>     init only: java-spring,react-nextjs,react-native,ai-python,kubernetes
+  --capabilities <a,b> init only: uiux,product,devops
   --source <directory> init/update/list/detect: trusted alternate bundle directory
   --dry-run           init/update: preview without persistent changes
   --allow-major       init/update: acknowledge a major version migration
@@ -36,6 +36,7 @@ Examples:
   aih init --adapters java-spring --capabilities uiux
   aih skills
   aih new-doc brd
+  aih init --adapters java-spring,kubernetes --capabilities product,devops
   aih skill harness-product-brd-generation
   aih skill harness-uiux-figma-design
   aih update --dry-run

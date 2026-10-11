@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "id": "kubernetes",
+  "description": "Kubernetes manifests, Helm, rollout safety and least-privilege workload design.",
+  "detection": [
+    {
+      "file": "Chart.yaml",
+      "kind": "contains",
+      "values": [
+        "apiVersion:",
+        "name:"
+      ]
+    },
+    {
+      "file": "kustomization.yaml",
+      "kind": "contains",
+      "values": [
+        "resources:",
+        "bases:"
+      ]
+    },
+    {
+      "file": "kustomization.yml",
+      "kind": "contains",
+      "values": [
+        "resources:",
+        "bases:"
+      ]
+    },
+    {
+      "file": "deployment.yaml",
+      "kind": "contains",
+      "values": [
+        "kind: Deployment"
+      ]
+    },
+    {
+      "file": "deployment.yml",
+      "kind": "contains",
+      "values": [
+        "kind: Deployment"
+      ]
+    }
+  ],
+  "rules": [
+    "rules/architecture.md",
+    "rules/security.md",
+    "rules/reliability.md"
+  ],
+  "skills": [
+    "harness-kubernetes-workload-review",
+    "harness-kubernetes-helm-release",
+    "harness-kubernetes-rollout-safety"
+  ],
+  "verification": "checks/verification.yaml",
+  "evaluation": "evals/cases.json"
+}

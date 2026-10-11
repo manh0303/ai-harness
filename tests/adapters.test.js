@@ -21,8 +21,8 @@ function install(adapters = ['java-spring']) { h.install(root, source, { adapter
 function report() { const r = evaluate(root).report; Object.assign(r.metadata, { model: 'synthetic-fixture', harness_commit: 'fixture', reviewer: 'test', run_id: 'test', parameters: 'none' }); for (const row of r.results) { row.scores.fill(true); row.evidence = 'Synthetic test evidence; no model execution'; } return r; }
 
 test('list validates four adapters and nine namespaced skills', () => {
-  const result = listAdapters(source); assert.equal(result.adapters.length, 4);
-  assert.equal(result.adapters.flatMap(a => a.skills).length, 9);
+  const result = listAdapters(source); assert.equal(result.adapters.length, 5);
+  assert.equal(result.adapters.flatMap(a => a.skills).length, 12);
   assert.deepEqual(snapshot(), {});
 });
 test('detection distinguishes generic Java/Python from Spring/AI', () => {
@@ -120,7 +120,7 @@ test('real npm 0.2 migration keeps notes, replaces metadata and installs new ski
   const fixture = h.readJson(path.join(h.SOURCE, 'tests/fixtures/npm-v0.2.0.json'));
   for (const [name, content] of Object.entries(fixture.files)) write(name, content);
   assert.equal(h.check(root).version, '0.2.0'); assert.throws(() => verify(root), /aih update/);
-  h.install(root, source, { command: 'update' }); assert.equal(h.check(root).version, '0.5.0');
+  h.install(root, source, { command: 'update' }); assert.equal(h.check(root).version, '0.6.0');
   assert.ok(!fs.existsSync(path.join(root, '.harness/adapters/java-spring/adapter.json')));
   assert.ok(fs.existsSync(path.join(root, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
   assert.ok(fs.readFileSync(path.join(root, 'AGENTS.md'), 'utf8').endsWith('Keep npm project notes.\n'));
@@ -130,4 +130,16 @@ test('edited legacy npm metadata blocks migration before any writes', () => {
   for (const [name, content] of Object.entries(fixture.files)) write(name, content);
   write('.harness/adapters/java-spring/adapter.json', '{"custom":true}'); const before = snapshot();
   assert.throws(() => h.install(root, source, { command: 'update' }), /Managed files changed/); assert.deepEqual(snapshot(), before);
+});
+
+test('Kubernetes detector is shallow and its checks are advisory', () => {
+  write('notes.yaml', 'kind: Deployment');
+  assert.deepEqual(detect(root, source).adapters, []);
+  write('Chart.yaml', 'apiVersion: v2\\nname: payment-service');
+  const before = snapshot();
+  assert.deepEqual(detect(root, source).adapters, ['kubernetes']);
+  assert.deepEqual(snapshot(), before);
+  install(['kubernetes']);
+  assert.equal(verify(root).checks.find(c => c.id === 'helm-lint').applicability, 'candidate');
+  assert.equal(evaluate(root).dataset.cases.length, 2);
 });

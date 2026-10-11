@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "id": "helm-lint",
+      "title": "Helm local chart lint",
+      "command": [
+        "helm",
+        "lint",
+        "."
+      ],
+      "when_file": "Chart.yaml",
+      "evidence": [
+        "Lint output and dependency lock status",
+        "Target environment values reviewed"
+      ],
+      "execution": "advisory"
+    },
+    {
+      "id": "helm-template",
+      "title": "Helm local chart render",
+      "command": [
+        "helm",
+        "template",
+        "review",
+        "."
+      ],
+      "when_file": "Chart.yaml",
+      "evidence": [
+        "Rendered manifests captured",
+        "CRD/API version assumptions documented"
+      ],
+      "execution": "advisory"
+    },
+    {
+      "id": "kustomize",
+      "title": "Kustomize local render",
+      "command": [
+        "kubectl",
+        "kustomize",
+        "."
+      ],
+      "when_file": "kustomization.yaml",
+      "evidence": [
+        "Rendered manifest inspection",
+        "Images/namespaces/probes checked"
+      ],
+      "execution": "advisory"
+    },
+    {
+      "id": "production-approval",
+      "title": "External production approval and rollback review",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Environment and approver recorded",
+        "Cluster checks executed only when authorized",
+        "Rollback and migration safety documented"
+      ],
+      "execution": "manual"
+    }
+  ]
+}

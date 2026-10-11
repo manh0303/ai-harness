@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "id": "devops",
+  "description": "Stack-independent delivery, infrastructure review, observability and incident workflows with explicit production approval gates.",
+  "skills": [
+    "harness-devops-ci-cd",
+    "harness-devops-docker",
+    "harness-devops-deployment",
+    "harness-devops-observability",
+    "harness-devops-infrastructure",
+    "harness-devops-incident-response"
+  ],
+  "workflows": [
+    "workflows/pr-to-production.md",
+    "workflows/incident-recovery.md"
+  ]
+}

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0 — DevOps capability and Kubernetes adapter candidate
+- Add `devops` capability with six namespaced CI/CD, Docker, deployment, infrastructure, observability and incident-response skills plus two review-gated workflows.
+- Add `kubernetes` adapter with Helm/workload/rollout skills, advisory verification checks and two safety evaluation scenarios.
+- Combine Product, UI/UX and DevOps with selected technology adapters using existing lock-safe installation and progressive skill discovery.
+- Preserve Core human authorization requirements; no live CI dispatch, production deployment, provider writes or automatic merge.
+- `aih verify` / `aih eval` remain adapter-only; capability workflow documents do not execute runtime tools.
+
+
 ## 0.5.0 — Product documentation capability candidate
 - Add independent Product capability with 5 role contracts (BA, PM, PO, delivery PM, reviewer), 9 skills, 3 workflows, and 11 templates.
 - Generate evidence-backed BRD, PRD, epics, stories, testable AC, traceability and independent review instructions.

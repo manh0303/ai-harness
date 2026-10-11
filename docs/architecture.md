@@ -82,3 +82,7 @@ Selected capability artifacts are hashed and installed with the existing lock sa
 `docs/product/<type>.md` as project-owned data, and refuses overwrite/symlinked
 destinations. It never fills confidential content, fetches Confluence or auto-approves.
 The approved PRD/BRD/stories/AC serve as source of truth for UI/UX and OpenSpec.
+
+## DevOps and Kubernetes composition (0.6.0)
+
+DevOps is an optional stack-neutral capability for release procedures and SRE; the Kubernetes adapter owns workload/Helm details. Product role/template support from 0.5 remains unchanged. Both are installed only when selected, vendored and hash-locked alongside existing modules. Integrations/runtime permissions are independently administered; no instructions can grant cloud access, override Core approval gates or trigger production changes. `aih verify` and `aih eval` currently validate adapter checks and cases, not capability workflows.
