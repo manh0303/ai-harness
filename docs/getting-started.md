@@ -56,6 +56,7 @@ aih skills
 | API Spring | `--adapters java-spring` |
 | Web React/Next.js | `--adapters react-nextjs --capabilities uiux` |
 | Astro web tools (static-first) | `--adapters astro` (tùy chọn `--capabilities product,uiux`) |
+| Astro/React + advertising | `--adapters astro --capabilities monetization` (hoặc `react-nextjs`) |
 | React Native/Expo | `--adapters react-native --capabilities product,uiux` |
 | Python AI/RAG | `--adapters ai-python --capabilities product` |
 | Full-stack một repo | `--adapters java-spring,react-nextjs,kubernetes --capabilities product,uiux,devops` |
@@ -67,6 +68,10 @@ aih skills
 ## Astro cho web tools nhỏ
 
 Nếu xây nhiều tiện ích như QR, JSON hoặc image tools: dùng [Astro micro-tools walkthrough](examples/astro-micro-tools.md) với lệnh `aih init --adapters astro` và skill islands, SEO, performance, Cloudflare. `astro` được nhận diện từ dependencies. React Islands không bắt buộc; MFE/Workers không được cài tự động.
+
+## Website công cụ miễn phí có quảng cáo
+
+Nếu mục tiêu là traffic SEO và doanh thu AdSense, chọn optional `monetization` **không phụ thuộc Astro**; website có thể dùng Next.js. Xem [Monetization guide](monetization.md), [walkthrough Astro + AdSense](examples/astro-adsense-microtools.md) và `aih skill harness-monetization-adsense-integration`. Các hướng dẫn chỉ giúp chuẩn bị, không tự tạo tài khoản AdSense hoặc kết nối Analytics.
 
 ## Hai hướng dẫn theo loại dự án
 

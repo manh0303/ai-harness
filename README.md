@@ -3,7 +3,7 @@
 Framework tái sử dụng để hướng dẫn AI làm việc theo **Spec → Code → Test → Review** trong nhiều dự án.
 Core dùng chung; adapter chứa quy chuẩn công nghệ; CLI cài một bản có version vào từng repository.
 
-**Trạng thái:** 0.6.0 candidate; 6 adapters, 3 optional capabilities, 48 skills và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
+**Trạng thái:** 0.6.0 candidate; 6 adapters, 4 optional capabilities, 53 skills và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
 Gói `@manh0303/ai-harness` chưa phát hành lên npm registry; hiện cài từ repository private hoặc tarball.
 Harness không tự gọi LLM, không tự sinh ứng dụng, không tạo agent runtime, không tự merge/deploy.
 Các role/skill hướng dẫn assistant đang dùng; quyền thực tế do IDE/runtime, Git và CI kiểm soát.
@@ -15,9 +15,9 @@ Nếu lần đầu sử dụng, đọc theo thứ tự: **Cài → Product/BA/PO
 - **[Getting started](docs/getting-started.md)** — cài CLI, chọn module, tạo change và kiểm tra.
 - **[Hai luồng tài liệu](docs/documentation-workflows.md)** — idea-driven và document-driven, lưu trữ, version và handoff.
 - **[Full SDLC: Idea → Production](docs/end-to-end-workflow.md)** — input/output, approval gate, cách phối hợp capabilities/adapters.
-- **[Ma trận 48 skills](docs/skill-matrix.md)** — tra cứu skills theo stage/công nghệ và ID thật.
+- **[Ma trận 53 skills](docs/skill-matrix.md)** — tra cứu skills theo stage/công nghệ và ID thật.
 - **[Agent handoffs](docs/agent-handoffs.md)** — roles, trách nhiệm, ownership, evidence và bàn giao.
-- **Walkthrough:** [Spring Boot API](docs/examples/spring-boot-api.md) · [Full-stack Next.js + Spring](docs/examples/fullstack-web.md) · [React Native](docs/examples/react-native-app.md) · [Python AI/RAG](docs/examples/ai-rag-service.md) · [Astro micro-tools](docs/examples/astro-micro-tools.md).
+- **Walkthrough:** [Spring Boot API](docs/examples/spring-boot-api.md) · [Full-stack Next.js + Spring](docs/examples/fullstack-web.md) · [React Native](docs/examples/react-native-app.md) · [Python AI/RAG](docs/examples/ai-rag-service.md) · [Astro micro-tools](docs/examples/astro-micro-tools.md) · [Astro + AdSense](docs/examples/astro-adsense-microtools.md).
 
 Harness cung cấp hướng dẫn cho AI runtime, **không** tự điều phối AI agent, tạo code, chạy test, merge hay deploy.
 
@@ -116,6 +116,26 @@ aih verify --scope all  # advisory; không tự chạy build/deploy
 ```
 
 Không bắt buộc Product/UIUX; nếu chỉ cần code, dùng `aih init --adapters astro`. Trong dự án đã cài Harness: sửa `.harness/project.json` và chạy `aih update --dry-run`, `aih update`, `aih check`. `aih detect` nhận diện `astro` từ `package.json`; `react-dom` vì React Islands không tự khiến CLI cài `react-nextjs` trừ khi dự án còn dùng `next`. CLI chỉ cài rules/skills, **không** tạo Astro app, cài React hay deploy lên Cloudflare.
+
+## Monetization — kiếm tiền hợp lệ từ quảng cáo
+
+Capability `monetization` độc lập với Astro, React/Next.js và các adapter khác. Với website micro-tools miễn phí, ưu tiên **giá trị sản phẩm → SEO → kiểm tra AdSense/consent → ad placement an toàn → đo traffic và Page RPM thực tế**. Năm skills giúp phân tích các bước; không tự tạo tài khoản, xin duyệt site, nhúng ad code hoặc kéo doanh thu từ Google.
+
+```bash
+# Website Astro có mục tiêu doanh thu quảng cáo
+aih resolve --adapters astro --capabilities monetization
+aih init --adapters astro --capabilities monetization --dry-run
+aih init --adapters astro --capabilities monetization
+aih check
+aih skill harness-monetization-adsense-integration
+aih skill harness-monetization-ad-placement-ux
+aih skill harness-monetization-analytics-revenue
+aih verify --scope capabilities  # manual checklist, không chạy provider checks
+```
+
+Nếu cần Product + UI/UX thì chọn `--capabilities product,uiux,monetization`. Dự án đã cài Harness phải sửa `.harness/project.json`, rồi `aih update --dry-run`, `aih update`, `aih check`. Templates monetization nằm trong `.harness/capabilities/monetization/templates/`; tự copy vào `docs/monetization/` khi được quyền — `aih new-doc` chỉ dùng cho Product.
+
+Hướng dẫn: [Monetization](docs/monetization.md) · [Astro + AdSense walkthrough](docs/examples/astro-adsense-microtools.md) · [Capability README](capabilities/monetization/README.md). Không hứa AdSense sẽ phê duyệt hay đảm bảo thu nhập; quảng cáo phải tuân thủ chính sách và không được nhầm với nút tool.
 
 ## Optional UI/UX capability
 
@@ -293,6 +313,8 @@ Dự án được cấp phép theo [MIT License](LICENSE) — cho phép sử d�
 - [Walkthrough Idea-driven](docs/examples/idea-driven-project.md)
 - [Walkthrough Document-driven](docs/examples/document-driven-project.md)
 - [Astro micro-tool walkthrough](docs/examples/astro-micro-tools.md)
+- [Website advertising monetization](docs/monetization.md)
+- [Astro + AdSense walkthrough](docs/examples/astro-adsense-microtools.md)
 - [Full SDLC](docs/end-to-end-workflow.md)
 - [Skill matrix](docs/skill-matrix.md)
 - [Agent handoffs](docs/agent-handoffs.md)

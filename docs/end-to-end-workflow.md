@@ -1,8 +1,12 @@
 # Full SDLC — Idea → Product → UI/UX → Spec → Code → Test → PR → Release → Operate
 
-Tài liệu này là **bản đồ điều phối** toàn bộ Core + Product + UI/UX + technology adapters + DevOps. Mỗi module vẫn có workflow riêng; chỉ **kích hoạt module đã cài và thật sự liên quan**, không bắt buộc dùng đủ tất cả cho một change. Bắt đầu với [Getting started](getting-started.md); xem [ma trận 48 skills](skill-matrix.md) và [role handoffs](agent-handoffs.md).
+Tài liệu này là **bản đồ điều phối** toàn bộ Core + Product + UI/UX + technology adapters + DevOps. Mỗi module vẫn có workflow riêng; chỉ **kích hoạt module đã cài và thật sự liên quan**, không bắt buộc dùng đủ tất cả cho một change. Bắt đầu với [Getting started](getting-started.md); xem [ma trận 53 skills](skill-matrix.md) và [role handoffs](agent-handoffs.md).
 
 > **Ranh giới thực thi:** `aih` cài/gợi ý rules, templates, skills và check/eval **advisory**. AI host/IDE và các công cụ bên ngoài thực hiện phân tích, code, test và tương tác hệ thống trong phạm vi được cấp quyền. Không có `aih run` hay `aih deploy`; các hành động ghi Figma, production hoặc merge phải có phê duyệt.
+
+## Monetization: tùy chọn business/marketing
+
+Website miễn phí kiếm tiền quảng cáo có thể cài `--capabilities monetization` cùng Astro/React/Next.js. Sau khi xây các tool hữu ích và được phê duyệt về product, workflow của `monetization` xử lý SEO, publisher policy, consent, ad placement, hiệu quả quảng cáo và Page RPM; qua human approval trước mọi thay đổi ad/deploy. Đọc [Monetization](monetization.md) và [Astro + AdSense walkthrough](examples/astro-adsense-microtools.md). Không được giả định AdSense đã duyệt hoặc tự phát sinh traffic/clicks.
 
 ## Astro micro-tools: một stack tùy chọn
 
@@ -41,6 +45,7 @@ Lệnh trên là **ví dụ một repo chứa BE/FE/manifests**; nếu frontend/
 | **5. Implementation** | Change được duyệt, kiến trúc, repo, tests | Core: `harness-tdd`, `harness-debugging` khi sửa lỗi; Spring/React/Native/AI adapter theo stack; implementer | Minimal code diff, unit/integration/contract tests, migration plans, không thay đổi unrelated files |
 | **6. Verify & code review** | Diff, specs, test logs thực chạy | Core: `harness-review`, `harness-ai-evaluation` nếu AI; test-engineer/security-reviewer; `aih verify/eval --scope all` (chỉ plan) | Evidence của test chạy thực tế, scope chưa test, security findings, trace requirement → test; **Gate D: human PR review** |
 | **7. Delivery** | PR đã review/CI và artifact định danh | DevOps: `ci-cd`, `docker`, `deployment`, `infrastructure`; Kubernetes: workload/Helm/rollout skills | Build provenance, deploy/rollback runbook, staging evidence; **Gate E: approve artifact + production environment** |
+| **Optional: Monetization** | Website/tool hoạt động hợp lệ, có traffic, quyền publisher | `monetization`: `adsense-integration`, `ad-placement-ux`, `seo-growth`, `analytics-revenue`, `publisher-compliance` | Plan ads.txt/consent, ads UX and revenue scenarios; **Gate: owner approves provider/production changes** |
 | **8. Operations** | Authorized release, metrics/logs/traces và runbooks | DevOps: `observability`, `incident-response`; Kubernetes khi liên quan | SLO signals, incident timeline/postmortem, follow-up changes; không tự động thay đổi production |
 
 **Nhớ:** bảng stage sử dụng tên kỹ năng viết gọn; sử dụng [skill-matrix.md](skill-matrix.md) để lấy **ID chính xác** và command `aih skill <name>`. Technical architecture hiện là trách nhiệm của Core + adapter, chưa có capability Architecture chuyên biệt.

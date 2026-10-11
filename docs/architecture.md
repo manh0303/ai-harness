@@ -11,6 +11,7 @@ local installer and integrity checker. It is not an LLM gateway, an orchestratio
 | core/agents | Role inputs, outputs and authority limits | Harness maintainers |
 | core/workflows | Stage order and review evidence | Harness maintainers |
 | adapters | Technology-specific defaults and suggested checks | Adapter maintainers |
+| capabilities | Optional cross-stack product, UI/UX, DevOps and ad monetization workflows | Capability maintainers |
 | integrations | GitHub, GitLab and MCP setup contracts/templates | Project/runtime owners |
 | templates | AGENTS entry point and OpenSpec draft structure | Harness maintainers |
 | CLI + lock | Deterministic installation and update conflicts | Executable framework |
@@ -39,6 +40,10 @@ Concurrent hostile filesystem mutation is outside the threat model; run in a tru
 Roles are Markdown handoff contracts. The host decides tool execution and delegation. A role document
 does not create another agent or supply an API key. Use the same framework in an IDE assistant or your
 own model-backed runtime; actual permissions, cost limits and network allowlists live in that runtime.
+
+## Advertising monetization capability
+
+`capabilities/monetization/` is an optional, stack-neutral guide for legitimate publisher readiness, safe ad UX, SEO and revenue analysis. It does not install provider SDKs, access Google accounts, claim consent compliance or guarantee approval/revenue. Templates are vendored into the selected consumer under `.harness/capabilities/monetization/templates/`; `aih new-doc` still only scaffolds Product documents. Owners copy monetization templates to project-owned `docs/monetization/` using authorized filesystem tools. Review [Monetization guide](monetization.md).
 
 ## Astro static-first adapter
 

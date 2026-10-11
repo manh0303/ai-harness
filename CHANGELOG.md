@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Optional monetization capability
+- Add stack-independent `monetization` capability with five instruction skills (AdSense integration, safe ad placement, SEO growth, analytics/revenue, publisher compliance), two review-gated workflows, four project-owned Markdown templates, four advisory checks and four synthetic evaluation cases.
+- Document owner-approved ads.txt/publisher account information, EEA/UK/Swiss consent/CMP review, invalid traffic safeguards and evidence-labeled Page RPM scenarios; no guarantees of approval, clicks, ranking or earnings.
+- Support opt-in use with Astro, React/Next.js or other app adapters; only selected capabilities are vendored into consumer projects.
+- Update CLI help, examples, skill matrix and SDK-independent usage. Distribution remains 0.6.0 candidate pending separate release; no live AdSense/Analytics/Search Console integration or automatic publishing.
+
+
 ## Unreleased — Astro lightweight web adapter
 - Add opt-in `astro` technology adapter with 6 namespaced skills for architecture, Islands/React integration, SEO, performance, Cloudflare and staged microfrontend migration.
 - Add static-first/privacy/deployment rules, advisory verification and evidence-based eval cases; Astro dependency detection suppresses spurious React/Next.js from `react-dom` islands unless `next` is also declared.

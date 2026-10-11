@@ -102,6 +102,10 @@ Prompt ra quyết định:
 
 > Dựa vào docs, ownership và deploy hiện tại, đánh giá tách image-editor thành MFE hay giữ Astro Island. So sánh khả năng deploy độc lập, SEO, routing, caching, cookie/auth, bundle và chi phí vận hành. Chỉ đề xuất kiến trúc sau khi có nhu cầu thực; ghi ADR/approval và migration steps, chưa tự triển khai.
 
+## Optional: AdSense revenue model
+
+Nếu mục tiêu website là quảng cáo, có thể cài capability `monetization` bên cạnh adapter Astro. Dự án đã cài hãy cập nhật `.harness/project.json` và dùng `aih update` sau khi review. Đọc [Astro + AdSense walkthrough](astro-adsense-microtools.md) để phân biệt build tool với publisher compliance, đặt quảng cáo tránh Generate/Download và đo Page RPM. `aih` không tự nhúng script, tạo ad account hay cam kết doanh thu.
+
 ## 7. Test và PR review
 
 ```bash

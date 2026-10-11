@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "monetization",
+  "description": "Stack-independent advertising monetization guidance for useful web tools: AdSense readiness, safe ad placement, SEO growth, privacy/consent and evidence-based revenue economics.",
+  "module_version": "1.0.0",
+  "skills": [
+    "harness-monetization-adsense-integration",
+    "harness-monetization-ad-placement-ux",
+    "harness-monetization-seo-growth",
+    "harness-monetization-analytics-revenue",
+    "harness-monetization-publisher-compliance"
+  ],
+  "workflows": [
+    "workflows/site-to-adsense.md",
+    "workflows/traffic-to-revenue-review.md"
+  ],
+  "templates": [
+    "templates/site-monetization-plan.md",
+    "templates/ad-placement-review.md",
+    "templates/analytics-report.md",
+    "templates/privacy-consent-checklist.md"
+  ],
+  "verification": "checks/verification.json",
+  "evaluation": "evals/cases.json"
+}

@@ -31,13 +31,14 @@ test('skill matrix covers exactly every registered Core, adapter and capability 
   }
 });
 
-test('SDLC, handoffs and five stack examples stay discoverable from README', () => {
+test('SDLC, handoffs and six stack examples stay discoverable from README', () => {
   const pages = [
     'docs/getting-started.md', 'docs/end-to-end-workflow.md',
     'docs/skill-matrix.md', 'docs/agent-handoffs.md',
     'docs/examples/spring-boot-api.md', 'docs/examples/fullstack-web.md',
     'docs/examples/react-native-app.md', 'docs/examples/ai-rag-service.md',
     'docs/examples/astro-micro-tools.md',
+    'docs/examples/astro-adsense-microtools.md',
   ];
   const readme = read('README.md');
   for (const page of pages) {
@@ -133,4 +134,34 @@ test('Astro adapter guide, skill matrix and CLI help remain discoverable', () =>
   assert.match(read('docs/getting-started.md'), /--adapters astro/);
   assert.match(read('docs/adapters.md'), /\| astro \|/);
   assert.match(read('docs/architecture.md'), /Astro static-first adapter/);
+});
+
+test('Monetization capability and end-to-end publisher guides stay discoverable', () => {
+  const m = manifest(SOURCE);
+  assert.ok((m.capabilities ?? []).includes('monetization'));
+  const cap = loadCapability(SOURCE, 'monetization');
+  assert.equal(cap.skills.length, 5);
+  assert.equal(cap.workflows.length, 2);
+  assert.equal(cap.templates.length, 4);
+  assert.equal(cap.checks.length, 4);
+  assert.equal(cap.cases.length, 4);
+  const matrix = read('docs/skill-matrix.md');
+  assert.match(matrix, /53 skills, 11 nhóm module/);
+  assert.match(matrix, /Monetization capability \(5\)/);
+  for (const skill of cap.skills) {
+    assert.ok(matrix.includes('[' + String.fromCharCode(96) + skill + String.fromCharCode(96) + ']'));
+  }
+  const readme = read('README.md');
+  for (const item of ['docs/monetization.md','docs/examples/astro-adsense-microtools.md','capabilities/monetization/README.md']) {
+    assert.ok(readme.includes(item), 'Missing link: ' + item);
+    assert.ok(fs.existsSync(path.join(SOURCE,item)));
+  }
+  const guide=read('docs/monetization.md');
+  assert.match(guide, /--capabilities monetization/);
+  assert.match(guide, /Page RPM/);
+  assert.match(guide, /new-doc/);
+  assert.match(guide, /support\.google\.com\/adsense/);
+  assert.match(read('docs/cli.md'), /Monetization capability|monetization capability/i);
+  assert.match(read('docs/getting-started.md'), /monetization/);
+  assert.match(read('docs/architecture.md'), /Advertising monetization capability/);
 });
