@@ -1,48 +1,125 @@
 name: Publish npm package
+# Single trusted publisher filename for npm OIDC: npm-publish.yml
+# The GITHUB_TOKEN-created release event does not trigger another workflow.
+# Keep release creation and npm publishing in THIS workflow.
 on:
+  push:
+    branches: [main]
   release:
     types: [published]
+
 permissions:
   contents: read
+
+concurrency:
+  group: npm-publication
+  cancel-in-progress: false
+
 jobs:
+  release-please:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      actions: write
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Validate merged main before creating release
+        run: |
+          npm ci --ignore-scripts --offline --no-audit --no-fund
+          npm test
+          npm run validate
+          npm run check:release
+          npm run test:package
+      - name: Prepare release PR or release approved version
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+      - name: Run CI for the generated release PR
+        if: ${{ steps.release.outputs.prs_created == 'true' && steps.release.outputs.pr != '' }}
+        env:
+          PR_JSON: ${{ steps.release.outputs.pr }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch=$(printf '%s' "$PR_JSON" | jq -r '.headBranchName // empty')
+          if [ -z "$branch" ]; then
+            echo "::error::Cannot read Release Please PR branch"
+            exit 1
+          fi
+          gh workflow run harness.yml --ref "$branch"
+
   publish:
-    if: ${{ !github.event.release.prerelease }}
+    needs: release-please
+    if: >-
+      ${{
+        always() &&
+        (
+          (github.event_name == 'push' &&
+           needs.release-please.result == 'success' &&
+           needs.release-please.outputs.release_created == 'true') ||
+          (github.event_name == 'release' &&
+           !github.event.release.prerelease &&
+           !github.event.release.draft)
+        )
+      }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
+    env:
+      RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || needs.release-please.outputs.tag_name }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out immutable release tag
+        uses: actions/checkout@v4
         with:
+          ref: ${{ env.RELEASE_TAG }}
           fetch-depth: 0
-      - name: Ensure release commit is on main
+      - name: Verify tagged commit belongs to main
         run: |
           git fetch origin main
           git merge-base --is-ancestor HEAD origin/main
-      - uses: actions/setup-node@v4
+      - name: Set up Node and npm Registry
+        uses: actions/setup-node@v4
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
-      - name: Upgrade npm for Trusted Publishing
+          package-manager-cache: false
+      - name: Use npm compatible with Trusted Publishing
         run: npm install --global 'npm@^11'
-      - name: Validate version, tag and scope
+      - name: Verify npm package, tag, and release manifest
+        env:
+          EXPECTED_TAG: ${{ env.RELEASE_TAG }}
         run: |
           node --input-type=module -e '
             import fs from "node:fs";
             const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
-            if (process.env.GITHUB_REF_NAME !== "v" + pkg.version) throw new Error("Release tag and version mismatch");
+            const manifest = JSON.parse(fs.readFileSync(".release-please-manifest.json", "utf8"));
+            const expected = "v" + pkg.version;
+            if (process.env.EXPECTED_TAG !== expected) throw new Error("Unexpected release tag: " + process.env.EXPECTED_TAG + " !== " + expected);
             if (pkg.name !== "@manhd_d/ai-harness") throw new Error("Unexpected package scope");
-            if (pkg.publishConfig?.access !== "public") throw new Error("Expected public package");
+            if (pkg.publishConfig?.access !== "public") throw new Error("Expected public npm package");
+            if (manifest["."] !== pkg.version) throw new Error("Release Please manifest/version mismatch");
           '
-      - run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Verify before publishing
+      - name: Run all release checks
         run: |
+          npm ci --ignore-scripts --offline --no-audit --no-fund
           npm test
           npm run validate
           npm run check:release
           npm run test:package
           npm pack --dry-run
-      - name: Publish with npm OIDC
+      - name: Publish package with npm OIDC (no npm token)
         run: npm publish --access public
         env:
           NPM_CONFIG_PROVENANCE: 'false'

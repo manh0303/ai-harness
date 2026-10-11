@@ -12,7 +12,12 @@ if (!versions.every(v => v === versions[0])) throw new Error('Distribution versi
 if (!VERSION.test(versions[0])) throw new Error('Invalid release semver');
 if (pkg.name !== '@manhd_d/ai-harness' || lock.name !== pkg.name || lock.packages?.['']?.name !== pkg.name) throw new Error('npm package name or scope mismatch');
 if (pkg.publishConfig?.access !== 'public') throw new Error('npm distribution must be public');
-if (!fs.readFileSync(path.join(SOURCE,'CHANGELOG.md'),'utf8').includes(`## ${versions[0]}`)) throw new Error('Distribution version missing from CHANGELOG');
+const releaseManifest = readJson(path.join(SOURCE, '.release-please-manifest.json'));
+if (releaseManifest['.'] !== versions[0]) throw new Error('Release Please manifest version mismatch');
+const changelog = fs.readFileSync(path.join(SOURCE, 'CHANGELOG.md'), 'utf8');
+const escapedVersion = versions[0].replace(/\\./g, '\\\\.');
+const releaseHeading = new RegExp('^##\\\\s+\\\\[?v?' + escapedVersion + '\\\\]?(?:\\\\s|\\\\(|—|$)', 'm');
+if (!releaseHeading.test(changelog)) throw new Error('Distribution version missing from CHANGELOG');
 const modules = [...listAdapters(SOURCE).adapters, ...listCapabilities(SOURCE)];
 for (const mod of modules) if (mod.module_version != null && !VERSION.test(mod.module_version)) {
   throw new Error(`Invalid module version: ${mod.id}`);

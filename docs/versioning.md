@@ -16,11 +16,13 @@ It does not fetch releases or silently follow main. Pass a reviewed local checko
 See [release policy](release-policy.md) for independently versioned module contracts and single release-PR version ownership.
 
 ## Release procedure
+
+**Current automation (after v0.6.0):** Release Please maintains the root distribution version, changelog and JSON-formatted harness.yaml. The human review/merge of its generated Release PR is the explicit publishing approval. See [npm release](npm-release.md).
 1. Update harness.yaml, CHANGELOG and migration notes. Review policy/behavior changes as code.
 2. Run structural validation and CLI tests on the supported Node.js 22/24 and OS matrix, including actual npm package smoke tests.
 3. Run the behavioral evaluation suite with the intended agent/model if prompts materially changed.
 4. Inspect the install/update diff in a sample consumer; document source commit and limitations.
-5. Merge by human decision. First npm publication is manual. Subsequent releases use an approved GitHub Release triggering npm Trusted Publishing; merge or tag alone never publishes.
+5. Merge feature PR by human decision. Release Please opens a separate version/changelog PR; after human review and merge, the release workflow creates the tag and GitHub Release and publishes npm from the same workflow through OIDC. Merge of feature PR alone does not publish.
 
 ## Consumer update
 Create a branch, commit current state, obtain the reviewed source commit/tag and inspect CHANGELOG.

@@ -50,7 +50,7 @@ Sau khi cài, dùng `aih` từ bất kỳ repository ứng dụng nào. Đích m
 Khi chủ sở hữu đã phát hành npm package công khai, cách cài sẽ là
 `npm install -g @manhd_d/ai-harness@0.6.0`. **Lệnh registry này chưa dùng được chỉ vì PR đã merge.**
 Có thể cài tarball vào devDependencies rồi dùng `npx --no-install aih init` nếu không muốn cài global.
-Xem [hướng dẫn đóng gói/phát hành](docs/npm-release.md).
+Xem [hướng dẫn đóng gói/phát hành](docs/npm-release.md). Từ các phiên bản sau v0.6.0, Release Please tự đề xuất Release PR; sau khi bạn review/merge, GitHub Actions tự tạo tag/release và publish npm bằng OIDC trong workflow `npm-publish.yml` (không cần token/OTP).
 
 Đây là cài **quy trình và context**, không scaffold source code Spring/React và không sửa build file.
 
