@@ -21,7 +21,7 @@ const npm = (args, cwd = SOURCE) => command(process.execPath, [npmCli, ...args],
 try {
   const packed = JSON.parse(npm(['pack', '--ignore-scripts', '--json', '--pack-destination', temp]))[0];
   const names = packed.files.map(f => f.path);
-  for (const required of ['bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
+  for (const required of ['bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'capabilities/product/capability.json', 'capabilities/product/templates/brd.md', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
   assert.ok(!names.some(n => /(^|\/)\.env(?:\.|$)/.test(n)));
@@ -36,13 +36,26 @@ try {
   JSON.parse(run(['init', '--adapters', 'java-spring,react-nextjs,react-native,ai-python']));
   assert.equal(JSON.parse(run(['check'])).status, 'ok');
   assert.equal(JSON.parse(run(['list'])).adapters.length, 4);
-  assert.equal(JSON.parse(run(['list'])).capabilities.length, 1);
+  assert.equal(JSON.parse(run(['list'])).capabilities.length, 2);
   const uiuxTarget = path.join(temp, 'uiux project'); fs.mkdirSync(uiuxTarget);
   const uiuxOut = process.platform === 'win32'
     ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" init --capabilities uiux"`], uiuxTarget, { windowsVerbatimArguments: true })
     : command(bin, ['init', '--capabilities', 'uiux'], uiuxTarget);
   assert.equal(JSON.parse(uiuxOut).status, 'ok');
   assert.ok(fs.existsSync(path.join(uiuxTarget, '.agents/skills/harness-uiux-figma-design/SKILL.md')));
+  const productTarget = path.join(temp, 'product project'); fs.mkdirSync(productTarget);
+  const productOut = process.platform === 'win32'
+    ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" init --capabilities product,uiux"`], productTarget, { windowsVerbatimArguments: true })
+    : command(bin, ['init', '--capabilities', 'product,uiux'], productTarget);
+  assert.equal(JSON.parse(productOut).status, 'ok');
+  assert.ok(fs.existsSync(path.join(productTarget, '.harness/capabilities/product/templates/prd.md')));
+  assert.ok(fs.existsSync(path.join(productTarget, '.agents/skills/harness-product-prd-generation/SKILL.md')));
+  assert.ok(fs.existsSync(path.join(productTarget, '.agents/skills/harness-uiux-figma-design/SKILL.md')));
+  const productDocOut = process.platform === 'win32'
+    ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" new-doc brd"`], productTarget, { windowsVerbatimArguments: true })
+    : command(bin, ['new-doc', 'brd'], productTarget);
+  assert.equal(JSON.parse(productDocOut).status, 'ok');
+  assert.ok(fs.existsSync(path.join(productTarget, 'docs/product/brd.md')));
   assert.equal(JSON.parse(run(['verify'])).executed, false);
   assert.equal(JSON.parse(run(['eval'])).dataset.cases.length, 8);
   assert.ok(fs.existsSync(path.join(target, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
@@ -56,5 +69,5 @@ try {
   assert.equal(localResult.status, 'ok');
   assert.equal(JSON.parse(npm(['exec', '--offline', '--', 'aih', 'check'], local)).status, 'ok');
   console.log(JSON.stringify({ status: 'ok', version: packed.version, package_files: names.length,
-    checks: ['npm pack assets', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'idempotent update', 'local npm exec without network'] }, null, 2));
+    checks: ['npm pack assets', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'idempotent update', 'local npm exec without network'] }, null, 2));
 } finally { fs.rmSync(temp, { recursive: true, force: true }); }

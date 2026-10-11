@@ -22,8 +22,14 @@ export function loadCapability(source, id) {
   if (!validName(id)) fail('Invalid capability ID');
   const prefix = `capabilities/${id}/`;
   const meta = readJson(safe(source, prefix + 'capability.json'));
-  if (!exact(meta, ['schema_version', 'id', 'description', 'skills', 'workflows'])
-      || meta.schema_version !== 1 || meta.id !== id || typeof meta.description !== 'string' || !meta.description.trim()) fail(`Invalid capability: ${id}`);
+  // Schema 1 supports optional role and template lists; legacy UI/UX stays valid.
+  const required = ['schema_version', 'id', 'description', 'skills', 'workflows'];
+  const allowed = new Set([...required, 'agents', 'templates']);
+  if (!meta || typeof meta !== 'object' || Array.isArray(meta)
+      || required.some(k => !Object.hasOwn(meta, k))
+      || Object.keys(meta).some(k => !allowed.has(k))
+      || meta.schema_version !== 1 || meta.id !== id
+      || typeof meta.description !== 'string' || !meta.description.trim()) fail(`Invalid capability: ${id}`);
   if (!Array.isArray(meta.skills) || !meta.skills.length || !unique(meta.skills)
       || !meta.skills.every(name => validName(name) && name.startsWith(`harness-${id}-`))) fail(`Invalid capability skills: ${id}`);
   if (!Array.isArray(meta.workflows) || !meta.workflows.length || !unique(meta.workflows)
@@ -34,13 +40,27 @@ export function loadCapability(source, id) {
   for (const workflow of meta.workflows) {
     if (!fs.readFileSync(safe(source, prefix + workflow), 'utf8').trim()) fail(`Empty capability workflow: ${id}/${workflow}`);
   }
-  return meta;
+  for (const [kind, pattern] of [
+    ['agents', new RegExp('^agents/[a-z][a-z0-9-]*[.]md$')],
+    ['templates', new RegExp('^templates/[a-z][a-z0-9-]*[.]md$')],
+  ]) {
+    const entries = meta[kind] ?? [];
+    if (!Array.isArray(entries) || !unique(entries) || !entries.every(p => typeof p === 'string' && pattern.test(p))) fail(`Invalid capability ${kind}: ${id}`);
+    for (const file of entries) {
+      const body = fs.readFileSync(safe(source, prefix + file), 'utf8');
+      if (!body.trim()) fail(`Empty capability ${kind}: ${id}/${file}`);
+      if (kind === 'agents' && !['## Inputs', '## Outputs', '## Permissions and limits', '## Handoff'].every(h => body.includes(h))) {
+        fail(`Invalid capability agent contract: ${id}/${file}`);
+      }
+    }
+  }
+  return { ...meta, agents: meta.agents ?? [], templates: meta.templates ?? [] };
 }
 
 export function listCapabilities(source) {
   return (manifest(source).capabilities ?? []).map(id => {
-    const { description, skills, workflows } = loadCapability(source, id);
-    return { id, description, skills, workflows };
+    const { description, skills, workflows, agents, templates } = loadCapability(source, id);
+    return { id, description, skills, workflows, agents, templates };
   });
 }
 

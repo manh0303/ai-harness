@@ -68,3 +68,17 @@ the selected capability under `.harness/capabilities/<id>/` and exposes its skil
 skill after drift validation. The agent host controls actual skill activation and remote MCP.
 For package size, source npm distribution currently bundles all capabilities, but consumer
 snapshot and AI context are selective; split distributable packages only when size warrants it.
+
+## Product documentation capability (0.5.0)
+
+An optional `product` capability owns business-analysis and product-documentation
+role contracts and templates. Capability schema-1 now supports optional unique safe
+`agents` and `templates` Markdown path lists (required fields remain unchanged).
+Role files must include Inputs, Outputs, Permissions and limits, Handoff sections.
+The existing `uiux` manifest without these optional fields remains valid.
+Selected capability artifacts are hashed and installed with the existing lock safety.
+
+`aih new-doc <type>` reads a locked, drift-free Product template, creates
+`docs/product/<type>.md` as project-owned data, and refuses overwrite/symlinked
+destinations. It never fills confidential content, fetches Confluence or auto-approves.
+The approved PRD/BRD/stories/AC serve as source of truth for UI/UX and OpenSpec.
