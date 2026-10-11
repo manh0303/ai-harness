@@ -13,6 +13,7 @@ Các role/skill hướng dẫn assistant đang dùng; quyền thực tế do IDE
 Nếu lần đầu sử dụng, đọc theo thứ tự: **Cài → Product/BA/PO → UI/UX → OpenSpec → Code → Test/Review → CI/CD → Vận hành**.
 
 - **[Getting started](docs/getting-started.md)** — cài CLI, chọn module, tạo change và kiểm tra.
+- **[Hai luồng tài liệu](docs/documentation-workflows.md)** — idea-driven và document-driven, lưu trữ, version và handoff.
 - **[Full SDLC: Idea → Production](docs/end-to-end-workflow.md)** — input/output, approval gate, cách phối hợp capabilities/adapters.
 - **[Ma trận 42 skills](docs/skill-matrix.md)** — tra cứu skills theo stage/công nghệ và ID thật.
 - **[Agent handoffs](docs/agent-handoffs.md)** — roles, trách nhiệm, ownership, evidence và bàn giao.
@@ -22,12 +23,16 @@ Harness cung cấp hướng dẫn cho AI runtime, **không** tự điều phối
 
 ## Bắt đầu
 
+**Nếu muốn thử tính năng trong PR #10 khi chưa merge**, checkout branch `feat/documentation-discovery-v0.7` trước `npm pack` và lưu ý package vẫn hiển thị version 0.6.0. Sau merge, dùng commit/tag được review trên main. Dùng branch này chỉ để review/test, không xem đây là npm release.
+
 Cài từ source đã review bằng tài khoản có quyền repository private:
 
 ```bash
 git clone git@github.com:manh0303/ai-harness.git
 cd ai-harness
-# Checkout commit/tag đã được review khi cần pin bản nguồn ổn định.
+# Nếu thử các tính năng chưa merge trong PR #10:
+git switch feat/documentation-discovery-v0.7
+# Sau khi merge, ưu tiên tag/commit đã review thay vì feature branch.
 npm pack
 npm install -g ./manh0303-ai-harness-0.6.0.tgz
 
@@ -49,11 +54,11 @@ Xem [hướng dẫn đóng gói/phát hành](docs/npm-release.md).
 
 Đây là cài **quy trình và context**, không scaffold source code Spring/React và không sửa build file.
 
-## Two documentation inputs — Idea-driven / Document-driven
+## Hai chế độ tài liệu — Idea-driven / Document-driven
 
-AI Harness supports two paths that converge on approved requirements → OpenSpec → code. **Idea-driven:** developer idea → discussion + authorized research → draft PRD-lite or BRD/PRD/SRS/use cases. **Document-driven:** existing BA/Confluence/BRD/PRD/SRS → versioned source inventory, gaps and traceability → engineering; do not replace approved BA source. Both paths can coexist, with a human approval gate before treating generated requirements as authoritative.
+**Idea-driven:** Từ ý tưởng của developer → thảo luận → nghiên cứu có nguồn → PRD-lite hoặc BRD/PRD/SRS/use cases → duyệt → OpenSpec. **Document-driven:** Từ BRD/PRD/SRS/Confluence đã có của BA → kiểm tra source version, gap và traceability → technical spec và code. Không tự ghi đè tài liệu BA đã duyệt. Hai chế độ có thể sử dụng luân phiên trong cùng một dự án.
 
-See [Documentation workflows](docs/documentation-workflows.md) and [Confluence integration contract](integrations/confluence/README.md). `aih` only creates templates and ships instructions; AI host handles research/content, and external publishing requires independently authorized tooling.
+Xem hai hướng dẫn thực hành: [Bắt đầu từ ý tưởng](docs/examples/idea-driven-project.md) · [Dự án đã có tài liệu BA](docs/examples/document-driven-project.md). Xem thêm [Documentation workflows](docs/documentation-workflows.md) và [Confluence integration contract](integrations/confluence/README.md). `aih` only creates templates and ships instructions; AI host handles research/content, and external publishing requires independently authorized tooling.
 
 ```bash
 aih init --capabilities product
@@ -69,7 +74,7 @@ aih new-doc use-cases  # docs/product/use-cases.md
 Capability `product` cung cấp 5 role contracts, 13 skills, 5 workflows và 16 templates
 để chuyển ý tưởng hoặc nguồn Confluence được cấp quyền thành BRD, PRD, user stories,
 acceptance criteria và requirement traceability. Mọi tài liệu hoàn thiện là dữ liệu
-**do dự án sở hữu**, nằm trong `docs/product/` của repository ứng dụng.
+**do dự án sở hữu**, nằm trong `docs/discovery/` (ý tưởng, nghiên cứu) hoặc `docs/product/` (yêu cầu) của repository ứng dụng.
 
 ```bash
 # Khởi tạo dự án mới chỉ cần Product
@@ -265,6 +270,8 @@ Dự án được cấp phép theo [MIT License](LICENSE) — cho phép sử d�
 
 - [Getting started](docs/getting-started.md)
 - [Documentation workflows](docs/documentation-workflows.md)
+- [Walkthrough Idea-driven](docs/examples/idea-driven-project.md)
+- [Walkthrough Document-driven](docs/examples/document-driven-project.md)
 - [Full SDLC](docs/end-to-end-workflow.md)
 - [Skill matrix](docs/skill-matrix.md)
 - [Agent handoffs](docs/agent-handoffs.md)
