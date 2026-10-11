@@ -9,6 +9,7 @@ export function checksFrom(source, relative) {
     && doc.checks.length > 0, `Invalid verification: ${relative}`);
   const ids = new Set();
   for (const check of doc.checks) {
+    requireThat(!ids.has(check?.id), `Duplicate checks: ${relative}`);
     requireThat(exact(check, ['id', 'title', 'command', 'when_file', 'evidence', 'execution'])
       && typeof check.id === 'string' && SLUG.test(check.id) && !ids.has(check.id)
       && text(check.title) && Array.isArray(check.command) && check.command.every(text)

@@ -10,6 +10,7 @@ import { SOURCE, manifest, bundle, readJson } from '../cli/harness.js';
 try {
   const errors = [], m = manifest(SOURCE), pkg = readJson(path.join(SOURCE, 'package.json'));
   if (m.version !== pkg.version) errors.push('package.json and harness.yaml versions differ');
+  if (readJson(path.join(SOURCE, 'package-lock.json')).version !== pkg.version) errors.push('package-lock version mismatch');
   if (pkg.bin?.aih !== 'bin/aih.js') errors.push('aih executable missing');
   if (Object.keys(pkg.dependencies ?? {}).length) errors.push('Runtime must remain dependency-free');
   const required = ['README.md', 'AGENTS.md', 'CHANGELOG.md', 'docs/architecture.md', 'docs/versioning.md',

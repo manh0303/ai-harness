@@ -21,4 +21,5 @@ jobs:
       - run: npm ci --ignore-scripts --offline --no-audit --no-fund
       - run: npm test
       - run: npm run validate
+      - run: npm run check:release
       - run: npm run test:package

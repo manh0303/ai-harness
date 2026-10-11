@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+import fs from 'node:fs';
+import path from 'node:path';
+import { SOURCE, VERSION, manifest, readJson } from '../cli/files.js';
+import { listCapabilities } from '../cli/capabilities.js';
+import { listAdapters } from '../cli/adapters.js';
+const pkg = readJson(path.join(SOURCE, 'package.json'));
+const lock = readJson(path.join(SOURCE, 'package-lock.json'));
+const m = manifest(SOURCE);
+const versions = [pkg.version, lock.version, lock.packages?.['']?.version, m.version];
+if (!versions.every(v => v === versions[0])) throw new Error('Distribution version mismatch: package.json, package-lock.json and harness.yaml');
+if (!VERSION.test(versions[0])) throw new Error('Invalid release semver');
+if (!fs.readFileSync(path.join(SOURCE,'CHANGELOG.md'),'utf8').includes(`## ${versions[0]}`)) throw new Error('Distribution version missing from CHANGELOG');
+const modules = [...listAdapters(SOURCE).adapters, ...listCapabilities(SOURCE)];
+for (const mod of modules) if (mod.module_version != null && !VERSION.test(mod.module_version)) {
+  throw new Error(`Invalid module version: ${mod.id}`);
+}
+console.log(JSON.stringify({status:'ok',distribution_version:versions[0],modules:modules.length,
+  note:'Local metadata only; no tag, publish or remote checks performed'},null,2));

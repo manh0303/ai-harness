@@ -75,3 +75,11 @@ Any false criterion returns status fail and exit 1, including a list of critical
 - For installed projects, change `.harness/project.json` selection and run update/check.
 - Documents must be populated by an authorized AI host using source references;
   no command retrieves Confluence, calls an LLM or claims stakeholder approval.
+
+## Module composition (foundation hardening)
+
+`aih resolve --adapters java-spring,kubernetes --capabilities product,uiux,devops` is read-only and validates dependencies, conflicts, version metadata, and declared compatibility before install. Optional recommendations only warn. Init/update use the same resolver.
+
+## Unified eval scopes
+
+`aih verify --scope all` and `aih eval --scope all` include the Core and installed capability/adapter contracts plus matching cross-module scenarios. `adapters` is the unchanged default for backward compatibility. `capabilities` and `core` isolate those cases. Older installed snapshots without Core evaluation assets must be upgraded first. The CLI emits advisory checks and a human-scored report; it never executes provider commands or AI evaluations.

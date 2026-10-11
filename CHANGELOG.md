@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — Foundation hardening
+- Add independently versioned module metadata and optional requires/recommends/conflicts/compatibility constraints with read-only `aih resolve`.
+- Fail closed before install/update on missing dependencies, incompatible selections and cycles; keep Product, UI/UX and DevOps composable.
+- Extend `aih verify/eval --scope all` to Core, capabilities and cross-module scenarios; preserve legacy adapter-only defaults.
+- Add lock-checked capability/core evaluations, review-only checks and composition regression tests.
+- Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
+
+
 ## 0.6.0 — DevOps capability and Kubernetes adapter candidate
 - Add `devops` capability with six namespaced CI/CD, Docker, deployment, infrastructure, observability and incident-response skills plus two review-gated workflows.
 - Add `kubernetes` adapter with Helm/workload/rollout skills, advisory verification checks and two safety evaluation scenarios.
