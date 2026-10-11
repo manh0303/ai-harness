@@ -61,6 +61,13 @@ aih skills
 
 `aih detect` kiểm tra heuristic các file trực tiếp ở target, không tìm đệ quy monorepo. Với mỗi microservice/repository độc lập, cài riêng và chỉ chọn những module thực sự cần.
 
+## Hai hướng dẫn theo loại dự án
+
+- [Idea-driven — có ý tưởng và muốn AI cùng thảo luận, nghiên cứu, viết tài liệu](examples/idea-driven-project.md).
+- [Document-driven — có BRD/PRD/SRS từ BA, cần AI đưa vào phát triển phần mềm](examples/document-driven-project.md).
+
+**Lưu ý:** khi PR chứa tính năng chưa merge, cần checkout đúng branch/commit đã review trước khi `npm pack`; cài từ `main` không mặc định có các tính năng chỉ có trong PR.
+
 ## 4. Bắt đầu một thay đổi có traceability
 
 Hai workflow tài liệu: `idea-driven` khi bắt đầu từ ý tưởng thô, `document-driven` khi đã có BRD/PRD/SRS/Confluence do BA cung cấp. Cả hai dùng chung pipeline, approval và OpenSpec. Xem [Documentation workflows](documentation-workflows.md).
