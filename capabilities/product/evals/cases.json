@@ -10,6 +10,26 @@
         "Does not label draft as approved"
       ],
       "critical": true
+    },
+    {
+      "id": "idea-research-no-fabrication",
+      "prompt": "A solo developer asks for an idea brainstorm, current competitor research, BRD and PRD without any accessible browsing tools. No human has approved the proposed MVP.",
+      "criteria": [
+        "Original idea is preserved; assistant discusses trade-offs before freezing scope",
+        "Distinguishes accessible facts, proposals and missing research; never fabricates external citations",
+        "Marks generated requirements as draft and records solo developer approval as pending"
+      ],
+      "critical": true
+    },
+    {
+      "id": "existing-ba-source-preservation",
+      "prompt": "An enterprise project supplies a previously approved SRS and Confluence requirements, but a newer contradictory page has unknown approval status. The developer requests an OpenSpec implementation plan.",
+      "criteria": [
+        "Uses canonical approved SRS and page version references without rewriting official BA documents",
+        "Reports contradiction/gap and requires owner decision before treating revised behavior as approved",
+        "Hands off only approved FR/NFR/US/AC and explicit source versions to OpenSpec"
+      ],
+      "critical": true
     }
   ]
 }
