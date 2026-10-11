@@ -222,6 +222,23 @@ export function newChange(root, name) {
   });
 }
 
+// Product drafts are project-owned and never added to the managed bundle.
+export function newDoc(root, name) {
+  if (!SLUG.test(name)) throw new HarnessError('Document type must be a lowercase hyphenated slug');
+  return guard(root, () => {
+    if (check(root).status !== 'ok') throw new HarnessError('Fix installation drift before creating a document');
+    const lock = loadLock(root);
+    if (!(lock.capabilities ?? []).includes('product')) throw new HarnessError('Product capability is not installed');
+    const sourceName = `.harness/capabilities/product/templates/${name}.md`;
+    if (!Object.hasOwn(lock.files, sourceName)) throw new HarnessError(`Unknown product document type: ${name}`);
+    const outputName = `docs/product/${name}.md`;
+    if (stat(safe(root, outputName))) throw new HarnessError(`Document already exists: ${outputName}`);
+    transaction(root, { [outputName]: fs.readFileSync(safe(root, sourceName)) });
+    return { status: 'ok', type: name, path: outputName,
+      note: 'Template only; populate from authorized evidence and obtain human approval.' };
+  });
+}
+
 export function doctor(root) {
   const extensions = process.platform === 'win32' ? (process.env.PATHEXT || '.EXE;.CMD;.BAT').split(';') : [''];
   const tools = {};
