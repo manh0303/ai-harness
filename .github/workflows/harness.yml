@@ -23,3 +23,14 @@ jobs:
       - run: npm run validate
       - run: npm run check:release
       - run: npm run test:package
+  npm12-package-smoke:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Test against npm 12 output format
+        run: npm install --global npm@12
+      - run: npm ci --ignore-scripts --offline --no-audit --no-fund
+      - run: npm run test:package
