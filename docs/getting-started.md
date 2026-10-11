@@ -17,8 +17,7 @@ AI Harness phân phối **rules, role contracts, skills và workflows** tới re
 ~~~bash
 git clone git@github.com:manh0303/ai-harness.git
 cd ai-harness
-# Để thử tính năng PR #10 chưa merge, checkout feature branch được review:
-# Thử PR Astro trước khi merge (nếu cần):
+# Nếu thử PR Astro chưa merge, chọn branch đã review:
 git switch feat/astro-lightweight-adapter
 # Sau khi merge, ưu tiên commit/tag chính thức đã review.
 npm test
