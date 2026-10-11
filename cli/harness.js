@@ -233,7 +233,8 @@ export function newDoc(root, name) {
     if (!(lock.capabilities ?? []).includes('product')) throw new HarnessError('Product capability is not installed');
     const sourceName = `.harness/capabilities/product/templates/${name}.md`;
     if (!Object.hasOwn(lock.files, sourceName)) throw new HarnessError(`Unknown product document type: ${name}`);
-    const outputName = `docs/product/${name}.md`;
+    const folder = ['idea', 'research'].includes(name) ? 'discovery' : 'product';
+    const outputName = `docs/${folder}/${name}.md`;
     if (stat(safe(root, outputName))) throw new HarnessError(`Document already exists: ${outputName}`);
     transaction(root, { [outputName]: fs.readFileSync(safe(root, sourceName)) });
     return { status: 'ok', type: name, path: outputName,
