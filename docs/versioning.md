@@ -1,7 +1,7 @@
 # Versioning and migration
 
 Framework version is in harness.yaml and package.json; keep both and package-lock.json synchronized. Use three-part SemVer releases and Git tags vX.Y.Z after review.
-0.3.0 is an adapter-capabilities candidate, not a claim of a registry publication or Git tag. Do not publish from a feature PR.
+0.4.0 is a modular-capabilities candidate (the previous 0.3.0 added adapter capabilities), not a claim of a registry publication or Git tag. Do not publish from a feature PR.
 
 - Patch: compatible corrections to instructions or installer defects.
 - Minor: backward-compatible adapter, skill or CLI additions.
@@ -58,3 +58,13 @@ an installed selection. Installing the CLI alone does not update the consumer sn
 
 Custom source adapters must adopt schema 2 before use with the 0.3 installer. The legacy adapter.json
 source format is not accepted; backward compatibility covers installed snapshots, not old source bundles.
+
+## 0.3 → 0.4 migration
+Project config and lock schema remain version 1. New installations write `capabilities: []`;
+older snapshots without that field remain readable by `aih check` and upgrade with
+`aih update`. The new field is optional for existing projects. To opt in, add
+`"capabilities": ["uiux"]` in project.json, review `aih update --dry-run`, update and
+check on a branch. Existing adapters, local overrides, old OpenSpec changes and AGENTS
+content outside markers remain preserved. Unmodified deselected capability files may be
+removed through update; edited managed files block changes. This is a monorepo single-package
+release, not remote lazy downloads. Figma/Confluence accounts are not configured by CLI.

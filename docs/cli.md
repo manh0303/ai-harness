@@ -50,3 +50,14 @@ proof that a script exists, a command is safe, or a native toolchain is availabl
 eval without --report emits {dataset, report}; save/edit only the report object as the submission.
 Missing metadata, null/nonboolean scores, missing/duplicate/unknown cases or stale hashes fail validation.
 Any false criterion returns status fail and exit 1, including a list of critical failures where relevant.
+
+## Selective capabilities and progressive skill loading (0.4.0)
+
+- `aih init --capabilities uiux` is optional and independent of `--adapters`.
+- `aih list` returns a `capabilities` array alongside adapter metadata.
+- `aih skills` lists **installed** names/descriptions and paths only (no full skill bodies).
+- `aih skill harness-uiux-figma-design` returns only that single installed, locked skill text.
+- Invalid, duplicate and unknown capability IDs fail before installing. Custom capabilities must have a registered and valid source manifest.
+- For existing installs, edit the `capabilities` array in `.harness/project.json`, then use `aih update --dry-run` followed by `aih update`. Init refuses an already installed conflicting selection.
+- Selecting a capability copies only its managed snapshot and exposed skills into the consumer. npm package transport itself still contains all bundled capabilities.
+- Neither `skills` nor `skill` contacts the network or runs model/tool integrations. Both require a drift-free installed snapshot.

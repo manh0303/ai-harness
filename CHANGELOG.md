@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0 — modular UI/UX capability candidate
+- Add explicit `uiux` capability, six review-gated skills and document/idea-to-Figma workflows.
+- Add `aih init --capabilities uiux` independent from technology adapters; update selection through project.json.
+- Add progressive skill disclosure with `aih skills` (metadata) and `aih skill <name>` (locked full skill).
+- Extend project/lock schema-1 compatibly with an optional capabilities field; preserve old 0.1–0.3 snapshots.
+- Package capability files and maintain fail-closed drift, collision and source integrity checks.
+- No live Confluence/Figma execution, npm registry publication or automatic Git merge.
+
+
 ## 0.3.0 — adapter capabilities candidate
 - Add strict adapter.yaml schema 2 with technology rules, nine namespaced skills, advisory checks and eight evaluation scenarios.
 - Add list, evidence-based detect and opt-in init --detect; preserve explicit selection and core-only defaults.

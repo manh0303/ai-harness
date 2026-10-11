@@ -195,7 +195,7 @@ test('real Python 0.1 fixture checks and upgrades preserving project content', (
   for (const [name, content] of Object.entries(fixture.files)) write(name, content);
   assert.equal(run('check').version, '0.1.0');
   const local = fs.readFileSync(path.join(project, '.harness/local.md'));
-  run('update'); assert.equal(run('check').version, '0.3.0');
+  run('update'); assert.equal(run('check').version, '0.4.0');
   assert.ok(fs.readFileSync(path.join(project, '.harness/local.md')).equals(local));
   const agents = fs.readFileSync(path.join(project, 'AGENTS.md'), 'utf8');
   assert.ok(agents.startsWith('# Existing project\n')); assert.ok(agents.endsWith('Keep this appendix.\n'));

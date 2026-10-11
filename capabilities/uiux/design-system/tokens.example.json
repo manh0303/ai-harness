@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "description": "Example only; project-specific token overrides remain in the app repo.",
+  "color": {
+    "semantic": {
+      "primary": "{brand.primary}",
+      "surface": "{neutral.0}",
+      "text": "{neutral.900}",
+      "danger": "{red.600}"
+    }
+  },
+  "spacing": {
+    "base_px": 8
+  },
+  "radius": {
+    "medium_px": 12
+  },
+  "typography": {
+    "body": "Inter, system-ui, sans-serif"
+  }
+}

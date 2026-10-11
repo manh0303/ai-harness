@@ -55,3 +55,16 @@ installation is an explicit exception to overlap rejection; payload destinations
 The npm files allowlist ships runtime assets including the hidden OpenSpec template. A smoke test packs
 and installs a real tarball globally and locally without registry access. Development tests and fixtures
 are excluded from distribution. Only the development smoke script launches npm subprocesses.
+
+## Optional capabilities (0.4.0)
+
+Capabilities differ from technology adapters: they represent reusable workflows such as UI/UX,
+not runtime stack defaults. A registered capability contains `capability.json` schema 1,
+namespaced `SKILL.md` files and workflow contracts, installed only when selected. CLI copies
+the selected capability under `.harness/capabilities/<id>/` and exposes its skills to
+`.agents/skills/`. The existing Core and technology adapter contracts remain unchanged.
+
+`aih skills` exposes metadata-only catalog and `aih skill <name>` retrieves a single locked
+skill after drift validation. The agent host controls actual skill activation and remote MCP.
+For package size, source npm distribution currently bundles all capabilities, but consumer
+snapshot and AI context are selective; split distributable packages only when size warrants it.
