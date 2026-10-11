@@ -17,7 +17,9 @@ AI Harness phân phối **rules, role contracts, skills và workflows** tới re
 ~~~bash
 git clone git@github.com:manh0303/ai-harness.git
 cd ai-harness
-# Kiểm tra checkout/commit đã review; không tự giả định main là release tag.
+# Để thử tính năng PR #10 chưa merge, checkout feature branch được review:
+git switch feat/documentation-discovery-v0.7
+# Sau khi merge, ưu tiên commit/tag chính thức đã review.
 npm test
 npm run validate
 npm run test:package
