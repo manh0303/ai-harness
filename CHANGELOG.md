@@ -42,6 +42,14 @@
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.6.1](https://github.com/manh0303/ai-harness/compare/v0.6.0...v0.6.1) (2026-10-11)
+
+
+### Bug Fixes
+
+* **release:** automate npm publishing with Release Please and OIDC ([d39f284](https://github.com/manh0303/ai-harness/commit/d39f2843bd2700d9be8f70981135b8502b691303))
+* **release:** automate npm releases with Release Please and OIDC ([0b293c5](https://github.com/manh0303/ai-harness/commit/0b293c520601cf2f21ed10d0dd3973f659647cc0))
+
 ## 0.6.0 — DevOps capability and Kubernetes adapter candidate
 - Add `devops` capability with six namespaced CI/CD, Docker, deployment, infrastructure, observability and incident-response skills plus two review-gated workflows.
 - Add `kubernetes` adapter with Helm/workload/rollout skills, advisory verification checks and two safety evaluation scenarios.
