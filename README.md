@@ -14,6 +14,7 @@ npm install -g @manhd_d/ai-harness
 # Chạy trong một project đã tồn tại
 aih init --adapters java-spring
 aih check
+aih setup
 ```
 
 Tiếp theo, ghi stack, nghiệp vụ và lệnh test vào `.harness/local.md`; mở project trong AI IDE và yêu cầu assistant đọc `AGENTS.md` trước khi làm việc. Bạn giao task bình thường, AI đọc skill liên quan và báo cáo test thực chạy.
@@ -21,6 +22,10 @@ Tiếp theo, ghi stack, nghiệp vụ và lệnh test vào `.harness/local.md`; 
 Thêm `--capabilities product` khi cần tài liệu BA; `aih new-doc prd-lite` tạo template, `aih new-change <id>` tạo spec nháp khi cần. Không bắt mọi task tạo đủ tài liệu. Xem [Getting started](docs/getting-started.md) và [CLI reference](docs/cli.md).
 
 **Phân biệt:** `aih check` kiểm tra file Harness; `aih verify` xuất checklist; build/test ứng dụng do AI host hoặc CI thực chạy. CLI không bảo đảm AI sẽ tuân thủ hướng dẫn; xem [đánh giá hành vi](evals/README.md).
+
+`aih setup` đưa gợi ý câu hỏi cho AI host; AI hỏi phần còn mơ hồ bằng A/B/C có đề xuất và lưu câu trả lời.
+Cấu hình Maven/JDK riêng từng máy: [Project configuration](docs/project-configuration.md).
+Trước code/review tính năng có spec: [Change readiness](docs/change-readiness.md).
 
 ## Thành phần
 

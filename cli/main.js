@@ -2,6 +2,8 @@ import { listAdapters, detect, verify, evaluate } from './adapters.js';
 import { listCapabilities, skillCatalog, readSkill } from './capabilities.js';
 import { resolveModules } from './composition.js';
 import { parseArgs } from 'node:util';
+import { setupPlan } from './environment.js';
+import { ready } from './readiness.js';
 import { SOURCE, readJson, targetRoot, install, check, doctor, newChange, newDoc, loadLock } from './harness.js';
 import path from 'node:path';
 
@@ -18,13 +20,16 @@ Usage: aih <command> [options]
   init                 Install rules and selected adapters
   update               Apply the installed CLI bundle to the project (no download)
   check                Check Harness file integrity, not application tests
-  doctor               Check installation and tool presence
+  doctor               Check installation, configured paths and tool presence
+  setup                Suggest first-run questions for the AI host (read-only)
+  ready <id>           Check structural change readiness, not approval
   new-change <id>      Create an OpenSpec draft using installed templates
   new-doc <type>       Scaffold a Product/Discovery document draft (requires product capability)
 
 Options:
   --target <directory> Project directory (default: current directory)
   --detect            init only: opt in to detected stack selection
+  --stage <type>      ready only: implement (default) or review
   --scope <type>      verify/eval: adapters (default), capabilities, core, all
   --report <file>     eval only: score a reviewer-completed JSON report
   --adapters <a,b>     init/resolve: java-spring,react-nextjs,react-native,ai-python,kubernetes,astro
@@ -45,6 +50,9 @@ Examples:
   aih init --adapters astro --capabilities product,uiux
   aih init --adapters astro --capabilities monetization
   aih resolve --adapters java-spring,kubernetes --capabilities product,uiux,devops
+  aih setup
+  aih doctor
+  aih ready add-order --stage implement
   aih skills
   aih new-doc brd
   aih new-doc idea
@@ -64,7 +72,7 @@ export function main(argv = process.argv.slice(2)) {
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
       target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, source: { type: 'string' },
-      detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' },
+      detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' }, stage: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
       help: { type: 'boolean', short: 'h' }, version: { type: 'boolean', short: 'v' },
     } });
@@ -76,9 +84,9 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill'].includes(command)) throw new Error(`Unknown command: ${command}`);
-    if (extra.length || (!['new-change', 'new-doc', 'skill'].includes(command) && name !== undefined) || (['new-change', 'new-doc', 'skill'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
-    const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
+    if (!['init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (extra.length || (!['new-change', 'new-doc', 'skill', 'ready'].includes(command) && name !== undefined) || (['new-change', 'new-doc', 'skill', 'ready'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
+    const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
     for (const key of Object.keys(args.values)) if (!allowed.has(key)) throw new Error(`--${key} is not supported for ${command}`);
     if (args.values.detect && args.values.adapters !== undefined) throw new Error('Choose either --detect or --adapters');
     for (const key of ['target', 'source', 'adapters', 'capabilities', 'report']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
@@ -110,10 +118,25 @@ export function main(argv = process.argv.slice(2)) {
     else if (command === 'detect') result = detect(root, targetRoot(values.source ?? SOURCE));
     else if (command === 'verify') result = verify(root, values.scope ?? 'adapters');
     else if (command === 'eval') result = evaluate(root, values.report, values.scope ?? 'adapters');
+    else if (command === 'setup' || command === 'ready') {
+      const state = check(root);
+      if (state.status !== 'ok') throw new Error('Fix installation drift before setup/readiness checks');
+      result = command === 'setup' ? setupPlan(root, loadLock(root).adapters) : ready(root, name, values.stage ?? 'implement');
+    }
     else if (command === 'new-change') result = newChange(root, name);
     else if (command === 'new-doc') result = newDoc(root, name);
     else result = command === 'doctor' ? doctor(root) : check(root);
+    if (command === 'init' || command === 'update') result.next_steps = values['dry-run']
+      ? ['Review the proposed changes, then repeat without --dry-run.']
+      : ['Run aih setup; ask your AI host to read AGENTS.md and the project-setup workflow.',
+         'Review .harness/local.md and environment.json; keep personal paths in ignored machine.json.',
+         'Run aih doctor and review/commit the shared configuration and snapshot.'];
+    if (command === 'new-change') result.next_steps = [
+      'Resolve consequential ambiguity with the user and record answers/sources in decisions.json.',
+      'Fill the change documents, then run aih ready ' + name + ' --stage implement.',
+      'After implementation, record actual verification evidence and run aih ready ' + name + ' --stage review.'];
+    if (command === 'new-doc') result.next_steps = ['Populate the draft from authorized sources; clarify missing decisions before implementation.'];
     console.log(JSON.stringify(result, null, 2));
-    return ['error', 'fail'].includes(result.status) ? 1 : 0;
+    return ['error', 'fail', 'blocked'].includes(result.status) ? 1 : 0;
   } catch (error) { console.error(JSON.stringify({ status: 'error', message: error.message })); return 1; }
 }

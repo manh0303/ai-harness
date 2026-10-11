@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Project setup, clarification and readiness
+- Add optional shared environment configuration and ignored machine path overrides, with redacted doctor diagnostics.
+- Add read-only setup suggestions, host-led A/B/C clarification and next-step guidance.
+- Scaffold decision/evidence sidecars and add structural implement/review readiness checks.
+- Add behavior scenarios and a real-task comparison protocol; live-model evaluation remains unperformed.
+
 ## Unreleased — Simpler onboarding and release regression coverage
 - Start with npm install, minimal module selection and project context; clarify advisory commands and the two-step CLI/snapshot update.
 - Link progressive context rules from the generated AGENTS entry point; retain project ownership and runtime boundaries.

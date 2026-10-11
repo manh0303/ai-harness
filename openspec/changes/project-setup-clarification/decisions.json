@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "reviewed": true,
+  "decisions": [
+    {
+      "id": "host-led-questions",
+      "question": "Where should setup and clarification questions run?",
+      "status": "resolved",
+      "answer": "AI host asks context-aware A/B/C questions; CLI emits a read-only plan and never prompts on stdin.",
+      "source": "User accepted the proposed host-led direction and requested development of the consolidated gaps on 2026-10-12."
+    },
+    {
+      "id": "runtime-boundary",
+      "question": "Should the installer execute project build/test commands?",
+      "status": "resolved",
+      "answer": "Keep existing no-subprocess/no-network installer contract; diagnose paths and report evidence structurally.",
+      "source": "Repository AGENTS.md and architecture contract; user-authorized scope does not require a new runner."
+    }
+  ]
+}

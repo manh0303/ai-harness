@@ -7,6 +7,9 @@ Request, linked sources, current specs and repository map.
 
 ## Outputs
 Produce scoped proposal, requirement scenarios, risks, task order and unresolved decisions.
+For consequential ambiguity, inspect existing answers first and ask 1–3 A/B/C questions with
+trade-offs, a grounded recommendation and free text. Record actual answers and sources in decisions.json;
+do not implement a suggested answer while it remains unresolved.
 
 ## Permissions and limits
 May read and draft specs. May not implement unrequested features, approve its own plan, merge or deploy.

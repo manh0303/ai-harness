@@ -28,6 +28,10 @@ Chọn module theo nhu cầu, không cần cài cả bộ:
 
 ## 2. Ghi context và bắt đầu giao việc
 
+Chạy `aih setup` rồi nhờ AI đọc workflow `project-setup`. Đây là gợi ý cho AI host, không phải wizard
+nhập liệu của CLI. AI đọc repo trước, chỉ hỏi 1–3 câu A/B/C cho điểm còn thiếu, có đề xuất và lý do.
+Không cần xác nhận lại thông tin hoặc quyền triển khai đã có.
+
 Điền `.harness/local.md` bằng thông tin thực của project:
 
 - Mục tiêu, phạm vi và quy tắc nghiệp vụ quan trọng.
@@ -42,6 +46,10 @@ Mở project trong AI IDE và giao yêu cầu, ví dụ:
 Bạn không cần gọi từng role/skill thủ công. Nếu host không tự phát hiện hướng dẫn, yêu cầu assistant đọc các đường dẫn trên. `aih skills` xem danh sách; `aih skill <tên>` đọc một skill khi cần.
 
 Review diff và kết quả test, rồi commit `AGENTS.md`, `.harness/`, `.agents/skills/` và tài liệu thay đổi cùng project. Sửa quy tắc riêng trong `.harness/local.md`; giữ nguyên snapshot do Harness quản lý.
+
+Lệnh/tool chung thuộc `.harness/environment.json`; đường dẫn máy riêng thuộc file ignored
+`.harness/machine.json`. `aih doctor` kiểm tra tham chiếu biến và sự hiện diện công cụ, không chạy chúng.
+Xem [cấu hình Maven nội bộ](project-configuration.md).
 
 ## 3. Tài liệu và spec khi cần
 
@@ -59,7 +67,9 @@ Khi một tính năng cần proposal/design/tasks/spec riêng:
 aih new-change add-customer-search
 ```
 
-Đây là bản nháp trong `openspec/changes/add-customer-search/`, chưa phải spec được duyệt. Sửa nhỏ, ít rủi ro có thể bỏ qua full spec với lý do rõ ràng; không bắt mọi task tạo đủ BRD/PRD/SRS.
+Đây là bản nháp trong `openspec/changes/add-customer-search/`, chưa phải spec được duyệt.
+AI ghi câu trả lời thực tế trong `decisions.json`; kiểm tra bằng `aih ready add-customer-search --stage implement`.
+Sau code, ghi bằng chứng trong `verification.json` và chạy với `--stage review`. Xem [Change readiness](change-readiness.md). Sửa nhỏ, ít rủi ro có thể bỏ qua full spec với lý do rõ ràng; không bắt mọi task tạo đủ BRD/PRD/SRS.
 
 `aih new-change` không cần OpenSpec CLI. Chỉ cài OpenSpec riêng khi cần validator/archive của công cụ đó; xem [OpenSpec](openspec.md).
 
@@ -68,7 +78,7 @@ aih new-change add-customer-search
 | Lệnh | Ý nghĩa |
 | --- | --- |
 | `aih check` | Kiểm tra integrity của file Harness; không kiểm thử ứng dụng |
-| `aih doctor` | Thêm kiểm tra sự hiện diện của công cụ; không xác nhận công cụ chạy được |
+| `aih doctor` | Kiểm tra công cụ và environment đã cấu hình; không chạy build/test |
 | `aih verify --scope all` | Xuất checklist, `executed: false`; không chạy build/test |
 | `aih eval --scope all` | Xuất tình huống và báo cáo chưa chấm; không gọi model |
 | Lệnh test của project | Do bạn, AI host hoặc CI thực chạy để xác minh code |
