@@ -1,7 +1,7 @@
 # Versioning and migration
 
 Framework version is in harness.yaml and package.json; keep both and package-lock.json synchronized. Use three-part SemVer releases and Git tags vX.Y.Z after review.
-0.6.0 is a DevOps/Kubernetes candidate (0.5.0 added the Product documentation capability), not a claim of a registry publication or Git tag. Do not publish from a feature PR.
+0.6.0 was initially published manually to npm. Future versions are prepared by Release Please after human PR review; do not publish directly from a feature PR.
 
 - Patch: compatible corrections to instructions or installer defects.
 - Minor: backward-compatible adapter, skill or CLI additions.
@@ -16,11 +16,13 @@ It does not fetch releases or silently follow main. Pass a reviewed local checko
 See [release policy](release-policy.md) for independently versioned module contracts and single release-PR version ownership.
 
 ## Release procedure
+
+**Current automation (after v0.6.0):** Release Please maintains the root distribution version, changelog and JSON-formatted harness.yaml. The human review/merge of its generated Release PR is the explicit publishing approval. See [npm release](npm-release.md).
 1. Update harness.yaml, CHANGELOG and migration notes. Review policy/behavior changes as code.
 2. Run structural validation and CLI tests on the supported Node.js 22/24 and OS matrix, including actual npm package smoke tests.
 3. Run the behavioral evaluation suite with the intended agent/model if prompts materially changed.
 4. Inspect the install/update diff in a sample consumer; document source commit and limitations.
-5. Merge by human decision. First npm publication is manual. Subsequent releases use an approved GitHub Release triggering npm Trusted Publishing; merge or tag alone never publishes.
+5. Merge feature PR by human decision. Release Please opens a separate version/changelog PR; after human review and merge, the release workflow creates the tag and GitHub Release and publishes npm from the same workflow through OIDC. Merge of feature PR alone does not publish.
 
 ## Consumer update
 Create a branch, commit current state, obtain the reviewed source commit/tag and inspect CHANGELOG.
@@ -82,8 +84,8 @@ Do not treat raw Confluence data, drafts or AI review as approved business decis
 
 ## 0.5 → 0.6 migration
 
-No new configuration/lock schema version: 0.5 Product templates, `aih new-doc`, UI/UX and all earlier adapter selections stay compatible. New DevOps and Kubernetes modules are opt-in. On a consumer branch, pin a reviewed 0.6 source/package, add `"devops"` to `.harness/project.json` capabilities and/or `"kubernetes"` to adapters, then run `aih update --dry-run`, `aih update` and `aih check`. Unmodified installed payload updates safely; any drift still blocks update. Application DevOps workflows remain instruction-only and do not deploy production workloads; a separate repository-level npm workflow publishes only after a human-approved GitHub Release.
+No new configuration/lock schema version: 0.5 Product templates, `aih new-doc`, UI/UX and all earlier adapter selections stay compatible. New DevOps and Kubernetes modules are opt-in. On a consumer branch, pin a reviewed 0.6 source/package, add `"devops"` to `.harness/project.json` capabilities and/or `"kubernetes"` to adapters, then run `aih update --dry-run`, `aih update` and `aih check`. Unmodified installed payload updates safely; any drift still blocks update. Application DevOps workflows remain instruction-only and do not deploy production workloads; a separate repository-level npm workflow publishes only after a human-approved Release Please PR creates a tagged GitHub Release.
 
 ## Foundation hardening (unreleased after 0.6)
 
-Module contracts gain optional version and dependency fields without changing config/lock schema 1. Existing consumer snapshots retain default adapter-only verify/eval. After a reviewed update, `--scope all` enables locked Core/capability/composition evaluation, and `--scope core` works in core-only projects. Feature branches retain distribution version 0.6.0; release PR chooses the next number. Use tagged releases for other consumers rather than interpreting an unreleased commit as a published update.
+Module contracts gain optional version and dependency fields without changing config/lock schema 1. Existing consumer snapshots retain default adapter-only verify/eval. After a reviewed update, `--scope all` enables locked Core/capability/composition evaluation, and `--scope core` works in core-only projects. Feature branches keep the latest release version; Release Please's generated PR chooses and synchronizes the next number. Use tagged releases for other consumers rather than interpreting an unreleased commit as a published update.
