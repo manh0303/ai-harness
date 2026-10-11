@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Astro lightweight web adapter
+- Add opt-in `astro` technology adapter with 6 namespaced skills for architecture, Islands/React integration, SEO, performance, Cloudflare and staged microfrontend migration.
+- Add static-first/privacy/deployment rules, advisory verification and evidence-based eval cases; Astro dependency detection suppresses spurious React/Next.js from `react-dom` islands unless `next` is also declared.
+- Update CLI help, adapter discovery docs, skill matrix, getting started, SDLC overview and Astro micro-tool walkthrough.
+- Add Astro detection, composition, locked-skill, update and documentation regression tests. Keep npm distribution version 0.6.0 candidate; no auto-deploy or publishing.
+
+
 ## Unreleased — Documentation & Discovery (planned v0.7.0)
 - Support complementary Idea-driven and Document-driven Product workflows without duplicating enterprise BA sources or forcing all documents on small projects.
 - Add four Product skills (idea discovery, evidence-backed research, SRS, use cases) and five document templates (idea, research, PRD-lite, SRS, use cases); totals: 13 Product skills, 5 workflows, 16 templates.
