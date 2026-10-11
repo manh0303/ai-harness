@@ -26,13 +26,13 @@ test('release-please bootstraps the already published v0.6.0', () => {
 
 test('publishing stays in the npm-trusted workflow, requiring release review and OIDC', () => {
   const workflow = text('.github/workflows/npm-publish.yml');
-  assert.match(workflow, /googleapis\\/release-please-action@v4/);
-  assert.match(workflow, /github\\.event_name == 'push'/);
+  assert.match(workflow, /googleapis\/release-please-action@v4/);
+  assert.match(workflow, /github\.event_name == 'push'/);
   assert.match(workflow, /release_created == 'true'/);
-  assert.match(workflow, /github\\.event_name == 'release'/);
+  assert.match(workflow, /github\.event_name == 'release'/);
   assert.match(workflow, /id-token: write/);
   assert.match(workflow, /npm publish --access public/);
-  assert.match(workflow, /git merge-base --is-ancestor HEAD origin\\/main/);
+  assert.match(workflow, /git merge-base --is-ancestor HEAD origin\/main/);
   assert.doesNotMatch(workflow, /NODE_AUTH_TOKEN:|NPM_TOKEN:/);
   assert.match(text('.github/workflows/harness.yml'), /workflow_dispatch:/);
 });
