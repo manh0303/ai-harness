@@ -63,6 +63,9 @@ aih skills
 
 ## 4. Bắt đầu một thay đổi có traceability
 
+Hai workflow tài liệu: `idea-driven` khi bắt đầu từ ý tưởng thô, `document-driven` khi đã có BRD/PRD/SRS/Confluence do BA cung cấp. Cả hai dùng chung pipeline, approval và OpenSpec. Xem [Documentation workflows](documentation-workflows.md).
+
+
 ~~~bash
 # Chỉ dùng được khi đã chọn capability product:
 aih new-doc brd
@@ -70,6 +73,11 @@ aih new-doc prd
 aih new-doc backlog
 aih new-doc acceptance-criteria
 aih new-doc traceability
+aih new-doc idea       # docs/discovery/
+aih new-doc research   # docs/discovery/
+aih new-doc prd-lite   # docs/product/
+aih new-doc srs        # docs/product/
+aih new-doc use-cases  # docs/product/
 
 # Tạo change bản nháp OpenSpec — không cần cài OpenSpec CLI:
 aih new-change add-customer-api
