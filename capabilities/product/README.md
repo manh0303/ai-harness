@@ -21,6 +21,21 @@ aih check
 ```
 `aih init` is for a new consumer. Existing project: edit `.harness/project.json` capabilities array, then `aih update --dry-run`, `aih update`, `aih check` on a branch.
 
+## Create an output document safely
+
+```bash
+aih new-doc brd
+aih new-doc prd
+aih new-doc backlog
+aih new-doc acceptance-criteria
+aih new-doc traceability
+```
+
+This command copies the reviewed, locked template into `docs/product/` in the
+consumer project. It never overwrites an existing document and does not
+generate populated content; an authorized AI agent must use source evidence
+and stakeholder review to complete the draft.
+
 ## Workflow selection
 - `workflows/idea-to-prd.md`: starting from an idea/product brief.
 - `workflows/confluence-to-spec.md`: evidence-backed corpus to requirements and backlog.
