@@ -29,9 +29,9 @@ Version: 0.1-draft | Status: pending-review | Owner: <person> | Baseline PRD / s
 | NFR-001 | <security/performance/reliability> | <measure> | <source> | proposed |
 
 ## 6. Use cases and acceptance tests
-- Linked [use cases](use-cases.md) if present
+- Linked `docs/product/use-cases.md` if present
 - Acceptance criteria / negative cases:
-- Requirements-to-test traceability: [traceability](traceability.md)
+- Requirements-to-test traceability: `docs/product/traceability.md` if present
 
 ## 7. Risks, conflicts and open decisions
 | ID | Conflict / missing detail | Options / consequence | Decision owner | Status |
