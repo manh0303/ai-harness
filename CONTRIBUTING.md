@@ -10,5 +10,4 @@ Update CHANGELOG and the version/migration guidance when releasing. Have a human
 diff, not only generated hashes. Open a PR; do not merge automatically or enable auto-merge.
 
 Use original instructions or properly licensed attributed content. Do not copy proprietary workspace
-details or third-party skill source into this repository. No open-source license grant is made by default;
-the repository owner can select a distribution license separately.
+details or third-party skill source into this repository. This repository is released under the MIT License; see LICENSE. Only contribute material you own or are authorized to distribute under compatible terms.

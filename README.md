@@ -231,6 +231,10 @@ adapter selection, version guard, reproducibility, rollback và tạo change. CI
 [evals/README.md](evals/README.md) có bộ tình huống và công cụ tổng hợp đánh giá hành vi AI riêng.
 Test CLI pass không có nghĩa đã chạy Spring/Next/native build hay live evaluation của LLM.
 
+## License
+
+Dự án được cấp phép theo [MIT License](LICENSE) — cho phép sử dụng, sửa đổi và phân phối (kể cả thương mại) theo các điều kiện trong giấy phép. Repository vẫn **private** và package npm vẫn ở chế độ `restricted`; việc thêm license không tự thay đổi quyền truy cập hoặc phát hành package.
+
 ## Tài liệu
 
 - [Kiến trúc và ranh giới trách nhiệm](docs/architecture.md)

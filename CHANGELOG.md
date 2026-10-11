@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased — Foundation hardening
+- Add MIT License (2026 manh0303), align npm package metadata and include LICENSE in packed tarballs.
 - Add independently versioned module metadata and optional requires/recommends/conflicts/compatibility constraints with read-only `aih resolve`.
 - Fail closed before install/update on missing dependencies, incompatible selections and cycles; keep Product, UI/UX and DevOps composable.
 - Extend `aih verify/eval --scope all` to Core, capabilities and cross-module scenarios; preserve legacy adapter-only defaults.

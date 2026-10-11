@@ -9,7 +9,7 @@
   "engines": {
     "node": ">=22"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/manh0303/ai-harness.git"
@@ -29,6 +29,7 @@
     "docs/",
     "evals/",
     "scripts/score-eval.js",
+    "LICENSE",
     "CHANGELOG.md",
     "SECURITY.md",
     "CONTRIBUTING.md"
