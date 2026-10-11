@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "product",
-  "description": "Evidence-based BA, Product Manager, Product Owner and delivery-planning documentation for ideas and enterprise sources.",
+  "description": "Evidence-based product documentation for developer ideas and existing BA sources, from discovery/research through BRD, PRD, SRS and OpenSpec handoff.",
   "skills": [
     "harness-product-knowledge-analysis",
     "harness-product-business-analysis",
@@ -11,12 +11,18 @@
     "harness-product-acceptance-criteria",
     "harness-product-backlog-prioritization",
     "harness-product-traceability",
-    "harness-product-document-review"
+    "harness-product-document-review",
+    "harness-product-idea-discovery",
+    "harness-product-product-research",
+    "harness-product-srs-generation",
+    "harness-product-use-case-generation"
   ],
   "workflows": [
     "workflows/idea-to-prd.md",
     "workflows/confluence-to-spec.md",
-    "workflows/change-impact-analysis.md"
+    "workflows/change-impact-analysis.md",
+    "workflows/idea-driven.md",
+    "workflows/document-driven.md"
   ],
   "agents": [
     "agents/business-analyst.md",
@@ -36,9 +42,14 @@
     "templates/traceability.md",
     "templates/review-report.md",
     "templates/decision-log.md",
-    "templates/delivery-plan.md"
+    "templates/delivery-plan.md",
+    "templates/idea.md",
+    "templates/research.md",
+    "templates/prd-lite.md",
+    "templates/srs.md",
+    "templates/use-cases.md"
   ],
-  "module_version": "1.0.0",
+  "module_version": "1.1.0",
   "verification": "checks/verification.json",
   "evaluation": "evals/cases.json"
 }
