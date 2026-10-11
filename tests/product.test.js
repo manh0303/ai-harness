@@ -43,7 +43,7 @@ function snapshot() {
 test('Product is independently registered with role/template contracts; UI/UX schema 1 stays valid', () => {
   const list = listCapabilities(source);
   const product = list.find(c => c.id === 'product'), uiux = list.find(c => c.id === 'uiux');
-  assert.equal(list.length, 3);
+  assert.equal(list.length, 4);
   assert.equal(product.skills.length, 13);
   assert.equal(product.agents.length, 5);
   assert.equal(product.templates.length, 16);
@@ -69,7 +69,7 @@ test('Product-only installs roles, templates and 13 skills but not UI/UX or adap
   assert.equal(catalog.skills.length, 18);
   assert.ok(!JSON.stringify(catalog).includes('## Procedure'));
   assert.match(cli(['skill', 'harness-product-business-analysis']).content, /AS-IS and TO-BE/);
-  assert.equal(cli(['list', '--source', source]).capabilities.length, 3);
+  assert.equal(cli(['list', '--source', source]).capabilities.length, 4);
 });
 
 test('Product and UI/UX install together without collisions, adapters remain optional', () => {
