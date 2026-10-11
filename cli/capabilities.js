@@ -41,7 +41,130 @@ export function loadCapability(source, id) {
     if (!fs.readFileSync(safe(source, prefix + workflow), 'utf8').trim()) fail(`Empty capability workflow: ${id}/${workflow}`);
   }
   for (const [kind, pattern] of [
-    ['agents', /^agents\\/[a-z][a-z0-9-]*\\.md$/],
+    ['agents', new RegExp('^agents/[a-z][a-z0-9-]*[.]md    ['templates', new RegExp('^templates/[a-z][a-z0-9-]*[.]md  ]) {
+    const entries = meta[kind] ?? [];
+    if (!Array.isArray(entries) || !unique(entries) || !entries.every(p => typeof p === 'string' && pattern.test(p))) fail(`Invalid capability ${kind}: ${id}`);
+    for (const file of entries) {
+      const body = fs.readFileSync(safe(source, prefix + file), 'utf8');
+      if (!body.trim()) fail(`Empty capability ${kind}: ${id}/${file}`);
+      if (kind === 'agents' && !['## Inputs', '## Outputs', '## Permissions and limits', '## Handoff'].every(h => body.includes(h))) {
+        fail(`Invalid capability agent contract: ${id}/${file}`);
+      }
+    }
+  }
+  return { ...meta, agents: meta.agents ?? [], templates: meta.templates ?? [] };
+}
+
+export function listCapabilities(source) {
+  return (manifest(source).capabilities ?? []).map(id => {
+    const { description, skills, workflows, agents, templates } = loadCapability(source, id);
+    return { id, description, skills, workflows, agents, templates };
+  });
+}
+
+// Progressive disclosure: return metadata only; never include skill bodies in a catalog.
+export function skillCatalog(root, lock) {
+  const skills = Object.keys(lock.files).filter(p => /^\.agents\/skills\/harness-[a-z0-9-]+\/SKILL\.md$/.test(p)).sort()
+    .map(p => {
+      const name = p.split('/')[2];
+      const contents = payload(root, p).toString('utf8');
+      return { ...skillMetadata(contents, name), path: p };
+    });
+  return { status: 'ok', version: lock.version, skills, note: 'Descriptions only. Use aih skill <name> to fetch full instructions when relevant.' };
+}
+
+export function readSkill(root, lock, name) {
+  if (!validName(name) || !name.startsWith('harness-')) fail('Invalid skill name');
+  const relative = `.agents/skills/${name}/SKILL.md`;
+  if (!Object.hasOwn(lock.files, relative)) fail(`Skill is not installed: ${name}`);
+  const content = payload(root, relative).toString('utf8');
+  skillMetadata(content, name);
+  return { status: 'ok', name, path: relative, content };
+}
+)],
+    ['templates', /^templates\\/[a-z][a-z0-9-]*\\.md$/],
+  ]) {
+    const entries = meta[kind] ?? [];
+    if (!Array.isArray(entries) || !unique(entries) || !entries.every(p => typeof p === 'string' && pattern.test(p))) fail(`Invalid capability ${kind}: ${id}`);
+    for (const file of entries) {
+      const body = fs.readFileSync(safe(source, prefix + file), 'utf8');
+      if (!body.trim()) fail(`Empty capability ${kind}: ${id}/${file}`);
+      if (kind === 'agents' && !['## Inputs', '## Outputs', '## Permissions and limits', '## Handoff'].every(h => body.includes(h))) {
+        fail(`Invalid capability agent contract: ${id}/${file}`);
+      }
+    }
+  }
+  return { ...meta, agents: meta.agents ?? [], templates: meta.templates ?? [] };
+}
+
+export function listCapabilities(source) {
+  return (manifest(source).capabilities ?? []).map(id => {
+    const { description, skills, workflows, agents, templates } = loadCapability(source, id);
+    return { id, description, skills, workflows, agents, templates };
+  });
+}
+
+// Progressive disclosure: return metadata only; never include skill bodies in a catalog.
+export function skillCatalog(root, lock) {
+  const skills = Object.keys(lock.files).filter(p => /^\.agents\/skills\/harness-[a-z0-9-]+\/SKILL\.md$/.test(p)).sort()
+    .map(p => {
+      const name = p.split('/')[2];
+      const contents = payload(root, p).toString('utf8');
+      return { ...skillMetadata(contents, name), path: p };
+    });
+  return { status: 'ok', version: lock.version, skills, note: 'Descriptions only. Use aih skill <name> to fetch full instructions when relevant.' };
+}
+
+export function readSkill(root, lock, name) {
+  if (!validName(name) || !name.startsWith('harness-')) fail('Invalid skill name');
+  const relative = `.agents/skills/${name}/SKILL.md`;
+  if (!Object.hasOwn(lock.files, relative)) fail(`Skill is not installed: ${name}`);
+  const content = payload(root, relative).toString('utf8');
+  skillMetadata(content, name);
+  return { status: 'ok', name, path: relative, content };
+}
+)],
+  ]) {
+    const entries = meta[kind] ?? [];
+    if (!Array.isArray(entries) || !unique(entries) || !entries.every(p => typeof p === 'string' && pattern.test(p))) fail(`Invalid capability ${kind}: ${id}`);
+    for (const file of entries) {
+      const body = fs.readFileSync(safe(source, prefix + file), 'utf8');
+      if (!body.trim()) fail(`Empty capability ${kind}: ${id}/${file}`);
+      if (kind === 'agents' && !['## Inputs', '## Outputs', '## Permissions and limits', '## Handoff'].every(h => body.includes(h))) {
+        fail(`Invalid capability agent contract: ${id}/${file}`);
+      }
+    }
+  }
+  return { ...meta, agents: meta.agents ?? [], templates: meta.templates ?? [] };
+}
+
+export function listCapabilities(source) {
+  return (manifest(source).capabilities ?? []).map(id => {
+    const { description, skills, workflows, agents, templates } = loadCapability(source, id);
+    return { id, description, skills, workflows, agents, templates };
+  });
+}
+
+// Progressive disclosure: return metadata only; never include skill bodies in a catalog.
+export function skillCatalog(root, lock) {
+  const skills = Object.keys(lock.files).filter(p => /^\.agents\/skills\/harness-[a-z0-9-]+\/SKILL\.md$/.test(p)).sort()
+    .map(p => {
+      const name = p.split('/')[2];
+      const contents = payload(root, p).toString('utf8');
+      return { ...skillMetadata(contents, name), path: p };
+    });
+  return { status: 'ok', version: lock.version, skills, note: 'Descriptions only. Use aih skill <name> to fetch full instructions when relevant.' };
+}
+
+export function readSkill(root, lock, name) {
+  if (!validName(name) || !name.startsWith('harness-')) fail('Invalid skill name');
+  const relative = `.agents/skills/${name}/SKILL.md`;
+  if (!Object.hasOwn(lock.files, relative)) fail(`Skill is not installed: ${name}`);
+  const content = payload(root, relative).toString('utf8');
+  skillMetadata(content, name);
+  return { status: 'ok', name, path: relative, content };
+}
+)],
     ['templates', /^templates\\/[a-z][a-z0-9-]*\\.md$/],
   ]) {
     const entries = meta[kind] ?? [];
