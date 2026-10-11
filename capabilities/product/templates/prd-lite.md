@@ -6,7 +6,7 @@ Version: 0.1-draft | Status: pending-review | Owner: <developer>
 - Problem:
 - Primary users:
 - Expected outcome:
-- Evidence / idea: [idea](../discovery/idea.md) if available
+- Evidence / idea: `docs/discovery/idea.md` if available
 
 ## MVP and non-goals
 - In scope:
