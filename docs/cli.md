@@ -91,3 +91,10 @@ Any false criterion returns status fail and exit 1, including a list of critical
 ## Human workflows and examples
 
 See [Getting started](getting-started.md) for CLI boundaries, [Full SDLC](end-to-end-workflow.md) for review gates, [Skill matrix](skill-matrix.md) for valid skill IDs and [Agent handoffs](agent-handoffs.md) for role responsibilities. The four [examples](examples/fullstack-web.md) distinguish advisory `aih` commands from external build, AI and deployment tools.
+
+
+## Product document templates — discovery and specifications
+
+With the optional `product` capability selected, `aih new-doc idea` and `aih new-doc research` safely create `docs/discovery/<type>.md` in the consumer repository. Other names including `prd-lite`, `srs` and `use-cases` create `docs/product/<type>.md`.
+
+All types must be declared templates in the installed, hash-locked Product manifest. Commands refuse unknown names, traversal, overwrite, collisions and installation drift. These are **blank templates only**, not AI-generated content. Read [Documentation workflows](documentation-workflows.md) for the two intake paths and approvals.
