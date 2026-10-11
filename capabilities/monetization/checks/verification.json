@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "id": "publisher-readiness",
+      "title": "Review actual site and AdSense approval status, content and authorized seller information",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Original useful site content and ownership verified",
+        "AdSense provider approval status observed or UNKNOWN",
+        "ads.txt entry from actual account and live root URL if used"
+      ],
+      "execution": "manual"
+    },
+    {
+      "id": "ad-placement-safety",
+      "title": "Inspect accidental-click risks and mobile tool UX before serving ads",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Mobile and desktop evidence that ad slots cannot be mistaken for tool controls",
+        "Tool completion works with no-fill/ad-block and appropriate consent behavior",
+        "No automatic refresh, misleading labels or invalid traffic manipulation"
+      ],
+      "execution": "manual"
+    },
+    {
+      "id": "regional-privacy",
+      "title": "Review consent, privacy disclosure and source policy freshness",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Regions and ad types identified",
+        "Google-certified CMP/TCF review for EEA, UK and Switzerland where applicable",
+        "Data processing disclosures and consent withdrawal verified"
+      ],
+      "execution": "manual"
+    },
+    {
+      "id": "revenue-provenance",
+      "title": "Audit actual-versus-scenario revenue and cost metrics",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Page views and estimated earnings from matching date windows, or UNKNOWN",
+        "Page RPM correctly calculated only from observed data",
+        "Cost/traffic scenarios clearly labeled and no income guarantees"
+      ],
+      "execution": "manual"
+    }
+  ]
+}
