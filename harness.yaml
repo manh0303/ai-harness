@@ -7,7 +7,8 @@
     "react-nextjs",
     "react-native",
     "ai-python",
-    "kubernetes"
+    "kubernetes",
+    "astro"
   ],
   "runtime": {
     "node": ">=22",
