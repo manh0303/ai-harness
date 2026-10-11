@@ -17,7 +17,7 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | check | none | Compare installed files/block with lock and selection; no writes |
 | doctor | none | check plus executable presence on PATH; no execution |
 | new-change ID | none | Create an unapproved OpenSpec draft using installed templates |
-| new-doc TYPE | none | Copy a selected Product template to docs/product without overwriting |
+| new-doc TYPE | none | Copy a selected locked Product template to `docs/discovery/` (idea, research) or `docs/product/` (other types) without overwriting |
 | skills | none | List installed skill metadata only |
 | skill NAME | none | Read one installed, locked skill |
 
