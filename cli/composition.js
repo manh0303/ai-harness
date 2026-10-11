@@ -61,3 +61,36 @@ export function resolveModules(source, { adapters = [], capabilities = [] } = {}
     modules: modules.map(m => ({ id: m.id, kind: m.kind, module_version: m.data.module_version ?? null })),
     warnings };
 }
+
+/** Validate the complete catalog without pretending every registered module is selected. */
+export function validateRegistry(source) {
+  const registry = manifest(source);
+  const entries = [
+    ...registry.adapters.map(id => ({kind:'adapter',id,data:loadAdapter(source,id)})),
+    ...(registry.capabilities ?? []).map(id => ({kind:'capability',id,data:loadCapability(source,id)})),
+  ];
+  const declared = new Set(entries.map(m=>moduleRef(m.kind,m.id)));
+  const graph = new Map();
+  for (const {kind,id,data} of entries) {
+    const owner=moduleRef(kind,id);
+    for (const field of ['requires','recommends','conflicts']) {
+      for (const ref of data[field] ?? []) {
+        if (!declared.has(ref)) throw new HarnessError(`Unknown ${field} reference ${ref} in ${owner}`);
+      }
+    }
+    for (const id of data.compatible_adapters ?? []) {
+      if (!registry.adapters.includes(id)) throw new HarnessError(`Unknown compatible adapter ${id} in ${owner}`);
+    }
+    graph.set(owner,data.requires ?? []);
+  }
+  const states=new Map();
+  function visit(ref) {
+    if (states.get(ref)==='visiting') throw new HarnessError(`Module dependency cycle at ${ref}`);
+    if (states.get(ref)==='done') return;
+    states.set(ref,'visiting');
+    for (const dep of graph.get(ref) ?? []) visit(dep);
+    states.set(ref,'done');
+  }
+  for (const ref of graph.keys()) visit(ref);
+  return {status:'ok',modules:entries.length};
+}

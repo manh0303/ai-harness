@@ -5,7 +5,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { spawnSync } from 'node:child_process';
 import * as h from '../cli/harness.js';
-import { resolveModules } from '../cli/composition.js';
+import { resolveModules, validateRegistry } from '../cli/composition.js';
 
 let base, root, source;
 beforeEach(() => {
@@ -75,4 +75,13 @@ test('update preserves installed ownership and refuses incompatible selection',(
 test('old module manifests without optional fields remain valid',()=>{
   change('devops',m=>{delete m.module_version;delete m.requires;delete m.recommends;delete m.conflicts;});
   assert.equal(resolveModules(source,{capabilities:['devops']}).modules[0].module_version,null);
+});
+
+test('registry validation permits alternative incompatible modules but checks all references',()=>{
+  change('uiux',m=>m.conflicts=['capability:product']);
+  assert.equal(validateRegistry(source).status,'ok');
+  assert.equal(resolveModules(source,{capabilities:['uiux']}).status,'ok');
+  assert.throws(()=>resolveModules(source,{capabilities:['uiux','product']}),/conflicts/);
+  change('product',m=>m.recommends=['capability:unknown']);
+  assert.throws(()=>validateRegistry(source),/Unknown recommends/);
 });

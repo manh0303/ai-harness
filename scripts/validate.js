@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { loadAdapter } from '../cli/adapter-schema.js';
 import { loadCapability } from '../cli/capabilities.js';
-import { resolveModules } from '../cli/composition.js';
+import { validateRegistry } from '../cli/composition.js';
 import { checksFrom, casesFrom } from '../cli/evaluation-contract.js';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -33,7 +33,7 @@ try {
     loadAdapter(SOURCE, name);
   }
   for (const name of m.capabilities ?? []) loadCapability(SOURCE, name);
-  resolveModules(SOURCE, { adapters: m.adapters, capabilities: m.capabilities ?? [] });
+  validateRegistry(SOURCE);
   checksFrom(SOURCE, 'core/checks/verification.json');
   casesFrom(SOURCE, 'core/evals/cases.json');
   const { files } = bundle(SOURCE, { schema_version: 1, adapters: m.adapters, capabilities: m.capabilities ?? [] });

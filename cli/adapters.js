@@ -11,7 +11,7 @@ export { loadAdapter } from './adapter-schema.js';
 export function listAdapters(source) {
   return { status: 'ok', adapters: manifest(source).adapters.map(id => {
     const a = loadAdapter(source, id);
-    return { id, description: a.description, skills: a.skills, detection: a.detection };
+    return { id, description: a.description, module_version: a.module_version ?? null, skills: a.skills, detection: a.detection };
   }) };
 }
 
