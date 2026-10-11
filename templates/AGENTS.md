@@ -1,7 +1,7 @@
 <!-- ai-harness:start -->
 ## AI Harness {{version}}
 
-1. Read `.harness/core/rules/foundations.md` and `.harness/core/policies/security.md`.
+1. Read `.harness/core/rules/foundations.md`, `.harness/core/rules/context.md` and `.harness/core/policies/security.md`.
 2. Read `.harness/core/policies/permissions.md` and `.harness/core/workflows/spec-to-code.md`.
 3. Read `.harness/local.md` for project facts and reviewed exceptions.
 4. Load only the adapter and skills needed for the current task:

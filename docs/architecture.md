@@ -104,4 +104,4 @@ DevOps is an optional stack-neutral capability for release procedures and SRE; t
 
 ## Documented end-to-end usage
 
-The cross-module route is described in [Getting started](getting-started.md), [Full SDLC](end-to-end-workflow.md), [48-skill matrix](skill-matrix.md) and [Agent handoffs](agent-handoffs.md). All roles/skills remain instruction contracts. The four [stack walkthroughs](examples/spring-boot-api.md) illustrate permitted integrations, not a runnable scaffold or orchestration engine.
+The cross-module route is described in [Getting started](getting-started.md), [Full SDLC](end-to-end-workflow.md), [Skill matrix](skill-matrix.md) and [Agent handoffs](agent-handoffs.md). All roles/skills remain instruction contracts. The four [stack walkthroughs](examples/spring-boot-api.md) illustrate permitted integrations, not a runnable scaffold or orchestration engine.

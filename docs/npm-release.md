@@ -25,7 +25,7 @@ Use **npm CLI >= 11.5.1** and Node 22.14+ for OIDC; this workflow runs Node 24 a
 3. `.github/workflows/npm-publish.yml` runs CI on `main` then Release Please. It opens/updates a separate **Release PR**, proposing version/changelog changes. It also explicitly dispatches `harness.yml` for the generated Release PR branch; the `GITHUB_TOKEN` does not trigger arbitrary downstream workflows.
 4. **You review and merge the Release PR** once satisfied. That `main` push triggers the same workflow. After tests pass, Release Please creates a `vX.Y.Z` Git tag and GitHub Release.
 5. The **same** `npm-publish.yml` run checks out that tag, checks ancestry on `main`, verifies scope/manifest/changelog, runs tests and an actual npm tarball smoke test, then executes `npm publish --access public` with GitHub OIDC.
-6. Confirm the new version with `npm view @manhd_d/ai-harness version`. npm processing can take a few minutes. Consumers run `npm update -g @manhd_d/ai-harness` and update their installed Harness snapshot separately.
+6. Confirm the new version with `npm view @manhd_d/ai-harness version`. npm processing can take a few minutes. Consumers run `npm install -g @manhd_d/ai-harness@latest`, then `aih update --dry-run`, `aih update` and `aih check` inside each project.
 
 **Why one workflow?** Release Please uses `GITHUB_TOKEN`. GitHub usually suppresses new workflow runs in response to events created by `GITHUB_TOKEN`, including its `release.published` event. Publishing in the same `push main` workflow avoids silently skipping npm publication. For a **manually published** GitHub Release, the same file also supports `release.published` as a fallback, with matching version and main-ancestry guards. Do not create a manual GitHub Release for a version already present on npm; npm versions cannot be overwritten.
 
@@ -46,5 +46,12 @@ No workflow automatically merges a PR. The release job uses only `contents: read
 If the Release Please job fails to create a PR, check repository Actions workflow permissions and the workflow logs. If npm returns E403, check Trusted Publisher's **workflow filename exactly `npm-publish.yml`**, allowed action `npm publish`, and that the connection is active. Do not add bypass-2FA tokens as a workaround. An expired/unverified publisher binding may require recreating it in npm settings.
 
 If GitHub Release exists but npm publish failed, **do not bump the version blindly or create another GitHub Release for the same tag**. Diagnose the failed job. Re-running the workflow is appropriate only when npm still has no published version and the error is resolved. A documented manual recovery is possible after verifying the tag and credentials.
+
+If the failure is in code/tests stored in the release tag, fixing `main` does not fix that immutable
+tag. Do not move or overwrite it. Merge the repair, let Release Please prepare a new patch Release PR,
+verify CI on its exact head, then review/merge it. Re-running the old tag will reproduce the old defect.
+For example, v0.6.1 failed before publication because two migration tests expected 0.6.0.
+Main now compares against the source version; the regression suite also exercises the next patch
+version. Publish the reviewed follow-up release rather than changing v0.6.1.
 
 Official docs: [Release Please](https://github.com/googleapis/release-please-action), [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/), [GitHub Actions event triggering](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow).

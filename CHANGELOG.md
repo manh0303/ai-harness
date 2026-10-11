@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — Simpler onboarding and release regression coverage
+- Start with npm install, minimal module selection and project context; clarify advisory commands and the two-step CLI/snapshot update.
+- Link progressive context rules from the generated AGENTS entry point; retain project ownership and runtime boundaries.
+- Exercise legacy migrations against both the current and next patch version; document recovery from a failed immutable release tag.
+
 ## Unreleased — Release validation compatibility
 - Accept Release Please's linked version headings for version 0.6.1 in both validation commands while retaining strict matching of the current distribution version.
 

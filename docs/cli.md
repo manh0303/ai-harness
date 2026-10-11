@@ -12,7 +12,7 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | resolve | --source; --adapters a,b; --capabilities a,b | Validate module selection and compatibility; read-only |
 | verify | --scope adapters/core/capabilities/all | Read installed advisory checks; executed false, no subprocesses |
 | eval | --scope adapters/core/capabilities/all; --report FILE | Emit unscored template or aggregate reviewed report; no model calls |
-| init | --detect OR --adapters a,b; --source; --dry-run; --allow-major | Install a snapshot; exact rerun is idempotent |
+| init | --detect OR --adapters a,b; --capabilities a,b; --source; --dry-run; --allow-major | Install a snapshot; exact rerun is idempotent |
 | update | --source; --dry-run; --allow-major | Update unedited owned files and seed missing project files |
 | check | none | Compare installed files/block with lock and selection; no writes |
 | doctor | none | check plus executable presence on PATH; no execution |
@@ -22,10 +22,15 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | skill NAME | none | Read one installed, locked skill |
 
 All commands default --target to the current directory. --source defaults to the installed package.
+For a global install, upgrade the CLI with `npm install -g @manhd_d/ai-harness@latest` before
+`aih update --dry-run` and `aih update`. Update never fetches npm. `aih --version` reports the CLI
+version; `aih check` reports the project snapshot version. For a local install, update the local
+dependency and use `npx aih`. Application tests must be executed separately.
 --help/-h and --version/-v are available. Unknown, duplicate and inapplicable flags fail.
 Source and target cannot contain one another, except source inside target/node_modules for local npm installs. Symlinks in roots, source
 payload or destination paths are rejected. IDs are lowercase hyphenated slugs; archive is reserved.
-Astro projects are detected from `astro` in package.json dependencies; `react-dom` used only for Astro islands is not a standalone React/Next.js detection when `next` is absent. Explicit `--adapters astro,react-nextjs` remains valid. `aih init --adapters astro` installs static-first rules/skills but no Astro packages or Cloudflare deployment.\nSelection changes belong in .harness/project.json; unknown or duplicate adapters fail validation.
+Astro projects are detected from `astro` in package.json dependencies; `react-dom` used only for Astro islands is not a standalone React/Next.js detection when `next` is absent. Explicit `--adapters astro,react-nextjs` remains valid. `aih init --adapters astro` installs static-first rules/skills but no Astro packages or Cloudflare deployment.
+Selection changes belong in .harness/project.json; unknown or duplicate adapters fail validation.
 
 ## Optional monetization capability
 
