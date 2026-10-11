@@ -13,6 +13,7 @@ Các role/skill hướng dẫn assistant đang dùng; quyền thực tế do IDE
 Nếu lần đầu sử dụng, đọc theo thứ tự: **Cài → Product/BA/PO → UI/UX → OpenSpec → Code → Test/Review → CI/CD → Vận hành**.
 
 - **[Getting started](docs/getting-started.md)** — cài CLI, chọn module, tạo change và kiểm tra.
+- **[Hai luồng tài liệu](docs/documentation-workflows.md)** — idea-driven và document-driven, lưu trữ, version và handoff.
 - **[Full SDLC: Idea → Production](docs/end-to-end-workflow.md)** — input/output, approval gate, cách phối hợp capabilities/adapters.
 - **[Ma trận 42 skills](docs/skill-matrix.md)** — tra cứu skills theo stage/công nghệ và ID thật.
 - **[Agent handoffs](docs/agent-handoffs.md)** — roles, trách nhiệm, ownership, evidence và bàn giao.
@@ -29,7 +30,9 @@ Cài từ source đã review bằng tài khoản có quyền repository private:
 ```bash
 git clone git@github.com:manh0303/ai-harness.git
 cd ai-harness
-# Checkout commit/tag đã được review khi cần pin bản nguồn ổn định.
+# Nếu thử các tính năng chưa merge trong PR #10:
+git switch feat/documentation-discovery-v0.7
+# Sau khi merge, ưu tiên tag/commit đã review thay vì feature branch.
 npm pack
 npm install -g ./manh0303-ai-harness-0.6.0.tgz
 
