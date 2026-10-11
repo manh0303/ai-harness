@@ -41,7 +41,9 @@ export function loadCapability(source, id) {
     if (!fs.readFileSync(safe(source, prefix + workflow), 'utf8').trim()) fail(`Empty capability workflow: ${id}/${workflow}`);
   }
   for (const [kind, pattern] of [
-    ['agents', new RegExp('^agents/[a-z][a-z0-9-]*[.]md    ['templates', new RegExp('^templates/[a-z][a-z0-9-]*[.]md  ]) {
+    ['agents', new RegExp('^agents/[a-z][a-z0-9-]*[.]md$')],
+    ['templates', new RegExp('^templates/[a-z][a-z0-9-]*[.]md$')],
+  ]) {
     const entries = meta[kind] ?? [];
     if (!Array.isArray(entries) || !unique(entries) || !entries.every(p => typeof p === 'string' && pattern.test(p))) fail(`Invalid capability ${kind}: ${id}`);
     for (const file of entries) {
