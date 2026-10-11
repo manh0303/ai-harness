@@ -50,6 +50,8 @@ and stakeholder review to complete the draft.
 
 ## Two project intake modes
 
+Quick tutorials: [Idea-driven](../../docs/examples/idea-driven-project.md) or [Document-driven](../../docs/examples/document-driven-project.md). Each shows how to invoke the AI host, scaffold templates, review decisions, hand off to OpenSpec and keep project-owned documentation.
+
 **Idea-driven:** the developer supplies an idea; an AI host discusses trade-offs, performs authorized research, records decisions, and prepares draft BRD/PRD/PRD-lite/SRS/use cases based on desired detail. The developer can be the explicit approver.
 
 **Document-driven:** the project already has BA artifacts; the host inventories approved sources, records URLs/revisions and permission scope, performs gap analysis and builds only missing, project-owned specs and OpenSpec handoffs. It does **not** rewrite source Confluence pages or re-approve existing BRDs.
@@ -57,7 +59,7 @@ and stakeholder review to complete the draft.
 Both modes can coexist across the project lifecycle. The CLI only provides instructions/templates and does not execute research, AI conversations, Confluence exports or publishing. Read [Documentation guide](../../docs/documentation-workflows.md).
 
 ## Outputs (consumer-owned)
-Copy the relevant files from `.harness/capabilities/product/templates/` to `docs/product/` in the **application repository** when preparing real drafts. Complete with source references, IDs, owners, version and status. The CLI installs templates; it does **not** fill them, connect to Confluence, generate documents, or approve output.
+Use `aih new-doc <type>` to copy reviewed templates from `.harness/capabilities/product/templates/` to project-owned `docs/discovery/` for idea/research, or `docs/product/` for requirements. Complete with source references, IDs, owners, version and status. The CLI installs templates; it does **not** fill them, connect to Confluence, generate documents, or approve output.
 
 Naming: `SRC-###` source, `BR-###` business rule, `FR-###` functional, `NFR-###`, `PRD-###`, `EPIC-###`, `US-###`, `AC-US-###-##`. An ID is stable even when superseded; document the replacement. `FACT/INFERENCE/DECISION/UNKNOWN` are separate provenance states; `draft/pending-review/approved/rejected` are human workflow states.
 
