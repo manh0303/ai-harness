@@ -44,17 +44,17 @@ test('Product is independently registered with role/template contracts; UI/UX sc
   const list = listCapabilities(source);
   const product = list.find(c => c.id === 'product'), uiux = list.find(c => c.id === 'uiux');
   assert.equal(list.length, 3);
-  assert.equal(product.skills.length, 9);
+  assert.equal(product.skills.length, 13);
   assert.equal(product.agents.length, 5);
-  assert.equal(product.templates.length, 11);
-  assert.equal(product.workflows.length, 3);
+  assert.equal(product.templates.length, 16);
+  assert.equal(product.workflows.length, 5);
   assert.deepEqual(uiux.agents, []);
   assert.deepEqual(uiux.templates, []);
   assert.equal(loadCapability(source, 'product').id, 'product');
   assert.deepEqual(snapshot(), {});
 });
 
-test('Product-only installs roles, templates and nine skills but not UI/UX or adapters', () => {
+test('Product-only installs roles, templates and 13 skills but not UI/UX or adapters', () => {
   cli(['init', '--source', source, '--capabilities', 'product']);
   const lock = h.loadLock(project);
   assert.deepEqual(lock.capabilities, ['product']);
@@ -66,7 +66,7 @@ test('Product-only installs roles, templates and nine skills but not UI/UX or ad
   assert.ok(!fs.existsSync(path.join(project, '.harness/adapters')));
   assert.equal(cli(['check']).status, 'ok');
   const catalog = cli(['skills']);
-  assert.equal(catalog.skills.length, 14);
+  assert.equal(catalog.skills.length, 18);
   assert.ok(!JSON.stringify(catalog).includes('## Procedure'));
   assert.match(cli(['skill', 'harness-product-business-analysis']).content, /AS-IS and TO-BE/);
   assert.equal(cli(['list', '--source', source]).capabilities.length, 3);
@@ -168,4 +168,34 @@ test('new-doc still works from pinned installed template even if future source c
   const result = cli(['new-doc', 'brd']);
   assert.equal(result.status, 'ok');
   assert.notEqual(fs.readFileSync(path.join(project,result.path),'utf8'), 'later source mutation');
+});
+
+test('Idea and research use discovery folder; detailed Product specs remain product-owned', () => {
+  cli(['init', '--source', source, '--capabilities', 'product']);
+  for (const type of ['idea', 'research', 'prd-lite', 'srs', 'use-cases']) {
+    const res = cli(['new-doc', type]);
+    const folder = ['idea', 'research'].includes(type) ? 'discovery' : 'product';
+    assert.equal(res.path, `docs/${folder}/${type}.md`);
+    assert.ok(fs.existsSync(path.join(project, res.path)));
+    assert.equal(
+      fs.readFileSync(path.join(project, res.path), 'utf8'),
+      fs.readFileSync(path.join(source, `capabilities/product/templates/${type}.md`), 'utf8')
+    );
+  }
+  assert.equal(cli(['check']).status, 'ok');
+  const before = snapshot();
+  for (const type of ['idea', 'research', 'prd-lite', 'srs', 'use-cases']) cli(['new-doc', type], 1);
+  assert.deepEqual(snapshot(), before);
+  cli(['update', '--source', source]);
+  assert.deepEqual(snapshot(), before);
+});
+
+test('Document discovery skill metadata can be read without activating other capabilities', () => {
+  cli(['init', '--source', source, '--capabilities', 'product']);
+  for (const name of ['harness-product-idea-discovery','harness-product-product-research',
+    'harness-product-srs-generation','harness-product-use-case-generation']) {
+    const loaded = cli(['skill', name]);
+    assert.equal(loaded.name, name);
+    assert.match(loaded.content, /## Constraints/);
+  }
 });

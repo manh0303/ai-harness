@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — Documentation & Discovery (planned v0.7.0)
+- Support complementary Idea-driven and Document-driven Product workflows without duplicating enterprise BA sources or forcing all documents on small projects.
+- Add four Product skills (idea discovery, evidence-backed research, SRS, use cases) and five document templates (idea, research, PRD-lite, SRS, use cases); totals: 13 Product skills, 5 workflows, 16 templates.
+- Route new idea/research drafts safely to consumer `docs/discovery/`; keep Product documents under `docs/product/` with pinned templates and integrity checks.
+- Add Confluence read/export contract with explicit permissions, version/approval gates; no live remote API calls or automatic AI execution.
+- Add regression tests and documentation links; release version stays at 0.6.0 pending an independently reviewed release PR.
+
+
 ## Unreleased — Foundation hardening
 - Document full SDLC and first-use flow, 38-skill mapping, role handoffs and four concrete stack walkthroughs; add drift test against skill manifests.
 - Align READMEs, CLI documentation and npm guide with unified evaluation scopes and source candidate version.

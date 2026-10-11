@@ -12,6 +12,30 @@
         "Unrun steps clearly identified"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "documentation-source-integrity",
+      "title": "Idea/document intake sources, revisions and permissions are explicit",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Original idea and decisions retained or official BA source URL/version recorded",
+        "External research has cited provenance or is marked unavailable",
+        "No unauthorized Confluence publishing or source overwrites"
+      ],
+      "execution": "manual"
+    },
+    {
+      "id": "srs-traceability-review",
+      "title": "SRS and use cases maintain stable requirement IDs and explicit review",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "FR/NFR/US/AC/UC trace to canonical approved requirements",
+        "Unconfirmed constraints and review gates remain pending",
+        "OpenSpec handoff references approved scope only"
+      ],
+      "execution": "manual"
     }
   ]
 }

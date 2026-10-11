@@ -1,6 +1,6 @@
-# Skill matrix — 38 skills, 9 nhóm module
+# Skill matrix — 42 skills, 9 nhóm module
 
-Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (5 Core, 21 capability, 12 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp 38 skill vào prompt.
+Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (5 Core, 25 capability, 12 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 42 skill vào prompt.
 
 **Cách dùng:** `aih skills` xem skills đã cài, sau đó `aih skill harness-...` lấy nội dung. Danh mục này mô tả chức năng; **không** có nghĩa `aih` thực thi skills hoặc agent. Tech adapters và capabilities chỉ xuất hiện trong consumer khi được chọn; Core dùng chung.
 
@@ -21,7 +21,7 @@
 | [`harness-spec`](../core/skills/harness-spec/SKILL.md) | Technical design | Soạn OpenSpec proposal/design/tasks/delta specs | OpenSpec change và các quyết định còn thiếu |
 | [`harness-tdd`](../core/skills/harness-tdd/SKILL.md) | Implementation | Red → green → refactor trên slice nhỏ | Code + test evidence |
 
-## Product capability (9)
+## Product capability (13)
 
 | Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
 | --- | --- | --- | --- |
@@ -34,6 +34,11 @@
 | [`harness-product-prd-generation`](../capabilities/product/skills/harness-product-prd-generation/SKILL.md) | Product | Soạn PRD với scope, outcome và metrics | `docs/product/prd.md` |
 | [`harness-product-traceability`](../capabilities/product/skills/harness-product-traceability/SKILL.md) | Change impact | Liên kết nguồn → stories → UI → spec | `docs/product/traceability.md` |
 | [`harness-product-user-stories`](../capabilities/product/skills/harness-product-user-stories/SKILL.md) | Backlog | Phân rã epics/stories theo yêu cầu duyệt | `docs/product/backlog.md` |
+
+| [`harness-product-idea-discovery`](../capabilities/product/skills/harness-product-idea-discovery/SKILL.md) | Idea-driven | Cùng developer làm rõ ý tưởng, phương án, MVP và quyết định | `docs/discovery/idea.md` |
+| [`harness-product-product-research`](../capabilities/product/skills/harness-product-product-research/SKILL.md) | Research | Tìm và phân loại bằng chứng đáng tin cậy, trade-offs | `docs/discovery/research.md` |
+| [`harness-product-srs-generation`](../capabilities/product/skills/harness-product-srs-generation/SKILL.md) | Software requirements | Đặc tả FR/NFR, giao diện, luồng lỗi có trace ID | `docs/product/srs.md` |
+| [`harness-product-use-case-generation`](../capabilities/product/skills/harness-product-use-case-generation/SKILL.md) | Detailed flows | Viết UC chính/phụ/lỗi liên kết FR/US/AC | `docs/product/use-cases.md` |
 
 ## UI/UX capability (6)
 

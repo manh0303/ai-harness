@@ -1,8 +1,15 @@
 # Full SDLC — Idea → Product → UI/UX → Spec → Code → Test → PR → Release → Operate
 
-Tài liệu này là **bản đồ điều phối** toàn bộ Core + Product + UI/UX + technology adapters + DevOps. Mỗi module vẫn có workflow riêng; chỉ **kích hoạt module đã cài và thật sự liên quan**, không bắt buộc dùng đủ tất cả cho một change. Bắt đầu với [Getting started](getting-started.md); xem [ma trận 38 skills](skill-matrix.md) và [role handoffs](agent-handoffs.md).
+Tài liệu này là **bản đồ điều phối** toàn bộ Core + Product + UI/UX + technology adapters + DevOps. Mỗi module vẫn có workflow riêng; chỉ **kích hoạt module đã cài và thật sự liên quan**, không bắt buộc dùng đủ tất cả cho một change. Bắt đầu với [Getting started](getting-started.md); xem [ma trận 42 skills](skill-matrix.md) và [role handoffs](agent-handoffs.md).
 
 > **Ranh giới thực thi:** `aih` cài/gợi ý rules, templates, skills và check/eval **advisory**. AI host/IDE và các công cụ bên ngoài thực hiện phân tích, code, test và tương tác hệ thống trong phạm vi được cấp quyền. Không có `aih run` hay `aih deploy`; các hành động ghi Figma, production hoặc merge phải có phê duyệt.
+
+## Hai chế độ bắt đầu
+
+- **Idea-driven:** developer trình bày ý tưởng → thảo luận và nghiên cứu có nguồn → PRD-lite hoặc BRD/PRD/SRS/use cases tùy độ phức tạp → human approval → OpenSpec.
+- **Document-driven:** BA/PO đã có BRD/PRD/SRS/Confluence → lập source register với URL/revision/quyền, gap/traceability → chỉ tạo artifact còn thiếu → human approval → OpenSpec.
+
+Cả hai chế độ đều dùng chung các stage phía dưới và không bắt buộc cài mọi capability. Xem [Documentation workflows](documentation-workflows.md).
 
 ## 0. Chọn module và xác định ownership
 
@@ -24,7 +31,7 @@ Lệnh trên là **ví dụ một repo chứa BE/FE/manifests**; nếu frontend/
 | Stage | Input và việc phải làm | Module / skills & roles | Output / điều kiện bàn giao |
 | --- | --- | --- | --- |
 | **1. Intake** | Ý tưởng, ticket, Confluence/PDF được phép đọc, version/source, scope | Product: `knowledge-analysis`, `business-analysis`; BA | Source register, FACT/INFERENCE/UNKNOWN, AS-IS/TO-BE, quyết định còn thiếu |
-| **2. Business & Product** | Nguồn có traceability, mục tiêu, rules, NFR | Product: `brd-generation`, `prd-generation`, `user-stories`, `acceptance-criteria`, `backlog-prioritization`, `document-review`, `traceability`; PM/PO/requirements reviewer | BRD/PRD, story IDs, AC, backlog; **Gate A: stakeholder duyệt**, không gắn nhãn Approved bởi AI |
+| **2. Business & Product** | Nguồn có traceability, mục tiêu, rules, NFR | Product: `brd-generation`, `prd-generation`, `user-stories`, `acceptance-criteria`, `backlog-prioritization`, `document-review`, `traceability`; PM/PO/requirements reviewer | PRD-lite hoặc BRD/PRD/SRS/UC khi cần, story IDs, AC, backlog; **Gate A: stakeholder duyệt**, không gắn nhãn Approved bởi AI |
 | **3. UX/UI (nếu cần)** | Approved PRD/stories/AC; Figma file và quyền (nếu dùng) | UI/UX: `requirements-analysis` (chỉ khi cần), `user-flow`, `screen-planning`, `design-system`, `figma-design`, `design-review` | User flows, screen specs, component/tokens, Figma node IDs; **Gate B trước ghi Figma**, gate sau design review |
 | **4. Technical spec** | Approved requirements, API constraints, architecture, DB/event contracts | Core: `harness-spec`, planner; tech adapter phù hợp; OpenSpec | `openspec/changes/<change-id>/` (proposal, design, tasks, delta specs), measurable AC; **Gate C: duyệt thay đổi có ảnh hưởng** |
 | **5. Implementation** | Change được duyệt, kiến trúc, repo, tests | Core: `harness-tdd`, `harness-debugging` khi sửa lỗi; Spring/React/Native/AI adapter theo stack; implementer | Minimal code diff, unit/integration/contract tests, migration plans, không thay đổi unrelated files |

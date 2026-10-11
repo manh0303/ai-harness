@@ -29,17 +29,32 @@ aih new-doc prd
 aih new-doc backlog
 aih new-doc acceptance-criteria
 aih new-doc traceability
+aih new-doc idea           # docs/discovery/idea.md
+aih new-doc research       # docs/discovery/research.md
+aih new-doc prd-lite
+aih new-doc srs
+aih new-doc use-cases
 ```
 
-This command copies the reviewed, locked template into `docs/product/` in the
+This command copies the reviewed, locked template into `docs/product/` (and `docs/discovery/` for ideas/research) in the
 consumer project. It never overwrites an existing document and does not
 generate populated content; an authorized AI agent must use source evidence
 and stakeholder review to complete the draft.
 
 ## Workflow selection
-- `workflows/idea-to-prd.md`: starting from an idea/product brief.
+- `workflows/idea-driven.md`: idea → collaborative discussion, authorized research, PRD-lite or BRD/PRD/SRS.
+- `workflows/document-driven.md`: existing BA documents → gap analysis → approved spec handoff without rewriting official sources.
+- `workflows/idea-to-prd.md`: original idea-to-PRD flow (still supported).
 - `workflows/confluence-to-spec.md`: evidence-backed corpus to requirements and backlog.
 - `workflows/change-impact-analysis.md`: trace requirement changes across downstream artifacts.
+
+## Two project intake modes
+
+**Idea-driven:** the developer supplies an idea; an AI host discusses trade-offs, performs authorized research, records decisions, and prepares draft BRD/PRD/PRD-lite/SRS/use cases based on desired detail. The developer can be the explicit approver.
+
+**Document-driven:** the project already has BA artifacts; the host inventories approved sources, records URLs/revisions and permission scope, performs gap analysis and builds only missing, project-owned specs and OpenSpec handoffs. It does **not** rewrite source Confluence pages or re-approve existing BRDs.
+
+Both modes can coexist across the project lifecycle. The CLI only provides instructions/templates and does not execute research, AI conversations, Confluence exports or publishing. Read [Documentation guide](../../docs/documentation-workflows.md).
 
 ## Outputs (consumer-owned)
 Copy the relevant files from `.harness/capabilities/product/templates/` to `docs/product/` in the **application repository** when preparing real drafts. Complete with source references, IDs, owners, version and status. The CLI installs templates; it does **not** fill them, connect to Confluence, generate documents, or approve output.
