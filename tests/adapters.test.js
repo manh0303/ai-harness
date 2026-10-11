@@ -20,9 +20,9 @@ function cli(args, expected = 0) { const r = spawnSync(process.execPath, [path.j
 function install(adapters = ['java-spring']) { h.install(root, source, { adapters }); }
 function report() { const r = evaluate(root).report; Object.assign(r.metadata, { model: 'synthetic-fixture', harness_commit: 'fixture', reviewer: 'test', run_id: 'test', parameters: 'none' }); for (const row of r.results) { row.scores.fill(true); row.evidence = 'Synthetic test evidence; no model execution'; } return r; }
 
-test('list validates four adapters and nine namespaced skills', () => {
-  const result = listAdapters(source); assert.equal(result.adapters.length, 5);
-  assert.equal(result.adapters.flatMap(a => a.skills).length, 12);
+test('list validates six adapters and eighteen namespaced skills', () => {
+  const result = listAdapters(source); assert.equal(result.adapters.length, 6);
+  assert.equal(result.adapters.flatMap(a => a.skills).length, 18);
   assert.deepEqual(snapshot(), {});
 });
 test('detection distinguishes generic Java/Python from Spring/AI', () => {
