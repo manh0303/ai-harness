@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "id": "security-review",
+      "title": "Manual Core security and permission gate review",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Threat boundary and connector permission review",
+        "No production write/merge approval laundering",
+        "Evidence for commands actually executed"
+      ],
+      "execution": "manual"
+    },
+    {
+      "id": "spec-traceability",
+      "title": "Manual requirement and acceptance traceability check",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Source revision and approved requirement IDs",
+        "Acceptance scenario references and unresolved decisions"
+      ],
+      "execution": "manual"
+    }
+  ]
+}

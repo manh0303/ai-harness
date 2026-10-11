@@ -186,3 +186,39 @@ test('DevOps can be removed and drift blocks updates', () => {
   const before = snapshot(); run(['update', '--source', source], 1);
   assert.deepEqual(snapshot(), before);
 });
+
+test('capability and combined evaluation scopes remain advisory and locked', () => {
+  run(['init', '--source', source, '--capabilities', 'product,uiux,devops', '--adapters', 'java-spring,kubernetes']);
+  const before = snapshot();
+  const checks = run(['verify', '--scope', 'all']);
+  assert.equal(checks.executed, false);
+  assert.ok(checks.checks.some(x => x.capability === 'product'));
+  assert.ok(checks.checks.some(x => x.core === true));
+  const report = run(['eval', '--scope', 'all']);
+  assert.equal(report.scope, 'all');
+  assert.ok(report.dataset.cases.some(x => x.id === 'composition/product-uiux-handoff'));
+  assert.ok(report.dataset.cases.some(x => x.id === 'composition/release-approval'));
+  assert.ok(report.dataset.cases.some(x => x.id.startsWith('capability/')));
+  assert.ok(report.dataset.cases.some(x => x.id.startsWith('core/')));
+  assert.deepEqual(snapshot(), before);
+  const synthetic = report.report;
+  Object.assign(synthetic.metadata, { model: 'synthetic', harness_commit: 'test', reviewer: 'test',
+    run_id: 'test', parameters: 'offline' });
+  for (const row of synthetic.results) { row.scores.fill(true); row.evidence = 'Synthetic only; no model executed'; }
+  write('report.json', synthetic);
+  assert.equal(run(['eval', '--scope', 'all', '--report', 'report.json']).status, 'pass');
+  run(['eval', '--scope', 'adapters', '--report', 'report.json'], 1);
+  write('.harness/capabilities/product/evals/cases.json', '{}');
+  run(['eval', '--scope', 'all'], 1);
+});
+
+test('core-only scope is available without adapters; legacy adapter scope stays unchanged', () => {
+  run(['init', '--source', source]);
+  assert.equal(run(['verify']).checks.length, 0);
+  run(['eval'], 1);
+  const core = run(['eval', '--scope', 'core']);
+  assert.ok(core.dataset.cases.some(c => c.id === 'core/approval-boundary'));
+  assert.ok(!core.dataset.cases.some(c => c.id.startsWith('composition/')));
+  assert.equal(run(['verify', '--scope', 'core']).executed, false);
+  run(['eval', '--scope', 'wrong'], 1);
+});

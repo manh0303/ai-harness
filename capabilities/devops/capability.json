@@ -13,5 +13,8 @@
   "workflows": [
     "workflows/pr-to-production.md",
     "workflows/incident-recovery.md"
-  ]
+  ],
+  "module_version": "1.0.0",
+  "verification": "checks/verification.json",
+  "evaluation": "evals/cases.json"
 }

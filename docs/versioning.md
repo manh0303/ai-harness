@@ -13,6 +13,8 @@ rejected, not guessed. Future schema changes need an explicit migration; this ve
 The CLI refuses all version downgrades and requires --allow-major when the major number changes.
 It does not fetch releases or silently follow main. Pass a reviewed local checkout via --source.
 
+See [release policy](release-policy.md) for independently versioned module contracts and single release-PR version ownership.
+
 ## Release procedure
 1. Update harness.yaml, CHANGELOG and migration notes. Review policy/behavior changes as code.
 2. Run structural validation and CLI tests on the supported Node.js 22/24 and OS matrix, including actual npm package smoke tests.
@@ -81,3 +83,7 @@ Do not treat raw Confluence data, drafts or AI review as approved business decis
 ## 0.5 → 0.6 migration
 
 No new configuration/lock schema version: 0.5 Product templates, `aih new-doc`, UI/UX and all earlier adapter selections stay compatible. New DevOps and Kubernetes modules are opt-in. On a consumer branch, pin a reviewed 0.6 source/package, add `"devops"` to `.harness/project.json` capabilities and/or `"kubernetes"` to adapters, then run `aih update --dry-run`, `aih update` and `aih check`. Unmodified installed payload updates safely; any drift still blocks update. Release workflows remain instruction-only, do not publish npm packages, create CI provider jobs or deploy production workloads.
+
+## Foundation hardening (unreleased after 0.6)
+
+Module contracts gain optional version and dependency fields without changing config/lock schema 1. Existing consumer snapshots retain default adapter-only verify/eval. After a reviewed update, `--scope all` enables locked Core/capability/composition evaluation, and `--scope core` works in core-only projects. Feature branches retain distribution version 0.6.0; release PR chooses the next number. Use tagged releases for other consumers rather than interpreting an unreleased commit as a published update.

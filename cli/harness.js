@@ -3,6 +3,7 @@ import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { loadAdapter } from './adapter-schema.js';
 import { loadCapability } from './capabilities.js';
+import { resolveModules } from './composition.js';
 import { safe, readJson, manifest, encode, digest, stat, block, mergeAgents, payload, validateAdapters, validateCapabilities, assertSeparate, HarnessError, LOCK, CONFIG, VERSION, SLUG, isObject } from './files.js';
 export * from './files.js';
 
@@ -43,7 +44,8 @@ export function collect(source, folder) {
 }
 
 export function bundle(source, config) {
-  const m = manifest(source), adapters = [...config.adapters].sort(), capabilities = [...(config.capabilities ?? [])].sort();
+  const selection = resolveModules(source, config);
+  const m = manifest(source), adapters = selection.adapters, capabilities = selection.capabilities;
   const unknown = adapters.filter(a => !m.adapters.includes(a));
   if (unknown.length) throw new HarnessError(`Unknown adapters: ${unknown.join(', ')}`);
   const unknownCapabilities = capabilities.filter(c => !(m.capabilities ?? []).includes(c));
@@ -79,7 +81,7 @@ export function bundle(source, config) {
   if (!block(generated)?.equals(generated)) throw new HarnessError('AGENTS template must be one managed block');
   files['AGENTS.md'] = generated;
   const hashes = Object.fromEntries(Object.keys(files).sort().map(k => [k, digest(files[k])]));
-  return { files, lock: { schema_version: 1, version: m.version, adapters, capabilities, files: hashes, bundle_sha256: digest(encode(hashes)) } };
+  return { files, warnings: selection.warnings, lock: { schema_version: 1, version: m.version, adapters, capabilities, files: hashes, bundle_sha256: digest(encode(hashes)) } };
 }
 
 function managedName(name) {
@@ -161,7 +163,7 @@ export function install(root, source, { command = 'init', adapters, capabilities
     if (command === 'update' && !hasLock) throw new HarnessError('Not installed; run init first');
     const old = hasLock ? loadLock(root) : null;
     const config = projectConfig(root, adapters, capabilities, hasLock);
-    const { files, lock } = bundle(source, config);
+    const { files, lock, warnings } = bundle(source, config);
     if (old) {
       const conflicts = drift(root, old);
       if (conflicts.length) throw new HarnessError(`Managed files changed; reconcile in Git before updating: ${conflicts.join(', ')}`);
@@ -192,7 +194,7 @@ export function install(root, source, { command = 'init', adapters, capabilities
     if (!hasLock || !fs.readFileSync(safe(root, LOCK)).equals(newLock)) changes[LOCK] = newLock;
     const plan = Object.entries(changes).map(([name, data]) => ({ path: name, action: data === null ? 'delete' : 'write' }));
     if (!dryRun) transaction(root, changes, writer);
-    return { status: dryRun ? 'planned' : 'ok', version: lock.version, changes: plan };
+    return { status: dryRun ? 'planned' : 'ok', version: lock.version, changes: plan, warnings };
   });
 }
 

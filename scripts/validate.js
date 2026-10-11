@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import { loadAdapter } from '../cli/adapter-schema.js';
 import { loadCapability } from '../cli/capabilities.js';
+import { validateRegistry } from '../cli/composition.js';
+import { checksFrom, casesFrom } from '../cli/evaluation-contract.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { SOURCE, manifest, bundle, readJson } from '../cli/harness.js';
@@ -8,6 +10,7 @@ import { SOURCE, manifest, bundle, readJson } from '../cli/harness.js';
 try {
   const errors = [], m = manifest(SOURCE), pkg = readJson(path.join(SOURCE, 'package.json'));
   if (m.version !== pkg.version) errors.push('package.json and harness.yaml versions differ');
+  if (readJson(path.join(SOURCE, 'package-lock.json')).version !== pkg.version) errors.push('package-lock version mismatch');
   if (pkg.bin?.aih !== 'bin/aih.js') errors.push('aih executable missing');
   if (Object.keys(pkg.dependencies ?? {}).length) errors.push('Runtime must remain dependency-free');
   const required = ['README.md', 'AGENTS.md', 'CHANGELOG.md', 'docs/architecture.md', 'docs/versioning.md',
@@ -30,6 +33,9 @@ try {
     loadAdapter(SOURCE, name);
   }
   for (const name of m.capabilities ?? []) loadCapability(SOURCE, name);
+  validateRegistry(SOURCE);
+  checksFrom(SOURCE, 'core/checks/verification.json');
+  casesFrom(SOURCE, 'core/evals/cases.json');
   const { files } = bundle(SOURCE, { schema_version: 1, adapters: m.adapters, capabilities: m.capabilities ?? [] });
   function links(dir) {
     for (const item of fs.readdirSync(dir, { withFileTypes: true })) {

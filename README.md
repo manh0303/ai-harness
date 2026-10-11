@@ -116,6 +116,18 @@ aih check
 Các lệnh không gọi cloud API, không triển khai production hay cấp quyền kết nối.
 Xem [DevOps capability](capabilities/devops/README.md) và [quy tắc adapters](docs/adapters.md).
 
+## Module composition & evaluation (unreleased)
+
+Module manifests có `module_version` và các metadata phụ thuộc, khuyến nghị, xung đột. Kiểm tra trước khi cài:
+
+```bash
+aih resolve --adapters java-spring,kubernetes --capabilities product,uiux,devops
+aih verify --scope all     # checklist tư vấn, không chạy
+aih eval --scope all       # báo cáo chưa chấm, không gọi model
+```
+
+Chế độ mặc định không có `--scope` vẫn chỉ gồm adapters. Đây là hardening trên feature branch, chưa phát hành npm. Xem [release policy](docs/release-policy.md).
+
 ## Chọn adapter
 
 | Dự án | `--adapters` |

@@ -1,5 +1,6 @@
 import { listAdapters, detect, verify, evaluate } from './adapters.js';
 import { listCapabilities, skillCatalog, readSkill } from './capabilities.js';
+import { resolveModules } from './composition.js';
 import { parseArgs } from 'node:util';
 import { SOURCE, readJson, targetRoot, install, check, doctor, newChange, newDoc, loadLock } from './harness.js';
 import path from 'node:path';
@@ -11,6 +12,7 @@ Usage: aih <command> [options]
   skills               List installed skill names/descriptions without full content
   skill <name>         Load one installed skill on demand
   detect               Suggest adapters with evidence from target files
+  resolve              Validate a module selection and show compatibility warnings
   verify               Show installed advisory checks (does not execute)
   eval                 Emit evaluation template, or score --report <file>
   init                 Install rules and selected adapters
@@ -23,10 +25,11 @@ Usage: aih <command> [options]
 Options:
   --target <directory> Project directory (default: current directory)
   --detect            init only: opt in to detected stack selection
+  --scope <type>      verify/eval: adapters (default), capabilities, core, all
   --report <file>     eval only: score a reviewer-completed JSON report
-  --adapters <a,b>     init only: java-spring,react-nextjs,react-native,ai-python,kubernetes
-  --capabilities <a,b> init only: uiux,product,devops
-  --source <directory> init/update/list/detect: trusted alternate bundle directory
+  --adapters <a,b>     init/resolve: java-spring,react-nextjs,react-native,ai-python,kubernetes
+  --capabilities <a,b> init/resolve: uiux,product,devops
+  --source <directory> init/update/list/detect/resolve: trusted alternate bundle directory
   --dry-run           init/update: preview without persistent changes
   --allow-major       init/update: acknowledge a major version migration
   -h, --help          Show help
@@ -34,6 +37,7 @@ Options:
 
 Examples:
   aih init --adapters java-spring --capabilities uiux
+  aih resolve --adapters java-spring,kubernetes --capabilities product,uiux,devops
   aih skills
   aih new-doc brd
   aih init --adapters java-spring,kubernetes --capabilities product,devops
@@ -48,7 +52,7 @@ export function main(argv = process.argv.slice(2)) {
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
       target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, source: { type: 'string' },
-      detect: { type: 'boolean' }, report: { type: 'string' },
+      detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
       help: { type: 'boolean', short: 'h' }, version: { type: 'boolean', short: 'v' },
     } });
@@ -60,9 +64,9 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'verify', 'eval', 'skills', 'skill'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (!['init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill'].includes(command)) throw new Error(`Unknown command: ${command}`);
     if (extra.length || (!['new-change', 'new-doc', 'skill'].includes(command) && name !== undefined) || (['new-change', 'new-doc', 'skill'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
-    const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(command === 'init' ? ['adapters', 'capabilities', 'detect'] : []), ...(['list', 'detect'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : [])]);
+    const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
     for (const key of Object.keys(args.values)) if (!allowed.has(key)) throw new Error(`--${key} is not supported for ${command}`);
     if (args.values.detect && args.values.adapters !== undefined) throw new Error('Choose either --detect or --adapters');
     for (const key of ['target', 'source', 'adapters', 'capabilities', 'report']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
@@ -87,9 +91,13 @@ export function main(argv = process.argv.slice(2)) {
       const lock = loadLock(root);
       result = command === 'skills' ? skillCatalog(root, lock) : readSkill(root, lock, name);
     }
+    else if (command === 'resolve') result = resolveModules(targetRoot(values.source ?? SOURCE), {
+      adapters: values.adapters === undefined ? [] : values.adapters.split(',').map(x => x.trim()),
+      capabilities: values.capabilities === undefined ? [] : values.capabilities.split(',').map(x => x.trim()),
+    });
     else if (command === 'detect') result = detect(root, targetRoot(values.source ?? SOURCE));
-    else if (command === 'verify') result = verify(root);
-    else if (command === 'eval') result = evaluate(root, values.report);
+    else if (command === 'verify') result = verify(root, values.scope ?? 'adapters');
+    else if (command === 'eval') result = evaluate(root, values.report, values.scope ?? 'adapters');
     else if (command === 'new-change') result = newChange(root, name);
     else if (command === 'new-doc') result = newDoc(root, name);
     else result = command === 'doctor' ? doctor(root) : check(root);

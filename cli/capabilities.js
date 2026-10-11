@@ -1,5 +1,7 @@
 import fs from 'node:fs';
 import { manifest, readJson, safe, SLUG, HarnessError, payload } from './files.js';
+import { validateContract } from './module-contract.js';
+import { checksFrom, casesFrom } from './evaluation-contract.js';
 
 const validName = name => typeof name === 'string' && SLUG.test(name);
 const fail = message => { throw new HarnessError(message); };
@@ -24,12 +26,13 @@ export function loadCapability(source, id) {
   const meta = readJson(safe(source, prefix + 'capability.json'));
   // Schema 1 supports optional role and template lists; legacy UI/UX stays valid.
   const required = ['schema_version', 'id', 'description', 'skills', 'workflows'];
-  const allowed = new Set([...required, 'agents', 'templates']);
+  const allowed = new Set([...required, 'agents', 'templates', 'module_version', 'requires', 'recommends', 'conflicts', 'compatible_adapters', 'verification', 'evaluation']);
   if (!meta || typeof meta !== 'object' || Array.isArray(meta)
       || required.some(k => !Object.hasOwn(meta, k))
       || Object.keys(meta).some(k => !allowed.has(k))
       || meta.schema_version !== 1 || meta.id !== id
       || typeof meta.description !== 'string' || !meta.description.trim()) fail(`Invalid capability: ${id}`);
+  validateContract(meta, 'capability', id);
   if (!Array.isArray(meta.skills) || !meta.skills.length || !unique(meta.skills)
       || !meta.skills.every(name => validName(name) && name.startsWith(`harness-${id}-`))) fail(`Invalid capability skills: ${id}`);
   if (!Array.isArray(meta.workflows) || !meta.workflows.length || !unique(meta.workflows)
@@ -54,13 +57,18 @@ export function loadCapability(source, id) {
       }
     }
   }
-  return { ...meta, agents: meta.agents ?? [], templates: meta.templates ?? [] };
+  // Optional capability verification/evaluation, installed as locked data.
+  if (meta.verification !== undefined && meta.verification !== 'checks/verification.json') fail(`Invalid capability verification: ${id}`);
+  if (meta.evaluation !== undefined && meta.evaluation !== 'evals/cases.json') fail(`Invalid capability evaluation: ${id}`);
+  const checks = meta.verification ? checksFrom(source, prefix + meta.verification) : [];
+  const cases = meta.evaluation ? casesFrom(source, prefix + meta.evaluation) : [];
+  return { ...meta, agents: meta.agents ?? [], templates: meta.templates ?? [], checks, cases };
 }
 
 export function listCapabilities(source) {
   return (manifest(source).capabilities ?? []).map(id => {
-    const { description, skills, workflows, agents, templates } = loadCapability(source, id);
-    return { id, description, skills, workflows, agents, templates };
+    const { description, skills, workflows, agents, templates, module_version, verification, evaluation } = loadCapability(source, id);
+    return { id, description, skills, workflows, agents, templates, module_version: module_version ?? null, verification: verification ?? null, evaluation: evaluation ?? null };
   });
 }
 

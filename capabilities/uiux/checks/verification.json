@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "id": "design-approval",
+      "title": "uiux human approval and source traceability",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Approval status and named reviewer",
+        "Source references and versioned evidence",
+        "Unrun steps clearly identified"
+      ],
+      "execution": "manual"
+    }
+  ]
+}
