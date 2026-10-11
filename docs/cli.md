@@ -27,6 +27,10 @@ Source and target cannot contain one another, except source inside target/node_m
 payload or destination paths are rejected. IDs are lowercase hyphenated slugs; archive is reserved.
 Astro projects are detected from `astro` in package.json dependencies; `react-dom` used only for Astro islands is not a standalone React/Next.js detection when `next` is absent. Explicit `--adapters astro,react-nextjs` remains valid. `aih init --adapters astro` installs static-first rules/skills but no Astro packages or Cloudflare deployment.\nSelection changes belong in .harness/project.json; unknown or duplicate adapters fail validation.
 
+## Optional monetization capability
+
+`aih init --capabilities monetization` installs five stack-independent advertising/revenue skills and 2 Markdown workflows with 4 templates. Combine with `--adapters astro` or `react-nextjs`; `product` and `uiux` are optional. `aih verify --scope capabilities` gives an unexecuted manual publisher policy/consent checklist. `aih new-doc` is **Product-only**; the editor may copy installed monetization Markdown templates to user-owned `docs/monetization/` with explicit no-overwrite review. No Google account access, ads publishing or metrics APIs are provided. See [Monetization guide](monetization.md).
+
 ## Ownership and conflict behavior
 AGENTS.md ownership covers only text between the unique start/end markers, inclusive. Any modification
 inside the block is drift; text before/after is user-owned. A malformed marker pair fails safely.
