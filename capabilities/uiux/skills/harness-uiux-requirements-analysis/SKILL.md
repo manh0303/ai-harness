@@ -10,7 +10,7 @@ description: Extract traceable UI requirements from trusted product briefs, Conf
 - Product ideas marked as unverified suggestions.
 
 ## Procedure
-1. List the available source IDs, titles and versions; scope retrieval to the requested feature.
+1. If Product capability is installed, first use **approved** BRD/PRD and their stable IDs as the source of truth rather than duplicating requirements. Otherwise list source IDs, titles and versions; scope retrieval to the requested feature.
 2. Extract actors, goals, acceptance criteria, business rules, terminology and permissions.
 3. Attach a source reference to each requirement; label inferred requirements explicitly.
 4. Record conflicts, unknowns and decisions needed from the product owner.
