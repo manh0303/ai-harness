@@ -20,7 +20,7 @@ Usage: aih <command> [options]
   check                Check installed file hashes and adapter selection
   doctor               Check installation and tool presence
   new-change <id>      Create an OpenSpec draft using installed templates
-  new-doc <type>       Scaffold a Product document draft (requires product capability)
+  new-doc <type>       Scaffold a Product/Discovery document draft (requires product capability)
 
 Options:
   --target <directory> Project directory (default: current directory)
@@ -40,6 +40,11 @@ Examples:
   aih resolve --adapters java-spring,kubernetes --capabilities product,uiux,devops
   aih skills
   aih new-doc brd
+  aih new-doc idea
+  aih new-doc research
+  aih new-doc prd-lite
+  aih new-doc srs
+  aih new-doc use-cases
   aih init --adapters java-spring,kubernetes --capabilities product,devops
   aih skill harness-product-brd-generation
   aih skill harness-uiux-figma-design
