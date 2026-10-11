@@ -51,6 +51,11 @@ try {
   assert.ok(fs.existsSync(path.join(productTarget, '.harness/capabilities/product/templates/prd.md')));
   assert.ok(fs.existsSync(path.join(productTarget, '.agents/skills/harness-product-prd-generation/SKILL.md')));
   assert.ok(fs.existsSync(path.join(productTarget, '.agents/skills/harness-uiux-figma-design/SKILL.md')));
+  const productDocOut = process.platform === 'win32'
+    ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" new-doc brd"`], productTarget, { windowsVerbatimArguments: true })
+    : command(bin, ['new-doc', 'brd'], productTarget);
+  assert.equal(JSON.parse(productDocOut).status, 'ok');
+  assert.ok(fs.existsSync(path.join(productTarget, 'docs/product/brd.md')));
   assert.equal(JSON.parse(run(['verify'])).executed, false);
   assert.equal(JSON.parse(run(['eval'])).dataset.cases.length, 8);
   assert.ok(fs.existsSync(path.join(target, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
