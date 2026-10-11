@@ -1,10 +1,21 @@
 # Changelog
 
-## 0.5.0 — DevOps capability and Kubernetes adapter candidate
-- Add optional DevOps capability with six namespaced skills and two review-gated release/incident workflows.
-- Add Kubernetes adapter with three skills, advisory manifest/Helm checks and two safety evaluation cases.
-- Preserve safe selective installation, lock-based integrity and human approvals for production changes.
-- Clarify that adapter verify/eval do not yet score capability workflows; no live deploy, npm publication or self-merge.
+## 0.6.0 — DevOps capability and Kubernetes adapter candidate
+- Add `devops` capability with six namespaced CI/CD, Docker, deployment, infrastructure, observability and incident-response skills plus two review-gated workflows.
+- Add `kubernetes` adapter with Helm/workload/rollout skills, advisory verification checks and two safety evaluation scenarios.
+- Combine Product, UI/UX and DevOps with selected technology adapters using existing lock-safe installation and progressive skill discovery.
+- Preserve Core human authorization requirements; no live CI dispatch, production deployment, provider writes or automatic merge.
+- `aih verify` / `aih eval` remain adapter-only; capability workflow documents do not execute runtime tools.
+
+
+## 0.5.0 — Product documentation capability candidate
+- Add independent Product capability with 5 role contracts (BA, PM, PO, delivery PM, reviewer), 9 skills, 3 workflows, and 11 templates.
+- Generate evidence-backed BRD, PRD, epics, stories, testable AC, traceability and independent review instructions.
+- Add `aih new-doc <type>` for safe, non-overwriting project-owned drafts from drift-checked installed templates.
+- Extend capability schema-1 with optional validated `agents` and `templates` arrays; preserve existing UI/UX metadata.
+- Support `aih init --capabilities product,uiux` and a documented approved-requirements handoff to UI/UX/OpenSpec.
+- No connector execution, autonomous document population, stakeholder approval, npm release or automatic merge.
+
 
 ## 0.4.0 — modular UI/UX capability candidate
 - Add explicit `uiux` capability, six review-gated skills and document/idea-to-Figma workflows.

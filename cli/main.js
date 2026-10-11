@@ -1,7 +1,7 @@
 import { listAdapters, detect, verify, evaluate } from './adapters.js';
 import { listCapabilities, skillCatalog, readSkill } from './capabilities.js';
 import { parseArgs } from 'node:util';
-import { SOURCE, readJson, targetRoot, install, check, doctor, newChange, loadLock } from './harness.js';
+import { SOURCE, readJson, targetRoot, install, check, doctor, newChange, newDoc, loadLock } from './harness.js';
 import path from 'node:path';
 
 const HELP = `aih — install reusable AI development rules into a project
@@ -18,13 +18,14 @@ Usage: aih <command> [options]
   check                Check installed file hashes and adapter selection
   doctor               Check installation and tool presence
   new-change <id>      Create an OpenSpec draft using installed templates
+  new-doc <type>       Scaffold a Product document draft (requires product capability)
 
 Options:
   --target <directory> Project directory (default: current directory)
   --detect            init only: opt in to detected stack selection
   --report <file>     eval only: score a reviewer-completed JSON report
   --adapters <a,b>     init only: java-spring,react-nextjs,react-native,ai-python,kubernetes
-  --capabilities <a,b> init only: uiux,devops
+  --capabilities <a,b> init only: uiux,product,devops
   --source <directory> init/update/list/detect: trusted alternate bundle directory
   --dry-run           init/update: preview without persistent changes
   --allow-major       init/update: acknowledge a major version migration
@@ -34,6 +35,9 @@ Options:
 Examples:
   aih init --adapters java-spring --capabilities uiux
   aih skills
+  aih new-doc brd
+  aih init --adapters java-spring,kubernetes --capabilities product,devops
+  aih skill harness-product-brd-generation
   aih skill harness-uiux-figma-design
   aih update --dry-run
   aih new-change add-order
@@ -56,8 +60,8 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['init', 'update', 'check', 'doctor', 'new-change', 'list', 'detect', 'verify', 'eval', 'skills', 'skill'].includes(command)) throw new Error(`Unknown command: ${command}`);
-    if (extra.length || (!['new-change', 'skill'].includes(command) && name !== undefined) || (['new-change', 'skill'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
+    if (!['init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'verify', 'eval', 'skills', 'skill'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (extra.length || (!['new-change', 'new-doc', 'skill'].includes(command) && name !== undefined) || (['new-change', 'new-doc', 'skill'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(command === 'init' ? ['adapters', 'capabilities', 'detect'] : []), ...(['list', 'detect'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : [])]);
     for (const key of Object.keys(args.values)) if (!allowed.has(key)) throw new Error(`--${key} is not supported for ${command}`);
     if (args.values.detect && args.values.adapters !== undefined) throw new Error('Choose either --detect or --adapters');
@@ -87,6 +91,7 @@ export function main(argv = process.argv.slice(2)) {
     else if (command === 'verify') result = verify(root);
     else if (command === 'eval') result = evaluate(root, values.report);
     else if (command === 'new-change') result = newChange(root, name);
+    else if (command === 'new-doc') result = newDoc(root, name);
     else result = command === 'doctor' ? doctor(root) : check(root);
     console.log(JSON.stringify(result, null, 2));
     return ['error', 'fail'].includes(result.status) ? 1 : 0;

@@ -10,3 +10,7 @@ Reusable, **non-executable** skill and workflow bundle for permitted ideas/docum
 - Human approval is required before Figma writes and before marking designs ready to build. No implicit overwrites or merges.
 
 Content is disclosed progressively: `aih skills` returns just metadata; the agent loads only the relevant `SKILL.md`. Installed files are snapshots pinned in `.harness/lock.json`.
+
+When Product capability is installed, UI/UX consumes approved BRD/PRD, stories/AC
+and preserves their IDs rather than regenerating competing requirements.
+Without Product, UI/UX retains its own provisional evidence-extraction process.

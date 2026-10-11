@@ -61,3 +61,17 @@ Any false criterion returns status fail and exit 1, including a list of critical
 - For existing installs, edit the `capabilities` array in `.harness/project.json`, then use `aih update --dry-run` followed by `aih update`. Init refuses an already installed conflicting selection.
 - Selecting a capability copies only its managed snapshot and exposed skills into the consumer. npm package transport itself still contains all bundled capabilities.
 - Neither `skills` nor `skill` contacts the network or runs model/tool integrations. Both require a drift-free installed snapshot.
+
+## Product docs and safe template scaffolding (0.5.0)
+
+- `aih init --capabilities product` or `aih init --capabilities product,uiux` installs
+  Product workflows, role contracts, document templates and skill pointers.
+- `aih list` returns capability agents/templates metadata alongside skills/workflows.
+- `aih new-doc brd`, `aih new-doc prd`, `aih new-doc backlog`, etc. safely
+  copy **one** locked template from `.harness/capabilities/product/templates/` to
+  the project-owned `docs/product/<type>.md`. An existing file is never overwritten.
+- `aih skills` lists descriptions only; `aih skill harness-product-brd-generation`
+  loads specific task guidance when needed.
+- For installed projects, change `.harness/project.json` selection and run update/check.
+- Documents must be populated by an authorized AI host using source references;
+  no command retrieves Confluence, calls an LLM or claims stakeholder approval.

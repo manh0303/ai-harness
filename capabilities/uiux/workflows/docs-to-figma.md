@@ -5,7 +5,7 @@ Translate permitted Confluence pages, PRDs, stories, PDFs and screenshots into s
 
 ## Stages
 1. **Source intake:** enumerate locations, permissions, page versions, target platform, brand references and desired scope. Do not ingest unrelated confidential content.
-2. **Evidence extraction:** use `harness-uiux-requirements-analysis` to write requirement IDs, evidence links, conflicts and assumptions. For small projects use direct authorized retrieval; RAG is optional for large corpora.
+2. **Evidence extraction:** when Product capability is selected, consume its **human-approved** BRD/PRD, stories, AC and stable IDs without re-extracting or renumbering requirements. Otherwise use `harness-uiux-requirements-analysis` for a provisional UI-only inventory with source references and open questions. For small projects use direct authorized retrieval; RAG is optional for large corpora.
 3. **UX planning:** use `harness-uiux-user-flow` and `harness-uiux-screen-planning` to map journeys, branches, screens and each requirement-to-screen connection.
 4. **Approval gate 1:** human approves the business analysis, interaction decisions and screen inventory. No Figma write before approval.
 5. **Visual design:** use `harness-uiux-design-system`, then `harness-uiux-figma-design`; confirm connected MCP access and target file. Preserve approved existing frames.

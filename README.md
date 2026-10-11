@@ -3,7 +3,7 @@
 Framework tái sử dụng để hướng dẫn AI làm việc theo **Spec → Code → Test → Review** trong nhiều dự án.
 Core dùng chung; adapter chứa quy chuẩn công nghệ; CLI cài một bản có version vào từng repository.
 
-**Trạng thái:** 0.5.0 candidate, adapter + selective UI/UX capabilities và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
+**Trạng thái:** 0.6.0 candidate, adapter + selective UI/UX capabilities và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
 Gói `@manh0303/ai-harness` chưa phát hành lên npm registry; hiện cài từ repository private hoặc tarball.
 Harness không tự gọi LLM, không tự sinh ứng dụng, không tạo agent runtime, không tự merge/deploy.
 Các role/skill hướng dẫn assistant đang dùng; quyền thực tế do IDE/runtime, Git và CI kiểm soát.
@@ -15,10 +15,10 @@ Cài từ source đã review bằng tài khoản có quyền repository private:
 ```bash
 git clone git@github.com:manh0303/ai-harness.git
 cd ai-harness
-# Khi review PR này: git switch feat/adapter-capabilities
+# Khi review PR này: git switch feat/devops-capability-kubernetes
 # Sau merge: checkout commit/tag đã review để pin phiên bản.
 npm pack
-npm install -g ./manh0303-ai-harness-0.5.0.tgz
+npm install -g ./manh0303-ai-harness-0.6.0.tgz
 
 cd /path/to/my-backend
 aih init --adapters java-spring --dry-run
@@ -32,11 +32,40 @@ Sau khi cài, dùng `aih` từ bất kỳ repository ứng dụng nào. Đích m
 `aih --help` xem lệnh, `aih --version` xem phiên bản công cụ.
 
 Khi chủ sở hữu đã phát hành npm package và cấp quyền, cách cài sẽ là
-`npm install -g @manh0303/ai-harness@0.5.0`. **Lệnh registry này chưa dùng được chỉ vì PR đã merge.**
+`npm install -g @manh0303/ai-harness@0.6.0`. **Lệnh registry này chưa dùng được chỉ vì PR đã merge.**
 Có thể cài tarball vào devDependencies rồi dùng `npx --no-install aih init` nếu không muốn cài global.
 Xem [hướng dẫn đóng gói/phát hành](docs/npm-release.md).
 
 Đây là cài **quy trình và context**, không scaffold source code Spring/React và không sửa build file.
+
+## Product documentation capability — BA / PM / PO
+
+Capability `product` cung cấp 5 role contracts, 9 skills, 3 workflows và 11 templates
+để chuyển ý tưởng hoặc nguồn Confluence được cấp quyền thành BRD, PRD, user stories,
+acceptance criteria và requirement traceability. Mọi tài liệu hoàn thiện là dữ liệu
+**do dự án sở hữu**, nằm trong `docs/product/` của repository ứng dụng.
+
+```bash
+# Khởi tạo dự án mới chỉ cần Product
+aih init --capabilities product
+# Kết hợp Product + UI/UX + React
+aih init --capabilities product,uiux --adapters react-nextjs
+# Tạo file mẫu để AI điền bằng tài liệu được cấp phép, không tự điền nội dung
+aih new-doc brd
+aih new-doc prd
+aih new-doc backlog
+aih new-doc acceptance-criteria
+aih new-doc traceability
+aih skills
+aih skill harness-product-prd-generation
+aih check
+```
+
+Dự án đã cài đặt cần sửa `.harness/project.json`, bổ sung `product` vào
+`capabilities` rồi chạy `aih update --dry-run`, `aih update`, `aih check`.
+CLI chỉ tạo **bản mẫu** khi dùng `new-doc`. Việc phân tích và điền nội dung cần
+AI runtime có quyền đọc nguồn, kiểm tra bằng chứng và được BA/PM/PO phê duyệt.
+Xem [Product capability](capabilities/product/README.md).
 
 ## Optional UI/UX capability
 
@@ -70,17 +99,22 @@ Xem [tài liệu capability](capabilities/uiux/README.md) và [quy trình docs-t
 
 ## DevOps capability + Kubernetes adapter
 
-DevOps chứa CI/CD, Docker, release, infrastructure review, observability và incident response. Kubernetes là adapter cho manifests/Helm/rollout. Có thể kết hợp:
+`devops` cung cấp 6 skills cho CI/CD, Docker, release, infrastructure review,
+observability và incident response, cùng 2 workflows có cổng phê duyệt.
+`kubernetes` là adapter riêng cho manifest, Helm và rollout safety.
 
 ```bash
 aih init --adapters java-spring,kubernetes --capabilities devops
+# Kết hợp cả Product + UI/UX + DevOps
+aih init --adapters java-spring,kubernetes --capabilities product,uiux,devops
 aih skills
 aih skill harness-devops-deployment
-aih verify  # checklist tham khảo, không thực thi
+aih verify                  # chỉ gợi ý kiểm tra, không chạy
 aih check
 ```
 
-CLI không gọi CI, cluster API, cloud provider hay tự triển khai production. [Tài liệu DevOps](capabilities/devops/README.md).
+Các lệnh không gọi cloud API, không triển khai production hay cấp quyền kết nối.
+Xem [DevOps capability](capabilities/devops/README.md) và [quy tắc adapters](docs/adapters.md).
 
 ## Chọn adapter
 

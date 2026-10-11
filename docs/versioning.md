@@ -1,7 +1,7 @@
 # Versioning and migration
 
 Framework version is in harness.yaml and package.json; keep both and package-lock.json synchronized. Use three-part SemVer releases and Git tags vX.Y.Z after review.
-0.5.0 is a DevOps/Kubernetes candidate (the previous 0.3.0 added adapter capabilities), not a claim of a registry publication or Git tag. Do not publish from a feature PR.
+0.6.0 is a DevOps/Kubernetes candidate (0.5.0 added the Product documentation capability), not a claim of a registry publication or Git tag. Do not publish from a feature PR.
 
 - Patch: compatible corrections to instructions or installer defects.
 - Minor: backward-compatible adapter, skill or CLI additions.
@@ -70,4 +70,14 @@ removed through update; edited managed files block changes. This is a monorepo s
 release, not remote lazy downloads. Figma/Confluence accounts are not configured by CLI.
 
 ## 0.4 → 0.5 migration
-Existing schema-1 configs and locks remain compatible. On a review branch, pin the updated CLI/source; optionally select `devops` in `capabilities` and `kubernetes` in `adapters` within `.harness/project.json`. Then run `aih update --dry-run`, `aih update`, `aih check`. Do not assume new modules deploy, install CI jobs or connect cloud providers.
+
+Installed project config and lock remain schema 1. `product` is opt-in for new
+or already-installed consumers. Existing UI/UX capability metadata remains valid;
+Product additionally declares optional validated agents/templates lists. Review
+`aih update --dry-run` before update. Generated `docs/product/` drafts from
+`aih new-doc` are project-owned, never managed or removed by subsequent updates.
+Do not treat raw Confluence data, drafts or AI review as approved business decisions.
+
+## 0.5 → 0.6 migration
+
+No new configuration/lock schema version: 0.5 Product templates, `aih new-doc`, UI/UX and all earlier adapter selections stay compatible. New DevOps and Kubernetes modules are opt-in. On a consumer branch, pin a reviewed 0.6 source/package, add `"devops"` to `.harness/project.json` capabilities and/or `"kubernetes"` to adapters, then run `aih update --dry-run`, `aih update` and `aih check`. Unmodified installed payload updates safely; any drift still blocks update. Release workflows remain instruction-only, do not publish npm packages, create CI provider jobs or deploy production workloads.

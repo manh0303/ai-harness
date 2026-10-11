@@ -69,5 +69,20 @@ skill after drift validation. The agent host controls actual skill activation an
 For package size, source npm distribution currently bundles all capabilities, but consumer
 snapshot and AI context are selective; split distributable packages only when size warrants it.
 
-## DevOps composition (0.5.0)
-The `devops` capability owns cross-stack delivery, infrastructure planning and SRE procedures; the `kubernetes` adapter owns manifest and Helm rules/checks. The existing selection/lock/skill discovery mechanism composes them without an orchestrator. Provider writes require separately configured integrations, runtime permissions and action-specific authorization. `verify/eval` remain adapter-focused.
+## Product documentation capability (0.5.0)
+
+An optional `product` capability owns business-analysis and product-documentation
+role contracts and templates. Capability schema-1 now supports optional unique safe
+`agents` and `templates` Markdown path lists (required fields remain unchanged).
+Role files must include Inputs, Outputs, Permissions and limits, Handoff sections.
+The existing `uiux` manifest without these optional fields remains valid.
+Selected capability artifacts are hashed and installed with the existing lock safety.
+
+`aih new-doc <type>` reads a locked, drift-free Product template, creates
+`docs/product/<type>.md` as project-owned data, and refuses overwrite/symlinked
+destinations. It never fills confidential content, fetches Confluence or auto-approves.
+The approved PRD/BRD/stories/AC serve as source of truth for UI/UX and OpenSpec.
+
+## DevOps and Kubernetes composition (0.6.0)
+
+DevOps is an optional stack-neutral capability for release procedures and SRE; the Kubernetes adapter owns workload/Helm details. Product role/template support from 0.5 remains unchanged. Both are installed only when selected, vendored and hash-locked alongside existing modules. Integrations/runtime permissions are independently administered; no instructions can grant cloud access, override Core approval gates or trigger production changes. `aih verify` and `aih eval` currently validate adapter checks and cases, not capability workflows.

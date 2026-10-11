@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "product",
+  "description": "Evidence-based BA, Product Manager, Product Owner and delivery-planning documentation for ideas and enterprise sources.",
+  "skills": [
+    "harness-product-knowledge-analysis",
+    "harness-product-business-analysis",
+    "harness-product-brd-generation",
+    "harness-product-prd-generation",
+    "harness-product-user-stories",
+    "harness-product-acceptance-criteria",
+    "harness-product-backlog-prioritization",
+    "harness-product-traceability",
+    "harness-product-document-review"
+  ],
+  "workflows": [
+    "workflows/idea-to-prd.md",
+    "workflows/confluence-to-spec.md",
+    "workflows/change-impact-analysis.md"
+  ],
+  "agents": [
+    "agents/business-analyst.md",
+    "agents/product-manager.md",
+    "agents/product-owner.md",
+    "agents/project-manager.md",
+    "agents/requirements-reviewer.md"
+  ],
+  "templates": [
+    "templates/source-register.md",
+    "templates/product-brief.md",
+    "templates/brd.md",
+    "templates/business-rules.md",
+    "templates/prd.md",
+    "templates/backlog.md",
+    "templates/acceptance-criteria.md",
+    "templates/traceability.md",
+    "templates/review-report.md",
+    "templates/decision-log.md",
+    "templates/delivery-plan.md"
+  ]
+}
