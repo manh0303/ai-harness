@@ -3,10 +3,22 @@
 Framework tái sử dụng để hướng dẫn AI làm việc theo **Spec → Code → Test → Review** trong nhiều dự án.
 Core dùng chung; adapter chứa quy chuẩn công nghệ; CLI cài một bản có version vào từng repository.
 
-**Trạng thái:** 0.6.0 candidate, adapter + selective UI/UX capabilities và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
+**Trạng thái:** 0.6.0 candidate; 5 adapters, 3 optional capabilities, 38 skills và CLI Node.js 22+ với lệnh `aih`, không cần Python hay thư viện runtime ngoài.
 Gói `@manh0303/ai-harness` chưa phát hành lên npm registry; hiện cài từ repository private hoặc tarball.
 Harness không tự gọi LLM, không tự sinh ứng dụng, không tạo agent runtime, không tự merge/deploy.
 Các role/skill hướng dẫn assistant đang dùng; quyền thực tế do IDE/runtime, Git và CI kiểm soát.
+
+## Hướng dẫn quy trình phát triển phần mềm (full SDLC)
+
+Nếu lần đầu sử dụng, đọc theo thứ tự: **Cài → Product/BA/PO → UI/UX → OpenSpec → Code → Test/Review → CI/CD → Vận hành**.
+
+- **[Getting started](docs/getting-started.md)** — cài CLI, chọn module, tạo change và kiểm tra.
+- **[Full SDLC: Idea → Production](docs/end-to-end-workflow.md)** — input/output, approval gate, cách phối hợp capabilities/adapters.
+- **[Ma trận 38 skills](docs/skill-matrix.md)** — tra cứu skills theo stage/công nghệ và ID thật.
+- **[Agent handoffs](docs/agent-handoffs.md)** — roles, trách nhiệm, ownership, evidence và bàn giao.
+- **Walkthrough:** [Spring Boot API](docs/examples/spring-boot-api.md) · [Full-stack Next.js + Spring](docs/examples/fullstack-web.md) · [React Native](docs/examples/react-native-app.md) · [Python AI/RAG](docs/examples/ai-rag-service.md).
+
+Harness cung cấp hướng dẫn cho AI runtime, **không** tự điều phối AI agent, tạo code, chạy test, merge hay deploy.
 
 ## Bắt đầu
 
@@ -15,8 +27,7 @@ Cài từ source đã review bằng tài khoản có quyền repository private:
 ```bash
 git clone git@github.com:manh0303/ai-harness.git
 cd ai-harness
-# Khi review PR này: git switch feat/devops-capability-kubernetes
-# Sau merge: checkout commit/tag đã review để pin phiên bản.
+# Checkout commit/tag đã được review khi cần pin bản nguồn ổn định.
 npm pack
 npm install -g ./manh0303-ai-harness-0.6.0.tgz
 
@@ -126,7 +137,7 @@ aih verify --scope all     # checklist tư vấn, không chạy
 aih eval --scope all       # báo cáo chưa chấm, không gọi model
 ```
 
-Chế độ mặc định không có `--scope` vẫn chỉ gồm adapters. Đây là hardening trên feature branch, chưa phát hành npm. Xem [release policy](docs/release-policy.md).
+Chế độ mặc định không có `--scope` vẫn chỉ gồm adapters. Foundation Hardening đã có trong source; đây vẫn là source candidate, chưa chứng minh npm registry có bản phát hành. Xem [release policy](docs/release-policy.md).
 
 ## Chọn adapter
 
@@ -237,6 +248,10 @@ Dự án được cấp phép theo [MIT License](LICENSE) — cho phép sử d�
 
 ## Tài liệu
 
+- [Getting started](docs/getting-started.md)
+- [Full SDLC](docs/end-to-end-workflow.md)
+- [Skill matrix](docs/skill-matrix.md)
+- [Agent handoffs](docs/agent-handoffs.md)
 - [Kiến trúc và ranh giới trách nhiệm](docs/architecture.md)
 - [Versioning và migration](docs/versioning.md)
 - [CLI contract](docs/cli.md)

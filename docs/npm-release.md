@@ -10,16 +10,17 @@ From the reviewed checkout, run:
 ```bash
 npm test
 npm run validate
+npm run check:release
 npm run test:package
 npm pack
-npm install -g ./manh0303-ai-harness-0.3.0.tgz
+npm install -g ./manh0303-ai-harness-0.6.0.tgz
 cd /path/to/existing-project
 aih init --adapters java-spring,react-nextjs
 aih check
 ```
 
 The tarball contains the framework and no runtime dependencies; installing it requires no Python.
-For a project-local tool, use `npm install --save-dev /absolute/path/manh0303-ai-harness-0.3.0.tgz`,
+For a project-local tool, use `npm install --save-dev /absolute/path/manh0303-ai-harness-0.6.0.tgz`,
 then `npx --no-install aih init`. Keep the tarball available to teammates/CI or replace the dependency
 with the eventual authenticated registry release. Do not commit a dependency pointing to your personal
 absolute filesystem path. A private registry requires its own authentication, separate from GitHub.
@@ -33,6 +34,7 @@ Authenticate with npm interactively; never put tokens in this repository. Then:
 npm whoami
 npm test
 npm run validate
+npm run check:release
 npm run test:package
 npm pack --dry-run
 npm publish --access restricted
@@ -45,7 +47,7 @@ but adding a license does not change repository visibility or npm publish access
 Once that release exists and the user has registry access:
 
 ```bash
-npm install -g @manh0303/ai-harness@0.3.0
+npm install -g @manh0303/ai-harness@0.6.0
 aih --version
 cd /path/to/existing-project
 aih update --dry-run
@@ -55,3 +57,7 @@ aih check
 
 Updating the global tool does not rewrite any consumer automatically. Review and commit each project's
 snapshot/lock changes on a branch. The CLI has no self-update or remote release lookup.
+
+## First-use documentation
+
+After installation, follow [Getting started](getting-started.md), [Full SDLC](end-to-end-workflow.md) and [Skill matrix](skill-matrix.md). npm distribution and CLI installation alone do not provide an AI runtime, OpenSpec CLI, Confluence/Figma access or deployment permissions.
