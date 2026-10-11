@@ -23,5 +23,6 @@
     "harness-react-native-device-permissions"
   ],
   "verification": "checks/verification.yaml",
-  "evaluation": "evals/cases.json"
+  "evaluation": "evals/cases.json",
+  "module_version": "1.0.0"
 }

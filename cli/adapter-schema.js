@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import { safe, readJson, HarnessError } from './files.js';
+import { validateContract } from './module-contract.js';
 
 const slug = value => typeof value === 'string' && /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(value);
 const text = value => typeof value === 'string' && Boolean(value.trim());
@@ -7,15 +8,18 @@ export const object = value => value !== null && typeof value === 'object' && !A
 const strings = value => Array.isArray(value) && value.length > 0 && value.every(text);
 const unique = value => new Set(value).size === value.length;
 export function requireThat(condition, message) { if (!condition) throw new HarnessError(message); }
-function fields(value, keys, label) {
-  requireThat(object(value) && Object.keys(value).sort().join(',') === [...keys].sort().join(','), `Invalid ${label} fields`);
+function fields(value, keys, label, optional = []) {
+  requireThat(object(value) && keys.every(k => Object.hasOwn(value, k))
+    && Object.keys(value).every(k => keys.includes(k) || optional.includes(k)), `Invalid ${label} fields`);
 }
 
 export function loadAdapter(source, id) {
   requireThat(slug(id), 'Invalid adapter ID');
   const prefix = `adapters/${id}/`, m = readJson(safe(source, `${prefix}adapter.yaml`));
-  fields(m, ['schema_version', 'id', 'description', 'detection', 'rules', 'skills', 'verification', 'evaluation'], 'adapter');
+  fields(m, ['schema_version', 'id', 'description', 'detection', 'rules', 'skills', 'verification', 'evaluation'], 'adapter',
+    ['module_version', 'requires', 'recommends', 'conflicts', 'compatible_adapters']);
   requireThat(m.schema_version === 2 && m.id === id && text(m.description), `Invalid adapter: ${id}`);
+  validateContract(m, 'adapter', id);
   requireThat(Array.isArray(m.detection) && m.detection.length > 0, `Missing detection: ${id}`);
   for (const rule of m.detection) {
     fields(rule, ['file', 'kind', 'values'], 'detection');

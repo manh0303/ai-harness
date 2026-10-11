@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import { manifest, readJson, safe, SLUG, HarnessError, payload } from './files.js';
+import { validateContract } from './module-contract.js';
 
 const validName = name => typeof name === 'string' && SLUG.test(name);
 const fail = message => { throw new HarnessError(message); };
@@ -24,12 +25,13 @@ export function loadCapability(source, id) {
   const meta = readJson(safe(source, prefix + 'capability.json'));
   // Schema 1 supports optional role and template lists; legacy UI/UX stays valid.
   const required = ['schema_version', 'id', 'description', 'skills', 'workflows'];
-  const allowed = new Set([...required, 'agents', 'templates']);
+  const allowed = new Set([...required, 'agents', 'templates', 'module_version', 'requires', 'recommends', 'conflicts', 'compatible_adapters', 'verification', 'evaluation']);
   if (!meta || typeof meta !== 'object' || Array.isArray(meta)
       || required.some(k => !Object.hasOwn(meta, k))
       || Object.keys(meta).some(k => !allowed.has(k))
       || meta.schema_version !== 1 || meta.id !== id
       || typeof meta.description !== 'string' || !meta.description.trim()) fail(`Invalid capability: ${id}`);
+  validateContract(meta, 'capability', id);
   if (!Array.isArray(meta.skills) || !meta.skills.length || !unique(meta.skills)
       || !meta.skills.every(name => validName(name) && name.startsWith(`harness-${id}-`))) fail(`Invalid capability skills: ${id}`);
   if (!Array.isArray(meta.workflows) || !meta.workflows.length || !unique(meta.workflows)
