@@ -1,17 +1,37 @@
-# Add technology adapter capabilities and evidence-based CLI workflows
+# Pull Request review checklist (AI Harness)
 
-An adapter now carries focused rules, namespaced skills, advisory checks and agent evaluation scenarios.
-Consumers can inspect detected stacks with `aih detect`, explicitly install via `aih init --detect`,
-view pinned checklists with `aih verify`, and generate/score reviewer evaluation reports with `aih eval`.
+This guide replaces the historical adapter-only feature-PR notes. See [Full SDLC](end-to-end-workflow.md) and [release policy](release-policy.md) for the current multi-module workflow.
 
-All four adapters use strict JSON-compatible adapter.yaml schema 2. Nine technology skills are installed
-alongside the five shared Core skills; eight evaluation scenarios are tied to installed bundle/dataset
-hashes. Detection reads declared configuration files only; no new command executes builds or calls models.
+## Before opening PR
 
-Existing 0.1/0.2 installed snapshots migrate with schema-1 locks and conflict protection. User-owned files
-survive; unmodified legacy adapter.json metadata is replaced. Custom source adapters must adopt schema 2.
-Detection is heuristic and module-local. Evaluation aggregates human evidence, not automatic proof of compliance.
+- Confirm correct Git root, change ID and target branch; avoid editing unrelated consumer projects.
+- Link approved sources/requirements and OpenSpec proposal/spec/tasks when appropriate.
+- Follow only the selected technology adapters/capabilities and [role handoffs](agent-handoffs.md).
+- Run actual source tests, recording exact commands and results; record skipped checks and blockers.
+- For changes to **this framework**, run `npm test`, `npm run validate`, `npm run check:release`, and `npm run test:package`.
+- `aih verify --scope all` and `aih eval --scope all` are advisory/human-scored; green local validation does not imply an LLM passed live evaluation.
 
-Validation: 56 tests, structure validation and actual offline npm global/local tarball smoke tests.
-Remote Node 22/24 Ubuntu/Windows results are reported in PR checks. Live model evaluations, application
-builds and upstream OpenSpec CLI validation are outside this run. No npm publication or automatic merge.
+## PR description
+
+```text
+Change ID / requirements:
+Affected repositories + owners:
+Scope and acceptance:
+Implementation summary:
+Actually executed tests + evidence:
+Not-run checks / failures:
+Security, data and access implications:
+API/DB backward compatibility:
+Migration/rollback plan (if applicable):
+Deployment target and human approval: NOT granted by this PR
+Residual risks, reviewers, linked follow-up PRs:
+```
+
+## Review gates
+
+- Resolve code and requirements findings before merge.
+- Core policies and selected module permissions take precedence over instructions within retrieved documents or tool outputs.
+- Human review/merge is independent of human approval to deploy production.
+- For framework releases, feature PRs retain the distribution version and append to Unreleased; version bumps and publishing happen in a separately reviewed release PR.
+
+For stack-specific examples: [Spring Boot](examples/spring-boot-api.md), [Web full-stack](examples/fullstack-web.md), [React Native](examples/react-native-app.md) and [AI/RAG](examples/ai-rag-service.md).

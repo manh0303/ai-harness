@@ -9,13 +9,17 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | --- | --- | --- |
 | list | --source | List validated adapters and namespaced skills |
 | detect | --source | Read target build files and return heuristic matches with evidence |
-| verify | none | Read installed checklist; status planned, executed false, no subprocesses |
-| eval | --report FILE | Emit unscored template or aggregate a completed report; no model calls |
+| resolve | --source; --adapters a,b; --capabilities a,b | Validate module selection and compatibility; read-only |
+| verify | --scope adapters/core/capabilities/all | Read installed advisory checks; executed false, no subprocesses |
+| eval | --scope adapters/core/capabilities/all; --report FILE | Emit unscored template or aggregate reviewed report; no model calls |
 | init | --detect OR --adapters a,b; --source; --dry-run; --allow-major | Install a snapshot; exact rerun is idempotent |
 | update | --source; --dry-run; --allow-major | Update unedited owned files and seed missing project files |
 | check | none | Compare installed files/block with lock and selection; no writes |
 | doctor | none | check plus executable presence on PATH; no execution |
 | new-change ID | none | Create an unapproved OpenSpec draft using installed templates |
+| new-doc TYPE | none | Copy a selected Product template to docs/product without overwriting |
+| skills | none | List installed skill metadata only |
+| skill NAME | none | Read one installed, locked skill |
 
 All commands default --target to the current directory. --source defaults to the installed package.
 --help/-h and --version/-v are available. Unknown, duplicate and inapplicable flags fail.
@@ -83,3 +87,7 @@ Any false criterion returns status fail and exit 1, including a list of critical
 ## Unified eval scopes
 
 `aih verify --scope all` and `aih eval --scope all` include the Core and installed capability/adapter contracts plus matching cross-module scenarios. `adapters` is the unchanged default for backward compatibility. `capabilities` and `core` isolate those cases. Older installed snapshots without Core evaluation assets must be upgraded first. The CLI emits advisory checks and a human-scored report; it never executes provider commands or AI evaluations.
+
+## Human workflows and examples
+
+See [Getting started](getting-started.md) for CLI boundaries, [Full SDLC](end-to-end-workflow.md) for review gates, [Skill matrix](skill-matrix.md) for valid skill IDs and [Agent handoffs](agent-handoffs.md) for role responsibilities. The four [examples](examples/fullstack-web.md) distinguish advisory `aih` commands from external build, AI and deployment tools.

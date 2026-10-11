@@ -14,3 +14,8 @@ Content is disclosed progressively: `aih skills` returns just metadata; the agen
 When Product capability is installed, UI/UX consumes approved BRD/PRD, stories/AC
 and preserves their IDs rather than regenerating competing requirements.
 Without Product, UI/UX retains its own provisional evidence-extraction process.
+
+
+## Full SDLC handoff
+
+See [Full SDLC](../../docs/end-to-end-workflow.md), [Skill matrix](../../docs/skill-matrix.md) and [Full-stack web walkthrough](../../docs/examples/fullstack-web.md). UI/UX hands off reviewed screen specs/design tokens and optional Figma node IDs. Figma writes still need explicit approval and a configured host connector.

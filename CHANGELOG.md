@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased — Foundation hardening
+- Document full SDLC and first-use flow, 38-skill mapping, role handoffs and four concrete stack walkthroughs; add drift test against skill manifests.
+- Align READMEs, CLI documentation and npm guide with unified evaluation scopes and source candidate version.
 - Add MIT License (2026 manh0303), align npm package metadata and include LICENSE in packed tarballs.
 - Add independently versioned module metadata and optional requires/recommends/conflicts/compatibility constraints with read-only `aih resolve`.
 - Fail closed before install/update on missing dependencies, incompatible selections and cycles; keep Product, UI/UX and DevOps composable.

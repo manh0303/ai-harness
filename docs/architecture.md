@@ -85,10 +85,14 @@ The approved PRD/BRD/stories/AC serve as source of truth for UI/UX and OpenSpec.
 
 ## DevOps and Kubernetes composition (0.6.0)
 
-DevOps is an optional stack-neutral capability for release procedures and SRE; the Kubernetes adapter owns workload/Helm details. Product role/template support from 0.5 remains unchanged. Both are installed only when selected, vendored and hash-locked alongside existing modules. Integrations/runtime permissions are independently administered; no instructions can grant cloud access, override Core approval gates or trigger production changes. `aih verify` and `aih eval` currently validate adapter checks and cases, not capability workflows.
+DevOps is an optional stack-neutral capability for release procedures and SRE; the Kubernetes adapter owns workload/Helm details. Product role/template support from 0.5 remains unchanged. Both are installed only when selected, vendored and hash-locked alongside existing modules. Integrations/runtime permissions are independently administered; no instructions can grant cloud access, override Core approval gates or trigger production changes. `aih verify`/`aih eval` use adapter-only defaults; opt in to Core and capability scenarios with `--scope all`, without executing runtime checks.
 
-## Foundation hardening (unreleased)
+## Foundation hardening (in source; candidate not published)
 
 `cli/composition.js` validates a selected module graph before copying managed content. Optional `module_version`, hard `requires`, soft `recommends`, `conflicts` and `compatible_adapters` use namespaced refs like `adapter:kubernetes`. Cycles, unknown refs, missing required or explicitly incompatible modules fail before writes; recommendations only warn. Config and lock schemas remain 1, and module metadata is pinned inside installed snapshots.
 
 `aih verify/eval --scope all` reads Core, selected adapters/capabilities and matching cross-module scenarios from locked files. Default without scope is still adapter-only for compatibility. Checklists are advisory, evaluations human-scored, and no local/remote commands or models run. See [release policy](release-policy.md).
+
+## Documented end-to-end usage
+
+The cross-module route is described in [Getting started](getting-started.md), [Full SDLC](end-to-end-workflow.md), [38-skill matrix](skill-matrix.md) and [Agent handoffs](agent-handoffs.md). All roles/skills remain instruction contracts. The four [stack walkthroughs](examples/spring-boot-api.md) illustrate permitted integrations, not a runnable scaffold or orchestration engine.

@@ -1,0 +1,105 @@
+# Skill matrix — 38 skills, 9 nhóm module
+
+Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (5 Core, 21 capability, 12 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp 38 skill vào prompt.
+
+**Cách dùng:** `aih skills` xem skills đã cài, sau đó `aih skill harness-...` lấy nội dung. Danh mục này mô tả chức năng; **không** có nghĩa `aih` thực thi skills hoặc agent. Tech adapters và capabilities chỉ xuất hiện trong consumer khi được chọn; Core dùng chung.
+
+| Stage | Chọn module | Vai trò/output mong đợi |
+| --- | --- | --- |
+| Discovery → Product | `product` | Source register, BRD/PRD, AC, backlog, traceability |
+| UX → Figma | `uiux` | Flows, screen specs, tokens, design review |
+| Spec → Code → Review | Core + adapter theo stack | OpenSpec, tests, changes, review evidence |
+| Release → Operate | `devops`, `kubernetes` khi phù hợp | CI, container, manifests, rollout và SLO plan |
+
+## Core (5)
+
+| Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
+| --- | --- | --- | --- |
+| [`harness-ai-evaluation`](../core/skills/harness-ai-evaluation/SKILL.md) | QA, AI eval | Đánh giá kết quả AI với dataset và ngưỡng đã review | Report chất lượng AI, regressions, release decision |
+| [`harness-debugging`](../core/skills/harness-debugging/SKILL.md) | Bugfix | Tái hiện và phân tích lỗi trước khi sửa | Reproduction, root-cause evidence, regression |
+| [`harness-review`](../core/skills/harness-review/SKILL.md) | Review | Đối chiếu diff với spec và rủi ro bảo mật | Severity findings, test coverage, recommendation |
+| [`harness-spec`](../core/skills/harness-spec/SKILL.md) | Technical design | Soạn OpenSpec proposal/design/tasks/delta specs | OpenSpec change và các quyết định còn thiếu |
+| [`harness-tdd`](../core/skills/harness-tdd/SKILL.md) | Implementation | Red → green → refactor trên slice nhỏ | Code + test evidence |
+
+## Product capability (9)
+
+| Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
+| --- | --- | --- | --- |
+| [`harness-product-acceptance-criteria`](../capabilities/product/skills/harness-product-acceptance-criteria/SKILL.md) | Requirements | Viết AC Given/When/Then và negative cases | `docs/product/acceptance-criteria.md` |
+| [`harness-product-backlog-prioritization`](../capabilities/product/skills/harness-product-backlog-prioritization/SKILL.md) | Planning | Ưu tiên backlog dựa trên tiêu chí minh bạch | Backlog có rationale, dependencies |
+| [`harness-product-brd-generation`](../capabilities/product/skills/harness-product-brd-generation/SKILL.md) | Business | Sinh bản nháp BRD gắn source IDs | `docs/product/brd.md` và business rules |
+| [`harness-product-business-analysis`](../capabilities/product/skills/harness-product-business-analysis/SKILL.md) | Discovery | Phân tích AS-IS/TO-BE, actors, rules, NFR | Requirement inventory, decisions |
+| [`harness-product-document-review`](../capabilities/product/skills/harness-product-document-review/SKILL.md) | Product QA | Kiểm tra tài liệu trước human approval | Review findings, rework/ready-for-review |
+| [`harness-product-knowledge-analysis`](../capabilities/product/skills/harness-product-knowledge-analysis/SKILL.md) | Intake | Tổng hợp Confluence, notes, PDF theo nguồn | Source register, open questions |
+| [`harness-product-prd-generation`](../capabilities/product/skills/harness-product-prd-generation/SKILL.md) | Product | Soạn PRD với scope, outcome và metrics | `docs/product/prd.md` |
+| [`harness-product-traceability`](../capabilities/product/skills/harness-product-traceability/SKILL.md) | Change impact | Liên kết nguồn → stories → UI → spec | `docs/product/traceability.md` |
+| [`harness-product-user-stories`](../capabilities/product/skills/harness-product-user-stories/SKILL.md) | Backlog | Phân rã epics/stories theo yêu cầu duyệt | `docs/product/backlog.md` |
+
+## UI/UX capability (6)
+
+| Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
+| --- | --- | --- | --- |
+| [`harness-uiux-design-review`](../capabilities/uiux/skills/harness-uiux-design-review/SKILL.md) | Design review | Kiểm tra Figma về coverage và accessibility | Findings gắn requirement/node |
+| [`harness-uiux-design-system`](../capabilities/uiux/skills/harness-uiux-design-system/SKILL.md) | UI system | Token ngữ nghĩa, component reuse | Design tokens và component inventory |
+| [`harness-uiux-figma-design`](../capabilities/uiux/skills/harness-uiux-figma-design/SKILL.md) | Design | Tạo frame editable khi host có Figma và quyền ghi | Figma node/screen mapping |
+| [`harness-uiux-requirements-analysis`](../capabilities/uiux/skills/harness-uiux-requirements-analysis/SKILL.md) | UX intake | Trích xuất yêu cầu UI có nguồn nếu cần | UI requirement IDs, unknowns |
+| [`harness-uiux-screen-planning`](../capabilities/uiux/skills/harness-uiux-screen-planning/SKILL.md) | UX planning | Lập screen inventory và các states | Screen specs, requirement-to-screen |
+| [`harness-uiux-user-flow`](../capabilities/uiux/skills/harness-uiux-user-flow/SKILL.md) | UX planning | Vẽ nhánh hành trình/navigation và edge cases | User-flow spec |
+
+## DevOps capability (6)
+
+| Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
+| --- | --- | --- | --- |
+| [`harness-devops-ci-cd`](../capabilities/devops/skills/harness-devops-ci-cd/SKILL.md) | Delivery | Review pipeline reproducible, least-privilege | CI plan, artifact promotion gates |
+| [`harness-devops-deployment`](../capabilities/devops/skills/harness-devops-deployment/SKILL.md) | Release | Chọn rollout, abort/rollback rules | Release/rollback checklist |
+| [`harness-devops-docker`](../capabilities/devops/skills/harness-devops-docker/SKILL.md) | Container | Review Dockerfile, provenance, runtime security | Container findings và scan plan |
+| [`harness-devops-incident-response`](../capabilities/devops/skills/harness-devops-incident-response/SKILL.md) | Operations | Incident triage và postmortem bằng evidence | Incident timeline, approved actions |
+| [`harness-devops-infrastructure`](../capabilities/devops/skills/harness-devops-infrastructure/SKILL.md) | IaC | Review infrastructure blast radius và quyền | Infrastructure diff/risk/approval plan |
+| [`harness-devops-observability`](../capabilities/devops/skills/harness-devops-observability/SKILL.md) | Operations | SLI/SLO, logs, metrics, traces, alerts | Telemetry và alert spec |
+
+## Java Spring adapter (3)
+
+| Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
+| --- | --- | --- | --- |
+| [`harness-java-spring-database-migration`](../adapters/java-spring/skills/harness-java-spring-database-migration/SKILL.md) | DB change | Expand/migrate/contract theo release tương thích | Versioned migration và recovery evidence |
+| [`harness-java-spring-kafka-outbox`](../adapters/java-spring/skills/harness-java-spring-kafka-outbox/SKILL.md) | Async events | Outbox transaction và consumer dedupe | Event implementation + failure tests |
+| [`harness-java-spring-spring-api`](../adapters/java-spring/skills/harness-java-spring-spring-api/SKILL.md) | Backend API | Authorization resource scoped, API contract | Endpoint + auth/contract tests |
+
+## React / Next.js adapter (2)
+
+| Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
+| --- | --- | --- | --- |
+| [`harness-react-nextjs-accessible-ui`](../adapters/react-nextjs/skills/harness-react-nextjs-accessible-ui/SKILL.md) | Frontend | UI states và semantic accessibility | UI + accessibility/browser evidence |
+| [`harness-react-nextjs-server-boundaries`](../adapters/react-nextjs/skills/harness-react-nextjs-server-boundaries/SKILL.md) | Frontend security | Server actions, auth/caching boundaries | Server/client diff + auth/cache tests |
+
+## React Native adapter (2)
+
+| Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
+| --- | --- | --- | --- |
+| [`harness-react-native-device-permissions`](../adapters/react-native/skills/harness-react-native-device-permissions/SKILL.md) | Mobile | Permissions + deep links theo OS | Permission/nav changes + platform tests |
+| [`harness-react-native-offline-sync`](../adapters/react-native/skills/harness-react-native-offline-sync/SKILL.md) | Mobile | Offline queue, retries, conflict resolution | Persistence/sync + edge-case tests |
+
+## Python AI adapter (2)
+
+| Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
+| --- | --- | --- | --- |
+| [`harness-ai-python-rag-access`](../adapters/ai-python/skills/harness-ai-python-rag-access/SKILL.md) | RAG | Áp dụng ACL/tenant filters trước retrieval | Access-filtered retrieval + groundedness plan |
+| [`harness-ai-python-tool-safety`](../adapters/ai-python/skills/harness-ai-python-tool-safety/SKILL.md) | Agent tools | Bounded tools, explicit auth, no escalation | Policy wrapper + security tests |
+
+## Kubernetes adapter (3)
+
+| Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
+| --- | --- | --- | --- |
+| [`harness-kubernetes-helm-release`](../adapters/kubernetes/skills/harness-kubernetes-helm-release/SKILL.md) | K8s packaging | Helm lint/template, version pin, hooks/CRDs | Chart diff + upgrade/rollback plan |
+| [`harness-kubernetes-rollout-safety`](../adapters/kubernetes/skills/harness-kubernetes-rollout-safety/SKILL.md) | K8s delivery | Rollout SLO/abort/rollback with migrations | Rollout gates + safety checklist |
+| [`harness-kubernetes-workload-review`](../adapters/kubernetes/skills/harness-kubernetes-workload-review/SKILL.md) | K8s workload | Probes, RBAC, resources, GitOps compatibility | Manifest review với severity và evidence |
+
+## Quy tắc phối hợp
+
+- `product` → `uiux`: chỉ chuyển approved BRD/PRD và stable IDs; không tự duyệt hộ stakeholder.
+- `uiux` → `react-nextjs` / `react-native`: dùng screen specs/design tokens được duyệt, không suy đoán design chỉ từ screenshot.
+- `harness-spec` → technology skills: OpenSpec tasks có acceptance scenarios, test boundaries và NFRs.
+- `devops` + `kubernetes`: DevOps lo release strategy và permission gates, Kubernetes lo manifests/Helm. Không tự deploy.
+- `harness-ai-evaluation` đánh giá **hành vi AI thực tế**; `aih eval` chỉ xuất và tổng hợp report do reviewer điền.
+
+Đối chiếu [Agent handoffs](agent-handoffs.md), [adapters](adapters.md) và [full workflow](end-to-end-workflow.md). Khi thêm skill mới, hãy cập nhật một hàng trong bảng; test tài liệu sẽ báo thiếu/trùng.
