@@ -25,6 +25,11 @@ See [release policy](release-policy.md) for independently versioned module contr
 5. Merge feature PR by human decision. Release Please opens a separate version/changelog PR; after human review and merge, the release workflow creates the tag and GitHub Release and publishes npm from the same workflow through OIDC. Merge of feature PR alone does not publish.
 
 ## Consumer update
+For global npm installs, first run `npm install -g @manhd_d/ai-harness@latest`.
+For local installs, update the local dependency and use `npx aih`.
+`aih --version` identifies the CLI; `aih check` identifies the installed project snapshot.
+`aih update` applies the installed CLI bundle (or explicit `--source`), without fetching releases.
+
 Create a branch, commit current state, obtain the reviewed source commit/tag and inspect CHANGELOG.
 Run update --dry-run; resolve conflicts by moving custom rules into .harness/local.md and restoring
 managed files from the last installation commit. Apply update and run check plus application tests.

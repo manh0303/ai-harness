@@ -16,8 +16,8 @@ Usage: aih <command> [options]
   verify               Show installed advisory checks (does not execute)
   eval                 Emit evaluation template, or score --report <file>
   init                 Install rules and selected adapters
-  update               Update the installed snapshot, preserving project content
-  check                Check installed file hashes and adapter selection
+  update               Apply the installed CLI bundle to the project (no download)
+  check                Check Harness file integrity, not application tests
   doctor               Check installation and tool presence
   new-change <id>      Create an OpenSpec draft using installed templates
   new-doc <type>       Scaffold a Product/Discovery document draft (requires product capability)
@@ -34,6 +34,11 @@ Options:
   --allow-major       init/update: acknowledge a major version migration
   -h, --help          Show help
   -v, --version       Show installed CLI version
+
+Start: init → fill .harness/local.md → ask your AI host to read AGENTS.md.
+The host runs application tests; verify only prints a checklist.
+Update a global CLI with npm install -g @manhd_d/ai-harness@latest,
+then run aih update --dry-run, aih update, and aih check in the project.
 
 Examples:
   aih init --adapters java-spring --capabilities uiux

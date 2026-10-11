@@ -12,16 +12,15 @@ AI Harness cài context vào từng repository qua CLI `aih`. Có thể kết h�
 npm install -g @manhd_d/ai-harness
 
 # Chạy trong một project đã tồn tại
-aih init --adapters java-spring --capabilities product
+aih init --adapters java-spring
 aih check
-aih skills
-
-# Tạo bản nháp tài liệu và thay đổi theo spec
-aih new-doc prd
-aih new-change add-user-management
 ```
 
-Đổi `java-spring` thành adapter phù hợp; bỏ `--capabilities product` nếu không cần tạo tài liệu BA. Xem [Getting started](docs/getting-started.md) và [CLI reference](docs/cli.md).
+Tiếp theo, ghi stack, nghiệp vụ và lệnh test vào `.harness/local.md`; mở project trong AI IDE và yêu cầu assistant đọc `AGENTS.md` trước khi làm việc. Bạn giao task bình thường, AI đọc skill liên quan và báo cáo test thực chạy.
+
+Thêm `--capabilities product` khi cần tài liệu BA; `aih new-doc prd-lite` tạo template, `aih new-change <id>` tạo spec nháp khi cần. Không bắt mọi task tạo đủ tài liệu. Xem [Getting started](docs/getting-started.md) và [CLI reference](docs/cli.md).
+
+**Phân biệt:** `aih check` kiểm tra file Harness; `aih verify` xuất checklist; build/test ứng dụng do AI host hoặc CI thực chạy. CLI không bảo đảm AI sẽ tuân thủ hướng dẫn; xem [đánh giá hành vi](evals/README.md).
 
 ## Thành phần
 
@@ -62,7 +61,8 @@ npm test
 npm run validate
 npm run test:package
 
-# Trong project đã cài Harness
+# Nâng CLI global, rồi cập nhật snapshot trong project
+npm install -g @manhd_d/ai-harness@latest
 aih update --dry-run
 aih update
 aih check

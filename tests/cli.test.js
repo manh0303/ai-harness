@@ -190,7 +190,13 @@ test('CLI help/version, invalid flags and duplicate args', () => {
   run('check', ['--dry-run'], 2); run('init', ['--wat'], 2); run('new-change', [], 2);
   run('init', ['--target', project, '--target', project], 2); run('init', ['--target='], 2);
 });
-test('real Python 0.1 fixture checks and upgrades preserving project content', () => {
+for (const nextRelease of [false, true]) test('real Python 0.1 fixture checks and upgrades preserving project content' +
+  (nextRelease ? ' (next patch)' : ' (current release)'), () => {
+  // Simulate a Release Please bump without changing repository metadata.
+  if (nextRelease) {
+    const [major, minor, patch] = h.manifest(source).version.split('.');
+    bump([major, minor, String(BigInt(patch) + 1n)].join('.'));
+  }
   const fixture = h.readJson(path.join(h.SOURCE, 'tests/fixtures/python-v0.1.0.json'));
   for (const [name, content] of Object.entries(fixture.files)) write(name, content);
   assert.equal(run('check').version, '0.1.0');

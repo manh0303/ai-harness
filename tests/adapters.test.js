@@ -116,7 +116,15 @@ test('eval ignores future source edits and rejects unlocked injected capability 
   const lock = h.loadLock(root); delete lock.files['.harness/adapters/java-spring/evals/cases.json']; lock.bundle_sha256 = h.digest(h.encode(lock.files)); write(h.LOCK, lock);
   assert.throws(() => evaluate(root), /not locked/);
 });
-test('real npm 0.2 migration keeps notes, replaces metadata and installs new skills', () => {
+for (const nextRelease of [false, true]) test('real npm 0.2 migration keeps notes, replaces metadata and installs new skills' +
+  (nextRelease ? ' (next patch)' : ' (current release)'), () => {
+  // Simulate a Release Please bump without changing repository metadata.
+  if (nextRelease) {
+    const next = h.manifest(source);
+    const [major, minor, patch] = next.version.split('.');
+    next.version = [major, minor, String(BigInt(patch) + 1n)].join('.');
+    write('harness.yaml', next, source);
+  }
   const fixture = h.readJson(path.join(h.SOURCE, 'tests/fixtures/npm-v0.2.0.json'));
   for (const [name, content] of Object.entries(fixture.files)) write(name, content);
   assert.equal(h.check(root).version, '0.2.0'); assert.throws(() => verify(root), /aih update/);

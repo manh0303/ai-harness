@@ -1,148 +1,100 @@
-# Getting started — cài và sử dụng AI Harness
+# Bắt đầu với AI Harness
 
-AI Harness phân phối **rules, role contracts, skills và workflows** tới repository ứng dụng. Lệnh `aih` là CLI chạy offline, không phải AI agent runner: nó không tạo ứng dụng, đọc Confluence, tạo Figma, chạy test, gọi LLM, merge PR hay deploy.
+**Cài một lần → ghi context dự án → giao việc cho AI → kiểm tra kết quả.**
 
-**Đọc theo thứ tự:** [Full SDLC](end-to-end-workflow.md) → [Skill matrix](skill-matrix.md) → [Agent handoffs](agent-handoffs.md) → [Ví dụ theo stack](#ví-dụ-thực-hành).
+Cần Node.js **22+**, Git và một repository ứng dụng đã tồn tại. AI IDE/assistant phải đọc được file trong repository; cách tự nạp `AGENTS.md` và skills phụ thuộc AI host. CLI `aih` quản lý hướng dẫn, không chạy LLM hay tạo ứng dụng.
 
-## 1. Chuẩn bị
+## 1. Cài vào project
 
-- Node.js >=22, Git và npm (cần quyền repository private chỉ khi cài từ source).
-- Một **repository ứng dụng đã tồn tại** và AI IDE/assistant có thể đọc file trong repository đó.
-- Chỉ kết nối GitHub, Confluence, Figma hay nền tảng khác trong AI host khi cần, theo quyền đã phê duyệt.
-- **OpenSpec CLI là tùy chọn**: `aih new-change` tạo bản nháp offline, còn `openspec validate` cần OpenSpec CLI cài riêng. Xem [OpenSpec](openspec.md).
-- Bản npm public `@manhd_d/ai-harness@0.6.0` đã phát hành thủ công. Các phiên bản kế tiếp được đề xuất bằng Release Please và phát hành sau khi duyệt Release PR; xem [npm release](npm-release.md).
-
-## 2. Cài một lần từ source đã review
-
-~~~bash
-git clone git@github.com:manh0303/ai-harness.git
-cd ai-harness
-# Nếu thử PR Astro chưa merge, chọn branch đã review:
-git switch feat/astro-lightweight-adapter
-# Sau khi merge, ưu tiên commit/tag chính thức đã review.
-npm test
-npm run validate
-npm run test:package
-npm pack
-npm install -g ./manhd_d-ai-harness-0.6.0.tgz
-aih --version
-~~~
-
-Có thể cài bản public bằng `npm install -g @manhd_d/ai-harness`; dùng `npm view @manhd_d/ai-harness version` để xác nhận version mới nhất trước khi cài. Cài bộ `aih` không tự cài OpenSpec hay dependency Spring/React/Python cho ứng dụng.
-
-## 3. Cài Harness vào repository ứng dụng
-
-Ví dụ service Spring Boot có nhu cầu làm tài liệu sản phẩm và triển khai Kubernetes:
-
-~~~bash
-cd /path/to/existing-spring-service
-aih resolve --adapters java-spring,kubernetes --capabilities product,devops
-aih init --adapters java-spring,kubernetes --capabilities product,devops --dry-run
-aih init --adapters java-spring,kubernetes --capabilities product,devops
+```bash
+npm install -g @manhd_d/ai-harness
+cd /path/to/existing-project
+aih init --adapters java-spring
 aih check
-aih skills
-~~~
+```
 
-- `aih resolve`: kiểm tra dependency/compatibility và cảnh báo recommendation; **không cài module**.
-- `aih init --dry-run`: xem diff dự kiến, **không cài đặt lâu dài**.
-- `aih init`: cài snapshot đã chọn trong `.harness/`, tạo AGENTS block, ghi lock và expose skills trong `.agents/skills/`.
-- `aih check`: kiểm tra integrity của file do Harness quản lý, **không kiểm thử source code ứng dụng**.
-- `aih skills`: liệt kê metadata. `aih skill <tên>`: đọc **một** skill đã cài, không tự kích hoạt agent.
+Chọn module theo nhu cầu, không cần cài cả bộ:
 
-**Các lựa chọn phổ biến:**
-
-| Dự án | Lựa chọn |
+| Nhu cầu | Tham số cho `aih init` |
 | --- | --- |
-| API Spring | `--adapters java-spring` |
-| Web React/Next.js | `--adapters react-nextjs --capabilities uiux` |
-| Astro web tools (static-first) | `--adapters astro` (tùy chọn `--capabilities product,uiux`) |
-| Astro/React + advertising | `--adapters astro --capabilities monetization` (hoặc `react-nextjs`) |
-| React Native/Expo | `--adapters react-native --capabilities product,uiux` |
-| Python AI/RAG | `--adapters ai-python --capabilities product` |
-| Full-stack một repo | `--adapters java-spring,react-nextjs,kubernetes --capabilities product,uiux,devops` |
-| Chỉ BA/PO | `--capabilities product` |
-| Core-only | Không truyền adapters/capabilities |
+| Spring Boot API | `--adapters java-spring` |
+| React/Next.js + UI | `--adapters react-nextjs --capabilities uiux` |
+| Astro tool nhỏ | `--adapters astro` |
+| Website có quảng cáo | `--adapters astro --capabilities monetization` |
+| Viết tài liệu từ ý tưởng hoặc tài liệu BA | `--capabilities product` |
+| Spring + tài liệu + Kubernetes | `--adapters java-spring,kubernetes --capabilities product,devops` |
 
-`aih detect` kiểm tra heuristic các file trực tiếp ở target, không tìm đệ quy monorepo. Với mỗi microservice/repository độc lập, cài riêng và chỉ chọn những module thực sự cần.
+`aih list` xem toàn bộ module. `aih init --dry-run` xem trước thay đổi với cùng tham số đã chọn. Với project đã cài, đổi module trong `.harness/project.json` rồi dùng `aih update`, không chạy lại `init` với lựa chọn khác.
 
-## Astro cho web tools nhỏ
+## 2. Ghi context và bắt đầu giao việc
 
-Nếu xây nhiều tiện ích như QR, JSON hoặc image tools: dùng [Astro micro-tools walkthrough](examples/astro-micro-tools.md) với lệnh `aih init --adapters astro` và skill islands, SEO, performance, Cloudflare. `astro` được nhận diện từ dependencies. React Islands không bắt buộc; MFE/Workers không được cài tự động.
+Điền `.harness/local.md` bằng thông tin thực của project:
 
-## Website công cụ miễn phí có quảng cáo
+- Mục tiêu, phạm vi và quy tắc nghiệp vụ quan trọng.
+- Stack/phiên bản, database, cấu trúc service/module.
+- Lệnh build/test đã xác nhận chạy được.
+- Đường dẫn tài liệu BA, conventions và những ràng buộc cần giữ.
 
-Nếu mục tiêu là traffic SEO và doanh thu AdSense, chọn optional `monetization` **không phụ thuộc Astro**; website có thể dùng Next.js. Xem [Monetization guide](monetization.md), [walkthrough Astro + AdSense](examples/astro-adsense-microtools.md) và `aih skill harness-monetization-adsense-integration`. Các hướng dẫn chỉ giúp chuẩn bị, không tự tạo tài khoản AdSense hoặc kết nối Analytics.
+Mở project trong AI IDE và giao yêu cầu, ví dụ:
 
-## Hai hướng dẫn theo loại dự án
+> Đọc AGENTS.md và .harness/local.md, chỉ nạp skill liên quan. Thêm API tìm kiếm khách hàng theo yêu cầu này: … Làm rõ điểm chưa chắc chắn, đề xuất acceptance scenarios; sau khi thống nhất scope, triển khai, chạy test phù hợp và báo cáo kết quả thực chạy.
 
-- [Idea-driven — có ý tưởng và muốn AI cùng thảo luận, nghiên cứu, viết tài liệu](examples/idea-driven-project.md).
-- [Document-driven — có BRD/PRD/SRS từ BA, cần AI đưa vào phát triển phần mềm](examples/document-driven-project.md).
+Bạn không cần gọi từng role/skill thủ công. Nếu host không tự phát hiện hướng dẫn, yêu cầu assistant đọc các đường dẫn trên. `aih skills` xem danh sách; `aih skill <tên>` đọc một skill khi cần.
 
-**Lưu ý:** khi PR chứa tính năng chưa merge, cần checkout đúng branch/commit đã review trước khi `npm pack`; cài từ `main` không mặc định có các tính năng chỉ có trong PR.
+Review diff và kết quả test, rồi commit `AGENTS.md`, `.harness/`, `.agents/skills/` và tài liệu thay đổi cùng project. Sửa quy tắc riêng trong `.harness/local.md`; giữ nguyên snapshot do Harness quản lý.
 
-## 4. Bắt đầu một thay đổi có traceability
+## 3. Tài liệu và spec khi cần
 
-Hai workflow tài liệu: `idea-driven` khi bắt đầu từ ý tưởng thô, `document-driven` khi đã có BRD/PRD/SRS/Confluence do BA cung cấp. Cả hai dùng chung pipeline, approval và OpenSpec. Xem [Documentation workflows](documentation-workflows.md).
+Với capability `product`:
 
+```bash
+aih new-doc prd-lite
+```
 
-~~~bash
-# Chỉ dùng được khi đã chọn capability product:
-aih new-doc brd
-aih new-doc prd
-aih new-doc backlog
-aih new-doc acceptance-criteria
-aih new-doc traceability
-aih new-doc idea       # docs/discovery/
-aih new-doc research   # docs/discovery/
-aih new-doc prd-lite   # docs/product/
-aih new-doc srs        # docs/product/
-aih new-doc use-cases  # docs/product/
+Lệnh tạo template `docs/product/prd-lite.md`; bạn và AI điền nội dung, nguồn và acceptance criteria. Chọn [Idea-driven](examples/idea-driven-project.md) nếu bắt đầu từ ý tưởng; chọn [Document-driven](examples/document-driven-project.md) nếu đã có tài liệu BA/Confluence.
 
-# Tạo change bản nháp OpenSpec — không cần cài OpenSpec CLI:
-aih new-change add-customer-api
+Khi một tính năng cần proposal/design/tasks/spec riêng:
 
-# Đọc từng skill cần thiết:
-aih skill harness-product-prd-generation
-aih skill harness-spec
-aih skill harness-tdd
-~~~
+```bash
+aih new-change add-customer-search
+```
 
-Các lệnh `new-doc` chỉ copy template trống sang `docs/product/`; AI host/BA/PO phải điền theo nguồn đáng tin cậy và duyệt. `new-change` chỉ tạo proposal/design/tasks/spec có TODO; **không phải spec đã được approve**. Trước khi yêu cầu IDE implement, hướng assistant đọc `AGENTS.md` và `.harness/local.md` của dự án.
+Đây là bản nháp trong `openspec/changes/add-customer-search/`, chưa phải spec được duyệt. Sửa nhỏ, ít rủi ro có thể bỏ qua full spec với lý do rõ ràng; không bắt mọi task tạo đủ BRD/PRD/SRS.
 
-**Prompt mẫu gửi cho assistant:**
+`aih new-change` không cần OpenSpec CLI. Chỉ cài OpenSpec riêng khi cần validator/archive của công cụ đó; xem [OpenSpec](openspec.md).
 
-> Hãy đọc AGENTS.md, .harness/local.md và các skill phù hợp đã cài. Phân tích yêu cầu theo source ID, nêu các điểm chưa rõ, soạn OpenSpec change và test scenarios. Chỉ implement khi scope được duyệt; báo cáo tests thực chạy và tạo PR để tôi review, không tự merge hoặc deploy.
+## 4. Kiểm tra đúng thứ
 
-## 5. Verify / evaluate và release
+| Lệnh | Ý nghĩa |
+| --- | --- |
+| `aih check` | Kiểm tra integrity của file Harness; không kiểm thử ứng dụng |
+| `aih doctor` | Thêm kiểm tra sự hiện diện của công cụ; không xác nhận công cụ chạy được |
+| `aih verify --scope all` | Xuất checklist, `executed: false`; không chạy build/test |
+| `aih eval --scope all` | Xuất tình huống và báo cáo chưa chấm; không gọi model |
+| Lệnh test của project | Do bạn, AI host hoặc CI thực chạy để xác minh code |
 
-~~~bash
-aih verify --scope all
-aih eval --scope all
+Một lần `aih check` thành công không có nghĩa tính năng đã đúng. Ghi lệnh test thực chạy, kết quả và phần chưa kiểm chứng trong PR. Xem [đánh giá hành vi AI](../evals/README.md) nếu muốn đo hiệu quả Harness.
+
+## 5. Cập nhật: CLI trước, project sau
+
+Trên branch riêng, commit trạng thái hiện tại trước. Với cách cài global ở trên:
+
+```bash
+npm install -g @manhd_d/ai-harness@latest
+aih --version
 aih check
-~~~
-
-- `verify`: checklist advisory, `executed: false`. Dùng bằng chứng chạy build/test **bên ngoài CLI**.
-- `eval`: dataset và report để con người chạy bài test với một AI runtime được cấp quyền rồi chấm; **không gọi model, không tự chấm**.
-- `--scope all`: Core + capability + adapter và scenario ghép module phù hợp. Không có scope thì mặc định chỉ là adapter.
-- Production approval phải chỉ rõ artifact, environment và người phê duyệt; CI xanh không cấp quyền deploy.
-
-Đọc các [approval gates trong Full SDLC](end-to-end-workflow.md) và [DevOps runbook](../capabilities/devops/workflows/pr-to-production.md).
-
-## 6. Update bộ Harness đã cài
-
-~~~bash
-# Trên branch của consumer, commit trạng thái hiện tại trước.
-# Thay đổi adapters/capabilities trong .harness/project.json nếu cần.
 aih update --dry-run
 aih update
 aih check
-~~~
+```
 
-Không chỉnh file snapshot dưới `.harness/core|adapters|capabilities` hoặc skill do Harness quản lý; nội dung riêng của dự án thuộc `.harness/local.md`. Nếu có drift, khôi phục từ Git và review diff; không sửa lock hash để che lỗi.
+`aih --version` là phiên bản CLI; `aih check` trả phiên bản snapshot trong project. `aih update` lấy bundle từ CLI đang cài (hoặc `--source`), **không tự tải npm**. Review diff, chạy test ứng dụng và commit snapshot/lock cùng nhau. Nếu báo drift, giữ lại thay đổi trong Git, chuyển tùy chỉnh sang `.harness/local.md` và khôi phục managed files trước khi update.
 
-## Ví dụ thực hành
+Nếu cài local trong project, dùng `npm install --save-dev @manhd_d/ai-harness@latest` và `npx aih` thay cho `aih`.
 
-- [Spring Boot REST API với Kafka/DB/Kubernetes](examples/spring-boot-api.md)
-- [Full-stack Spring + Next.js + Figma](examples/fullstack-web.md)
-- [React Native/Expo có offline-sync](examples/react-native-app.md)
-- [Python AI/RAG với kiểm soát truy cập](examples/ai-rag-service.md)
+## Đọc thêm theo nhu cầu
+
+- [CLI reference](cli.md) · [Full SDLC](end-to-end-workflow.md) · [Skill matrix](skill-matrix.md) · [Agent handoffs](agent-handoffs.md).
+- [Spring Boot API](examples/spring-boot-api.md) · [Full-stack](examples/fullstack-web.md) · [React Native](examples/react-native-app.md) · [Python AI/RAG](examples/ai-rag-service.md).
+- [Astro micro-tools](examples/astro-micro-tools.md) · [Astro + AdSense](examples/astro-adsense-microtools.md).
+- [Release guide](npm-release.md): dành cho maintainer; merge source không đồng nghĩa npm đã có bản mới.
