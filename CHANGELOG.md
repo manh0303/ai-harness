@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 — Product documentation capability candidate
+- Add independent Product capability with 5 role contracts (BA, PM, PO, delivery PM, reviewer), 9 skills, 3 workflows, and 11 templates.
+- Generate evidence-backed BRD, PRD, epics, stories, testable AC, traceability and independent review instructions.
+- Add `aih new-doc <type>` for safe, non-overwriting project-owned drafts from drift-checked installed templates.
+- Extend capability schema-1 with optional validated `agents` and `templates` arrays; preserve existing UI/UX metadata.
+- Support `aih init --capabilities product,uiux` and a documented approved-requirements handoff to UI/UX/OpenSpec.
+- No connector execution, autonomous document population, stakeholder approval, npm release or automatic merge.
+
+
 ## 0.4.0 — modular UI/UX capability candidate
 - Add explicit `uiux` capability, six review-gated skills and document/idea-to-Figma workflows.
 - Add `aih init --capabilities uiux` independent from technology adapters; update selection through project.json.
