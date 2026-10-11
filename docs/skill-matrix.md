@@ -1,6 +1,6 @@
-# Skill matrix — 48 skills, 10 nhóm module
+# Skill matrix — 53 skills, 11 nhóm module
 
-Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (5 Core, 25 capability, 18 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 48 skill vào prompt.
+Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (5 Core, 30 capability, 18 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 53 skill vào prompt.
 
 **Cách dùng:** `aih skills` xem skills đã cài, sau đó `aih skill harness-...` lấy nội dung. Danh mục này mô tả chức năng; **không** có nghĩa `aih` thực thi skills hoặc agent. Tech adapters và capabilities chỉ xuất hiện trong consumer khi được chọn; Core dùng chung.
 
@@ -10,6 +10,7 @@
 | UX → Figma | `uiux` | Flows, screen specs, tokens, design review |
 | Spec → Code → Review | Core + adapter theo stack | OpenSpec, tests, changes, review evidence |
 | Release → Operate | `devops`, `kubernetes` khi phù hợp | CI, container, manifests, rollout và SLO plan |
+| Traffic → Publisher Revenue | `monetization` (optional) | SEO growth, AdSense readiness, UX/consent checks, Page RPM review |
 
 ## Core (5)
 
@@ -39,6 +40,16 @@
 | [`harness-product-product-research`](../capabilities/product/skills/harness-product-product-research/SKILL.md) | Research | Tìm và phân loại bằng chứng đáng tin cậy, trade-offs | `docs/discovery/research.md` |
 | [`harness-product-srs-generation`](../capabilities/product/skills/harness-product-srs-generation/SKILL.md) | Software requirements | Đặc tả FR/NFR, giao diện, luồng lỗi có trace ID | `docs/product/srs.md` |
 | [`harness-product-use-case-generation`](../capabilities/product/skills/harness-product-use-case-generation/SKILL.md) | Detailed flows | Viết UC chính/phụ/lỗi liên kết FR/US/AC | `docs/product/use-cases.md` |
+
+## Monetization capability (5)
+
+| Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
+| --- | --- | --- | --- |
+| [`harness-monetization-adsense-integration`](../capabilities/monetization/skills/harness-monetization-adsense-integration/SKILL.md) | Publisher integration | AdSense readiness, publisher ID thực, ads.txt và review-gated setup | Site monetization plan |
+| [`harness-monetization-ad-placement-ux`](../capabilities/monetization/skills/harness-monetization-ad-placement-ux/SKILL.md) | Ad UI/UX | Tránh click nhầm, xung đột Generate/Download và layout shift | Ad placement review |
+| [`harness-monetization-seo-growth`](../capabilities/monetization/skills/harness-monetization-seo-growth/SKILL.md) | Organic acquisition | Search intent và nội dung hữu ích, không tạo thin/spam pages | SEO experiments backlog |
+| [`harness-monetization-analytics-revenue`](../capabilities/monetization/skills/harness-monetization-analytics-revenue/SKILL.md) | Traffic and revenue | Page RPM, nguồn dữ liệu thực vs dự phóng, hosting/API costs | Analytics report |
+| [`harness-monetization-publisher-compliance`](../capabilities/monetization/skills/harness-monetization-publisher-compliance/SKILL.md) | Policy/consent | Invalid traffic, consent/CMP khu vực, publisher policies | Privacy + consent checklist |
 
 ## UI/UX capability (6)
 
@@ -116,6 +127,7 @@
 - `product` → `uiux`: chỉ chuyển approved BRD/PRD và stable IDs; không tự duyệt hộ stakeholder.
 - `uiux` → `react-nextjs` / `react-native`: dùng screen specs/design tokens được duyệt, không suy đoán design chỉ từ screenshot.
 - `harness-spec` → technology skills: OpenSpec tasks có acceptance scenarios, test boundaries và NFRs.
+- `monetization` + Astro/React/UIUX: chia sẻ UX, SEO, consent và dữ liệu doanh thu; không tự nhúng quảng cáo hay tự phê duyệt AdSense.
 - `devops` + `kubernetes`: DevOps lo release strategy và permission gates, Kubernetes lo manifests/Helm. Không tự deploy.
 - `harness-ai-evaluation` đánh giá **hành vi AI thực tế**; `aih eval` chỉ xuất và tổng hợp report do reviewer điền.
 
