@@ -30,8 +30,8 @@ Version: 0.1-draft | Status: draft | Owner: <developer> | Captured at: <date>
 | DEC-001 | <decision required> | pending | <owner/date> | pending |
 
 ## Research and product handoff
-- [Research](research.md) if performed
-- [Product brief](../product/product-brief.md) if generated
+- `docs/discovery/research.md` if performed
+- `docs/product/product-brief.md` if generated
 - Unanswered questions:
 - Approval of product direction: pending
 
