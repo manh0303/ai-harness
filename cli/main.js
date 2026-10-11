@@ -24,7 +24,7 @@ Options:
   --detect            init only: opt in to detected stack selection
   --report <file>     eval only: score a reviewer-completed JSON report
   --adapters <a,b>     init only: java-spring,react-nextjs,react-native,ai-python
-  --capabilities <a,b> init only: uiux
+  --capabilities <a,b> init only: uiux,product
   --source <directory> init/update/list/detect: trusted alternate bundle directory
   --dry-run           init/update: preview without persistent changes
   --allow-major       init/update: acknowledge a major version migration
