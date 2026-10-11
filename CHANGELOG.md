@@ -53,6 +53,15 @@
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.6.2](https://github.com/manh0303/ai-harness/compare/v0.6.1...v0.6.2) (2026-10-11)
+
+
+### Bug Fixes
+
+* **release:** support linked Release Please changelog headings ([8084940](https://github.com/manh0303/ai-harness/commit/80849408a349305ef5cdfb0c0eb0206ea8242eb8))
+* simplify onboarding and guard release version migrations ([43efbb2](https://github.com/manh0303/ai-harness/commit/43efbb24e26d190b7a2b8dd2fbd5a9a5ee5368a1))
+* **test:** unblock Release Please version bump CI ([63ba179](https://github.com/manh0303/ai-harness/commit/63ba17974cafad40e6ff5b483c126afdfc49df44))
+
 ## [0.6.1](https://github.com/manh0303/ai-harness/compare/v0.6.0...v0.6.1) (2026-10-11)
 
 

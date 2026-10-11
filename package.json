@@ -1,6 +1,6 @@
 {
   "name": "@manhd_d/ai-harness",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Reusable AI development rules, skills and workflows with a safe local installer",
   "type": "module",
   "bin": {
