@@ -31,14 +31,13 @@ test('skill matrix covers exactly every registered Core, adapter and capability 
   }
 });
 
-test('SDLC, handoffs and six stack examples stay discoverable from README', () => {
+test('SDLC, handoffs and stack examples stay discoverable from README', () => {
   const pages = [
     'docs/getting-started.md', 'docs/end-to-end-workflow.md',
     'docs/skill-matrix.md', 'docs/agent-handoffs.md',
     'docs/examples/spring-boot-api.md', 'docs/examples/fullstack-web.md',
     'docs/examples/react-native-app.md', 'docs/examples/ai-rag-service.md',
     'docs/examples/astro-micro-tools.md',
-    'docs/examples/astro-adsense-microtools.md',
   ];
   const readme = read('README.md');
   for (const page of pages) {
@@ -151,9 +150,9 @@ test('Monetization capability and end-to-end publisher guides stay discoverable'
   for (const skill of cap.skills) {
     assert.ok(matrix.includes('[' + String.fromCharCode(96) + skill + String.fromCharCode(96) + ']'));
   }
-  const readme = read('README.md');
-  for (const item of ['docs/monetization.md','docs/examples/astro-adsense-microtools.md','capabilities/monetization/README.md']) {
-    assert.ok(readme.includes(item), 'Missing link: ' + item);
+  const capabilityGuide = read('capabilities/monetization/README.md');
+  for (const item of ['docs/monetization.md','docs/examples/astro-adsense-microtools.md']) {
+    assert.ok(capabilityGuide.includes('../../' + item), 'Missing capability guide link: ' + item);
     assert.ok(fs.existsSync(path.join(SOURCE,item)));
   }
   const guide=read('docs/monetization.md');
