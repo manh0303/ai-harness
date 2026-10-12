@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — Minimal onboarding
+- Reduce README and getting started to install, project context, AI task and review.
+- Move detailed workflow, module, example and maintainer links into a documentation index.
+- Keep existing guides discoverable through the index; no CLI or installed payload changes.
+
 ## Unreleased — Agent preferences and release regression
 - Add provider-agnostic project-owned agents.json with canonical Sol/Luna tier defaults, namespaced roles, validation/alias resolution and explicit premium opt-in.
 - Add non-interactive init presets and read-only setup host plans; preserve custom config and legacy snapshots. No native config writes, agent runtime or usage claims.

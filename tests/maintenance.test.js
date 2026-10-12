@@ -10,8 +10,10 @@ const areas = text => [...text.matchAll(/^\| ([a-z][a-z-]*) \|/gm)].map(match =>
 
 test('maintainer entry points reach the canonical guide and its actual linked targets', () => {
   const guide = 'docs/harness-maintenance.md';
-  for (const entry of ['AGENTS.md', 'README.md', 'CONTRIBUTING.md', '.github/pull_request_template.md']) {
-    assert.ok(read(entry).includes(guide), `${entry} must direct maintainers to ${guide}`);
+  for (const entry of ['AGENTS.md', 'docs/README.md', 'CONTRIBUTING.md', '.github/pull_request_template.md']) {
+    const target = path.posix.relative(path.posix.dirname(entry), guide);
+    assert.ok(read(entry).includes(target) || read(entry).includes(guide),
+      `${entry} must direct maintainers to ${guide}`);
   }
   for (const target of ['../templates/AGENTS.md', '../cli/harness.js', '../cli/adapters.js',
     '../harness.yaml', 'adapters.md', 'architecture.md', 'versioning.md', 'release-policy.md',
