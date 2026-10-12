@@ -1,127 +1,72 @@
 # Bắt đầu với AI Harness
 
-**Cài một lần → ghi context dự án → giao việc cho AI → kiểm tra kết quả.**
+**Cài → nhờ AI thiết lập context → giao việc → review kết quả.** Cần Node.js **22+**, Git và công cụ AI đọc được repository.
 
-Cần Node.js **22+**, Git và một repository ứng dụng đã tồn tại. AI IDE/assistant phải đọc được file trong repository; cách tự nạp `AGENTS.md` và skills phụ thuộc AI host. CLI `aih` quản lý hướng dẫn, không chạy LLM hay tạo ứng dụng.
-
-## 1. Cài vào project
+## 1. Cài trong project
 
 ```bash
 npm install -g @manhd_d/ai-harness
-cd /path/to/existing-project
-aih init --adapters java-spring
-aih check
+cd /path/to/project
+aih init --detect
 ```
 
-Chọn module theo nhu cầu, không cần cài cả bộ:
+Nếu chưa có stack hoặc không nhận diện được, dùng `aih init` cho Core. Muốn chọn cụ thể, thay lệnh init bằng:
 
-| Nhu cầu | Tham số cho `aih init` |
+| Project | Lệnh |
 | --- | --- |
-| Spring Boot API | `--adapters java-spring` |
-| React/Next.js + UI | `--adapters react-nextjs --capabilities uiux` |
-| Astro tool nhỏ | `--adapters astro` |
-| Website có quảng cáo | `--adapters astro --capabilities monetization` |
-| Viết tài liệu từ ý tưởng hoặc tài liệu BA | `--capabilities product` |
-| Spring + tài liệu + Kubernetes | `--adapters java-spring,kubernetes --capabilities product,devops` |
+| Spring Boot | `aih init --adapters java-spring` |
+| React / Next.js | `aih init --adapters react-nextjs` |
+| React Native | `aih init --adapters react-native` |
+| Astro | `aih init --adapters astro` |
+| Website có quảng cáo | `aih init --adapters astro --capabilities monetization` |
+| Ý tưởng / tài liệu BA | `aih init --capabilities product` |
 
-`aih list` xem toàn bộ module. `aih init --dry-run` xem trước thay đổi với cùng tham số đã chọn. Với project đã cài, đổi module trong `.harness/project.json` rồi dùng `aih update`, không chạy lại `init` với lựa chọn khác.
+Kết hợp module bằng dấu phẩy khi cần, ví dụ `--adapters java-spring,react-nextjs --capabilities product`.
+`aih list` liệt kê module. Project đã cài thì chỉnh `.harness/project.json` và chạy `aih update`.
 
-## 2. Ghi context và bắt đầu giao việc
+## 2. Nhờ AI thiết lập và làm việc
 
-Chạy `aih setup` rồi nhờ AI đọc workflow `project-setup`. Đây là gợi ý cho AI host, không phải wizard
-nhập liệu của CLI. AI đọc repo trước, chỉ hỏi 1–3 câu A/B/C cho điểm còn thiếu, có đề xuất và lý do.
-Không cần xác nhận lại thông tin hoặc quyền triển khai đã có.
+Mở project trong công cụ AI. Gửi mẫu yêu cầu trong [README](../README.md), hoặc:
 
-Điền `.harness/local.md` bằng thông tin thực của project:
-
-- Mục tiêu, phạm vi và quy tắc nghiệp vụ quan trọng.
-- Stack/phiên bản, database, cấu trúc service/module.
-- Lệnh build/test đã xác nhận chạy được.
-- Đường dẫn tài liệu BA, conventions và những ràng buộc cần giữ.
-
-Mở project trong AI IDE và giao yêu cầu, ví dụ:
-
-> Đọc AGENTS.md và .harness/local.md, chỉ nạp skill liên quan. Thêm API tìm kiếm khách hàng theo yêu cầu này: … Làm rõ điểm chưa chắc chắn, đề xuất acceptance scenarios; sau khi thống nhất scope, triển khai, chạy test phù hợp và báo cáo kết quả thực chạy.
-
-Bạn không cần gọi từng role/skill thủ công. Nếu host không tự phát hiện hướng dẫn, yêu cầu assistant đọc các đường dẫn trên. `aih skills` xem danh sách; `aih skill <tên>` đọc một skill khi cần.
-
-Review diff và kết quả test, rồi commit `AGENTS.md`, `.harness/`, `.agents/skills/` và tài liệu thay đổi cùng project. Sửa quy tắc riêng trong `.harness/local.md`; giữ nguyên snapshot do Harness quản lý.
-
-Lệnh/tool chung thuộc `.harness/environment.json`; đường dẫn máy riêng thuộc file ignored
-`.harness/machine.json`. `aih doctor` kiểm tra tham chiếu biến và sự hiện diện công cụ, không chạy chúng.
-Xem [cấu hình Maven nội bộ](project-configuration.md).
-
-## 3. Tài liệu và spec khi cần
-
-Với capability `product`:
-
-```bash
-aih new-doc prd-lite
+```text
+Đọc AGENTS.md, khảo sát repo và thiết lập context dự án.
+Hỏi phần còn thiếu bằng A/B/C có đề xuất. Thực hiện: <yêu cầu>.
+Chạy test và đối chiếu kết quả với tiêu chí nghiệm thu đã thống nhất.
 ```
 
-Lệnh tạo template `docs/product/prd-lite.md`; bạn và AI điền nội dung, nguồn và acceptance criteria. Chọn [Idea-driven](examples/idea-driven-project.md) nếu bắt đầu từ ý tưởng; chọn [Document-driven](examples/document-driven-project.md) nếu đã có tài liệu BA/Confluence.
+AI ghi nghiệp vụ, stack, quy ước, nguồn tài liệu và lệnh build/test vào `.harness/local.md`.
+Lệnh/tool có cấu trúc lưu trong `.harness/environment.json`; đường dẫn riêng máy lưu trong
+`.harness/machine.json` được Git ignore. Không ghi mật khẩu/token vào các file này.
+Xem [Maven/JDK nội bộ](project-configuration.md) nếu cần.
 
-Khi một tính năng cần proposal/design/tasks/spec riêng:
+Không phải gọi từng skill/role thủ công. AI đọc `AGENTS.md` và chỉ nạp hướng dẫn liên quan;
+khả năng tự nạp và chạy công cụ phụ thuộc [AI host](tool-setup/README.md).
+`aih setup` là gợi ý cho AI, không phải trình hỏi đáp tương tác. `aih doctor` kiểm tra cấu hình/công cụ,
+không chạy build. Model/vai có thể tùy chỉnh trong `.harness/agents.json`: [Agent configuration](agent-configuration.md).
 
-```bash
-aih new-change add-customer-search
-```
+## 3. Review và lưu kết quả
 
-Đây là bản nháp trong `openspec/changes/add-customer-search/`, chưa phải spec được duyệt.
-AI ghi câu trả lời thực tế trong `decisions.json`; kiểm tra bằng `aih ready add-customer-search --stage implement`.
-Sau code, ghi bằng chứng trong `verification.json` và chạy với `--stage review`. Xem [Change readiness](change-readiness.md). Sửa nhỏ, ít rủi ro có thể bỏ qua full spec với lý do rõ ràng; không bắt mọi task tạo đủ BRD/PRD/SRS.
+Với tính năng lớn, AI làm rõ yêu cầu rồi viết spec trong `openspec/changes/` trước khi code.
+`aih new-change <id>` tạo khung; `aih ready <id> --stage implement|review` kiểm tra cấu trúc và bằng chứng khai báo.
+Sửa nhỏ dùng quy trình ngắn. Có capability `product`, `aih new-doc prd-lite` tạo khung tài liệu để bạn và AI điền.
 
-`aih new-change` không cần OpenSpec CLI. Chỉ cài OpenSpec riêng khi cần validator/archive của công cụ đó; xem [OpenSpec](openspec.md).
+Bạn review diff, tiêu chí nghiệm thu và test thực chạy. `aih check` kiểm tra file Harness;
+`aih verify` xuất checklist; chúng không xác nhận code đúng nghiệp vụ.
+Commit `AGENTS.md`, `.harness/`, `.agents/skills/` và tài liệu thay đổi cùng project;
+không commit `.harness/machine.json`. Tùy chỉnh trong `.harness/local.md`, giữ nguyên file do Harness quản lý.
 
-## 4. Kiểm tra đúng thứ
+## Cập nhật
 
-| Lệnh | Ý nghĩa |
-| --- | --- |
-| `aih check` | Kiểm tra integrity của file Harness; không kiểm thử ứng dụng |
-| `aih doctor` | Kiểm tra công cụ và environment đã cấu hình; không chạy build/test |
-| `aih verify --scope all` | Xuất checklist, `executed: false`; không chạy build/test |
-| `aih eval --scope all` | Xuất tình huống và báo cáo chưa chấm; không gọi model |
-| Lệnh test của project | Do bạn, AI host hoặc CI thực chạy để xác minh code |
-
-Một lần `aih check` thành công không có nghĩa tính năng đã đúng. Ghi lệnh test thực chạy, kết quả và phần chưa kiểm chứng trong PR. Xem [đánh giá hành vi AI](../evals/README.md) nếu muốn đo hiệu quả Harness.
-
-## 5. Cập nhật: CLI trước, project sau
-
-Trên branch riêng, commit trạng thái hiện tại trước. Với cách cài global ở trên:
+Commit trạng thái hiện tại và xem trước thay đổi:
 
 ```bash
 npm install -g @manhd_d/ai-harness@latest
-aih --version
-aih check
 aih update --dry-run
 aih update
 aih check
 ```
 
-`aih --version` là phiên bản CLI; `aih check` trả phiên bản snapshot trong project. `aih update` lấy bundle từ CLI đang cài (hoặc `--source`), **không tự tải npm**. Review diff, chạy test ứng dụng và commit snapshot/lock cùng nhau. Nếu báo drift, giữ lại thay đổi trong Git, chuyển tùy chỉnh sang `.harness/local.md` và khôi phục managed files trước khi update.
+`aih update` dùng bundle của CLI đang cài, không tự tải npm. Nếu có file quản lý bị sửa, chuyển tùy chỉnh
+sang `.harness/local.md` rồi khôi phục file đó từ Git trước khi cập nhật. Xem [Versioning](versioning.md).
 
-Nếu cài local trong project, dùng `npm install --save-dev @manhd_d/ai-harness@latest` và `npx aih` thay cho `aih`.
-
-## Đọc thêm theo nhu cầu
-
-- [CLI reference](cli.md) · [Full SDLC](end-to-end-workflow.md) · [Skill matrix](skill-matrix.md) · [Agent handoffs](agent-handoffs.md).
-- [Spring Boot API](examples/spring-boot-api.md) · [Full-stack](examples/fullstack-web.md) · [React Native](examples/react-native-app.md) · [Python AI/RAG](examples/ai-rag-service.md).
-- [Astro micro-tools](examples/astro-micro-tools.md) · [Astro + AdSense](examples/astro-adsense-microtools.md).
-- [Release guide](npm-release.md): dành cho maintainer; merge source không đồng nghĩa npm đã có bản mới.
-
-## Coding conventions
-
-Trước code, áp dụng [Project conventions](project-conventions.md): xác định new/maintain/mixed theo module, đọc chuẩn hiện có, tìm common và ghi lý do tạo mới. AI lưu nguồn và quyết định trong `.harness/local.md`; không hỏi lại thông tin đã rõ.
-
-## BA/PO/SA/PM and coding tools
-
-For a material new project choose `--capabilities product,architecture,delivery` with the actual adapter.
-Read [Solution workflow](solution-workflow.md) and the [setup guide for your coding tool](tool-setup/README.md).
-Skills/templates are selective context; use existing approved documents and compact notes when sufficient.
-
-## Agent model and execution preferences
-
-New installs seed `.harness/agents.json`: Sol recommended, hybrid/two concurrent agents only when
-supported; Luna low documentation, no automatic Astra escalation. Edit provider/model/reasoning and
-execution for your actual host. Use `aih setup --host codex` and [Agent configuration](agent-configuration.md).
-For a new economy consumer use `aih init --agent-preset economy`; never overwrite an existing config.
+[Tra cứu theo nhu cầu](README.md) · [CLI reference](cli.md).

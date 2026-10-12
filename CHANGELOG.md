@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — Minimal quick start
+- Reduce README and onboarding to install, host-led context setup, task and review; include a copyable AI prompt.
+- Move advanced guides and examples to docs/README.md; preserve their discovery through documentation checks.
+- Keep CLI behavior and consumer configuration unchanged; no migration required.
+
 ## Unreleased — Agent preferences and release regression
 - Add provider-agnostic project-owned agents.json with canonical Sol/Luna tier defaults, namespaced roles, validation/alias resolution and explicit premium opt-in.
 - Add non-interactive init presets and read-only setup host plans; preserve custom config and legacy snapshots. No native config writes, agent runtime or usage claims.
