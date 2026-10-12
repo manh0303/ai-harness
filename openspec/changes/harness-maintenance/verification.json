@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "checks": [
+    { "name": "tests", "status": "passed", "evidence": "npm test: 138/138 passed, 0 skipped, Linux Node v24.19.0. See verification.md." },
+    { "name": "structure", "status": "passed", "evidence": "npm run validate: ok, 250 managed files; npm run check:release: ok, distribution 0.7.0." },
+    { "name": "package", "status": "passed", "evidence": "npm run test:package: ok, 248 package files and actual offline installs." },
+    { "name": "self-review", "status": "passed", "evidence": "Author reviewed impact matrix and discovery chain; git diff --check clean. Not independent review." },
+    { "name": "live-agent", "status": "skipped", "reason": "Discovery references and maintainer guidance changed, not underlying Kubernetes behavior requirements; no live-agent compliance measurement was performed." }
+  ]
+}

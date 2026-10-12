@@ -1,5 +1,7 @@
 # Versioning and migration
 
+Maintainer entry point: [Harness maintenance and impact matrix](harness-maintenance.md).
+
 Framework version is in harness.yaml and package.json; keep both and package-lock.json synchronized. Use three-part SemVer releases and Git tags vX.Y.Z after review.
 0.6.0 was initially published manually to npm. Future versions are prepared by Release Please after human PR review; do not publish directly from a feature PR.
 
@@ -106,3 +108,7 @@ Module contracts gain optional version and dependency fields without changing co
 ## Project coding conventions (unreleased)
 
 Config and lock remain schema 1. Core adds project-conventions.md; Java/Spring, React/Next.js and React Native module contracts advance to 1.1.0 with conventions, manual checks and evaluation cases. Distribution version remains release-PR owned. Reviewed update adds managed assets and preserves existing local.md, environment and unmanaged AGENTS text. Old local.md is not rewritten; the host can append missing facts after inspection. Re-export evaluation datasets/reports after update because bundle hashes change. See [Project conventions](project-conventions.md).
+
+## Harness maintenance contract (unreleased)
+
+Maintainer guidance and impact templates do not alter consumer instructions or schemas. Kubernetes module 1.0.1 adds discovery links to its existing rules; use the usual reviewed update dry-run/update/check sequence. Project-owned files remain preserved, and rollback uses the consumer installation commit. Distribution version remains Release Please-owned.

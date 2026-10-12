@@ -1,5 +1,9 @@
 # Contributing
 
+Start with [Harness maintenance](docs/harness-maintenance.md): map the impact of each change and
+trace affected declarations through installation, AI discovery, workflow, verification and docs.
+Use its impact template and the PR checklist; explain not-applicable areas and keep pending work visible.
+
 Create a feature branch and an OpenSpec change for meaningful behavior or policy changes.
 Keep executable behavior tests alongside CLI changes. Document adapter expectations without pinning
 consumer application versions arbitrarily. Do not run a model evaluation with secrets or production data.

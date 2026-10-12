@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "reviewed": true,
+  "decisions": [
+    {
+      "id": "maintainer-scope",
+      "question": "Where should the maintenance contract apply?",
+      "status": "resolved",
+      "answer": "Repository maintainer AGENTS, canonical docs, impact records and PR review. Do not make it a consumer application workflow or invent a second module registry.",
+      "source": "User requested implementing the proposed linked maintenance guide on 2026-10-12; existing repository architecture separates maintainer and consumer instructions."
+    }
+  ]
+}

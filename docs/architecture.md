@@ -1,5 +1,7 @@
 # Architecture and scope
 
+Maintainer entry point: [Harness maintenance and impact matrix](harness-maintenance.md).
+
 AI Harness is a versioned instruction and workflow distribution framework. Its executable part is a
 local installer and integrity checker. It is not an LLM gateway, an orchestration server or a sandbox.
 
