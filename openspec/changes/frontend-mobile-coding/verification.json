@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "checks": [
+    { "name": "skill-structure", "status": "passed", "evidence": "Skill Creator quick_validate: all four new skills valid." },
+    { "name": "tests", "status": "passed", "evidence": "npm test: 161/161, 0 skipped; selected install/catalog/drift/update/deselection and custom preservation covered. See verification.md." },
+    { "name": "validate-release", "status": "passed", "evidence": "validate: 312 managed files, 22 adapter skills, no errors. check:release: unchanged distribution 0.8.0/12 module contracts." },
+    { "name": "package", "status": "passed", "evidence": "306 package files; actual offline tarball/global/local installs, new skill shipment/exposure/catalog and guide assertions passed." },
+    { "name": "self-review", "status": "passed", "evidence": "Eight impact areas and discovery-to-consumer chain reviewed; clean diff check. Not independent review." },
+    { "name": "live-app-model", "status": "skipped", "reason": "No actual browser/server/native/device/application or live-model/forward trial. Four new behavioral scenarios remain unscored." },
+    { "name": "other-platforms-openspec", "status": "skipped", "reason": "Local Linux Node24 only; CI supplies other platform evidence. Upstream OpenSpec CLI not run." }
+  ]
+}

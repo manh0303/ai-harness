@@ -28,14 +28,18 @@ Nếu chỉ sửa một lỗi offline đã có ticket/AC duyệt, có thể bỏ
 aih new-change offline-draft-sync
 aih skill harness-spec
 aih skill harness-tdd
+aih skill harness-react-native-screen-delivery
 aih skill harness-react-native-offline-sync
 aih skill harness-react-native-device-permissions
+aih skill harness-react-native-behavior-testing
 ~~~
 
 - `offline-sync`: định nghĩa local persistence encryption/retention, idempotency key, queue/retry backoff, conflict resolution và đồng bộ lại khi token hết hạn.
 - `device-permissions`: chỉ cần nếu feature có camera/location/notification/deep link; kiểm tra iOS và Android riêng, fallback khi từ chối permission.
 - Spec chứa test matrix: airplane mode, offline restart, duplicate request, conflict, revoke session, low storage và app update.
 - Không log token/customer payload, không giả định AsyncStorage/SecureStore đã được chọn; dùng stack đang có.
+- Dùng screen-delivery để reuse navigation/theme/client/form và behavior-testing cho test matrix;
+  chỉ nạp offline/permissions khi task chạm rủi ro đó. JS mocks không chứng minh native/device behavior.
 
 **Verification** — tùy project scripts/toolchain, không được Harness thực thi:
 

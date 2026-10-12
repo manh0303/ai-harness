@@ -2,7 +2,9 @@
 
 **Cài một lần → ghi context dự án → giao việc cho AI → kiểm tra kết quả.**
 
-Cần Node.js **22+**, Git và một repository ứng dụng đã tồn tại. AI IDE/assistant phải đọc được file trong repository; cách tự nạp `AGENTS.md` và skills phụ thuộc AI host. CLI `aih` quản lý hướng dẫn, không chạy LLM hay tạo ứng dụng.
+Cần Node.js **22+**, Git và thư mục repository ứng dụng. Với dự án mới, tạo repository/thư mục trước;
+`aih init` cài Harness vào đó, không scaffold Spring/Next.js/Expo. AI tool đọc được file trong repository;
+cách nạp `AGENTS.md` và skills theo [setup từng host](tool-setup/README.md).
 
 ## 1. Cài vào project
 
@@ -11,6 +13,7 @@ npm install -g @manhd_d/ai-harness
 cd /path/to/existing-project
 aih init --adapters java-spring
 aih check
+aih setup --host codex
 ```
 
 Chọn module theo nhu cầu, không cần cài cả bộ:
@@ -19,20 +22,30 @@ Chọn module theo nhu cầu, không cần cài cả bộ:
 | --- | --- |
 | Spring Boot API | `--adapters java-spring` |
 | React/Next.js + UI | `--adapters react-nextjs --capabilities uiux` |
+| React Native/Expo + UI | `--adapters react-native --capabilities uiux` |
 | Astro tool nhỏ | `--adapters astro` |
 | Website có quảng cáo | `--adapters astro --capabilities monetization` |
 | Viết tài liệu từ ý tưởng hoặc tài liệu BA | `--capabilities product` |
+| BA/PO → SA → PM cho dự án lớn hơn | `--capabilities product,architecture,delivery` + adapter thực tế |
 | Spring + tài liệu + Kubernetes | `--adapters java-spring,kubernetes --capabilities product,devops` |
 
 `aih list` xem toàn bộ module. `aih init --dry-run` xem trước thay đổi với cùng tham số đã chọn. Với project đã cài, đổi module trong `.harness/project.json` rồi dùng `aih update`, không chạy lại `init` với lựa chọn khác.
 
 ## 2. Ghi context và bắt đầu giao việc
 
-Chạy `aih setup` rồi nhờ AI đọc workflow `project-setup`. Đây là gợi ý cho AI host, không phải wizard
+Đổi `--host codex` thành `claude-code`, `gemini-cli`, `cursor` hoặc `copilot` theo công cụ bạn dùng;
+chọn hướng dẫn tại [Coding tools](tool-setup/README.md). `aih setup` không có `--host` vẫn hợp lệ.
+Init tạo `.harness/agents.json` hợp lệ: Sol được khuyến nghị, không tự chuyển Astra. Claude/Gemini cần
+model native tương thích; setup báo những route cần điều chỉnh, không tự đổi model hay ghi host config.
+Giữ cấu hình mặc định khi phù hợp; xem [Agent configuration](agent-configuration.md) nếu muốn chỉnh.
+Chỉ cho project mới, `aih init --adapters react-nextjs --agent-preset economy` chọn single-agent tiết kiệm;
+không áp preset lên cấu hình đã có.
+
+Sau setup, nhờ AI đọc workflow `project-setup`. Đây là gợi ý cho AI host, không phải wizard
 nhập liệu của CLI. AI đọc repo trước, chỉ hỏi 1–3 câu A/B/C cho điểm còn thiếu, có đề xuất và lý do.
 Không cần xác nhận lại thông tin hoặc quyền triển khai đã có.
 
-Điền `.harness/local.md` bằng thông tin thực của project:
+Bạn và AI ghi `.harness/local.md` bằng thông tin thực của project; AI khảo sát trước và hỏi phần thiếu:
 
 - Mục tiêu, phạm vi và quy tắc nghiệp vụ quan trọng.
 - Stack/phiên bản, database, cấu trúc service/module.
@@ -42,6 +55,9 @@ Không cần xác nhận lại thông tin hoặc quyền triển khai đã có.
 Mở project trong AI IDE và giao yêu cầu, ví dụ:
 
 > Đọc AGENTS.md và .harness/local.md, chỉ nạp skill liên quan. Thêm API tìm kiếm khách hàng theo yêu cầu này: … Làm rõ điểm chưa chắc chắn, đề xuất acceptance scenarios; sau khi thống nhất scope, triển khai, chạy test phù hợp và báo cáo kết quả thực chạy.
+
+Với FE/mobile, có thể giao “thêm màn hình tìm kiếm/sửa hồ sơ, dùng common/API/state/navigation hiện có”.
+Adapter đã có skills cho implementation và kiểm thử; xem [hướng dẫn web/mobile](frontend-mobile.md).
 
 Bạn không cần gọi từng role/skill thủ công. Nếu host không tự phát hiện hướng dẫn, yêu cầu assistant đọc các đường dẫn trên. `aih skills` xem danh sách; `aih skill <tên>` đọc một skill khi cần.
 
@@ -113,15 +129,5 @@ Nếu cài local trong project, dùng `npm install --save-dev @manhd_d/ai-harnes
 
 Trước code, áp dụng [Project conventions](project-conventions.md): xác định new/maintain/mixed theo module, đọc chuẩn hiện có, tìm common và ghi lý do tạo mới. AI lưu nguồn và quyết định trong `.harness/local.md`; không hỏi lại thông tin đã rõ.
 
-## BA/PO/SA/PM and coding tools
-
-For a material new project choose `--capabilities product,architecture,delivery` with the actual adapter.
-Read [Solution workflow](solution-workflow.md) and the [setup guide for your coding tool](tool-setup/README.md).
-Skills/templates are selective context; use existing approved documents and compact notes when sufficient.
-
-## Agent model and execution preferences
-
-New installs seed `.harness/agents.json`: Sol recommended, hybrid/two concurrent agents only when
-supported; Luna low documentation, no automatic Astra escalation. Edit provider/model/reasoning and
-execution for your actual host. Use `aih setup --host codex` and [Agent configuration](agent-configuration.md).
-For a new economy consumer use `aih init --agent-preset economy`; never overwrite an existing config.
+Với BA/PO/SA/PM, dùng [Solution workflow](solution-workflow.md). Chỉ chọn capabilities cần thiết,
+dùng tài liệu đã duyệt và ghi chú ngắn khi đủ; không nạp cả danh mục skills vào context.

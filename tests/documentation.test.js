@@ -18,6 +18,7 @@ test('skill matrix covers exactly every registered Core, adapter and capability 
     ...(m.capabilities ?? []).flatMap(id => loadCapability(SOURCE, id).skills),
   ].sort();
   const matrix = read('docs/skill-matrix.md');
+  assert.ok(matrix.includes(declared.length + ' skills'), 'Skill matrix total must match the registry');
   const matches = [...matrix.matchAll(/^\| \[\x60(harness-[a-z0-9-]+)\x60\]\((\.\.\/[^)]+)\) \|/gm)]
     .map(([, name, relative]) => ({ name, relative }));
   assert.equal(matches.length, declared.length, 'Skill matrix row count drift');
@@ -147,7 +148,7 @@ test('Monetization capability and end-to-end publisher guides stay discoverable'
   assert.equal(cap.checks.length, 4);
   assert.equal(cap.cases.length, 4);
   const matrix = read('docs/skill-matrix.md');
-  assert.match(matrix, /64 skills, 13 nhóm module/);
+  assert.match(matrix, /Skill matrix/);
   assert.match(matrix, /Monetization capability \(5\)/);
   for (const skill of cap.skills) {
     assert.ok(matrix.includes('[' + String.fromCharCode(96) + skill + String.fromCharCode(96) + ']'));

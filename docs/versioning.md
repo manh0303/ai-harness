@@ -131,3 +131,12 @@ bundles use the CLI canonical seed if necessary. Existing configs are validated 
 role gaps inherit/report project defaults. Inspect new payload/update diff; re-export eval reports after
 bundle changes. Revert consumer installation commit for rollback. Release update tests use relative
 versions instead of hardcoded 0.7.0, preserving downgrade refusal on future release branches.
+
+## Frontend/mobile coding and onboarding (unreleased)
+
+React/Next.js and React Native module contracts advance from 1.1.0 to 1.2.0 additively: existing skill
+IDs remain, feature/screen and behavior-testing skills plus manual checks/unscored cases are added.
+Project/lock/agent schemas and the distribution version stay unchanged. Existing consumers run the
+usual reviewed update dry-run/update/check; local.md, agents.json, native host config and app files are
+project-owned and preserved. Re-export eval reports after bundle changes; revert the consumer install
+commit for rollback. See [Frontend/mobile coding](frontend-mobile.md).

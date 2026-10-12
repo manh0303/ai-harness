@@ -20,9 +20,9 @@ function cli(args, expected = 0) { const r = spawnSync(process.execPath, [path.j
 function install(adapters = ['java-spring']) { h.install(root, source, { adapters }); }
 function report() { const r = evaluate(root).report; Object.assign(r.metadata, { model: 'synthetic-fixture', harness_commit: 'fixture', reviewer: 'test', run_id: 'test', parameters: 'none' }); for (const row of r.results) { row.scores.fill(true); row.evidence = 'Synthetic test evidence; no model execution'; } return r; }
 
-test('list validates six adapters and eighteen namespaced skills', () => {
+test('list validates six adapters and twenty-two namespaced skills', () => {
   const result = listAdapters(source); assert.equal(result.adapters.length, 6);
-  assert.equal(result.adapters.flatMap(a => a.skills).length, 18);
+  assert.equal(result.adapters.flatMap(a => a.skills).length, 22);
   assert.deepEqual(snapshot(), {});
 });
 test('detection distinguishes generic Java/Python from Spring/AI', () => {
@@ -75,7 +75,9 @@ test('adapter schema rejects traversal, unknown execution and duplicate skill/ch
 });
 test('selected skills are locked, core skills remain shared, and removal preserves unrelated files', () => {
   install(['java-spring', 'react-nextjs']);
-  const skills = fs.readdirSync(path.join(root, '.agents/skills')); assert.equal(skills.length, 10);
+  const skills = fs.readdirSync(path.join(root, '.agents/skills'));
+  const coreCount = fs.readdirSync(path.join(source, 'core/skills'), { withFileTypes: true }).filter(entry => entry.isDirectory()).length;
+  assert.equal(skills.length, coreCount + loadAdapter(source, 'java-spring').skills.length + loadAdapter(source, 'react-nextjs').skills.length);
   write('.agents/skills/custom/SKILL.md', 'user skill');
   write(h.CONFIG, { schema_version: 1, adapters: ['react-nextjs'] }); h.install(root, source, { command: 'update' });
   assert.ok(!fs.existsSync(path.join(root, '.agents/skills/harness-java-spring-spring-api/SKILL.md')));
@@ -98,7 +100,8 @@ test('verify and eval refuse drift in installed capability files', () => {
 });
 test('eval template binds selected cases to dataset and bundle; remains unscored', () => {
   install(['java-spring', 'react-native']); const before = snapshot(); const result = cli(['eval']);
-  assert.equal(result.dataset.cases.length, 6); assert.ok(result.report.results.every(r => r.scores.every(v => v === null)));
+  assert.equal(result.dataset.cases.length, loadAdapter(source, 'java-spring').cases.length + loadAdapter(source, 'react-native').cases.length);
+  assert.ok(result.report.results.every(r => r.scores.every(v => v === null)));
   assert.equal(result.report.metadata.bundle_sha256, h.loadLock(root).bundle_sha256);
   assert.deepEqual(snapshot(), before); write('report.json', result.report); cli(['eval', '--report', 'report.json'], 1);
 });

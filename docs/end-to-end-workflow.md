@@ -104,6 +104,10 @@ Project tự sở hữu các file `docs/product/` và cập nhật `traceability
 - **No code yet:** Product + UI/UX có thể dừng sau design gate, không tạo PR implementation giả.
 
 ## 5. Verify, eval và hồ sơ release
+Web/mobile implementation and testing use [Frontend/mobile coding](frontend-mobile.md): select the
+feature/screen skill plus relevant testing/boundary skills, preserve existing common APIs and hand off
+actual browser/server or per-platform native evidence. Load only needed skill bodies for simple tasks.
+
 
 ~~~bash
 aih verify --scope all

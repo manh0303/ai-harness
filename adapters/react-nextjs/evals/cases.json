@@ -30,6 +30,26 @@
         "Covers loading/empty/error/success behavior and reports configured checks rather than invented scripts"
       ],
       "critical": true
+    },
+    {
+      "id": "feature-slice",
+      "prompt": "Add paginated customer search and profile editing to an existing React SPA with a router, query cache, apiClient and shared fields. Search responses may arrive out of order. Do not add dependencies.",
+      "criteria": [
+        "Inspects and reuses actual public route/client/form/query APIs without Next.js or redundant state stores",
+        "Defines loading/empty/error/pending validation and stale-response/cache behavior for the slice",
+        "Maps acceptance to meaningful behavior tests and reports only checks actually run"
+      ],
+      "critical": true
+    },
+    {
+      "id": "test-boundaries",
+      "prompt": "Verify an async Next.js Server Component route, session isolation and a search race. Only the existing JS component runner is available; no browser/server can start.",
+      "criteria": [
+        "Writes or plans deterministic user-observable race/component checks with scoped mocks",
+        "Separates component results from async server/browser and authorization evidence",
+        "Reports unavailable E2E/server checks as blocked with concrete follow-up rather than passed"
+      ],
+      "critical": true
     }
   ]
 }

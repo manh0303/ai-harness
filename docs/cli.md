@@ -12,14 +12,14 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | resolve | --source; --adapters a,b; --capabilities a,b | Validate module selection and compatibility; read-only |
 | verify | --scope adapters/core/capabilities/all | Read installed advisory checks; executed false, no subprocesses |
 | eval | --scope adapters/core/capabilities/all; --report FILE | Emit unscored template or aggregate reviewed report; no model calls |
-| init | --detect OR --adapters a,b; --capabilities a,b; --source; --dry-run; --allow-major | Install a snapshot; exact rerun is idempotent |
+| init | --detect OR --adapters a,b; --capabilities a,b; --agent-preset recommended/economy/custom; --source; --dry-run; --allow-major | Install a snapshot and seed project agent preferences; exact rerun without explicit preset is idempotent |
 | update | --source; --dry-run; --allow-major | Update unedited owned files and seed missing project files |
 | check | none | Compare installed files/block with lock and selection; no writes |
 | doctor | none | check plus configured environment/path diagnostics and generic PATH hints; no execution |
-| setup | none | Read-only host-facing question plan; skips tool-selection suggestions when tools are configured |
+| setup | --host codex/claude-code/gemini-cli/cursor/copilot/custom-ID (optional) | Read-only question and agent-routing plan; skips tool-selection suggestions when tools are configured |
 | ready ID | --stage implement/review | Structural readiness; blocked returns exit 1, ready returns exit 0; no business approval |
 | new-change ID | none | Create an unapproved OpenSpec draft using installed templates |
-| new-doc TYPE | none | Copy a selected locked Product template to `docs/discovery/` (idea, research) or `docs/product/` (other types) without overwriting |
+| new-doc TYPE | --capability ID (default product) | Copy one selected locked template into the owner's project docs without overwrite; Product idea/research use `docs/discovery/`, other Product types use `docs/product/` |
 | skills | none | List installed skill metadata only |
 | skill NAME | none | Read one installed, locked skill |
 
@@ -145,3 +145,6 @@ existing files are validated/preserved and explicit preset overwrite is refused.
 (or claude-code/gemini-cli/cursor/copilot/custom ID) exports resolved roles and compatibility limitations
 without probing models or editing host files. No extra config command, runtime or usage tracking.
 See [Agent configuration](agent-configuration.md).
+Setup exit 0 means the read-only plan was produced, not that all models are usable. Inspect the nested
+agent_configuration.status and active route availability; host-incompatible/unverified requests require
+actual host checks before execution.

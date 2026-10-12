@@ -25,4 +25,7 @@ For plain React skip server-component/Next-specific checks and document its actu
 Read rules/conventions.md before coding, then relevant rules/architecture.md, rules/security.md,
 rules/database.md and rules/performance.md. Project conventions take precedence over adapter defaults.
 Use only relevant adapter skills listed in adapter.yaml; core TDD, debugging and review remain shared.
+Use harness-react-nextjs-feature-delivery for route/form/API/state slices and
+harness-react-nextjs-behavior-testing for component/integration/browser evidence. Load accessible-ui
+or server-boundaries only for the corresponding risk; do not load every body for a simple task.
 Review checks/verification.yaml before choosing commands. No check executes automatically.

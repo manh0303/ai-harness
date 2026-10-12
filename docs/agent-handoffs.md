@@ -3,6 +3,10 @@
 AI Harness hiện có **role contracts**, không tạo các agent chạy tự động hoặc agent-to-agent queue. Một assistant có thể đảm nhiệm nhiều vai trò theo thứ tự, nhưng phải tách evidence, quyền hạn và human approval. Dùng cùng [Full SDLC](end-to-end-workflow.md) và [Skill matrix](skill-matrix.md).
 
 ## Trách nhiệm theo vai trò
+For React/Next.js and React Native implementation/testing, use the selective skill routing in
+[Frontend/mobile coding](frontend-mobile.md). Handoff AC → route/screen → API/state → test evidence,
+including reused public APIs and unavailable browser/native checks; retain the same Core roles.
+
 
 | Role contract trong source | Nhận | Bàn giao | Không được làm |
 | --- | --- | --- | --- |

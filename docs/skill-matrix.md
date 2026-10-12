@@ -1,6 +1,6 @@
-# Skill matrix — 64 skills, 13 nhóm module
+# Skill matrix — 68 skills, 13 nhóm module
 
-Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (5 Core, 41 capability, 18 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 64 skill vào prompt.
+Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (5 Core, 41 capability, 22 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 68 skill vào prompt.
 
 **Cách dùng:** `aih skills` xem skills đã cài, sau đó `aih skill harness-...` lấy nội dung. Danh mục này mô tả chức năng; **không** có nghĩa `aih` thực thi skills hoặc agent. Tech adapters và capabilities chỉ xuất hiện trong consumer khi được chọn; Core dùng chung.
 
@@ -84,17 +84,21 @@
 | [`harness-java-spring-kafka-outbox`](../adapters/java-spring/skills/harness-java-spring-kafka-outbox/SKILL.md) | Async events | Outbox transaction và consumer dedupe | Event implementation + failure tests |
 | [`harness-java-spring-spring-api`](../adapters/java-spring/skills/harness-java-spring-spring-api/SKILL.md) | Backend API | Authorization resource scoped, API contract | Endpoint + auth/contract tests |
 
-## React / Next.js adapter (2)
+## React / Next.js adapter (4)
 
 | Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
 | --- | --- | --- | --- |
+| [`harness-react-nextjs-feature-delivery`](../adapters/react-nextjs/skills/harness-react-nextjs-feature-delivery/SKILL.md) | Feature implementation | Reuse route/screen, UI/form and API/state boundaries | AC-linked diff/checks, actual results and explicit limits |
+| [`harness-react-nextjs-behavior-testing`](../adapters/react-nextjs/skills/harness-react-nextjs-behavior-testing/SKILL.md) | Behavior testing | Component/integration and actual browser/server evidence | AC-linked tests, actual results and explicit limits |
 | [`harness-react-nextjs-accessible-ui`](../adapters/react-nextjs/skills/harness-react-nextjs-accessible-ui/SKILL.md) | Frontend | UI states và semantic accessibility | UI + accessibility/browser evidence |
 | [`harness-react-nextjs-server-boundaries`](../adapters/react-nextjs/skills/harness-react-nextjs-server-boundaries/SKILL.md) | Frontend security | Server actions, auth/caching boundaries | Server/client diff + auth/cache tests |
 
-## React Native adapter (2)
+## React Native adapter (4)
 
 | Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
 | --- | --- | --- | --- |
+| [`harness-react-native-screen-delivery`](../adapters/react-native/skills/harness-react-native-screen-delivery/SKILL.md) | Screen implementation | Reuse route/screen, UI/form and API/state boundaries | AC-linked diff/checks, actual results and explicit limits |
+| [`harness-react-native-behavior-testing`](../adapters/react-native/skills/harness-react-native-behavior-testing/SKILL.md) | Behavior testing | JS/navigation and separate platform/device evidence | AC-linked tests, actual results and blocked native checks |
 | [`harness-react-native-device-permissions`](../adapters/react-native/skills/harness-react-native-device-permissions/SKILL.md) | Mobile | Permissions + deep links theo OS | Permission/nav changes + platform tests |
 | [`harness-react-native-offline-sync`](../adapters/react-native/skills/harness-react-native-offline-sync/SKILL.md) | Mobile | Offline queue, retries, conflict resolution | Persistence/sync + edge-case tests |
 

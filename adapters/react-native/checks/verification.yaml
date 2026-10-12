@@ -37,6 +37,30 @@
         "Configured lint/type/build/test and boundary results, or explicit manual review limits"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "feature-slice",
+      "title": "Review route/screen, data/state and existing public API fit",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "AC to route/screen, interaction and API/state mapping",
+        "Reused component/client/form/router APIs and justified new code",
+        "Validation, loading/error/pending states and stale/account response handling"
+      ],
+      "execution": "manual"
+    },
+    {
+      "id": "behavior-evidence",
+      "title": "Review actual behavior checks and environment limits",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "AC-linked component/integration results and simulated boundaries",
+        "Separate JS, iOS/Android build and simulator/device evidence",
+        "Confirmed scripts, actual results and owner for unavailable checks"
+      ],
+      "execution": "manual"
     }
   ]
 }
