@@ -16,7 +16,8 @@
     "rules/architecture.md",
     "rules/security.md",
     "rules/database.md",
-    "rules/performance.md"
+    "rules/performance.md",
+    "rules/conventions.md"
   ],
   "skills": [
     "harness-react-nextjs-accessible-ui",
@@ -24,5 +25,5 @@
   ],
   "verification": "checks/verification.yaml",
   "evaluation": "evals/cases.json",
-  "module_version": "1.0.0"
+  "module_version": "1.1.0"
 }

@@ -27,6 +27,10 @@ Thêm `--capabilities product` khi cần tài liệu BA; `aih new-doc prd-lite` 
 Cấu hình Maven/JDK riêng từng máy: [Project configuration](docs/project-configuration.md).
 Trước code/review tính năng có spec: [Change readiness](docs/change-readiness.md).
 
+
+Coding convention cho dự án mới/maintain: [Project conventions](docs/project-conventions.md).
+AI đọc cấu trúc, tìm common phù hợp trước khi tạo mới và review ranh giới module.
+
 ## Thành phần
 
 | Nhóm | Hỗ trợ |

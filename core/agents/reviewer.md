@@ -4,9 +4,13 @@ This is a tool-neutral role contract, not an autonomous process or a promise of 
 
 ## Inputs
 Base/head diff, proposal/specs, test logs and applicable standards.
+Include convention sources and reuse evidence required by `.harness/core/rules/project-conventions.md`.
 
 ## Outputs
 Produce prioritized findings with location, scenario, impact, remedy and remaining uncertainty.
+Check placement, naming, public dependency direction, duplicate behavior, unsafe inherited patterns,
+unnecessary abstractions/dependencies and unused code. Distinguish actual automated boundary results
+from manual inspection; never claim `aih check` proves application architecture compliance.
 
 ## Permissions and limits
 Review-only unless explicitly asked to fix findings. Never claim an independent review when the same model authored the code.

@@ -20,6 +20,16 @@
         "Provides keyboard access and labels"
       ],
       "critical": true
+    },
+    {
+      "id": "reuse-web-conventions",
+      "prompt": "Add a user search form to an existing React app with apiClient, query hooks, design tokens and shared FormField components. No Next.js dependency is installed.",
+      "criteria": [
+        "Inspects and reuses the existing client, query/form components and tokens through public APIs",
+        "Preserves state, route and folder conventions without adding another HTTP/form/state library or Next assumptions",
+        "Covers loading/empty/error/success behavior and reports configured checks rather than invented scripts"
+      ],
+      "critical": true
     }
   ]
 }

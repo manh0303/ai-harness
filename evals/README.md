@@ -46,3 +46,7 @@ regression thresholds using the harness-ai-evaluation skill. Do not combine thos
 Adapter-specific scenarios are installed with each selected adapter. Use `aih eval` and
 `aih eval --report report.json`; see [adapter evaluation](../docs/adapters.md). This is a separate
 dataset from the Core cases scored by scripts/score-eval.js. Neither command invokes a model.
+
+## Project-convention scenarios
+
+`aih eval --scope all` includes five Core cases for new-project defaults, mixed-module maintenance, inappropriate reuse, unsafe legacy code and conflicting sources, plus one reuse scenario in each Java/Spring, React/Next.js and React Native adapter when selected. Use a disposable consumer containing the concrete files described by the prompt and keep their paths in the trace. Score actual inspected files, reused symbols, new-code rationale and verification honesty. New cases have not been run against a live agent; install/update and report tests only establish the CLI contract.

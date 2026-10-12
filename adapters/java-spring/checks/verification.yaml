@@ -28,6 +28,18 @@
         "Database integration test status"
       ],
       "execution": "advisory"
+    },
+    {
+      "id": "convention-fit",
+      "title": "Review project convention, reuse and module boundary fit",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Applicable convention sources and comparable implementation paths",
+        "Reused public symbols and rationale for new components or dependencies",
+        "Configured lint/type/build/test and boundary results, or explicit manual review limits"
+      ],
+      "execution": "manual"
     }
   ]
 }

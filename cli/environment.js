@@ -147,9 +147,19 @@ export function setupPlan(root, adapters, env = process.env) {
       { label: 'C', value: 'idea', description: 'Start from the user idea and clarify the scope.' }],
     recommendation: null, reason: 'The host must inspect existing local.md and sources before recommending.',
     allow_free_text: true
+  }, {
+    id: 'project-mode', question: 'What is the scope of the affected code?',
+    options: [{ label: 'A', value: 'maintain', description: 'Extend existing modules using their conventions and shared APIs.' },
+      { label: 'B', value: 'new', description: 'Start a new application with a minimal agreed adapter baseline.' },
+      { label: 'C', value: 'mixed', description: 'Add a new module while preserving repository-wide contracts.' }],
+    recommendation: null,
+    reason: 'Inspect the task, local.md and neighboring code; stack detection or environment configuration does not establish project mode. Skip if already known.',
+    allow_free_text: true
   });
   return { status: environment.problems.length ? 'blocked' : 'planned', environment, questions,
     next_steps: ['Read AGENTS.md, .harness/local.md and the installed project-setup workflow.',
+      'Apply installed Core project-conventions.md and relevant adapter conventions; establish mode per affected module even when no setup questions are suggested.',
+      'Inspect comparable code and search public shared APIs before creating files, dependencies or abstractions; record source paths and reuse/new-code rationale.',
       'Skip answered questions; ask at most 1–3 consequential questions with evidence-based recommendations.',
       'Record shared decisions in local.md/environment.json; put only machine paths in ignored machine.json.',
       'Run aih doctor, then use the reviewed project commands through your AI host.'],

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "name": "node-test",
+      "status": "passed",
+      "evidence": "npm test on Linux / Node v24.19.0: 134 tests, 134 passed, 0 failed, 0 skipped. Includes 8 new convention installation/update/setup/evaluation/template tests. See verification.md."
+    },
+    {
+      "name": "structure",
+      "status": "passed",
+      "evidence": "npm run validate: status ok, 6 adapters, 4 capabilities, 250 managed files, no errors."
+    },
+    {
+      "name": "npm-package",
+      "status": "passed",
+      "evidence": "npm run test:package: actual offline npm pack plus global/local installs passed; Core and BE/FE/mobile convention files matched source bytes in the installed consumer."
+    },
+    {
+      "name": "diff-review",
+      "status": "passed",
+      "evidence": "Author self-review and git diff --check: existing bundle/install/evaluation contracts reused; no new runtime dependencies, network/subprocess calls, schema or distribution-version change. Not an independent review."
+    },
+    {
+      "name": "live-agent-evaluation",
+      "status": "skipped",
+      "reason": "Eight new behavioral scenarios are supplied as unscored cases. No separate live-agent trial or human-scored trace was produced; CLI tests do not prove compliance."
+    },
+    {
+      "name": "other-platforms",
+      "status": "skipped",
+      "reason": "Only Linux / Node 24 was available locally. Node 22 and Windows results must come from repository CI."
+    }
+  ]
+}

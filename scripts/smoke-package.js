@@ -27,6 +27,11 @@ try {
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
   assert.ok(!names.some(n => /(^|\/)\.env(?:\.|$)/.test(n)));
+  const conventionAssets = ['core/rules/project-conventions.md',
+    ...['java-spring', 'react-nextjs', 'react-native'].map(id => `adapters/${id}/rules/conventions.md`)];
+  for (const name of [...conventionAssets, 'docs/project-conventions.md']) {
+    assert.ok(names.includes(name), `Missing packaged convention asset: ${name}`);
+  }
   assert.equal(path.basename(packed.filename), packed.filename, 'npm pack returned an unsafe archive filename');
   const archive = path.join(temp, packed.filename), prefix = path.join(temp, 'global');
   assert.ok(fs.existsSync(archive) && fs.statSync(archive).isFile(), `npm pack did not write ${archive}`);
@@ -39,6 +44,10 @@ try {
   assert.equal(run(['--version']).trim(), readJson(path.join(SOURCE, 'package.json')).version);
   JSON.parse(run(['init', '--adapters', 'java-spring,react-nextjs,react-native,ai-python']));
   assert.equal(JSON.parse(run(['check'])).status, 'ok');
+  for (const name of conventionAssets) {
+    assert.equal(fs.readFileSync(path.join(target, '.harness', name), 'utf8'),
+      fs.readFileSync(path.join(SOURCE, name), 'utf8'));
+  }
   assert.equal(JSON.parse(run(['list'])).adapters.length, manifest(SOURCE).adapters.length);
   assert.equal(JSON.parse(run(['list'])).capabilities.length, manifest(SOURCE).capabilities.length);
   const uiuxTarget = path.join(temp, 'uiux project'); fs.mkdirSync(uiuxTarget);
@@ -81,7 +90,7 @@ try {
   assert.equal(JSON.parse(productDocOut).status, 'ok');
   assert.ok(fs.existsSync(path.join(productTarget, 'docs/product/brd.md')));
   assert.equal(JSON.parse(run(['verify'])).executed, false);
-  assert.equal(JSON.parse(run(['eval'])).dataset.cases.length, 8);
+  assert.equal(JSON.parse(run(['eval'])).dataset.cases.length, 11);
   assert.ok(JSON.parse(run(['eval', '--scope', 'all'])).dataset.cases.some(x => x.id.startsWith('core/')));
   assert.ok(fs.existsSync(path.join(target, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
   JSON.parse(run(['new-change', 'package-smoke']));
@@ -108,5 +117,5 @@ try {
   assert.equal(localResult.status, 'ok');
   assert.equal(JSON.parse(npm(['exec', '--offline', '--', 'aih', 'check'], local)).status, 'ok');
   console.log(JSON.stringify({ status: 'ok', version: packed.version, package_files: names.length,
-    checks: ['npm pack assets', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'monetization bundle and advisory checks', 'Astro packaged detection and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'setup/doctor and structural readiness', 'idempotent update', 'local npm exec without network'] }, null, 2));
+    checks: ['npm pack assets', 'packaged and installed Core/BE/FE/mobile conventions', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'monetization bundle and advisory checks', 'Astro packaged detection and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'setup/doctor and structural readiness', 'idempotent update', 'local npm exec without network'] }, null, 2));
 } finally { fs.rmSync(temp, { recursive: true, force: true }); }

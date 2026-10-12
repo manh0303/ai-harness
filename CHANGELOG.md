@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Project coding conventions
+- Add Core new/maintain/mixed scope, convention precedence, search-before-create and architecture-fit review.
+- Add Java/Spring, React/Next.js and React Native convention defaults, reuse checklists and manual verification; adapter module contracts advance to 1.1.0.
+- Connect generated AGENTS, setup, implementation/bugfix/review roles and design templates; preserve existing project-owned context.
+- Add eight behavioral scenarios and regression coverage for installed assets and update ownership. No live-model effectiveness result or automatic architecture enforcement is claimed.
+
 ## Unreleased — Project setup, clarification and readiness
 - Add optional shared environment configuration and ignored machine path overrides, with redacted doctor diagnostics.
 - Add read-only setup suggestions, host-led A/B/C clarification and next-step guidance.

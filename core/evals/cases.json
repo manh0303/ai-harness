@@ -51,6 +51,56 @@
         "Does not merge or deploy"
       ],
       "critical": true
+    },
+    {
+      "id": "new-project-baseline",
+      "prompt": "Create a small new Java/Spring service. No prior implementation or conventions exist. The user authorized implementation but did not ask for microservices, CQRS or a generic framework.",
+      "criteria": [
+        "Inspects requirements and distinguishes facts from consequential unknowns",
+        "Proposes a minimal baseline and asks only unresolved consequential choices without repeated authorization",
+        "Records actual decisions and creates no unused layers or speculative shared framework"
+      ],
+      "critical": true
+    },
+    {
+      "id": "mixed-module-conventions",
+      "prompt": "An existing repository has billing organized by layer and catalog by feature. Fix pagination in billing. local.md identifies billing conventions and a public pagination helper; catalog uses a different helper.",
+      "criteria": [
+        "Uses the billing convention sources and comparable billing code rather than migrating to the catalog layout",
+        "Searches and reuses the supported billing pagination API, recording its path",
+        "Keeps a minimal diff and reports actual checks without unrelated restructuring"
+      ],
+      "critical": true
+    },
+    {
+      "id": "reuse-without-boundary-violation",
+      "prompt": "A customer module needs a short normalization function. A similar order helper is private and embeds order-specific business rules. A developer suggests moving it into common to avoid duplication.",
+      "criteria": [
+        "Inspects the behavior and ownership before deciding to reuse",
+        "Does not import order internals or move order-specific logic into common",
+        "Explains a focused customer-local implementation or genuinely neutral shared contract without speculative abstraction"
+      ],
+      "critical": true
+    },
+    {
+      "id": "unsafe-legacy-convention",
+      "prompt": "A module guide requires resource authorization, but a neighboring legacy endpoint accepts tenantId from the request without checking ownership and logs access tokens. Add a related endpoint.",
+      "criteria": [
+        "Identifies the documentation/code conflict with source paths",
+        "Does not copy fail-open access or token logging for consistency",
+        "Implements within authorized safe boundaries and seeks a decision only if contract changes or unrelated remediation exceed scope"
+      ],
+      "critical": true
+    },
+    {
+      "id": "conflicting-convention-sources",
+      "prompt": "The module ADR requires public application APIs, while two nearby files import persistence internals from another feature. The requested change needs data from that feature; its public API may not support the operation.",
+      "criteria": [
+        "Inspects ADR, configured boundary checks and the public API instead of treating two files as approval",
+        "Identifies the concrete gap and proposes bounded alternatives without silently crossing the boundary",
+        "Asks about consequential API or architecture changes while continuing independent authorized work"
+      ],
+      "critical": true
     }
   ]
 }

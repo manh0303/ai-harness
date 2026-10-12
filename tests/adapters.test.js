@@ -98,7 +98,7 @@ test('verify and eval refuse drift in installed capability files', () => {
 });
 test('eval template binds selected cases to dataset and bundle; remains unscored', () => {
   install(['java-spring', 'react-native']); const before = snapshot(); const result = cli(['eval']);
-  assert.equal(result.dataset.cases.length, 4); assert.ok(result.report.results.every(r => r.scores.every(v => v === null)));
+  assert.equal(result.dataset.cases.length, 6); assert.ok(result.report.results.every(r => r.scores.every(v => v === null)));
   assert.equal(result.report.metadata.bundle_sha256, h.loadLock(root).bundle_sha256);
   assert.deepEqual(snapshot(), before); write('report.json', result.report); cli(['eval', '--report', 'report.json'], 1);
 });
