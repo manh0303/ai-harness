@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "checks": [
+    { "name": "tests", "status": "passed", "evidence": "npm test: 146/146 passed, 0 skipped, Linux Node v24.19.0; see verification.md." },
+    { "name": "structure-release", "status": "passed", "evidence": "npm run validate: 300 managed files, no errors; npm run check:release: unchanged 0.7.0 and 12 module contracts." },
+    { "name": "package", "status": "passed", "evidence": "npm run test:package: 295 package files and actual offline global/local installs, isolated Architecture/Delivery draft routing and host guide assets." },
+    { "name": "self-review", "status": "passed", "evidence": "Author reviewed all eight impact areas and declaration/install/discovery/workflow/check/doc links; git diff --check clean. Not independent review." },
+    { "name": "live-host-model", "status": "skipped", "reason": "No authenticated native host or live-model trials; eight behavioral scenarios remain unscored. Setup recipes cite official docs and provide a smoke prompt." },
+    { "name": "other-platforms-openspec", "status": "skipped", "reason": "Local environment is Linux Node24; Windows/Node22 evidence comes from CI. Upstream OpenSpec CLI was not installed/run." }
+  ]
+}

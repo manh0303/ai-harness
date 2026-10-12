@@ -69,3 +69,10 @@ Risks/unknowns: threshold and privacy requirements pending decision
 Permissions: read/write authorized project branch only; no external publish or merge
 Human reviewer: developer or named BA/PO
 ```
+
+## Product → solution → delivery
+
+For new/material journeys, reuse existing BA documents and continue with [Solution workflow](solution-workflow.md).
+PO defines a usable MVP and evidence-backed outcomes, SA evaluates quality/architecture/contracts,
+PM sequences dependent value slices. Accepted decisions and requirement IDs feed OpenSpec and adapters.
+Depth scales to the task; no mandatory full document set for small fixes. Use [tool setup](tool-setup/README.md).

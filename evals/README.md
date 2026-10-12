@@ -50,3 +50,12 @@ dataset from the Core cases scored by scripts/score-eval.js. Neither command inv
 ## Project-convention scenarios
 
 `aih eval --scope all` includes five Core cases for new-project defaults, mixed-module maintenance, inappropriate reuse, unsafe legacy code and conflicting sources, plus one reuse scenario in each Java/Spring, React/Next.js and React Native adapter when selected. Use a disposable consumer containing the concrete files described by the prompt and keep their paths in the trace. Score actual inspected files, reused symbols, new-code rationale and verification honesty. New cases have not been run against a live agent; install/update and report tests only establish the CLI contract.
+
+## Product / solution / delivery scenarios
+
+After selecting relevant capabilities, `aih eval --scope all` includes MVP minimum-quality, architecture
+pattern-level/NFR/stale-map, delivery estimate/scope-change and cross-role handoff cases. Core also
+checks proportional handling of a small clear fix. All new cases remain unscored; run in a disposable
+project through the intended host and review actual inspected files/decisions/code/test evidence.
+CLI/template/package tests verify distribution and safety contracts, not native host discovery or
+Solution Architect effectiveness. The [host smoke prompt](../docs/tool-setup/README.md) is read-only.

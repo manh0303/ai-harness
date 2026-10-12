@@ -41,7 +41,7 @@ function snapshot() {
 
 test('Monetization is independently registered with full source-validated skill, workflow and template contracts', () => {
   const names = listCapabilities(source).map(c => c.id);
-  assert.deepEqual(names, ['uiux','product','devops','monetization']);
+  assert.deepEqual(names, ['uiux','product','devops','monetization','architecture','delivery']);
   const m = loadCapability(source, 'monetization');
   assert.equal(m.module_version, '1.0.0');
   assert.equal(m.skills.length, 5);
@@ -94,11 +94,13 @@ test('Monetization composes optionally with Astro, Product and UIUX without coll
   assert.equal(cli(['verify','--scope','all']).executed,false);
 });
 
-test('Monetization templates remain locked advisory guidance, never silently scaffolded by Product-only new-doc', () => {
+test('Monetization templates require explicit owner selection rather than changing the Product default', () => {
   cli(['init','--source',source,'--capabilities','monetization']);
   assert.ok(fs.existsSync(path.join(root,'.harness/capabilities/monetization/templates/site-monetization-plan.md')));
   assert.equal(cli(['new-doc','site-monetization-plan'],1).status,'error');
   assert.ok(!fs.existsSync(path.join(root,'docs/monetization')));
+  const explicit = cli(['new-doc','site-monetization-plan','--capability','monetization']);
+  assert.equal(explicit.path, 'docs/monetization/site-monetization-plan.md');
   assert.equal(cli(['check']).status,'ok');
 });
 

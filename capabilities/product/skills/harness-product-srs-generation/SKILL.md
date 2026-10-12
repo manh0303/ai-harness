@@ -26,3 +26,20 @@ description: Produce a testable Software Requirements Specification linked to ap
 - Do not invent protocol guarantees, SLAs, security requirements or existing integrations.
 - Keep product intent separate from chosen technical implementation.
 - Never change code or claim stakeholder approval solely because a document was generated.
+
+## Template
+Read `.harness/capabilities/product/templates/srs.md`; `aih new-doc srs` creates only a missing
+draft. Reuse canonical existing documents and source pointers; never regenerate approved content by default.
+
+## Example
+Synthetic illustration: FR-001 defines search behavior; NFR-001 target is pending until agreed and is passed to Architecture for a scenario/test plan.
+
+## Quality checklist
+- FR/NFR contracts, exception paths and trace IDs remain consistent.
+- Actual decisions/status and source revisions distinguish approved facts from proposals.
+- Scope, relevant IDs, unresolved questions and verification limits are recorded.
+
+## Handoff
+Use `.harness/capabilities/product/workflows/product-to-solution.md`; supply reviewed source/requirement
+IDs, output paths and actual owner decisions to the next BA/PO/SA/PM role as applicable. Return gaps
+to their owner; a single host may perform roles sequentially without claiming independent approval.

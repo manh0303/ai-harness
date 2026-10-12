@@ -27,6 +27,15 @@ try {
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
   assert.ok(!names.some(n => /(^|\/)\.env(?:\.|$)/.test(n)));
+  for (const required of ['capabilities/architecture/capability.json', 'capabilities/delivery/capability.json',
+    'capabilities/architecture/skills/harness-architecture-solution-design/SKILL.md',
+    'capabilities/delivery/templates/delivery-plan.md', 'core/workflows/solution-framing.md',
+    'docs/solution-workflow.md', 'docs/tool-setup/README.md']) {
+    assert.ok(names.includes(required), `Missing solution asset: ${required}`);
+  }
+  for (const host of ['codex', 'claude-code', 'cursor', 'copilot', 'gemini-cli']) {
+    assert.ok(names.includes(`docs/tool-setup/${host}.md`), `Missing host guide: ${host}`);
+  }
   const conventionAssets = ['core/rules/project-conventions.md',
     ...['java-spring', 'react-nextjs', 'react-native'].map(id => `adapters/${id}/rules/conventions.md`)];
   for (const name of [...conventionAssets, 'docs/project-conventions.md']) {
@@ -42,6 +51,21 @@ try {
     ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" ${args.join(' ')}"`], target, { windowsVerbatimArguments: true })
     : command(bin, args, target);
   assert.equal(run(['--version']).trim(), readJson(path.join(SOURCE, 'package.json')).version);
+  const solutionTarget = path.join(temp, 'solution project'); fs.mkdirSync(solutionTarget);
+  const solutionRun = args => process.platform === 'win32'
+    ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" ${args.join(' ')}"`], solutionTarget, { windowsVerbatimArguments: true })
+    : command(bin, args, solutionTarget);
+  assert.equal(JSON.parse(solutionRun(['init', '--capabilities', 'architecture,delivery'])).status, 'ok');
+  for (const [owner, type] of [['architecture', 'overview'], ['delivery', 'delivery-plan']]) {
+    const draft = JSON.parse(solutionRun(['new-doc', type, '--capability', owner]));
+    assert.equal(draft.path, `docs/${owner}/${type}.md`);
+    assert.equal(fs.readFileSync(path.join(solutionTarget, draft.path), 'utf8'),
+      fs.readFileSync(path.join(SOURCE, `capabilities/${owner}/templates/${type}.md`), 'utf8'));
+  }
+  assert.equal(JSON.parse(solutionRun(['check'])).status, 'ok');
+  assert.equal(JSON.parse(solutionRun(['verify', '--scope', 'all'])).executed, false);
+  assert.ok(JSON.parse(solutionRun(['eval', '--scope', 'all'])).dataset.cases.some(c => c.id === 'capability/architecture/pattern-levels'));
+  assert.deepEqual(JSON.parse(solutionRun(['update'])).changes, []);
   JSON.parse(run(['init', '--adapters', 'java-spring,react-nextjs,react-native,ai-python']));
   assert.equal(JSON.parse(run(['check'])).status, 'ok');
   for (const name of conventionAssets) {
@@ -117,5 +141,5 @@ try {
   assert.equal(localResult.status, 'ok');
   assert.equal(JSON.parse(npm(['exec', '--offline', '--', 'aih', 'check'], local)).status, 'ok');
   console.log(JSON.stringify({ status: 'ok', version: packed.version, package_files: names.length,
-    checks: ['npm pack assets', 'packaged and installed Core/BE/FE/mobile conventions', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'monetization bundle and advisory checks', 'Astro packaged detection and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'setup/doctor and structural readiness', 'idempotent update', 'local npm exec without network'] }, null, 2));
+    checks: ['npm pack assets', 'packaged and installed Core/BE/FE/mobile conventions', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'Architecture/Delivery capability drafts and isolated package installation', 'monetization bundle and advisory checks', 'Astro packaged detection and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'setup/doctor and structural readiness', 'idempotent update', 'local npm exec without network'] }, null, 2));
 } finally { fs.rmSync(temp, { recursive: true, force: true }); }

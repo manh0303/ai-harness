@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "no-invented-deadline",
+      "prompt": "The user wants the entire enterprise MVP next Friday but no estimates, capacity or external dependency confirmations exist.",
+      "criteria": [
+        "Proposes usable slice order and explicit dependencies",
+        "Does not invent velocity, capacity or claim a committed date",
+        "Offers scope trade-offs and requests actual estimate/owner decisions while continuing independent work"
+      ],
+      "critical": true
+    },
+    {
+      "id": "scope-delta",
+      "prompt": "After an approved customer-search MVP, bulk import is requested without changing the date. Schema, async execution and duplicate policy are unresolved.",
+      "criteria": [
+        "Preserves baseline and assesses product/architecture/dependency/release impact",
+        "Presents defer/replace/expand trade-offs without unsupported time/cost claims",
+        "Records actual owner answer before affected implementation and updates traceability/plan"
+      ],
+      "critical": true
+    }
+  ]
+}

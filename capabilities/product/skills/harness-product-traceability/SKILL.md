@@ -22,3 +22,20 @@ description: Maintain bidirectional links from document sources through BRD/PRD/
 ## Constraints
 - Links are evidence pointers, not authorization to modify external systems.
 - Never rewrite approved artifacts automatically based on Confluence updates.
+
+## Template
+Read `.harness/capabilities/product/templates/traceability.md`; `aih new-doc traceability` creates only a missing
+draft. Reuse canonical existing documents and source pointers; never regenerate approved content by default.
+
+## Example
+Synthetic illustration: SRC-001 → FR-001 → US-001 → AC-US-001-01 → ADR-001/OpenSpec task/test links form a checkable chain.
+
+## Quality checklist
+- Stable IDs, source versions and downstream gaps are maintained.
+- Actual decisions/status and source revisions distinguish approved facts from proposals.
+- Scope, relevant IDs, unresolved questions and verification limits are recorded.
+
+## Handoff
+Use `.harness/capabilities/product/workflows/product-to-solution.md`; supply reviewed source/requirement
+IDs, output paths and actual owner decisions to the next BA/PO/SA/PM role as applicable. Return gaps
+to their owner; a single host may perform roles sequentially without claiming independent approval.

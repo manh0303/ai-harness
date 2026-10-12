@@ -13,3 +13,6 @@ Read approved business sources only. Cannot invent stakeholder decisions or mark
 
 ## Handoff
 Hand reviewed requirements and source references to Product Manager and Product Owner; unresolved contradictions to decision owner.
+
+Pass source revisions, business rules, FR/US/AC/NFR IDs, contradictions and approval status to PO;
+use product-to-solution for accepted scope and return technical assumptions to Architecture.

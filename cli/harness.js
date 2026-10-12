@@ -237,20 +237,28 @@ export function newChange(root, name) {
   });
 }
 
-// Product drafts are project-owned and never added to the managed bundle.
-export function newDoc(root, name) {
+// Capability drafts are project-owned and never added to the managed bundle.
+export function newDoc(root, name, capability = 'product') {
   if (!SLUG.test(name)) throw new HarnessError('Document type must be a lowercase hyphenated slug');
+  if (!SLUG.test(capability)) throw new HarnessError('Capability must be a lowercase hyphenated slug');
   return guard(root, () => {
     if (check(root).status !== 'ok') throw new HarnessError('Fix installation drift before creating a document');
     const lock = loadLock(root);
-    if (!(lock.capabilities ?? []).includes('product')) throw new HarnessError('Product capability is not installed');
-    const sourceName = `.harness/capabilities/product/templates/${name}.md`;
-    if (!Object.hasOwn(lock.files, sourceName)) throw new HarnessError(`Unknown product document type: ${name}`);
-    const folder = ['idea', 'research'].includes(name) ? 'discovery' : 'product';
+    if (!(lock.capabilities ?? []).includes(capability)) {
+      throw new HarnessError(capability === 'product' ? 'Product capability is not installed' : `Capability is not installed: ${capability}`);
+    }
+    const sourceName = `.harness/capabilities/${capability}/templates/${name}.md`;
+    if (!Object.hasOwn(lock.files, `.harness/capabilities/${capability}/capability.json`)) {
+      throw new HarnessError(`Capability metadata is not locked: ${capability}`);
+    }
+    const declared = loadCapability(path.join(root, '.harness'), capability).templates;
+    if (!declared.includes(`templates/${name}.md`)) throw new HarnessError(`Unknown document type for ${capability}: ${name}`);
+    if (!Object.hasOwn(lock.files, sourceName)) throw new HarnessError(`Document template is not locked: ${capability}/${name}`);
+    const folder = capability === 'product' && ['idea', 'research'].includes(name) ? 'discovery' : capability;
     const outputName = `docs/${folder}/${name}.md`;
     if (stat(safe(root, outputName))) throw new HarnessError(`Document already exists: ${outputName}`);
     transaction(root, { [outputName]: fs.readFileSync(safe(root, sourceName)) });
-    return { status: 'ok', type: name, path: outputName,
+    return { status: 'ok', type: name, capability, path: outputName,
       note: 'Template only; populate from authorized evidence and obtain human approval.' };
   });
 }

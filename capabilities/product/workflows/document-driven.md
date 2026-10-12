@@ -11,3 +11,7 @@ Use when a project already supplies authorized BA/PO materials (Confluence, BRD,
 7. **Source changes:** compare actual source revisions and propose a reviewed requirements/code impact diff rather than overwriting user-owned artifacts.
 
 Canonical enterprise source stays in the enterprise system; consumer repo stores pointers, versioned derived docs and project-local engineering artifacts. RAG is optional permission-scoped retrieval, not a replacement for a system of record. The `aih` CLI does not ingest data or run agents.
+
+For new/material journeys, continue with `product-to-solution.md` after resolving the relevant scope.
+Use reviewed MVP/outcomes and optional Architecture/Delivery to assess solution/dependencies before
+OpenSpec implementation. Existing approved sources remain canonical; small clear changes stay compact.

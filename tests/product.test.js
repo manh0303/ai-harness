@@ -43,18 +43,18 @@ function snapshot() {
 test('Product is independently registered with role/template contracts; UI/UX schema 1 stays valid', () => {
   const list = listCapabilities(source);
   const product = list.find(c => c.id === 'product'), uiux = list.find(c => c.id === 'uiux');
-  assert.equal(list.length, 4);
-  assert.equal(product.skills.length, 13);
+  assert.equal(list.length, 6);
+  assert.equal(product.skills.length, 15);
   assert.equal(product.agents.length, 5);
-  assert.equal(product.templates.length, 16);
-  assert.equal(product.workflows.length, 5);
+  assert.equal(product.templates.length, 18);
+  assert.equal(product.workflows.length, 6);
   assert.deepEqual(uiux.agents, []);
   assert.deepEqual(uiux.templates, []);
   assert.equal(loadCapability(source, 'product').id, 'product');
   assert.deepEqual(snapshot(), {});
 });
 
-test('Product-only installs roles, templates and 13 skills but not UI/UX or adapters', () => {
+test('Product-only installs roles, templates and 15 skills but not UI/UX or adapters', () => {
   cli(['init', '--source', source, '--capabilities', 'product']);
   const lock = h.loadLock(project);
   assert.deepEqual(lock.capabilities, ['product']);
@@ -66,10 +66,10 @@ test('Product-only installs roles, templates and 13 skills but not UI/UX or adap
   assert.ok(!fs.existsSync(path.join(project, '.harness/adapters')));
   assert.equal(cli(['check']).status, 'ok');
   const catalog = cli(['skills']);
-  assert.equal(catalog.skills.length, 18);
+  assert.equal(catalog.skills.length, 20);
   assert.ok(!JSON.stringify(catalog).includes('## Procedure'));
   assert.match(cli(['skill', 'harness-product-business-analysis']).content, /AS-IS and TO-BE/);
-  assert.equal(cli(['list', '--source', source]).capabilities.length, 4);
+  assert.equal(cli(['list', '--source', source]).capabilities.length, 6);
 });
 
 test('Product and UI/UX install together without collisions, adapters remain optional', () => {

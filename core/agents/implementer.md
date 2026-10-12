@@ -17,3 +17,7 @@ May edit within authorized scope and run bounded checks. No credentials, unappro
 ## Handoff
 State change ID, affected paths, decisions, evidence, outstanding questions and next owner.
 Load the relevant skill and adapter. Respect the host's delegation policy; roles can run sequentially.
+
+For new or consequential work, use `.harness/core/workflows/solution-framing.md` and relevant installed
+Product/Architecture/Delivery workflows. Carry source revisions, MVP/AC/NFR/ADR IDs, accepted boundaries,
+actual verification and unresolved dependencies in the handoff. Keep small clear fixes proportional.

@@ -37,10 +37,13 @@ AI đọc cấu trúc, tìm common phù hợp trước khi tạo mới và revie
 | --- | --- |
 | **Core** | Rules, agent roles, skills, workflows, review & verification |
 | **Adapters** | Java Spring Boot, React/Next.js, React Native, Python AI/RAG, Kubernetes, Astro |
-| **Capabilities** | Product/BA/PO, UI/UX & Figma, DevOps |
+| **Capabilities** | Product/BA/PO, Architecture/SA, Delivery/PM, UI/UX & Figma, DevOps |
 | **OpenSpec** | Template cho proposal, design, tasks và spec có review |
 
 Bạn chỉ chọn module cần dùng, ví dụ `aih init --adapters astro` cho website và công cụ nhỏ, nhẹ. Xem [Astro adapter](adapters/astro/README.md).
+
+BA → PO → SA → PM → Dev/QA: [Solution workflow](docs/solution-workflow.md).
+Setup Codex, Claude Code, Cursor, Copilot, Gemini CLI: [Coding tools](docs/tool-setup/README.md).
 
 ## Hai luồng làm việc
 

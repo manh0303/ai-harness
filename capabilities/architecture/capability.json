@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "id": "architecture",
+  "description": "Source-linked solution architecture, NFRs, decisions, patterns and architecture review.",
+  "skills": [
+    "harness-architecture-project-context",
+    "harness-architecture-quality-attributes",
+    "harness-architecture-solution-design",
+    "harness-architecture-decision-records",
+    "harness-architecture-change-impact",
+    "harness-architecture-review"
+  ],
+  "templates": [
+    "templates/overview.md",
+    "templates/nfr.md",
+    "templates/solution-design.md",
+    "templates/adr.md",
+    "templates/project-map.md",
+    "templates/review.md"
+  ],
+  "agents": [
+    "agents/solution-architect.md",
+    "agents/architecture-reviewer.md"
+  ],
+  "workflows": [
+    "workflows/discovery-to-design.md",
+    "workflows/change-review.md"
+  ],
+  "module_version": "1.0.0",
+  "recommends": [
+    "capability:product"
+  ],
+  "verification": "checks/verification.json",
+  "evaluation": "evals/cases.json"
+}

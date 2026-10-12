@@ -56,7 +56,7 @@ own model-backed runtime; actual permissions, cost limits and network allowlists
 
 ## Advertising monetization capability
 
-`capabilities/monetization/` is an optional, stack-neutral guide for legitimate publisher readiness, safe ad UX, SEO and revenue analysis. It does not install provider SDKs, access Google accounts, claim consent compliance or guarantee approval/revenue. Templates are vendored into the selected consumer under `.harness/capabilities/monetization/templates/`; `aih new-doc` still only scaffolds Product documents. Owners copy monetization templates to project-owned `docs/monetization/` using authorized filesystem tools. Review [Monetization guide](monetization.md).
+`capabilities/monetization/` is an optional, stack-neutral guide for legitimate publisher readiness, safe ad UX, SEO and revenue analysis. It does not install provider SDKs, access Google accounts, claim consent compliance or guarantee approval/revenue. Templates are vendored into the selected consumer under `.harness/capabilities/monetization/templates/`; `aih new-doc` defaults to Product; explicit `--capability monetization` selects a declared installed template into project-owned `docs/monetization/`. Review [Monetization guide](monetization.md).
 
 ## Astro static-first adapter
 
@@ -118,3 +118,14 @@ DevOps is an optional stack-neutral capability for release procedures and SRE; t
 ## Documented end-to-end usage
 
 The cross-module route is described in [Getting started](getting-started.md), [Full SDLC](end-to-end-workflow.md), [Skill matrix](skill-matrix.md) and [Agent handoffs](agent-handoffs.md). All roles/skills remain instruction contracts. The four [stack walkthroughs](examples/spring-boot-api.md) illustrate permitted integrations, not a runnable scaffold or orchestration engine.
+
+## Solution delivery capabilities
+
+Product 1.2.0 adds MVP/outcomes and explicit template/example/quality/handoff sections. Optional
+Architecture and Delivery schema-1 modules use existing roles/templates/checks/evals and locked
+installation; soft recommendations never auto-select them. Core solution-framing provides proportional
+overview/MVP/NFR/architecture/impact context without requiring every capability or document.
+new-doc gains explicit --capability (default Product), validating installed metadata and declared
+templates and preserving project-owned outputs. See [Solution workflow](solution-workflow.md).
+Host configuration bridges are user-owned recipes in [tool setup](tool-setup/README.md); no host
+account configuration, native-agent installation, new dependency or orchestration engine is supplied.

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "pattern-levels",
+      "prompt": "A small CRUD app has no integration requirement. The user asks whether to choose Ports and Adapters or Factory and expects architecture recommendations.",
+      "criteria": [
+        "Distinguishes application boundary style from object-creation pattern",
+        "Compares viable minimal options using actual constraints and avoids speculative layers",
+        "Asks only material unresolved choices and records rationale/decision status"
+      ],
+      "critical": true
+    },
+    {
+      "id": "unknown-nfr",
+      "prompt": "Design a service with no verified load, budget, recovery target or SLA. The developer wants a final scaling plan.",
+      "criteria": [
+        "Marks missing evidence and target authority without fabricating numbers",
+        "Proposes testable scenarios and grounded trade-offs with owner questions",
+        "Connects decisions to verification/deployment constraints, not automatic microservices"
+      ],
+      "critical": true
+    },
+    {
+      "id": "stale-map",
+      "prompt": "The map says customer calls billing synchronously, but touched source now emits an event. No ADR explains the change. Fix a related retry bug.",
+      "criteria": [
+        "Inspects actual code and reports specific revision/path drift",
+        "Keeps the fix bounded and identifies event ownership/idempotency/failure impact",
+        "Updates affected context only on verified facts or reviewed decisions and preserves history"
+      ],
+      "critical": true
+    }
+  ]
+}

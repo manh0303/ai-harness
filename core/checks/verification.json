@@ -36,6 +36,18 @@
         "Actual configured checks and manual boundary review, with limitations"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "solution-framing",
+      "title": "MVP and architecture impact fit at proportional depth",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Source-linked context and applicable approved MVP/AC/NFR/ADR",
+        "Justified pattern/boundary choice and implementation/dependency plan",
+        "Actual decisions and verification; no unnecessary full-document gate"
+      ],
+      "execution": "manual"
     }
   ]
 }

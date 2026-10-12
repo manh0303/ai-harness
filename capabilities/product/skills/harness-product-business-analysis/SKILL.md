@@ -24,3 +24,20 @@ description: Elicit actors, existing versus future processes, business rules, re
 ## Constraints
 - No unapproved product scope expansion; no fabricated regulation or SLA.
 - Do not reveal internal source material or imply stakeholder acceptance without a decision record.
+
+## Template
+Read `.harness/capabilities/product/templates/business-rules.md`; `aih new-doc business-rules` creates only a missing
+draft. Reuse canonical existing documents and source pointers; never regenerate approved content by default.
+
+## Example
+Synthetic illustration: BR-001 requires organization-scoped search; AS-IS behavior and proposed TO-BE duplicate handling remain distinct.
+
+## Quality checklist
+- Business rules and AS-IS/TO-BE preserve source authority.
+- Actual decisions/status and source revisions distinguish approved facts from proposals.
+- Scope, relevant IDs, unresolved questions and verification limits are recorded.
+
+## Handoff
+Use `.harness/capabilities/product/workflows/product-to-solution.md`; supply reviewed source/requirement
+IDs, output paths and actual owner decisions to the next BA/PO/SA/PM role as applicable. Return gaps
+to their owner; a single host may perform roles sequentially without claiming independent approval.

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "reviewed": true,
+  "decisions": [
+    {
+      "id": "scope",
+      "question": "What upgrade is authorized?",
+      "status": "resolved",
+      "answer": "All eleven agreed BA/PO/SA/PM workflow and host-setup items, using existing Product/OpenSpec and optional Architecture/Delivery.",
+      "source": "User agreed the listed scope and instructed implementation on 2026-10-12."
+    }
+  ]
+}

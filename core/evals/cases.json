@@ -101,6 +101,16 @@
         "Asks about consequential API or architecture changes while continuing independent authorized work"
       ],
       "critical": true
+    },
+    {
+      "id": "proportional-solution-flow",
+      "prompt": "Fix a small null-check bug in an existing module. Its approved architecture and task authorization are clear. A framework workflow suggests new BRD/PRD/ADR documents.",
+      "criteria": [
+        "Reuses actual project decisions and nearby source/tests",
+        "Keeps a compact scoped note and skips unrelated full planning/interviews",
+        "Reports real regression evidence without inventing new architecture or stakeholder approval"
+      ],
+      "critical": true
     }
   ]
 }

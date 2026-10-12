@@ -1,6 +1,7 @@
 # First-run project setup
 
 Read AGENTS.md, local.md, actual build files and existing environment configuration first.
+For project/MVP/architecture decisions, apply `solution-framing.md` at the appropriate depth.
 Use `aih setup` for structured suggestions; it never interviews the user or writes answers.
 Do not ask about facts already established in the repository or current conversation.
 
