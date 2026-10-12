@@ -59,6 +59,13 @@
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.7.0](https://github.com/manh0303/ai-harness/compare/v0.6.2...v0.7.0) (2026-10-12)
+
+
+### Features
+
+* add project environment setup and clarification readiness ([384cf13](https://github.com/manh0303/ai-harness/commit/384cf13b8a96791c26f9e0769bd8e0ccb734c20b))
+
 ## [0.6.2](https://github.com/manh0303/ai-harness/compare/v0.6.1...v0.6.2) (2026-10-11)
 
 
