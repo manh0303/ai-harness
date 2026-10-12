@@ -122,3 +122,12 @@ module and requires declared locked metadata/templates; undeclared files are not
 On a consumer branch add architecture/delivery to project.json if needed, review update --dry-run,
 update and check; existing docs, local facts and host bridges remain project-owned. Re-export eval
 reports for the changed bundle. No automatic old-plan migration; revert installation commit to roll back.
+
+## Agent routing and release-test repair (unreleased)
+
+Agent config uses independent schema 1; project/lock schema remains 1. Reviewed update adds a locked
+default and seeds agents.json only if absent; custom bytes and host files survive. Old alternate source
+bundles use the CLI canonical seed if necessary. Existing configs are validated before writes and new
+role gaps inherit/report project defaults. Inspect new payload/update diff; re-export eval reports after
+bundle changes. Revert consumer installation commit for rollback. Release update tests use relative
+versions instead of hardcoded 0.7.0, preserving downgrade refusal on future release branches.

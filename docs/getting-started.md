@@ -118,3 +118,10 @@ Trước code, áp dụng [Project conventions](project-conventions.md): xác đ
 For a material new project choose `--capabilities product,architecture,delivery` with the actual adapter.
 Read [Solution workflow](solution-workflow.md) and the [setup guide for your coding tool](tool-setup/README.md).
 Skills/templates are selective context; use existing approved documents and compact notes when sufficient.
+
+## Agent model and execution preferences
+
+New installs seed `.harness/agents.json`: Sol recommended, hybrid/two concurrent agents only when
+supported; Luna low documentation, no automatic Astra escalation. Edit provider/model/reasoning and
+execution for your actual host. Use `aih setup --host codex` and [Agent configuration](agent-configuration.md).
+For a new economy consumer use `aih init --agent-preset economy`; never overwrite an existing config.

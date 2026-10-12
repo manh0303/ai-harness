@@ -3,6 +3,7 @@ import { loadAdapter } from '../cli/adapter-schema.js';
 import { loadCapability } from '../cli/capabilities.js';
 import { validateRegistry } from '../cli/composition.js';
 import { checksFrom, casesFrom } from '../cli/evaluation-contract.js';
+import { agentDefaults, registeredRoles } from '../cli/agents.js';
 import fs from 'node:fs';
 import { hasReleaseHeading } from './release-heading.js';
 import path from 'node:path';
@@ -42,6 +43,10 @@ try {
   }
   for (const name of m.capabilities ?? []) loadCapability(SOURCE, name);
   validateRegistry(SOURCE);
+  const defaultAgents = agentDefaults(SOURCE);
+  for (const role of Object.keys(registeredRoles(SOURCE, m.capabilities ?? []))) {
+    if (!Object.hasOwn(defaultAgents.agents, role)) errors.push('Missing default agent role: ' + role);
+  }
   checksFrom(SOURCE, 'core/checks/verification.json');
   casesFrom(SOURCE, 'core/evals/cases.json');
   const { files } = bundle(SOURCE, { schema_version: 1, adapters: m.adapters, capabilities: m.capabilities ?? [] });

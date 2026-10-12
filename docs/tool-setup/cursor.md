@@ -35,3 +35,10 @@ was not exercised here; official references below establish the documented disco
 ## Official references (checked 2026-10-12)
 - [Rules and AGENTS](https://cursor.com/docs/rules)
 - [Skills and .agents discovery](https://cursor.com/docs/skills)
+
+## Agent routing
+
+Read [Agent preferences](../agent-configuration.md). Verify current model picker/account and effort
+controls; aih setup --host cursor returns declarations only. Native per-role model switching or
+concurrency requires specific client support; otherwise perform roles sequentially with the selected
+session model. Never substitute premium or overwrite existing host settings automatically.

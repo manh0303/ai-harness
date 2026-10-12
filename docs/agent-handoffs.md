@@ -14,6 +14,8 @@ AI Harness hiện có **role contracts**, không tạo các agent chạy tự đ
 | [solution-architect](../capabilities/architecture/agents/solution-architect.md) | MVP/requirements, actual source/NFR | Overview, public boundaries/contracts, options/ADRs and verification | Self-approve decisions or impose patterns |
 | [architecture-reviewer](../capabilities/architecture/agents/architecture-reviewer.md) | Design/diff, ADRs and actual checks | Source-linked findings, drift/quality and residual risk | Claim independent approval of own work |
 | [delivery project-manager](../capabilities/delivery/agents/project-manager.md) | Reviewed scope/solution, actual capacity | Value slices, dependencies, risks and change assessment | Invent dates/progress or message stakeholders |
+| [orchestrator](../core/agents/orchestrator.md) | Authorized task, preferences and host capabilities | Scoped coordination and consolidated evidence | Auto-escalate premium or claim native workers exist |
+| [documentation](../core/agents/documentation.md) | Verified sources and decisions | Source-linked document diff and quality evidence | Invent approval or unperformed verification |
 | [planner](../core/agents/planner.md) | Scope, approved requirements, repo map | OpenSpec design/tasks/test outline | Implement ngoài scope |
 | [implementer](../core/agents/implementer.md) | Spec, tasks, repo, adapter | Code slice và actual test evidence | Merge/deploy |
 | [test-engineer](../core/agents/test-engineer.md) | AC, diff, contracts | Test scenarios, executed results/gaps | Tuyên bố pass khi chưa chạy |
@@ -87,3 +89,10 @@ Product Manager owns value/outcomes; Project Manager coordinates delivery. The e
 role/template remains a compatibility entry; the Delivery capability supplies deeper planning.
 Use [Solution workflow](solution-workflow.md) and [tool setup](tool-setup/README.md); carry MVP/AC/NFR/ADR
 IDs and source revisions with each handoff. Return gaps to the appropriate owner and keep approval factual.
+
+## Model and execution preferences
+
+[Agent configuration](agent-configuration.md) resolves namespace:role without conflating Product PM
+with Delivery PM. `.harness/agents.json` is project-owned; missing mappings inherit/report defaults.
+Actual host settings/access and delegation rules control execution. Report actual model/effort if known,
+scoped context, round checkpoint and actual checks; do not claim JSON enforced token/concurrency limits.

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "checks": [
+    { "name": "tests", "status": "passed", "evidence": "npm test: 158/158, 0 skipped; targeted routing/CLI/setup: 56/56. See verification.md." },
+    { "name": "structure-release", "status": "passed", "evidence": "validate: 304 managed files, no errors; check:release: unchanged distribution 0.7.0 and 12 module contracts." },
+    { "name": "package", "status": "passed", "evidence": "301 package files and actual offline installs; default/resolver/workflow/seed/host-plan checks." },
+    { "name": "release-regression", "status": "passed", "evidence": "Isolated actual Release PR metadata 0.8.0 plus only test repair: 147/147 tests, validate, check:release, package smoke passed." },
+    { "name": "self-review", "status": "passed", "evidence": "All eight impact areas reviewed; git diff --check clean. No independent review implied." },
+    { "name": "live-host-model", "status": "skipped", "reason": "No authenticated host/model/effort/delegation or usage trials. runtime_verified remains false and behavioral scenario unscored." },
+    { "name": "other-platforms-openspec", "status": "skipped", "reason": "Local Linux Node24 only; other platform matrix comes from CI. Upstream OpenSpec CLI not run." }
+  ]
+}

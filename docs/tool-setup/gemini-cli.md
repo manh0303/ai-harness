@@ -31,3 +31,11 @@ was not exercised here; official references below establish the documented disco
 ## Official references (checked 2026-10-12)
 - [Context/imports/settings](https://geminicli.com/docs/cli/gemini-md/)
 - [Workspace skill aliases](https://geminicli.com/docs/cli/skills/)
+
+## Native model configuration
+Use [Agent preferences](../agent-configuration.md) with an explicitly available Google/Vertex model
+or reviewed mapping. Check the native /model picker against [official model selection](https://geminicli.com/docs/cli/model/).
+Main --model selection does not override native subagent models; configure them separately following
+[official subagents](https://geminicli.com/docs/core/subagents/) and your client's generation settings.
+Reasoning/thinking controls are model-specific. No OpenAI model is assumed to run directly here and
+no native JSON/agent file is created by aih. Verify actual delegation and capacity before parallel work.

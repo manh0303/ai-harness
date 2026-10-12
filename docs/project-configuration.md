@@ -3,6 +3,7 @@
 | File | Nội dung | Git |
 | --- | --- | --- |
 | `.harness/project.json` | Adapter/capability | Commit |
+| `.harness/agents.json` | Provider/model/reasoning theo role, execution preferences và host mappings | Commit |
 | `.harness/local.md` | Nghiệp vụ, kiến trúc, nguồn và quyết định chung | Commit |
 | `.harness/environment.json` | Công cụ, lệnh, file cần có | Commit |
 | `.harness/machine.json` | Đường dẫn riêng của máy, tùy chọn | Ignore |
@@ -11,6 +12,9 @@ Init/update tạo environment rỗng nếu chưa có và thêm `/machine.json` v
 `.harness/.gitignore`. File đã được Git track vẫn được track: ignore không xóa khỏi index/history.
 CLI không tạo file machine và không đọc nội dung Maven settings. Không ghi mật khẩu/token vào các
 file Harness; credentials thuộc cơ chế quản lý riêng của công cụ.
+
+[Agent configuration](agent-configuration.md) mô tả preset và cấu hình model. `aih setup --host codex`
+chỉ đưa ra kế hoạch khai báo; update bảo toàn `agents.json` và không ghi config native của AI host.
 
 ## Ví dụ Maven nội bộ
 

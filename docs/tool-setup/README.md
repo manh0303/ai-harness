@@ -62,3 +62,9 @@ If a managed file conflicts, reconcile with Git rather than editing lock hashes.
 nested override precedence, host context/trust settings, module selection and installed skill paths.
 Private VPN/tool access may be unavailable remotely; report blocked builds rather than inventing success.
 No logged-in host/MCP or live-agent smoke was run for these docs; follow each linked official guide.
+
+## Agent/model preferences
+
+Review [Agent configuration](../agent-configuration.md) and run `aih setup --host <id>` for a declared
+routing plan. Validate native model/effort in the actual picker/client; no account availability is
+probed or host config overwritten. Incompatible defaults need your explicit provider/model mapping.

@@ -33,3 +33,10 @@ was not exercised here; official references below establish the documented disco
 ## Official references (checked 2026-10-12)
 - [IDE repository instructions](https://docs.github.com/en/copilot/how-tos/copilot-in-your-ide/customize-copilot/configure-custom-instructions/add-repository-instructions-in-your-ide)
 - [CLI skills](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills)
+
+## Agent routing
+
+Read [Agent preferences](../agent-configuration.md). Verify current model picker/account and effort
+controls; aih setup --host copilot returns declarations only. Native per-role model switching or
+concurrency requires specific client support; otherwise perform roles sequentially with the selected
+session model. Never substitute premium or overwrite existing host settings automatically.

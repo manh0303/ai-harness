@@ -137,3 +137,11 @@ Output is project-owned docs/<capability>/<type>.md; locked metadata/templates a
 overwrite are refused, and no draft is filled or approved. --capability is supported only by new-doc.
 The historical Product delivery-plan path remains supported; do not duplicate an accepted plan.
 See [Solution workflow](solution-workflow.md) and [host setup](tool-setup/README.md).
+
+## Agent preferences
+
+`aih init --agent-preset recommended|economy|custom` seeds project-owned agents.json non-interactively;
+existing files are validated/preserved and explicit preset overwrite is refused. `aih setup --host codex`
+(or claude-code/gemini-cli/cursor/copilot/custom ID) exports resolved roles and compatibility limitations
+without probing models or editing host files. No extra config command, runtime or usage tracking.
+See [Agent configuration](agent-configuration.md).

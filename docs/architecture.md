@@ -129,3 +129,11 @@ new-doc gains explicit --capability (default Product), validating installed meta
 templates and preserving project-owned outputs. See [Solution workflow](solution-workflow.md).
 Host configuration bridges are user-owned recipes in [tool setup](tool-setup/README.md); no host
 account configuration, native-agent installation, new dependency or orchestration engine is supplied.
+
+## Agent configuration boundary
+
+config/agents.default.json is the canonical recommendation, locked as templates/agents.default.json in
+the snapshot. agents.json is project-owned and preserved. agents.js validates/resolves aliases and
+namespaced roles; setup supplies an advisory host plan with availability unverified. No provider calls,
+native writes, orchestration, usage meter or automatic escalation. Old alternate sources use the packaged
+default when absent; old consumers without config remain valid. See [Agent configuration](agent-configuration.md).

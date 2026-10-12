@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "reviewed": true,
+  "decisions": [
+    {
+      "id": "scope",
+      "question": "What implementation and release action is authorized?",
+      "status": "resolved",
+      "answer": "Implement project-owned provider-agnostic routing configuration/presets and host guidance; create PR, run allowed release workflow steps without auto-merging or publishing unreviewed feature code.",
+      "source": "User detailed task and final workflow request on 2026-10-12, including explicit no-auto-merge instruction."
+    }
+  ]
+}

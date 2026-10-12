@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { safe, stat, isObject, SLUG, HarnessError } from './files.js';
+import { agentPlan } from './agents.js';
 
 export const ENVIRONMENT = '.harness/environment.json';
 export const MACHINE = '.harness/machine.json';
@@ -119,7 +120,7 @@ export function environmentReport(root, env = process.env) {
     note: 'Presence/reference checks only. No commands executed; values and arguments are omitted. Never store credentials here.' };
 }
 
-export function setupPlan(root, adapters, env = process.env) {
+export function setupPlan(root, adapters, env = process.env, host) {
   const environment = environmentReport(root, env);
   const configuredTools = environment.entries.some(e => e.group === 'tools');
   const questions = [];
@@ -157,10 +158,12 @@ export function setupPlan(root, adapters, env = process.env) {
     allow_free_text: true
   });
   return { status: environment.problems.length ? 'blocked' : 'planned', environment, questions,
+    agent_configuration: agentPlan(root, host),
     next_steps: ['Read AGENTS.md, .harness/local.md and the installed project-setup workflow.',
       'Apply installed Core project-conventions.md and relevant adapter conventions; establish mode per affected module even when no setup questions are suggested.',
       'Inspect comparable code and search public shared APIs before creating files, dependencies or abstractions; record source paths and reuse/new-code rationale.',
       'Skip answered questions; ask at most 1–3 consequential questions with evidence-based recommendations.',
+      'Review agents.json provider/model/reasoning and preset choices; verify access/effort/delegation in the actual host before execution. No automatic premium fallback.',
       'Record shared decisions in local.md/environment.json; put only machine paths in ignored machine.json.',
       'Run aih doctor, then use the reviewed project commands through your AI host.'],
     note: 'Read-only host-facing suggestions, not an interactive terminal wizard or approval.' };
