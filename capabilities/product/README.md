@@ -76,3 +76,10 @@ After documented approval, UI/UX reads approved PRD, flows, stories and AC rathe
 ## Cross-capability walkthrough
 
 The complete path from source/idea to production is documented in [Full SDLC](../../docs/end-to-end-workflow.md). The [Skill matrix](../../docs/skill-matrix.md) maps all Product skills and outputs, and [Agent handoffs](../../docs/agent-handoffs.md) shows how approved requirements pass to UI/UX and OpenSpec. For an example, see [Full-stack web](../../docs/examples/fullstack-web.md).
+
+## MVP and solution handoff
+
+Use product-to-solution workflow, MVP/outcomes skills and their templates; load only relevant skills.
+Optional Architecture/Delivery provides SA/PM depth. Existing Product project-manager and delivery-plan
+remain compatibility entries; no automatic migration or stakeholder approval. All Product skills now
+include template/example/quality/handoff sections.

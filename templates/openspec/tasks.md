@@ -2,6 +2,7 @@
 
 ## 1. Acceptance and design
 - [ ] 1.1 Replace draft placeholders and agree acceptance scenarios and test boundaries.
+- [ ] 1.2 Link applicable MVP/NFR/architecture decisions and dependency/verification boundaries; use a compact note when a full design pack is unnecessary.
 ## 2. Vertical implementation
 - [ ] 2.1 Add one failing behavior test, implement the slice and record the green result.
 ## 3. Verification and review

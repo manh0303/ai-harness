@@ -1,12 +1,14 @@
-# Skill matrix — 53 skills, 11 nhóm module
+# Skill matrix — 64 skills, 13 nhóm module
 
-Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (5 Core, 30 capability, 18 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 53 skill vào prompt.
+Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (5 Core, 41 capability, 18 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 64 skill vào prompt.
 
 **Cách dùng:** `aih skills` xem skills đã cài, sau đó `aih skill harness-...` lấy nội dung. Danh mục này mô tả chức năng; **không** có nghĩa `aih` thực thi skills hoặc agent. Tech adapters và capabilities chỉ xuất hiện trong consumer khi được chọn; Core dùng chung.
 
 | Stage | Chọn module | Vai trò/output mong đợi |
 | --- | --- | --- |
 | Discovery → Product | `product` | Source register, BRD/PRD, AC, backlog, traceability |
+| Product → Solution | `architecture` | Context, NFR, module/data/contracts, ADR, architecture review |
+| Solution → Delivery | `delivery` | Value slices, dependencies, owned risks and scope-change assessment |
 | UX → Figma | `uiux` | Flows, screen specs, tokens, design review |
 | Spec → Code → Review | Core + adapter theo stack | OpenSpec, tests, changes, review evidence |
 | Release → Operate | `devops`, `kubernetes` khi phù hợp | CI, container, manifests, rollout và SLO plan |
@@ -22,7 +24,7 @@
 | [`harness-spec`](../core/skills/harness-spec/SKILL.md) | Technical design | Soạn OpenSpec proposal/design/tasks/delta specs | OpenSpec change và các quyết định còn thiếu |
 | [`harness-tdd`](../core/skills/harness-tdd/SKILL.md) | Implementation | Red → green → refactor trên slice nhỏ | Code + test evidence |
 
-## Product capability (13)
+## Product capability (15)
 
 | Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
 | --- | --- | --- | --- |
@@ -35,11 +37,12 @@
 | [`harness-product-prd-generation`](../capabilities/product/skills/harness-product-prd-generation/SKILL.md) | Product | Soạn PRD với scope, outcome và metrics | `docs/product/prd.md` |
 | [`harness-product-traceability`](../capabilities/product/skills/harness-product-traceability/SKILL.md) | Change impact | Liên kết nguồn → stories → UI → spec | `docs/product/traceability.md` |
 | [`harness-product-user-stories`](../capabilities/product/skills/harness-product-user-stories/SKILL.md) | Backlog | Phân rã epics/stories theo yêu cầu duyệt | `docs/product/backlog.md` |
-
 | [`harness-product-idea-discovery`](../capabilities/product/skills/harness-product-idea-discovery/SKILL.md) | Idea-driven | Cùng developer làm rõ ý tưởng, phương án, MVP và quyết định | `docs/discovery/idea.md` |
 | [`harness-product-product-research`](../capabilities/product/skills/harness-product-product-research/SKILL.md) | Research | Tìm và phân loại bằng chứng đáng tin cậy, trade-offs | `docs/discovery/research.md` |
 | [`harness-product-srs-generation`](../capabilities/product/skills/harness-product-srs-generation/SKILL.md) | Software requirements | Đặc tả FR/NFR, giao diện, luồng lỗi có trace ID | `docs/product/srs.md` |
 | [`harness-product-use-case-generation`](../capabilities/product/skills/harness-product-use-case-generation/SKILL.md) | Detailed flows | Viết UC chính/phụ/lỗi liên kết FR/US/AC | `docs/product/use-cases.md` |
+| [`harness-product-mvp-definition`](../capabilities/product/skills/harness-product-mvp-definition/SKILL.md) | MVP scope | Explicit product decisions and traceability | Usable journey, in/out scope and minimum quality |
+| [`harness-product-product-outcomes`](../capabilities/product/skills/harness-product-product-outcomes/SKILL.md) | Success measures | Explicit product decisions and traceability | Evidence-backed metrics and experiments |
 
 ## Monetization capability (5)
 
@@ -132,3 +135,24 @@
 - `harness-ai-evaluation` đánh giá **hành vi AI thực tế**; `aih eval` chỉ xuất và tổng hợp report do reviewer điền.
 
 Đối chiếu [Agent handoffs](agent-handoffs.md), [adapters](adapters.md) và [full workflow](end-to-end-workflow.md). Khi thêm skill mới, hãy cập nhật một hàng trong bảng; test tài liệu sẽ báo thiếu/trùng.
+
+## Architecture capability (6)
+
+| Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
+| --- | --- | --- | --- |
+| [`harness-architecture-project-context`](../capabilities/architecture/skills/harness-architecture-project-context/SKILL.md) | project-context | Map verified system context, module ownership and source-linked architecture for new or existing projects. | Project-owned docs/architecture or compact task note |
+| [`harness-architecture-quality-attributes`](../capabilities/architecture/skills/harness-architecture-quality-attributes/SKILL.md) | quality-attributes | Translate NFRs into measurable quality scenarios and verification plans with evidence-backed targets. | Project-owned docs/architecture or compact task note |
+| [`harness-architecture-solution-design`](../capabilities/architecture/skills/harness-architecture-solution-design/SKILL.md) | solution-design | Compare architectures and local design patterns against MVP, NFRs and existing project boundaries. | Project-owned docs/architecture or compact task note |
+| [`harness-architecture-decision-records`](../capabilities/architecture/skills/harness-architecture-decision-records/SKILL.md) | decision-records | Record traceable architecture decisions with alternatives, consequences and reconsideration triggers. | Project-owned docs/architecture or compact task note |
+| [`harness-architecture-change-impact`](../capabilities/architecture/skills/harness-architecture-change-impact/SKILL.md) | change-impact | Assess change impact and architecture drift using a source-linked living project map. | Project-owned docs/architecture or compact task note |
+| [`harness-architecture-review`](../capabilities/architecture/skills/harness-architecture-review/SKILL.md) | review | Review solution and implemented boundaries against MVP, NFRs, ADRs and actual verification evidence. | Project-owned docs/architecture or compact task note |
+
+## Delivery capability (3)
+
+| Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
+| --- | --- | --- | --- |
+| [`harness-delivery-planning`](../capabilities/delivery/skills/harness-delivery-planning/SKILL.md) | planning | Plan value-bearing delivery slices and dependencies from reviewed scope and team-supplied estimates. | Project-owned docs/delivery or compact task note |
+| [`harness-delivery-risk-management`](../capabilities/delivery/skills/harness-delivery-risk-management/SKILL.md) | risk-management | Maintain owned delivery risks, assumptions, blockers and dependencies with response triggers. | Project-owned docs/delivery or compact task note |
+| [`harness-delivery-scope-change`](../capabilities/delivery/skills/harness-delivery-scope-change/SKILL.md) | scope-change | Evaluate scope changes across product value, architecture, dependencies and delivery before re-planning. | Project-owned docs/delivery or compact task note |
+
+Product → Architecture → Delivery → Core/adapter uses [Solution workflow](solution-workflow.md); source revisions, requirement/AC/NFR/ADR IDs and actual decisions travel together. See [host setup](tool-setup/README.md).

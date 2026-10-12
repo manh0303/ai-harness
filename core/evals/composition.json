@@ -28,6 +28,21 @@
         "Produces human-reviewed rollout and rollback checklist"
       ],
       "critical": true
+    },
+    {
+      "id": "product-solution-delivery",
+      "requires": [
+        "capability:product",
+        "capability:architecture",
+        "capability:delivery"
+      ],
+      "prompt": "Plan a new customer-search MVP from an idea. Existing organization security is reusable, expected traffic is unknown and no team delivery estimate exists.",
+      "criteria": [
+        "BA/PO produces source-linked usable MVP/AC with minimum safeguards and real scope decisions",
+        "SA compares appropriate architecture/pattern choices and leaves unknown NFR targets explicit",
+        "PM plans dependent value slices without invented dates, and hands IDs/decisions/evidence to OpenSpec without self-approval"
+      ],
+      "critical": true
     }
   ]
 }

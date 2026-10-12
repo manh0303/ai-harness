@@ -11,6 +11,8 @@
 | Deliver | Reviewed branch | PR with change ID, evidence, residual risks and rollback plan |
 | Archive | All associated PRs merged | Sync accepted specs and archive via OpenSpec in a separate reviewed change if needed |
 
+For new projects or consequential features, follow `solution-framing.md`: source-linked overview,
+MVP/NFR, justified architecture/pattern choices and delivery dependencies feed OpenSpec design/tasks.
 For first use, read `project-setup.md` in this workflow directory. Before implementing consequential
 unknowns, follow `clarification.md`: inspect existing answers, ask 1–3 A/B/C questions with grounded
 recommendations, and record answers/source in the change's decisions.json. Do not ask again once

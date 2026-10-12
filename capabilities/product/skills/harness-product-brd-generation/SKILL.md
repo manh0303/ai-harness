@@ -23,3 +23,20 @@ description: Produce a Business Requirements Document with actors, business rule
 ## Constraints
 - Never self-approve a BRD or invent evidence.
 - Avoid treating template placeholders as finished decisions.
+
+## Template
+Read `.harness/capabilities/product/templates/brd.md`; `aih new-doc brd` creates only a missing
+draft. Reuse canonical existing documents and source pointers; never regenerate approved content by default.
+
+## Example
+Synthetic illustration: BRD links the customer-search goal to BR-001; cost/benefit values remain unknown without financial evidence.
+
+## Quality checklist
+- Business outcomes and stakeholder decisions are traceable.
+- Actual decisions/status and source revisions distinguish approved facts from proposals.
+- Scope, relevant IDs, unresolved questions and verification limits are recorded.
+
+## Handoff
+Use `.harness/capabilities/product/workflows/product-to-solution.md`; supply reviewed source/requirement
+IDs, output paths and actual owner decisions to the next BA/PO/SA/PM role as applicable. Return gaps
+to their owner; a single host may perform roles sequentially without claiming independent approval.

@@ -11,6 +11,9 @@ AI Harness hiện có **role contracts**, không tạo các agent chạy tự đ
 | [product-owner](../capabilities/product/agents/product-owner.md) | Approved requirements | Epics/stories/AC, backlog readiness | Tự đánh dấu Ready khi còn thiếu phê duyệt |
 | [project-manager](../capabilities/product/agents/project-manager.md) | Scope và phụ thuộc | Timeline/risks/RAID theo nguồn | Bịa estimate/commitment |
 | [requirements-reviewer](../capabilities/product/agents/requirements-reviewer.md) | BRD/PRD, nguồn và stories | Review report, missing trace, human gate | Gọi draft là Approved |
+| [solution-architect](../capabilities/architecture/agents/solution-architect.md) | MVP/requirements, actual source/NFR | Overview, public boundaries/contracts, options/ADRs and verification | Self-approve decisions or impose patterns |
+| [architecture-reviewer](../capabilities/architecture/agents/architecture-reviewer.md) | Design/diff, ADRs and actual checks | Source-linked findings, drift/quality and residual risk | Claim independent approval of own work |
+| [delivery project-manager](../capabilities/delivery/agents/project-manager.md) | Reviewed scope/solution, actual capacity | Value slices, dependencies, risks and change assessment | Invent dates/progress or message stakeholders |
 | [planner](../core/agents/planner.md) | Scope, approved requirements, repo map | OpenSpec design/tasks/test outline | Implement ngoài scope |
 | [implementer](../core/agents/implementer.md) | Spec, tasks, repo, adapter | Code slice và actual test evidence | Merge/deploy |
 | [test-engineer](../core/agents/test-engineer.md) | AC, diff, contracts | Test scenarios, executed results/gaps | Tuyên bố pass khi chưa chạy |
@@ -77,3 +80,10 @@ Next gate: security-reviewer and human PR review
 ~~~
 
 Đây là mẫu handoff, không phải report của một task đã chạy.
+
+## Product and solution delivery
+
+Product Manager owns value/outcomes; Project Manager coordinates delivery. The existing Product PM
+role/template remains a compatibility entry; the Delivery capability supplies deeper planning.
+Use [Solution workflow](solution-workflow.md) and [tool setup](tool-setup/README.md); carry MVP/AC/NFR/ADR
+IDs and source revisions with each handoff. Return gaps to the appropriate owner and keep approval factual.

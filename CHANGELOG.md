@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Product and solution delivery
+- Complete Product BA/PO with usable MVP/outcomes, synthetic examples, quality checklists and handoff contracts; module 1.2.0.
+- Add optional Architecture and Delivery 1.0.0 modules: source-linked context, NFR, architecture/pattern trade-offs, ADR, living map/review, value slices, risks and scope changes.
+- Connect proportional Core framing and OpenSpec design/tasks; add checks and unscored behavioral scenarios.
+- Add new-doc --capability while retaining Product default paths and enforcing locked declared templates.
+- Add official-source setup recipes for Codex, Claude Code, Cursor, Copilot and Gemini CLI, plus provenance/research and migration guidance. No native host or live-model compliance result is claimed.
+
 ## Unreleased — Harness maintenance contract
 - Add one maintainer guide linking component ownership, impact matrix, change checklist and existing architecture/release contracts.
 - Add a maintainer-only impact template and GitHub PR checklist; require per-area done/pending/not-applicable evidence through repository AGENTS and contributing guidance.

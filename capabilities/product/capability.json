@@ -15,14 +15,17 @@
     "harness-product-idea-discovery",
     "harness-product-product-research",
     "harness-product-srs-generation",
-    "harness-product-use-case-generation"
+    "harness-product-use-case-generation",
+    "harness-product-mvp-definition",
+    "harness-product-product-outcomes"
   ],
   "workflows": [
     "workflows/idea-to-prd.md",
     "workflows/confluence-to-spec.md",
     "workflows/change-impact-analysis.md",
     "workflows/idea-driven.md",
-    "workflows/document-driven.md"
+    "workflows/document-driven.md",
+    "workflows/product-to-solution.md"
   ],
   "agents": [
     "agents/business-analyst.md",
@@ -47,9 +50,11 @@
     "templates/research.md",
     "templates/prd-lite.md",
     "templates/srs.md",
-    "templates/use-cases.md"
+    "templates/use-cases.md",
+    "templates/mvp.md",
+    "templates/outcomes.md"
   ],
-  "module_version": "1.1.0",
+  "module_version": "1.2.0",
   "verification": "checks/verification.json",
   "evaluation": "evals/cases.json"
 }

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "id": "solution-fit",
+      "title": "Review architecture fit and evidence",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Verified context/source revisions and public module/data ownership",
+        "Alternatives/accepted ADRs and justified feature patterns",
+        "Testable NFR targets with owner authority and important failure flows"
+      ],
+      "execution": "manual"
+    },
+    {
+      "id": "living-map",
+      "title": "Review affected project-map freshness",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Touched source revision and actual dependency paths",
+        "Drift resolution and superseded decisions",
+        "Configured checks vs manual/unavailable verification"
+      ],
+      "execution": "manual"
+    }
+  ]
+}

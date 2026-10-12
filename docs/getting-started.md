@@ -112,3 +112,9 @@ Nếu cài local trong project, dùng `npm install --save-dev @manhd_d/ai-harnes
 ## Coding conventions
 
 Trước code, áp dụng [Project conventions](project-conventions.md): xác định new/maintain/mixed theo module, đọc chuẩn hiện có, tìm common và ghi lý do tạo mới. AI lưu nguồn và quyết định trong `.harness/local.md`; không hỏi lại thông tin đã rõ.
+
+## BA/PO/SA/PM and coding tools
+
+For a material new project choose `--capabilities product,architecture,delivery` with the actual adapter.
+Read [Solution workflow](solution-workflow.md) and the [setup guide for your coding tool](tool-setup/README.md).
+Skills/templates are selective context; use existing approved documents and compact notes when sufficient.

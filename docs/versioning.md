@@ -112,3 +112,13 @@ Config and lock remain schema 1. Core adds project-conventions.md; Java/Spring, 
 ## Harness maintenance contract (unreleased)
 
 Maintainer guidance and impact templates do not alter consumer instructions or schemas. Kubernetes module 1.0.1 adds discovery links to its existing rules; use the usual reviewed update dry-run/update/check sequence. Project-owned files remain preserved, and rollback uses the consumer installation commit. Distribution version remains Release Please-owned.
+
+## Product, Architecture and Delivery (unreleased)
+
+Product module 1.2.0 is additive; Architecture/Delivery start at 1.0.0 and are optional. Distribution
+version remains Release Please-owned. Config/lock/capability schemas stay 1. Existing new-doc calls
+keep Product paths and old PM role/plan template IDs. Explicit --capability selects another installed
+module and requires declared locked metadata/templates; undeclared files are not document types.
+On a consumer branch add architecture/delivery to project.json if needed, review update --dry-run,
+update and check; existing docs, local facts and host bridges remain project-owned. Re-export eval
+reports for the changed bundle. No automatic old-plan migration; revert installation commit to roll back.

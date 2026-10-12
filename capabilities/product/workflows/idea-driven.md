@@ -11,3 +11,7 @@ Use this when the developer starts with an idea, including a solo project. Produ
 7. **Changes:** when the idea changes, perform impact analysis and propose minimal document diffs; never silently overwrite approved requirements.
 
 Deliverables are **consumer-owned** `docs/discovery/`, `docs/product/` and `openspec/` files. For Confluence publishing, preserve URLs/page versions and request explicit write permission; the Harness CLI does not connect or publish to Confluence.
+
+For new/material journeys, continue with `product-to-solution.md` after resolving the relevant scope.
+Use reviewed MVP/outcomes and optional Architecture/Delivery to assess solution/dependencies before
+OpenSpec implementation. Existing approved sources remain canonical; small clear changes stay compact.

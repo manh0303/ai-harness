@@ -36,7 +36,7 @@ Selection changes belong in .harness/project.json; unknown or duplicate adapters
 
 ## Optional monetization capability
 
-`aih init --capabilities monetization` installs five stack-independent advertising/revenue skills and 2 Markdown workflows with 4 templates. Combine with `--adapters astro` or `react-nextjs`; `product` and `uiux` are optional. `aih verify --scope capabilities` gives an unexecuted manual publisher policy/consent checklist. `aih new-doc` is **Product-only**; the editor may copy installed monetization Markdown templates to user-owned `docs/monetization/` with explicit no-overwrite review. No Google account access, ads publishing or metrics APIs are provided. See [Monetization guide](monetization.md).
+`aih init --capabilities monetization` installs five stack-independent advertising/revenue skills and 2 Markdown workflows with 4 templates. Combine with `--adapters astro` or `react-nextjs`; `product` and `uiux` are optional. `aih verify --scope capabilities` gives an unexecuted manual publisher policy/consent checklist. `aih new-doc` defaults to Product; explicitly choose `--capability monetization` to scaffold a declared installed template into project-owned `docs/monetization/` without overwrite. No Google account access, ads publishing or metrics APIs are provided. See [Monetization guide](monetization.md).
 
 ## Project environment and clarification
 
@@ -127,3 +127,13 @@ All types must be declared templates in the installed, hash-locked Product manif
 ### Convention setup guidance
 
 `aih setup` suggests a new/maintain/mixed scope question for unconfigured environments without guessing an answer. Regardless of suggested questions, the host must inspect existing conventions and reuse opportunities; a configured tool does not establish project mode. Answers stay in project-owned `.harness/local.md`. See [Project conventions](project-conventions.md). No application scanning, scaffolding or commands are executed.
+
+## Architecture and Delivery drafts
+
+`aih new-doc <type>` still defaults to Product (idea/research remain under docs/discovery).
+Use `aih new-doc overview --capability architecture`, `aih new-doc adr --capability architecture` or
+`aih new-doc delivery-plan --capability delivery` for a declared template in that installed capability.
+Output is project-owned docs/<capability>/<type>.md; locked metadata/templates are required, drift and
+overwrite are refused, and no draft is filled or approved. --capability is supported only by new-doc.
+The historical Product delivery-plan path remains supported; do not duplicate an accepted plan.
+See [Solution workflow](solution-workflow.md) and [host setup](tool-setup/README.md).

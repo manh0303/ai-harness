@@ -57,13 +57,15 @@ test('SDLC, handoffs and stack examples stay discoverable from README', () => {
   }
 });
 
-test('agent handoff guide links every Core and Product role contract', () => {
+test('agent handoff guide links every Core and registered capability role contract', () => {
   const guide = read('docs/agent-handoffs.md');
   for (const role of fs.readdirSync(path.join(SOURCE, 'core/agents'))) {
     assert.ok(guide.includes('core/agents/' + role), 'Missing Core role: ' + role);
   }
-  for (const role of loadCapability(SOURCE, 'product').agents) {
-    assert.ok(guide.includes('capabilities/product/' + role), 'Missing Product role: ' + role);
+  for (const id of manifest(SOURCE).capabilities ?? []) {
+    for (const role of loadCapability(SOURCE, id).agents) {
+      assert.ok(guide.includes(`capabilities/${id}/` + role), 'Missing capability role: ' + id + '/' + role);
+    }
   }
 });
 
@@ -145,7 +147,7 @@ test('Monetization capability and end-to-end publisher guides stay discoverable'
   assert.equal(cap.checks.length, 4);
   assert.equal(cap.cases.length, 4);
   const matrix = read('docs/skill-matrix.md');
-  assert.match(matrix, /53 skills, 11 nhóm module/);
+  assert.match(matrix, /64 skills, 13 nhóm module/);
   assert.match(matrix, /Monetization capability \(5\)/);
   for (const skill of cap.skills) {
     assert.ok(matrix.includes('[' + String.fromCharCode(96) + skill + String.fromCharCode(96) + ']'));

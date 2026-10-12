@@ -24,16 +24,17 @@ Usage: aih <command> [options]
   setup                Suggest first-run questions for the AI host (read-only)
   ready <id>           Check structural change readiness, not approval
   new-change <id>      Create an OpenSpec draft using installed templates
-  new-doc <type>       Scaffold a Product/Discovery document draft (requires product capability)
+  new-doc <type>       Scaffold a locked capability template (default: product)
 
 Options:
   --target <directory> Project directory (default: current directory)
   --detect            init only: opt in to detected stack selection
   --stage <type>      ready only: implement (default) or review
+  --capability <id>   new-doc only: installed template owner (default: product)
   --scope <type>      verify/eval: adapters (default), capabilities, core, all
   --report <file>     eval only: score a reviewer-completed JSON report
   --adapters <a,b>     init/resolve: java-spring,react-nextjs,react-native,ai-python,kubernetes,astro
-  --capabilities <a,b> init/resolve: uiux,product,devops,monetization
+  --capabilities <a,b> init/resolve: uiux,product,architecture,delivery,devops,monetization
   --source <directory> init/update/list/detect/resolve: trusted alternate bundle directory
   --dry-run           init/update: preview without persistent changes
   --allow-major       init/update: acknowledge a major version migration
@@ -60,6 +61,9 @@ Examples:
   aih new-doc prd-lite
   aih new-doc srs
   aih new-doc use-cases
+  aih new-doc mvp
+  aih new-doc overview --capability architecture
+  aih new-doc delivery-plan --capability delivery
   aih init --adapters java-spring,kubernetes --capabilities product,devops
   aih skill harness-product-brd-generation
   aih skill harness-uiux-figma-design
@@ -71,7 +75,7 @@ export function main(argv = process.argv.slice(2)) {
   let args;
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
-      target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, source: { type: 'string' },
+      target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
       detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' }, stage: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
       help: { type: 'boolean', short: 'h' }, version: { type: 'boolean', short: 'v' },
@@ -87,9 +91,10 @@ export function main(argv = process.argv.slice(2)) {
     if (!['init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready'].includes(command)) throw new Error(`Unknown command: ${command}`);
     if (extra.length || (!['new-change', 'new-doc', 'skill', 'ready'].includes(command) && name !== undefined) || (['new-change', 'new-doc', 'skill', 'ready'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
+    if (command === 'new-doc') allowed.add('capability');
     for (const key of Object.keys(args.values)) if (!allowed.has(key)) throw new Error(`--${key} is not supported for ${command}`);
     if (args.values.detect && args.values.adapters !== undefined) throw new Error('Choose either --detect or --adapters');
-    for (const key of ['target', 'source', 'adapters', 'capabilities', 'report']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
+    for (const key of ['target', 'source', 'adapters', 'capabilities', 'capability', 'report']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
   } catch (error) { console.error(JSON.stringify({ status: 'error', message: error.message })); return 2; }
   try {
     const { values, positionals: [command, name] } = args;
@@ -124,7 +129,7 @@ export function main(argv = process.argv.slice(2)) {
       result = command === 'setup' ? setupPlan(root, loadLock(root).adapters) : ready(root, name, values.stage ?? 'implement');
     }
     else if (command === 'new-change') result = newChange(root, name);
-    else if (command === 'new-doc') result = newDoc(root, name);
+    else if (command === 'new-doc') result = newDoc(root, name, values.capability ?? 'product');
     else result = command === 'doctor' ? doctor(root) : check(root);
     if (command === 'init' || command === 'update') result.next_steps = values['dry-run']
       ? ['Review the proposed changes, then repeat without --dry-run.']

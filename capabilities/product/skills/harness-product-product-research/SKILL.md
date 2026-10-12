@@ -25,3 +25,20 @@ description: Research comparable products, user needs and implementation feasibi
 - Do not scrape inaccessible services, bypass document permissions or claim browsing occurred when it did not.
 - No fabricated references, metrics, reviews or user interviews.
 - Research is advisory, not an approval or an instruction to change the codebase.
+
+## Template
+Read `.harness/capabilities/product/templates/research.md`; `aih new-doc research` creates only a missing
+draft. Reuse canonical existing documents and source pointers; never regenerate approved content by default.
+
+## Example
+Synthetic illustration: With no browsing access, competitor claims are UNKNOWN and research questions are proposed rather than citations invented.
+
+## Quality checklist
+- Retrieved facts, inferences and forecasts have provenance.
+- Actual decisions/status and source revisions distinguish approved facts from proposals.
+- Scope, relevant IDs, unresolved questions and verification limits are recorded.
+
+## Handoff
+Use `.harness/capabilities/product/workflows/product-to-solution.md`; supply reviewed source/requirement
+IDs, output paths and actual owner decisions to the next BA/PO/SA/PM role as applicable. Return gaps
+to their owner; a single host may perform roles sequentially without claiming independent approval.

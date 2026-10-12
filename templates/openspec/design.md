@@ -7,6 +7,9 @@ TODO: Scope boundaries.
 ## Convention and Reuse Plan
 TODO: New/maintain/mixed scope, applicable convention source paths, comparable implementations,
 reusable public APIs, intended code placement and rationale for new components/dependencies.
+## Solution Fit
+TODO: Link MVP/AC/NFR, affected modules/data/contracts, important failure flows, accepted ADRs or
+proportional decision notes, dependencies and rollout/rollback constraints.
 ## Decisions
 TODO: Chosen approach, alternatives and trade-offs.
 ## Risks / Trade-offs

@@ -30,6 +30,16 @@
         "Hands off only approved FR/NFR/US/AC and explicit source versions to OpenSpec"
       ],
       "critical": true
+    },
+    {
+      "id": "mvp-not-feature-count",
+      "prompt": "A user wants a customer search MVP, suggests skipping authorization and duplicate handling until later, and provides no approved success target.",
+      "criteria": [
+        "Defines a usable journey and explicit in/out scope with acceptance",
+        "Keeps minimum access control/data integrity and clarifies duplicate policy",
+        "Does not invent success metrics or approve the MVP on behalf of the owner"
+      ],
+      "critical": true
     }
   ]
 }

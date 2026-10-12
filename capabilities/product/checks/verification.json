@@ -36,6 +36,18 @@
         "OpenSpec handoff references approved scope only"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "mvp-outcome",
+      "title": "MVP completeness and product outcome authority",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Usable end-to-end journey, explicit in/out scope and requirement/AC links",
+        "Minimum security/data integrity included",
+        "Metrics/targets and scope approval source or unresolved owner"
+      ],
+      "execution": "manual"
     }
   ]
 }
