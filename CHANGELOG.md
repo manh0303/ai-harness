@@ -84,6 +84,20 @@
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.8.0](https://github.com/manh0303/ai-harness/compare/v0.7.0...v0.8.0) (2026-10-12)
+
+
+### Features
+
+* add project-aware coding conventions and reuse review ([ee1fad0](https://github.com/manh0303/ai-harness/commit/ee1fad0cc447ec6d41f07739a250b103d8df8845))
+* add project-owned agent configuration and host routing plans ([8786294](https://github.com/manh0303/ai-harness/commit/8786294a0542b92998169b1cdb6199c88e8f4a20))
+* add solution architecture and delivery workflows with host setup ([b75c00b](https://github.com/manh0303/ai-harness/commit/b75c00b43ab706768ad92ae2a280879eb7745489))
+
+
+### Bug Fixes
+
+* connect Harness maintenance impact and rule discovery checks ([bc79f56](https://github.com/manh0303/ai-harness/commit/bc79f56f6052917a0e28d895597547485d6bfb83))
+
 ## [0.7.0](https://github.com/manh0303/ai-harness/compare/v0.6.2...v0.7.0) (2026-10-12)
 
 
