@@ -22,6 +22,7 @@ For plain React skip server-component/Next-specific checks and document its actu
 
 ## Capability index
 
-Read rules/architecture.md, rules/security.md, rules/database.md and rules/performance.md.
+Read rules/conventions.md before coding, then relevant rules/architecture.md, rules/security.md,
+rules/database.md and rules/performance.md. Project conventions take precedence over adapter defaults.
 Use only relevant adapter skills listed in adapter.yaml; core TDD, debugging and review remain shared.
 Review checks/verification.yaml before choosing commands. No check executes automatically.

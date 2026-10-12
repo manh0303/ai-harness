@@ -102,3 +102,7 @@ No new configuration/lock schema version: 0.5 Product templates, `aih new-doc`, 
 ## Foundation hardening (unreleased after 0.6)
 
 Module contracts gain optional version and dependency fields without changing config/lock schema 1. Existing consumer snapshots retain default adapter-only verify/eval. After a reviewed update, `--scope all` enables locked Core/capability/composition evaluation, and `--scope core` works in core-only projects. Feature branches keep the latest release version; Release Please's generated PR chooses and synchronizes the next number. Use tagged releases for other consumers rather than interpreting an unreleased commit as a published update.
+
+## Project coding conventions (unreleased)
+
+Config and lock remain schema 1. Core adds project-conventions.md; Java/Spring, React/Next.js and React Native module contracts advance to 1.1.0 with conventions, manual checks and evaluation cases. Distribution version remains release-PR owned. Reviewed update adds managed assets and preserves existing local.md, environment and unmanaged AGENTS text. Old local.md is not rewritten; the host can append missing facts after inspection. Re-export evaluation datasets/reports after update because bundle hashes change. See [Project conventions](project-conventions.md).

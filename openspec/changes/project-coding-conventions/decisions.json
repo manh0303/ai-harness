@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "reviewed": true,
+  "decisions": [
+    {
+      "id": "scope",
+      "question": "Which proposed convention improvements should be implemented?",
+      "status": "resolved",
+      "answer": "Core new/maintain/mixed guidance, discovery/reuse, stack defaults, diff control, review and evaluation; keep existing local.md as the project-owned record.",
+      "source": "User requested a plan and implementation in manh0303/ai-harness after the six-point proposal on 2026-10-12."
+    },
+    {
+      "id": "runtime",
+      "question": "Does this change add an architecture scanner or application runner?",
+      "status": "resolved",
+      "answer": "No; reuse existing instruction bundles, read-only setup and advisory checks. Preserve schema and release ownership.",
+      "source": "Repository AGENTS.md, docs/architecture.md and docs/release-policy.md; this is a bounded implementation choice within the requested scope."
+    }
+  ]
+}

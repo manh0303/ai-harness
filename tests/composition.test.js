@@ -29,7 +29,7 @@ test('resolve reports versions and optional recommendations without writes',()=>
   const r=cli(['resolve','--source',source,'--capabilities','uiux','--adapters','java-spring']);
   assert.deepEqual(r.adapters,['java-spring']);
   assert.deepEqual(r.capabilities,['uiux']);
-  assert.equal(r.modules[0].module_version,'1.0.0');
+  assert.equal(r.modules[0].module_version,h.readJson(path.join(source,'adapters/java-spring/adapter.yaml')).module_version);
   assert.match(r.warnings[0],/recommends capability:product/);
   assert.deepEqual(fs.readdirSync(root),[]);
 });

@@ -23,6 +23,19 @@
         "Acceptance scenario references and unresolved decisions"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "project-conventions",
+      "title": "Review scope, reuse and architecture fit",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "New/maintain/mixed scope per affected module and authoritative convention sources",
+        "Search scope, reusable public API paths, intended placement and new-code rationale",
+        "No dependency cycles, parallel common framework, unrelated refactor or unused code; report exceptions",
+        "Actual configured checks and manual boundary review, with limitations"
+      ],
+      "execution": "manual"
     }
   ]
 }

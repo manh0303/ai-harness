@@ -123,3 +123,7 @@ See [Getting started](getting-started.md) for CLI boundaries, [Full SDLC](end-to
 With the optional `product` capability selected, `aih new-doc idea` and `aih new-doc research` safely create `docs/discovery/<type>.md` in the consumer repository. Other names including `prd-lite`, `srs` and `use-cases` create `docs/product/<type>.md`.
 
 All types must be declared templates in the installed, hash-locked Product manifest. Commands refuse unknown names, traversal, overwrite, collisions and installation drift. These are **blank templates only**, not AI-generated content. Read [Documentation workflows](documentation-workflows.md) for the two intake paths and approvals.
+
+### Convention setup guidance
+
+`aih setup` suggests a new/maintain/mixed scope question for unconfigured environments without guessing an answer. Regardless of suggested questions, the host must inspect existing conventions and reuse opportunities; a configured tool does not establish project mode. Answers stay in project-owned `.harness/local.md`. See [Project conventions](project-conventions.md). No application scanning, scaffolding or commands are executed.

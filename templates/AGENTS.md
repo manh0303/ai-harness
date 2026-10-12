@@ -4,6 +4,8 @@
 1. Read `.harness/core/rules/foundations.md`, `.harness/core/rules/context.md` and `.harness/core/policies/security.md`.
 2. Read `.harness/core/policies/permissions.md` and `.harness/core/workflows/spec-to-code.md`.
 3. Read `.harness/local.md` and `.harness/environment.json` (if present) for project facts and commands.
+   Before coding, read `.harness/core/rules/project-conventions.md`: establish new/maintain/mixed scope,
+   inspect comparable code and search reusable components before adding files or abstractions.
    For first-run or missing environment facts, use `.harness/core/workflows/project-setup.md`.
    Machine paths may come from ignored `.harness/machine.json`; do not copy private values into shared files.
    Before consequential implementation, follow `.harness/core/workflows/clarification.md`:

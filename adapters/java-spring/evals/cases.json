@@ -20,6 +20,16 @@
         "Does not expose sensitive fields in errors/logs"
       ],
       "critical": true
+    },
+    {
+      "id": "reuse-spring-common",
+      "prompt": "Add a customer endpoint to an existing Spring module. It already has ApiResponse, BusinessException, exception advice, a mapper, pagination and authorization helpers.",
+      "criteria": [
+        "Inspects the actual common APIs and comparable endpoint/tests, recording paths",
+        "Reuses compatible supported types and preserves target package/API conventions without a parallel error/response framework",
+        "Explains any genuinely new component and runs declared checks or reports unavailable verification"
+      ],
+      "critical": true
     }
   ]
 }

@@ -81,3 +81,7 @@ Add rules and a concrete technology skill with testable inputs/outputs; avoid du
 Declare metadata/checks/cases and register new adapter IDs. Include detection positive/negative fixtures,
 install/removal/drift cases, and report validation tests. Run npm test, npm run validate and npm run
 test:package. Version changes and review installed snapshots before release.
+
+## Project coding conventions
+
+Core owns new/maintain/mixed mode, precedence, discovery/reuse and diff-review rules for every adapter. Java/Spring, React/Next.js and React Native declare `rules/conventions.md` for stack defaults; existing project decisions take precedence. See [Project conventions](project-conventions.md). Checks remain advisory/manual and do not enforce application architecture.

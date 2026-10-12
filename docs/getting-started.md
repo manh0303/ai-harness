@@ -108,3 +108,7 @@ Nếu cài local trong project, dùng `npm install --save-dev @manhd_d/ai-harnes
 - [Spring Boot API](examples/spring-boot-api.md) · [Full-stack](examples/fullstack-web.md) · [React Native](examples/react-native-app.md) · [Python AI/RAG](examples/ai-rag-service.md).
 - [Astro micro-tools](examples/astro-micro-tools.md) · [Astro + AdSense](examples/astro-adsense-microtools.md).
 - [Release guide](npm-release.md): dành cho maintainer; merge source không đồng nghĩa npm đã có bản mới.
+
+## Coding conventions
+
+Trước code, áp dụng [Project conventions](project-conventions.md): xác định new/maintain/mixed theo module, đọc chuẩn hiện có, tìm common và ghi lý do tạo mới. AI lưu nguồn và quyết định trong `.harness/local.md`; không hỏi lại thông tin đã rõ.

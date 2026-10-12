@@ -189,7 +189,7 @@ export function install(root, source, { command = 'init', adapters, capabilities
       [CONFIG]: encode(config),
       '.harness/environment.json': encode(emptyEnvironment()),
       'openspec/config.yaml': fs.readFileSync(safe(source, 'templates/openspec/config.yaml')),
-      '.harness/local.md': Buffer.from('# Project overrides\n\nRecord project facts and reviewed exceptions here. Never weaken security boundaries.\n'),
+      '.harness/local.md': Buffer.from('# Project overrides\n\nRecord project facts and reviewed exceptions here. Never weaken security boundaries.\n\n## Development conventions\nRecord scope/mode (new, maintain or mixed), authoritative source paths, module boundaries, reusable public APIs, naming/error/test conventions and configured checks. Link existing guides instead of duplicating them. Unknowns are not approved defaults; the AI host inspects evidence and asks only consequential questions.\n'),
     };
     for (const [name, data] of Object.entries(seeds)) if (!stat(safe(root, name))) changes[name] = data;
     // Project-owned ignore file: preserve all prior rules, place our anchored rule last.

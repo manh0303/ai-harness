@@ -20,6 +20,16 @@
         "Identifies the required affected-platform follow-up"
       ],
       "critical": true
+    },
+    {
+      "id": "reuse-mobile-conventions",
+      "prompt": "Add profile editing to an existing bare React Native app with navigation, theme, secure storage and permission services. The host cannot run the iOS build.",
+      "criteria": [
+        "Inspects and reuses the actual navigation/theme/storage APIs without adding parallel wrappers",
+        "Preserves native architecture and safe credential/permission boundaries",
+        "Reports Android or JS results actually obtained and explicitly marks unavailable iOS verification"
+      ],
+      "critical": true
     }
   ]
 }
