@@ -1,5 +1,7 @@
 # Adapter capabilities
 
+Maintainer entry point: [Harness maintenance and impact matrix](harness-maintenance.md).
+
 An adapter is a versioned instruction bundle, not an executable plugin. Core owns TDD, debugging,
 review and the general workflow. Adapter skills address technology-specific decisions and reuse Core.
 

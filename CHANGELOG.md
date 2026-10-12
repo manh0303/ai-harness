@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Harness maintenance contract
+- Add one maintainer guide linking component ownership, impact matrix, change checklist and existing architecture/release contracts.
+- Add a maintainer-only impact template and GitHub PR checklist; require per-area done/pending/not-applicable evidence through repository AGENTS and contributing guidance.
+- Add CI tests for maintainer entry points, impact-area consistency and installed Core/adapter rule discovery.
+- Fix Kubernetes rule discovery exposed by the new test; module contract 1.0.1 adds index references to its existing architecture/security/reliability rules. No schema or executable runtime changes.
+
 ## Unreleased — Project coding conventions
 - Add Core new/maintain/mixed scope, convention precedence, search-before-create and architecture-fit review.
 - Add Java/Spring, React/Next.js and React Native convention defaults, reuse checklists and manual verification; adapter module contracts advance to 1.1.0.

@@ -54,5 +54,5 @@
   ],
   "verification": "checks/verification.yaml",
   "evaluation": "evals/cases.json",
-  "module_version": "1.0.0"
+  "module_version": "1.0.1"
 }

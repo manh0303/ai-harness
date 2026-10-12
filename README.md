@@ -51,6 +51,8 @@ Chi tiết: [Documentation workflows](docs/documentation-workflows.md) · [Confl
 
 ## Tài liệu
 
+Nâng cấp chính AI Harness: [Quy trình bảo trì và ma trận ảnh hưởng](docs/harness-maintenance.md).
+
 | Mục đích | Hướng dẫn |
 | --- | --- |
 | Bắt đầu | [Getting started](docs/getting-started.md) |
