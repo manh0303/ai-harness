@@ -1,5 +1,8 @@
 # Behavioral evaluation
 
+For controlled with/without-Harness trials, use [Real-task comparison](real-task-comparison.md).
+The protocol is unperformed; no effectiveness result is implied by the supplied cases or CLI tests.
+
 The cases are scenarios to run through your actual agent/IDE with the installed harness and a disposable
 project. They are not mocked model transcripts and are not automatically run by CI.
 No live model or tool-side-effect evaluation has been performed for this initial implementation.

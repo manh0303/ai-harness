@@ -24,6 +24,14 @@ See [release policy](release-policy.md) for independently versioned module contr
 4. Inspect the install/update diff in a sample consumer; document source commit and limitations.
 5. Merge feature PR by human decision. Release Please opens a separate version/changelog PR; after human review and merge, the release workflow creates the tag and GitHub Release and publishes npm from the same workflow through OIDC. Merge of feature PR alone does not publish.
 
+## Project setup and readiness additions (unreleased)
+
+The project/lock schema remains 1. Update adds optional project-owned environment.json plus the
+scoped machine.json ignore rule and new managed workflows/templates. Existing local.md, environment,
+machine data and old OpenSpec changes survive. No machine paths are created or committed automatically.
+Doctor only enforces declared required environment entries; empty or absent configuration remains valid.
+Existing changes need decision/evidence sidecars only when using the new ready command.
+
 ## Consumer update
 For global npm installs, first run `npm install -g @manhd_d/ai-harness@latest`.
 For local installs, update the local dependency and use `npx aih`.

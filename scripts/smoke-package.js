@@ -86,6 +86,20 @@ try {
   assert.ok(fs.existsSync(path.join(target, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
   JSON.parse(run(['new-change', 'package-smoke']));
   assert.ok(fs.existsSync(path.join(target, 'openspec/changes/package-smoke/.openspec.yaml')));
+  assert.equal(JSON.parse(run(['setup'])).status, 'planned');
+  assert.equal(JSON.parse(run(['doctor'])).environment.configured, true);
+  const changeDir = path.join(target, 'openspec/changes/package-smoke');
+  for (const file of ['decisions.json', 'verification.json']) assert.ok(fs.existsSync(path.join(changeDir, file)));
+  fs.writeFileSync(path.join(changeDir, 'proposal.md'), '# Proposal\nAdd the reviewed smoke behavior.\n');
+  fs.writeFileSync(path.join(changeDir, 'design.md'), '# Design\nUse the existing implementation boundary.\n');
+  fs.writeFileSync(path.join(changeDir, 'tasks.md'), '# Tasks\n- [x] Implement and check\n## After merge\n- [ ] Archive\n');
+  fs.writeFileSync(path.join(changeDir, 'specs/package-smoke/spec.md'),
+    '## ADDED Requirements\n### Requirement: Smoke\nThe tool SHALL report state.\n#### Scenario: State\n- WHEN invoked\n- THEN return state\n');
+  fs.writeFileSync(path.join(changeDir, 'decisions.json'), JSON.stringify({ schema_version: 1, reviewed: true, decisions: [] }));
+  fs.writeFileSync(path.join(changeDir, 'verification.json'), JSON.stringify({ schema_version: 1,
+    checks: [{ name: 'synthetic-smoke', status: 'passed', evidence: 'Synthetic CLI fixture, not live-model evidence' }] }));
+  assert.equal(JSON.parse(run(['ready', 'package-smoke', '--stage', 'implement'])).status, 'ready');
+  assert.equal(JSON.parse(run(['ready', 'package-smoke', '--stage', 'review'])).status, 'ready');
   assert.deepEqual(JSON.parse(run(['update'])).changes, []);
   // Local installation lives inside the target: this must not trigger overlap protection.
   const local = path.join(temp, 'local-consumer'); fs.mkdirSync(local); fs.writeFileSync(path.join(local, 'package.json'), '{"private":true}'); fs.writeFileSync(path.join(local, 'pom.xml'), '<groupId>org.springframework.boot</groupId>');
@@ -94,5 +108,5 @@ try {
   assert.equal(localResult.status, 'ok');
   assert.equal(JSON.parse(npm(['exec', '--offline', '--', 'aih', 'check'], local)).status, 'ok');
   console.log(JSON.stringify({ status: 'ok', version: packed.version, package_files: names.length,
-    checks: ['npm pack assets', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'monetization bundle and advisory checks', 'Astro packaged detection and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'idempotent update', 'local npm exec without network'] }, null, 2));
+    checks: ['npm pack assets', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'monetization bundle and advisory checks', 'Astro packaged detection and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'setup/doctor and structural readiness', 'idempotent update', 'local npm exec without network'] }, null, 2));
 } finally { fs.rmSync(temp, { recursive: true, force: true }); }

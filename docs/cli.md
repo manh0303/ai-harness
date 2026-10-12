@@ -3,7 +3,7 @@
 Invocation: `aih COMMAND [--target /existing/project]`.
 Node.js 22+; built-in modules only; no network, subprocesses, remote provider calls or dependency installs.
 Output is JSON on stdout on success; errors use stderr. Drift reports from check and failed evaluation reports use stdout with exit 1.
-Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift failure; 2 is a CLI usage error. Help and version are plain text; no arguments displays help.
+Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift failure or blocked readiness/setup; 2 is a CLI usage error. Help and version are plain text; no arguments displays help.
 
 | Command | Options | Effect |
 | --- | --- | --- |
@@ -15,7 +15,9 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | init | --detect OR --adapters a,b; --capabilities a,b; --source; --dry-run; --allow-major | Install a snapshot; exact rerun is idempotent |
 | update | --source; --dry-run; --allow-major | Update unedited owned files and seed missing project files |
 | check | none | Compare installed files/block with lock and selection; no writes |
-| doctor | none | check plus executable presence on PATH; no execution |
+| doctor | none | check plus configured environment/path diagnostics and generic PATH hints; no execution |
+| setup | none | Read-only host-facing question plan; skips tool-selection suggestions when tools are configured |
+| ready ID | --stage implement/review | Structural readiness; blocked returns exit 1, ready returns exit 0; no business approval |
 | new-change ID | none | Create an unapproved OpenSpec draft using installed templates |
 | new-doc TYPE | none | Copy a selected locked Product template to `docs/discovery/` (idea, research) or `docs/product/` (other types) without overwriting |
 | skills | none | List installed skill metadata only |
@@ -35,6 +37,20 @@ Selection changes belong in .harness/project.json; unknown or duplicate adapters
 ## Optional monetization capability
 
 `aih init --capabilities monetization` installs five stack-independent advertising/revenue skills and 2 Markdown workflows with 4 templates. Combine with `--adapters astro` or `react-nextjs`; `product` and `uiux` are optional. `aih verify --scope capabilities` gives an unexecuted manual publisher policy/consent checklist. `aih new-doc` is **Product-only**; the editor may copy installed monetization Markdown templates to user-owned `docs/monetization/` with explicit no-overwrite review. No Google account access, ads publishing or metrics APIs are provided. See [Monetization guide](monetization.md).
+
+## Project environment and clarification
+
+See [Project configuration](project-configuration.md) for the schema and Maven example.
+Init/update seed a project-owned environment.json and append /machine.json to .harness/.gitignore,
+preserving previous content. Private machine files are not created, locked or published by the CLI.
+Doctor returns nonzero for configured required paths/variables that are missing; diagnostics omit values.
+Setup returns questions/options/recommendations for the AI host; it does not read stdin or write answers.
+Init/update/new-doc/new-change also return next_steps without executing them.
+
+See [Change readiness](change-readiness.md): new changes include decisions.json and verification.json
+when those templates are present in the installed lock. Legacy snapshots still scaffold their existing
+files; update first to adopt sidecars. ready does not rewrite old changes, validate upstream OpenSpec,
+run tests, infer every semantic ambiguity or verify that recorded evidence is true.
 
 ## Ownership and conflict behavior
 AGENTS.md ownership covers only text between the unique start/end markers, inclusive. Any modification

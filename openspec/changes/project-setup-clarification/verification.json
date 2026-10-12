@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "name": "unit-and-integration-tests",
+      "status": "passed",
+      "evidence": "Local Node 24.19.0/npm 11.9.0: npm test passed 126/126; focused setup-readiness suite passed again after evidence-marker validation."
+    },
+    {
+      "name": "structure-and-release-metadata",
+      "status": "passed",
+      "evidence": "npm run validate and npm run check:release returned status ok for 0.6.2; no distribution metadata bump."
+    },
+    {
+      "name": "packaged-cli",
+      "status": "passed",
+      "evidence": "npm run test:package passed with 241 package files, real global/local install, setup/doctor and implement/review readiness."
+    },
+    {
+      "name": "live-model-behavior",
+      "status": "skipped",
+      "reason": "Controlled independent model/runtime comparison has not been executed; protocol and unscored scenarios only."
+    },
+    {
+      "name": "upstream-openspec-validator",
+      "status": "skipped",
+      "reason": "Upstream OpenSpec CLI was not installed or invoked; local readiness and structural validation do not replace it."
+    }
+  ]
+}

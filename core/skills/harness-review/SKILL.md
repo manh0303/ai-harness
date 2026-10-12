@@ -14,6 +14,8 @@ Base/head diff, change spec, selected adapters and test evidence.
 4. Classify findings: blocker (security/data loss), major (wrong behavior), minor (maintainability), suggestion.
 5. Provide file/line, failing scenario, impact and minimal remedy for each actionable finding.
 6. Re-run a focused check when possible. Keep unverified concerns explicitly labeled.
+7. For full changes, inspect decisions.json and real verification.json evidence, then use
+   aih ready <id> --stage review. A ready result is not proof, approval or permission to merge.
 ## Output
 Findings ordered by severity; requirement coverage; actual checks; residual risk; review recommendation.
 ## Constraints

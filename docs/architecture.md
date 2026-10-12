@@ -36,6 +36,17 @@ Commit consumer state before updates; after interruption inspect the marker, run
 Empty directories may remain after rollback/removal. Symlinked roots/paths are intentionally unsupported.
 Concurrent hostile filesystem mutation is outside the threat model; run in a trusted local workspace.
 
+## Project environment and structural readiness
+
+Project-owned environment.json records tools, files and command arguments; ignored machine.json may
+override declared paths only. No environment values are copied into the managed lock. Installer seeds
+the shared contract and preserves existing contents; the scoped ignore rule is appended transactionally.
+The environment reader uses metadata/path presence only, with no execution or private-value output.
+
+Setup is a host-facing question plan. Clarification instructions live in Core workflows.
+Readiness reads project-owned OpenSpec decision/evidence sidecars and Markdown structure, returning
+blocked or ready. It is not a semantic validator, runtime policy engine or approval mechanism.
+
 ## Agent/runtime boundary
 Roles are Markdown handoff contracts. The host decides tool execution and delegation. A role document
 does not create another agent or supply an API key. Use the same framework in an IDE assistant or your

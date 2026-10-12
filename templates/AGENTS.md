@@ -3,7 +3,12 @@
 
 1. Read `.harness/core/rules/foundations.md`, `.harness/core/rules/context.md` and `.harness/core/policies/security.md`.
 2. Read `.harness/core/policies/permissions.md` and `.harness/core/workflows/spec-to-code.md`.
-3. Read `.harness/local.md` for project facts and reviewed exceptions.
+3. Read `.harness/local.md` and `.harness/environment.json` (if present) for project facts and commands.
+   For first-run or missing environment facts, use `.harness/core/workflows/project-setup.md`.
+   Machine paths may come from ignored `.harness/machine.json`; do not copy private values into shared files.
+   Before consequential implementation, follow `.harness/core/workflows/clarification.md`:
+   inspect existing answers, ask 1–3 A/B/C questions with grounded recommendations only where needed,
+   record decisions, then continue within existing authorization.
 4. Load only the adapter and skills needed for the current task:
 {{adapters}}
 5. For optional capabilities, read only their selected workflow and relevant skill descriptions:

@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { emptyEnvironment, environmentReport } from './environment.js';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { loadAdapter } from './adapter-schema.js';
@@ -186,10 +187,18 @@ export function install(root, source, { command = 'init', adapters, capabilities
     if (old) for (const name of Object.keys(old.files)) if (!Object.hasOwn(files, name)) changes[name] = null;
     const seeds = {
       [CONFIG]: encode(config),
+      '.harness/environment.json': encode(emptyEnvironment()),
       'openspec/config.yaml': fs.readFileSync(safe(source, 'templates/openspec/config.yaml')),
       '.harness/local.md': Buffer.from('# Project overrides\n\nRecord project facts and reviewed exceptions here. Never weaken security boundaries.\n'),
     };
     for (const [name, data] of Object.entries(seeds)) if (!stat(safe(root, name))) changes[name] = data;
+    // Project-owned ignore file: preserve all prior rules, place our anchored rule last.
+    // This does not remove an already tracked machine file from the Git index.
+    const ignoreName = '.harness/.gitignore', ignorePath = safe(root, ignoreName);
+    const ignore = stat(ignorePath) ? fs.readFileSync(ignorePath, 'utf8') : '';
+    if (ignore.trimEnd().split(/\r?\n/).at(-1) !== '/machine.json') {
+      changes[ignoreName] = Buffer.from(ignore + (ignore && !ignore.endsWith('\n') ? '\n' : '') + '/machine.json\n');
+    }
     const newLock = encode(lock);
     if (!hasLock || !fs.readFileSync(safe(root, LOCK)).equals(newLock)) changes[LOCK] = newLock;
     const plan = Object.entries(changes).map(([name, data]) => ({ path: name, action: data === null ? 'delete' : 'write' }));
@@ -214,6 +223,10 @@ export function newChange(root, name) {
     safe(root, `openspec/changes/${name}/proposal.md`);
     if (stat(folder)) throw new HarnessError(`Change already exists: ${name}`);
     const mapping = { 'proposal.md': 'proposal.md', 'design.md': 'design.md', 'tasks.md': 'tasks.md', 'spec.md': `specs/${name}/spec.md`, '.openspec.yaml': '.openspec.yaml' };
+    const locked = loadLock(root);
+    for (const name of ['decisions.json', 'verification.json']) {
+      if (Object.hasOwn(locked.files, '.harness/templates/openspec/' + name)) mapping[name] = name;
+    }
     const changes = {};
     for (const [src, dest] of Object.entries(mapping)) {
       const text = fs.readFileSync(safe(root, `.harness/templates/openspec/${src}`), 'utf8');
@@ -251,5 +264,7 @@ export function doctor(root) {
       catch { return false; }
     }));
   }
-  return { ...check(root), tools, note: 'Tool presence only; no commands executed or compatibility claim made' };
+  const state = check(root), environment = environmentReport(root);
+  return { ...state, status: state.status !== 'ok' || environment.problems.length ? 'error' : 'ok',
+    tools, environment, note: 'Tool presence only; no commands executed or compatibility claim made. Configured project tools take precedence over generic PATH hints.' };
 }
