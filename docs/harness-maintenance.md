@@ -12,6 +12,7 @@ gốc được liên kết bên dưới; không sao chép quy tắc thành nhi�
 | Adapter | [Registry](../harness.yaml), [adapter contract](adapters.md), [adapter assets](../adapters/) | Manifest `rules/skills/verification/evaluation` → [bundle/install](../cli/harness.js) → [installed verify/eval](../cli/adapters.js) |
 | Capability / skill | [Capability assets](../capabilities/), [schema/loader](../cli/capabilities.js) | Workflow/role bàn giao → exposed skill → [skill matrix](skill-matrix.md), [handoffs](agent-handoffs.md), [composition evals](../core/evals/composition.json) |
 | CLI / config | [CLI reference](cli.md), [implementation](../cli/), [templates](../templates/) | [Architecture/ownership](architecture.md), [project configuration](project-configuration.md), [tests](../tests/), [package smoke](../scripts/smoke-package.js) |
+| Agent preferences | [Canonical default](../config/agents.default.json), [configuration contract](agent-configuration.md) | Project-owned `agents.json` → read-only setup plan → [routing workflow](../core/workflows/agent-routing.md) → [host setup](tool-setup/README.md); tests verify preservation, not live model availability |
 | Quy trình sử dụng | [Getting started](getting-started.md), [full SDLC](end-to-end-workflow.md) | [Examples](examples/), [README](../README.md), [documentation workflows](documentation-workflows.md) |
 | Release / migration | [Versioning](versioning.md), [release policy](release-policy.md) | [Changelog](../CHANGELOG.md), [npm release](npm-release.md), [release workflow](../.github/workflows/npm-publish.yml) |
 

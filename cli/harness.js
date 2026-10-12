@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import { emptyEnvironment, environmentReport } from './environment.js';
+import { AGENT_CONFIG, agentDefaults, loadAgentConfig } from './agents.js';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { loadAdapter } from './adapter-schema.js';
@@ -66,6 +67,7 @@ export function bundle(source, config) {
       files[dest] = fs.readFileSync(safe(source, `adapters/${a}/skills/${name}/SKILL.md`));
     }
   }
+  files['.harness/templates/agents.default.json'] = encode(agentDefaults(source));
   for (const c of capabilities) {
     const info = loadCapability(source, c);
     for (const name of info.skills) {
@@ -157,12 +159,15 @@ export function transaction(root, changes, writer = atomicWrite) {
   }
 }
 
-export function install(root, source, { command = 'init', adapters, capabilities, dryRun = false, allowMajor = false, writer } = {}) {
+export function install(root, source, { command = 'init', adapters, capabilities, agentPreset, dryRun = false, allowMajor = false, writer } = {}) {
   assertSeparate(root, source);
   return guard(root, () => {
     const hasLock = Boolean(stat(safe(root, LOCK)));
     if (command === 'update' && !hasLock) throw new HarnessError('Not installed; run init first');
     const old = hasLock ? loadLock(root) : null;
+    const existingAgents = loadAgentConfig(root);
+    if (agentPreset !== undefined && command !== 'init') throw new HarnessError('Agent preset is supported only by init');
+    if (agentPreset !== undefined && existingAgents) throw new HarnessError('agents.json is project-owned; edit it explicitly instead of applying an init preset');
     const config = projectConfig(root, adapters, capabilities, hasLock);
     const { files, lock, warnings } = bundle(source, config);
     if (old) {
@@ -186,6 +191,7 @@ export function install(root, source, { command = 'init', adapters, capabilities
     }
     if (old) for (const name of Object.keys(old.files)) if (!Object.hasOwn(files, name)) changes[name] = null;
     const seeds = {
+      [AGENT_CONFIG]: encode(agentDefaults(source, agentPreset ?? 'recommended')),
       [CONFIG]: encode(config),
       '.harness/environment.json': encode(emptyEnvironment()),
       'openspec/config.yaml': fs.readFileSync(safe(source, 'templates/openspec/config.yaml')),
@@ -210,6 +216,7 @@ export function install(root, source, { command = 'init', adapters, capabilities
 export function check(root) {
   const lock = loadLock(root), config = projectConfig(root, undefined, undefined, true);
   const problems = drift(root, lock);
+  loadAgentConfig(root); // Optional on legacy installs; validate user config without managing its bytes.
   if (JSON.stringify([...config.adapters].sort()) !== JSON.stringify([...lock.adapters].sort())) problems.push(`${CONFIG}: adapter selection changed; run update`);
   if (JSON.stringify([...(config.capabilities ?? [])].sort()) !== JSON.stringify([...(lock.capabilities ?? [])].sort())) problems.push(`${CONFIG}: capability selection changed; run update`);
   return { status: problems.length ? 'error' : 'ok', version: lock.version, problems };

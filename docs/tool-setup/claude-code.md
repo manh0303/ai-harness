@@ -46,3 +46,12 @@ was not exercised here; official references below establish the documented disco
 ## Official references (checked 2026-10-12)
 - [Memory, AGENTS and imports](https://code.claude.com/docs/en/memory)
 - [Project skills and invocation](https://code.claude.com/docs/en/skills)
+
+## Native model configuration
+Use [Agent preferences](../agent-configuration.md) with an explicitly available Anthropic model or
+reviewed host mapping. OpenAI Sol/Astra preferences cannot run directly in Claude Code. Native model
+selection follows [official model config](https://code.claude.com/docs/en/model-config); use /model and
+client-supported effort controls, preserving existing settings/authentication. Native per-role agents
+use [official subagent format](https://code.claude.com/docs/en/sub-agents) in .claude/agents with model
+and supported effort settings. Role contracts can be referenced by a short instruction. aih does not
+write these files, infer account access or equate native Claude reasoning with OpenAI reasoning.

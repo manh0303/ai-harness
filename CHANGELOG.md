@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Agent preferences and release regression
+- Add provider-agnostic project-owned agents.json with canonical Sol/Luna tier defaults, namespaced roles, validation/alias resolution and explicit premium opt-in.
+- Add non-interactive init presets and read-only setup host plans; preserve custom config and legacy snapshots. No native config writes, agent runtime or usage claims.
+- Add orchestrator/documentation contracts, proportional routing/token guidance and official-source host recipes.
+- Repair release update tests to use source-relative versions rather than hardcoded 0.7.0; retain downgrade protection.
+
 ## Unreleased — Product and solution delivery
 - Complete Product BA/PO with usable MVP/outcomes, synthetic examples, quality checklists and handoff contracts; module 1.2.0.
 - Add optional Architecture and Delivery 1.0.0 modules: source-linked context, NFR, architecture/pattern trade-offs, ADR, living map/review, value slices, risks and scope changes.

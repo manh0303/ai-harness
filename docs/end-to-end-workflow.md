@@ -119,3 +119,7 @@ Xem [handoff contracts](agent-handoffs.md), [OpenSpec integration](openspec.md),
 
 For new/material journeys use [Solution workflow](solution-workflow.md); for existing clear fixes keep
 a compact source/impact note. Set up the host with [Coding tools](tool-setup/README.md).
+
+Before assigning roles, apply [Agent configuration](agent-configuration.md) and Core routing workflow.
+Use one session for simple work, hybrid only for independent authorized work with host support, and
+carry short source/evidence handoffs. User preferences do not grant runtime permissions or model access.

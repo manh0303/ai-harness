@@ -48,6 +48,18 @@
         "Actual decisions and verification; no unnecessary full-document gate"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "agent-host-fit",
+      "title": "Verify agent preferences in the actual host",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Declared vs actual model/provider/effort and selected role namespace",
+        "Actual delegation/thread semantics or sequential-role limitation",
+        "No premium fallback, fake token meter or overwritten host configuration"
+      ],
+      "execution": "manual"
     }
   ]
 }

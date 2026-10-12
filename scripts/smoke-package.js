@@ -27,6 +27,9 @@ try {
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
   assert.ok(!names.some(n => /(^|\/)\.env(?:\.|$)/.test(n)));
+  for (const required of ['config/agents.default.json', 'cli/agents.js', 'core/workflows/agent-routing.md']) {
+    assert.ok(names.includes(required), `Missing agent routing asset: ${required}`);
+  }
   for (const required of ['capabilities/architecture/capability.json', 'capabilities/delivery/capability.json',
     'capabilities/architecture/skills/harness-architecture-solution-design/SKILL.md',
     'capabilities/delivery/templates/delivery-plan.md', 'core/workflows/solution-framing.md',
@@ -68,6 +71,11 @@ try {
   assert.deepEqual(JSON.parse(solutionRun(['update'])).changes, []);
   JSON.parse(run(['init', '--adapters', 'java-spring,react-nextjs,react-native,ai-python']));
   assert.equal(JSON.parse(run(['check'])).status, 'ok');
+  const agentPreferences = readJson(path.join(target, '.harness/agents.json'));
+  assert.equal(agentPreferences.defaultModel, 'gpt-6.1-sol');
+  assert.equal(agentPreferences.execution.autoEscalateToPremium, false);
+  const routing = JSON.parse(run(['setup', '--host', 'codex'])).agent_configuration;
+  assert.ok(routing.roles.every(role => role.runtime_verified === false));
   for (const name of conventionAssets) {
     assert.equal(fs.readFileSync(path.join(target, '.harness', name), 'utf8'),
       fs.readFileSync(path.join(SOURCE, name), 'utf8'));

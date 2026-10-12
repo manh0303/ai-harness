@@ -37,6 +37,10 @@ function snapshot(root = project) {
 function write(name, data) {
   const p = path.join(project, name); fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, data);
 }
+function nextPatch() {
+  const [major, minor, patch] = h.manifest(source).version.split('.');
+  return [major, minor, String(BigInt(patch) + 1n)].join('.');
+}
 function bump(version) {
   const p = path.join(source, 'harness.yaml'), value = h.readJson(p);
   value.version = version; fs.writeFileSync(p, JSON.stringify(value));
@@ -66,18 +70,24 @@ test('unmanaged collision refuses full install', () => {
   write('.agents/skills/harness-tdd/SKILL.md', 'project owned');
   const before = snapshot(); run('init', [], 1); assert.deepEqual(snapshot(), before);
 });
-test('update preserves project overrides, config and AGENTS appendix', () => {
+for (const futureMinor of [false, true]) test('update preserves project overrides, config and AGENTS appendix' +
+  (futureMinor ? ' (future minor release)' : ' (current release)'), () => {
+  if (futureMinor) {
+    const [major, minor] = h.manifest(source).version.split('.');
+    bump([major, String(BigInt(minor) + 1n), '0'].join('.'));
+  }
   run('init', ['--adapters', 'java-spring']);
   fs.appendFileSync(path.join(project, 'AGENTS.md'), '\nLocal appendix\n');
   write('.harness/local.md', 'Custom policy'); write('openspec/config.yaml', 'schema: spec-driven\ncontext: Custom\n');
-  bump('0.7.0'); run('update'); run('check');
+  const next = nextPatch(); bump(next); run('update');
+  assert.equal(run('check').version, next);
   assert.ok(fs.readFileSync(path.join(project, 'AGENTS.md'), 'utf8').endsWith('\nLocal appendix\n'));
   assert.equal(fs.readFileSync(path.join(project, '.harness/local.md'), 'utf8'), 'Custom policy');
   assert.match(fs.readFileSync(path.join(project, 'openspec/config.yaml'), 'utf8'), /Custom/);
 });
 test('changed payload blocks check and update before writing', () => {
   run(); fs.appendFileSync(path.join(project, '.harness/core/rules/context.md'), '\nCustom\n');
-  const before = snapshot(); bump('0.7.0'); run('update', [], 1); run('check', [], 1);
+  const before = snapshot(); bump(nextPatch()); run('update', [], 1); run('check', [], 1);
   assert.deepEqual(snapshot(), before);
 });
 test('edited managed AGENTS block is detected', () => {

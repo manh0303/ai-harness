@@ -31,6 +31,8 @@ Options:
   --detect            init only: opt in to detected stack selection
   --stage <type>      ready only: implement (default) or review
   --capability <id>   new-doc only: installed template owner (default: product)
+  --agent-preset <id> init only: recommended (default), economy, custom; no overwrite
+  --host <id>         setup only: codex,claude-code,gemini-cli,cursor,copilot or custom host ID
   --scope <type>      verify/eval: adapters (default), capabilities, core, all
   --report <file>     eval only: score a reviewer-completed JSON report
   --adapters <a,b>     init/resolve: java-spring,react-nextjs,react-native,ai-python,kubernetes,astro
@@ -52,6 +54,8 @@ Examples:
   aih init --adapters astro --capabilities monetization
   aih resolve --adapters java-spring,kubernetes --capabilities product,uiux,devops
   aih setup
+  aih init --agent-preset economy
+  aih setup --host codex
   aih doctor
   aih ready add-order --stage implement
   aih skills
@@ -76,6 +80,7 @@ export function main(argv = process.argv.slice(2)) {
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
       target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
+      'agent-preset': { type: 'string' }, host: { type: 'string' },
       detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' }, stage: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
       help: { type: 'boolean', short: 'h' }, version: { type: 'boolean', short: 'v' },
@@ -92,9 +97,11 @@ export function main(argv = process.argv.slice(2)) {
     if (extra.length || (!['new-change', 'new-doc', 'skill', 'ready'].includes(command) && name !== undefined) || (['new-change', 'new-doc', 'skill', 'ready'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
     if (command === 'new-doc') allowed.add('capability');
+    if (command === 'init') allowed.add('agent-preset');
+    if (command === 'setup') allowed.add('host');
     for (const key of Object.keys(args.values)) if (!allowed.has(key)) throw new Error(`--${key} is not supported for ${command}`);
     if (args.values.detect && args.values.adapters !== undefined) throw new Error('Choose either --detect or --adapters');
-    for (const key of ['target', 'source', 'adapters', 'capabilities', 'capability', 'report']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
+    for (const key of ['target', 'source', 'adapters', 'capabilities', 'capability', 'report', 'agent-preset', 'host']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
   } catch (error) { console.error(JSON.stringify({ status: 'error', message: error.message })); return 2; }
   try {
     const { values, positionals: [command, name] } = args;
@@ -106,6 +113,7 @@ export function main(argv = process.argv.slice(2)) {
       if (values.detect && !selection.length) throw new Error('No stack detected; choose --adapters explicitly or omit --detect for core only');
       result = install(root, source, {
         command, adapters: selection ?? (values.adapters === undefined ? undefined : values.adapters.split(',').map(v => v.trim())),
+        agentPreset: values['agent-preset'],
         capabilities: values.capabilities === undefined ? undefined : values.capabilities.split(',').map(v => v.trim()),
         dryRun: values['dry-run'], allowMajor: values['allow-major'],
       });
@@ -126,7 +134,7 @@ export function main(argv = process.argv.slice(2)) {
     else if (command === 'setup' || command === 'ready') {
       const state = check(root);
       if (state.status !== 'ok') throw new Error('Fix installation drift before setup/readiness checks');
-      result = command === 'setup' ? setupPlan(root, loadLock(root).adapters) : ready(root, name, values.stage ?? 'implement');
+      result = command === 'setup' ? setupPlan(root, loadLock(root).adapters, process.env, values.host) : ready(root, name, values.stage ?? 'implement');
     }
     else if (command === 'new-change') result = newChange(root, name);
     else if (command === 'new-doc') result = newDoc(root, name, values.capability ?? 'product');

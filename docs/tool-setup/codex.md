@@ -28,3 +28,17 @@ was not exercised here; official references below establish the documented disco
 ## Official references (checked 2026-10-12)
 - [AGENTS discovery](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
 - [Skill discovery](https://learn.chatgpt.com/docs/build-skills)
+
+## Native model configuration
+Follow [Agent preferences](../agent-configuration.md), then verify model access and supported effort.
+The official [config guide](https://learn.chatgpt.com/docs/config-file/config-basic) supports a reviewed
+merge into .codex/config.toml for CLI/IDE:
+```toml
+model = "gpt-6.1-sol"
+model_reasoning_effort = "medium"
+```
+For deliberate native agents use the current [subagent guide](https://learn.chatgpt.com/docs/agent-configuration/subagents).
+Standalone .codex/agents/*.toml uses name, description and developer_instructions, with optional model
+and model_reasoning_effort. Keep a small instruction pointing to the installed role/skill, not duplicated
+bodies. No files are generated/applied by aih; actual schema/client/account and thread-limit semantics
+must be checked. A normal session does not switch model automatically per Harness role.

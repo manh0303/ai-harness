@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "provider": "openai",
+  "defaultModel": "gpt-6.1-sol",
+  "defaultReasoning": "medium",
+  "models": {
+    "economy": "gpt-6-luna",
+    "balanced": "gpt-6.1-sol",
+    "premium": "gpt-6-astra"
+  },
+  "agents": {
+    "core:implementer": {
+      "model": "@balanced",
+      "reasoning": "medium"
+    },
+    "core:planner": {
+      "model": "@balanced",
+      "reasoning": "high"
+    },
+    "core:reviewer": {
+      "model": "@balanced",
+      "reasoning": "high"
+    },
+    "core:security-reviewer": {
+      "model": "@balanced",
+      "reasoning": "high"
+    },
+    "core:test-engineer": {
+      "model": "@balanced",
+      "reasoning": "medium"
+    },
+    "core:orchestrator": {
+      "model": "@balanced",
+      "reasoning": "high"
+    },
+    "core:documentation": {
+      "model": "@economy",
+      "reasoning": "low"
+    },
+    "product:business-analyst": {
+      "model": "@balanced",
+      "reasoning": "medium"
+    },
+    "product:product-manager": {
+      "model": "@balanced",
+      "reasoning": "medium"
+    },
+    "product:product-owner": {
+      "model": "@balanced",
+      "reasoning": "medium"
+    },
+    "product:project-manager": {
+      "model": "@balanced",
+      "reasoning": "medium"
+    },
+    "product:requirements-reviewer": {
+      "model": "@balanced",
+      "reasoning": "high"
+    },
+    "architecture:solution-architect": {
+      "model": "@balanced",
+      "reasoning": "high"
+    },
+    "architecture:architecture-reviewer": {
+      "model": "@balanced",
+      "reasoning": "high"
+    },
+    "delivery:project-manager": {
+      "model": "@balanced",
+      "reasoning": "medium"
+    }
+  },
+  "execution": {
+    "mode": "hybrid",
+    "maxConcurrentAgents": 2,
+    "maxRounds": 3,
+    "autoEscalateToPremium": false
+  },
+  "hosts": {}
+}

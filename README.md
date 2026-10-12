@@ -31,6 +31,9 @@ Trước code/review tính năng có spec: [Change readiness](docs/change-readin
 Coding convention cho dự án mới/maintain: [Project conventions](docs/project-conventions.md).
 AI đọc cấu trúc, tìm common phù hợp trước khi tạo mới và review ranh giới module.
 
+Agent/model preferences: [Agent configuration](docs/agent-configuration.md).
+`aih init` seeds project-owned `.harness/agents.json`; `aih setup --host codex` gives a read-only plan.
+
 ## Thành phần
 
 | Nhóm | Hỗ trợ |
