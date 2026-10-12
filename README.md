@@ -33,10 +33,10 @@ Trước code/review tính năng có spec: [Change readiness](docs/change-readin
 | --- | --- |
 | **Core** | Rules, agent roles, skills, workflows, review & verification |
 | **Adapters** | Java Spring Boot, React/Next.js, React Native, Python AI/RAG, Kubernetes, Astro |
-| **Capabilities** | Product/BA/PO, UI/UX & Figma, DevOps, Monetization/AdSense |
+| **Capabilities** | Product/BA/PO, UI/UX & Figma, DevOps |
 | **OpenSpec** | Template cho proposal, design, tasks và spec có review |
 
-Bạn chỉ chọn module cần dùng, ví dụ `aih init --adapters astro --capabilities monetization` cho website công cụ nhỏ có quảng cáo. Xem [Astro adapter](adapters/astro/README.md) và [Monetization capability](capabilities/monetization/README.md).
+Bạn chỉ chọn module cần dùng, ví dụ `aih init --adapters astro` cho website và công cụ nhỏ, nhẹ. Xem [Astro adapter](adapters/astro/README.md).
 
 ## Hai luồng làm việc
 
@@ -55,7 +55,7 @@ Chi tiết: [Documentation workflows](docs/documentation-workflows.md) · [Confl
 | Tài liệu sản phẩm | [Idea-driven example](docs/examples/idea-driven-project.md) · [Document-driven example](docs/examples/document-driven-project.md) |
 | Ví dụ backend/full-stack | [Spring Boot API](docs/examples/spring-boot-api.md) · [Spring + Next.js](docs/examples/fullstack-web.md) |
 | Ví dụ mobile/AI | [React Native](docs/examples/react-native-app.md) · [Python AI/RAG](docs/examples/ai-rag-service.md) |
-| Micro-tools/website | [Astro micro-tools](docs/examples/astro-micro-tools.md) · [Astro + AdSense](docs/examples/astro-adsense-microtools.md) · [Monetization](docs/monetization.md) |
+| Micro-tools/website | [Astro micro-tools](docs/examples/astro-micro-tools.md) |
 | Phát hành npm | [Release guide](docs/npm-release.md) · [Changelog](CHANGELOG.md) |
 
 ## Kiểm tra và cập nhật
