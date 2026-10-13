@@ -14,9 +14,11 @@ Cần Node.js 22+. Chạy trong project:
 npx --yes @manhd_d/ai-harness init
 ```
 
+`npx` không cài global command `aih`. Kiểm tra bằng `npx --yes @manhd_d/ai-harness check`, rồi mở cùng project trong AI tool. [Setup chung](../tool-setup/README.md).
+
 > Read AGENTS.md. Inspect this project and its approved decisions. Implement [task], run appropriate checks and maintain affected docs.
 
-Host chạy tests và quản lý tools, delegation, permissions. MCP/connector/API có thể cung cấp input khi host có quyền truy cập. init --detect nhận diện stack hỗ trợ; aih check kiểm tra integrity của Harness.
+Host chạy tests và quản lý tools, delegation, permissions. MCP/connector/API có thể cung cấp input khi host có quyền truy cập. init --detect nhận diện stack hỗ trợ; check kiểm tra integrity của Harness.
 
 | AI tool | Setup |
 | --- | --- |
@@ -25,5 +27,6 @@ Host chạy tests và quản lý tools, delegation, permissions. MCP/connector/A
 | **Cursor** | [Hướng dẫn](../tool-setup/cursor.md) |
 | **GitHub Copilot** | [Hướng dẫn](../tool-setup/copilot.md) |
 | **Gemini CLI** | [Hướng dẫn](../tool-setup/gemini-cli.md) |
+| **Kiro** | [Hướng dẫn](../tool-setup/kiro.md) |
 
 [Docs & examples](../README.md) · [Getting started](../getting-started.md) · [Input/output](../artifact-contract.md) · [Agent configuration](../agent-configuration.md) · [Continuous development](../continuous-development.md) · [MIT](../../LICENSE)

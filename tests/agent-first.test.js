@@ -144,7 +144,7 @@ test('analysis TechSpec uses canonical external Product route without local fall
 test('README translations share selectors, quick start and real setup links',()=>{
  for(const file of ['README.md','docs/i18n/README.vi.md','docs/i18n/README.zh-CN.md','docs/i18n/README.es.md']){
   const text=read(SOURCE,file);for(const language of ['English','Tiếng Việt','简体中文','Español'])assert.ok(text.includes(language));
-  assert.ok(text.includes('npx --yes @manhd_d/ai-harness init'));for(const host of ['codex','claude-code','cursor','copilot','gemini-cli'])assert.ok(text.includes('tool-setup/'+host+'.md'));
+  assert.ok(text.includes('npx --yes @manhd_d/ai-harness init'));for(const host of ['codex','claude-code','cursor','copilot','gemini-cli','kiro'])assert.ok(text.includes('tool-setup/'+host+'.md'));
  }
 });
 

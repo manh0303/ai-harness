@@ -161,3 +161,12 @@ Product advances to 1.5.0; Architecture and Delivery to 1.1.0. Distribution vers
 ## Agent-first migration from 0.12.0 (unreleased)
 
 Distribution version remains 0.12.0 until Release Please prepares a reviewed release. Plan a minor release with optional profiles/config fields and retained product/PM/template routes; four named recipes are retired with explicit migration guidance. Module versions advance; project/lock/config schema versions stay 1, with opt-in Claude managed paths. Old edited managed recipes/imports block update. Model/native settings and user docs are preserved; existing agent config is not replaced by host-native defaults. Check reviewed update --dry-run/update/check, retired catalog, required skill references and aliases; re-export evaluations and revert consumer snapshot commit for rollback. See [Agent-first guide](agent-first.md).
+
+## Tool setup documentation (unreleased)
+
+Kiro and the six-host onboarding refresh change documentation only. Distribution/module versions,
+registry manifests, schemas and installed payload remain unchanged; this is a patch-level documentation
+correction for the release PR to include. No consumer migration or snapshot update is required solely
+for these guides. Kiro skill pointers are optional, project-owned and not generated/updated by Harness;
+keep existing native configs. Claude agent-first flags are not in the 0.12.0 npm baseline: use the manual
+import or a reviewed version that supports them. See [Tool setup](tool-setup/README.md).

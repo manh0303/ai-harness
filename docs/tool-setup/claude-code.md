@@ -1,63 +1,49 @@
 # Claude Code
 
-Install/authenticate with [official setup](https://code.claude.com/docs/en/setup), then follow
-[common setup](README.md) and launch `claude` at the repository root.
+## Install and open
 
-## Instructions
-Current Claude documentation describes direct AGENTS.md support with version/configuration conditions.
-If direct discovery is unavailable, add the following import to an existing project CLAUDE.md, or
-create the file if absent, without discarding any other content:
+1. Install/sign in using [official Claude Code setup](https://code.claude.com/docs/en/setup).
+2. Run [common setup](README.md) in your project root.
+3. Run `claude` from that same root.
+
+## Load and verify
+
+Direct `AGENTS.md` support requires Claude Code v2.1.277+ and the relevant instruction setting/plugin.
+By default, an existing `CLAUDE.md`, `.claude/CLAUDE.md` or `CLAUDE.local.md` in the working directory
+or its ancestors can prevent direct loading.
+
+For a compatibility bridge, add this line outside code fences to the root `CLAUDE.md`; create it
+if absent and keep existing content:
+
 ```markdown
 @AGENTS.md
 ```
-Check the host's loaded project instructions and nested/global files. Keep one canonical AGENTS;
-do not add a hook that prints a duplicate copy. The import remains a documented compatibility option.
+
+An import inside `.claude/CLAUDE.md` uses `@../AGENTS.md` instead.
+In Claude's chat, use `/context` to inspect loaded memory files, then run the
+[read-only setup prompt](README.md#3-check-loading-then-give-a-task).
+Organization policies may restrict loading; an import does not bypass them.
 
 ## Skills
-Claude documents .claude/skills for project skills. Harness does not assume .agents/skills is a native
-Claude skill location. Manual canonical loading from AGENTS instructions works without slash registration.
-If you want native invocation for a selected skill, create a small project-owned wrapper at
-.claude/skills/harness-product-mvp-definition/SKILL.md:
-```markdown
----
-name: harness-product-mvp-definition
-description: Define an MVP using this project's installed AI Harness instructions.
----
-Read the applicable AGENTS.md and then the canonical project file
-.agents/skills/harness-product-mvp-definition/SKILL.md. Follow its procedure and handoff;
-keep actual owner decisions and verification status explicit.
-```
-Then use `/harness-product-mvp-definition` in a supporting session. This wrapper is a pointer,
-not a copied skill body; maintain only needed wrappers and preserve existing native skills.
 
-## Verify and use
-Run the [read-only smoke prompt](README.md) before an implementation task. Check actual paths and
-known decisions, then use the idea/document/SA/maintain prompts on that page. If discovery is missing,
-ask to read the exact installed `.agents/skills/harness-*/SKILL.md` relevant to the task; do not paste
-all skill bodies. Application commands come from local.md/environment.json and actual build files.
-Follow host permission settings; no instruction creates missing account, network or tool access.
+Claude's native project skills live in `.claude/skills`, not Harness's `.agents/skills`.
+The basic setup works by asking Claude to read the needed canonical skill.
+For native slash invocation, use a small pointer wrapper rather than copying the skill body.
 
-## Update / troubleshooting
-Use the common reviewed CLI/snapshot update procedure. Preserve existing project/global host config,
-review nested instructions and restart/reload the host when discovery changes. A Harness integrity
-check is separate from host discovery, app build or behavioral compliance. Native client login/setup
-was not exercised here; official references below establish the documented discovery mechanism.
+The agent-first CLI adds opt-in `init/update --link-claude` for a managed import and
+`--claude-skills` for wrappers. These flags are unreleased from the 0.12.0 npm baseline:
+use them only with a reviewed source/new release that supports them. Without either flag,
+Harness does not edit Claude files. See [Agent-first guide](../agent-first.md).
 
-## Official references (checked 2026-10-12)
-- [Memory, AGENTS and imports](https://code.claude.com/docs/en/memory)
-- [Project skills and invocation](https://code.claude.com/docs/en/skills)
+## Optional configuration
 
-## Native model configuration
-Use [Agent preferences](../agent-configuration.md) with an explicitly available Anthropic model or
-reviewed host mapping. OpenAI Sol/Astra preferences cannot run directly in Claude Code. Native model
-selection follows [official model config](https://code.claude.com/docs/en/model-config); use /model and
-client-supported effort controls, preserving existing settings/authentication. Native per-role agents
-use [official subagent format](https://code.claude.com/docs/en/sub-agents) in .claude/agents with model
-and supported effort settings. Role contracts can be referenced by a short instruction. aih does not
-write these files, infer account access or equate native Claude reasoning with OpenAI reasoning.
+Use [Agent configuration](../agent-configuration.md) only when needed; keep existing settings.
+Models, native agents and access remain Claude-controlled, not selected automatically by a role.
 
-## Brownfield bridge and native wrappers (unreleased)
+## Official references
 
-Use init/update --link-claude for an explicit managed @AGENTS.md import; --claude-skills creates locked wrappers that instruct Claude to read canonical skills. Existing native settings/custom skills remain unchanged. init --host claude-code uses native Anthropic aliases only for a missing agents.json; existing model choices stay intact. doctor reports local shadowing hints; check actual version/settings/ancestor instructions and /context. See [Agent-first guide](../agent-first.md) and official https://code.claude.com/docs/en/memory .
+Checked 2026-10-13; no logged-in Claude client or live-agent smoke was run.
 
-Native alias reference: https://code.claude.com/docs/en/model-config . Aliases resolve by host/provider/version; verify actual selected model/access rather than assuming availability.
+- [Memory, AGENTS conditions and imports](https://code.claude.com/docs/en/memory)
+- [Native skills](https://code.claude.com/docs/en/skills)
+- [Models](https://code.claude.com/docs/en/model-config)

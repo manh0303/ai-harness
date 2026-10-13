@@ -1,44 +1,29 @@
 # Cursor
 
-Install/sign in via [official Cursor docs](https://cursor.com/docs). Open the repository folder and
-Agent, then follow [common setup](README.md).
+## Install and open
 
-## Instructions and skills
-Cursor supports project/nested AGENTS.md and .agents/skills. Preserve existing .cursor/rules and
-check their scope with project conventions before adding another rule. Ask Agent to read applicable
-AGENTS/local.md and use one installed skill; inspect discovery in the current client.
-If a specific workspace needs an explicit rule pointer, create a project-owned .cursor/rules/harness.mdc:
-```markdown
----
-description: Use the installed AI Harness for this repository.
-alwaysApply: true
----
-Read the applicable AGENTS.md and its referenced project context before changing code.
-Load only the installed skill needed for the task from .agents/skills.
-```
-Do not copy the full Harness snapshot into the rule. AGENTS already supplies the canonical entry;
-use this bridge only if needed, avoiding contradictory project/global/nested instructions.
+1. Install/sign in using [official Cursor docs](https://cursor.com/docs).
+2. Open your project folder in Cursor; use its integrated terminal for [common setup](README.md).
+3. Start an Agent chat in that same workspace.
 
-## Verify and use
-Run the [read-only smoke prompt](README.md) before an implementation task. Check actual paths and
-known decisions, then use the idea/document/SA/maintain prompts on that page. If discovery is missing,
-ask to read the exact installed `.agents/skills/harness-*/SKILL.md` relevant to the task; do not paste
-all skill bodies. Application commands come from local.md/environment.json and actual build files.
-Follow host permission settings; no instruction creates missing account, network or tool access.
+## Load and verify
 
-## Update / troubleshooting
-Use the common reviewed CLI/snapshot update procedure. Preserve existing project/global host config,
-review nested instructions and restart/reload the host when discovery changes. A Harness integrity
-check is separate from host discovery, app build or behavioral compliance. Native client login/setup
-was not exercised here; official references below establish the documented discovery mechanism.
+Cursor supports root/nested `AGENTS.md` and project `.agents/skills`; no extra rule is needed for normal setup.
+Preserve existing `.cursor/rules` and inspect their scope if instructions conflict.
 
-## Official references (checked 2026-10-12)
+Open **Customize → Skills** to inspect discovered skills, then run the
+[read-only setup prompt](README.md#3-check-loading-then-give-a-task). If an installed skill is missing,
+reload the session or ask Agent to read its exact canonical file.
+
+## Optional configuration
+
+Model/account choices and native delegation remain host-controlled; see [Agent configuration](../agent-configuration.md).
+For cloud work, commit the installed project files to the connected branch. Do not assume personal skills,
+local files or credentials are available remotely; see the official skill guide's cloud limitations.
+
+## Official references
+
+Checked 2026-10-13; no logged-in Cursor client or live-agent smoke was run.
+
 - [Rules and AGENTS](https://cursor.com/docs/rules)
-- [Skills and .agents discovery](https://cursor.com/docs/skills)
-
-## Agent routing
-
-Read [Agent preferences](../agent-configuration.md). Verify current model picker/account and effort
-controls; aih setup --host cursor returns declarations only. Native per-role model switching or
-concurrency requires specific client support; otherwise perform roles sequentially with the selected
-session model. Never substitute premium or overwrite existing host settings automatically.
+- [Skills, discovery and cloud scope](https://cursor.com/docs/skills)

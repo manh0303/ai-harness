@@ -1,41 +1,37 @@
 # Gemini CLI
 
-Install/authenticate from [official docs](https://geminicli.com/docs/), follow [common setup](README.md)
-and launch `gemini` at the initialized root.
+## Install and open
 
-## Instructions and skills
-Gemini uses GEMINI.md by default. Merge an import into the existing root GEMINI.md if needed:
+1. Install/sign in using [official Gemini CLI docs](https://geminicli.com/docs/).
+2. Run [common setup](README.md) in your project root.
+3. In the existing root `GEMINI.md`, add the following line outside code fences. Create the file if
+   absent; preserve its other content:
+
 ```markdown
 @./AGENTS.md
 ```
-Alternatively, merge `context.fileName` in the existing project settings.json so the list includes
-AGENTS.md while preserving other configured context names. Do not replace the entire settings file
-or use both routes to inflate context unnecessarily. `/memory show` checks loaded content and
-`/memory reload` refreshes it according to current official docs.
-Gemini documents .agents/skills as a workspace alias. Avoid duplicating the same skills in
-.gemini/skills; check current discovery and ask for the installed skill needed by the task.
 
-## Verify and use
-Run the [read-only smoke prompt](README.md) before an implementation task. Check actual paths and
-known decisions, then use the idea/document/SA/maintain prompts on that page. If discovery is missing,
-ask to read the exact installed `.agents/skills/harness-*/SKILL.md` relevant to the task; do not paste
-all skill bodies. Application commands come from local.md/environment.json and actual build files.
-Follow host permission settings; no instruction creates missing account, network or tool access.
+4. Run `gemini` from that project root.
 
-## Update / troubleshooting
-Use the common reviewed CLI/snapshot update procedure. Preserve existing project/global host config,
-review nested instructions and restart/reload the host when discovery changes. A Harness integrity
-check is separate from host discovery, app build or behavioral compliance. Native client login/setup
-was not exercised here; official references below establish the documented discovery mechanism.
+## Load and verify
 
-## Official references (checked 2026-10-12)
-- [Context/imports/settings](https://geminicli.com/docs/cli/gemini-md/)
-- [Workspace skill aliases](https://geminicli.com/docs/cli/skills/)
+Gemini uses `GEMINI.md` by default. Inside its chat, run `/memory reload`, then `/memory show`
+to check imported instructions. It also discovers workspace `.agents/skills` as a native alias:
+use `/skills reload` and `/skills list` to inspect them.
 
-## Native model configuration
-Use [Agent preferences](../agent-configuration.md) with an explicitly available Google/Vertex model
-or reviewed mapping. Check the native /model picker against [official model selection](https://geminicli.com/docs/cli/model/).
-Main --model selection does not override native subagent models; configure them separately following
-[official subagents](https://geminicli.com/docs/core/subagents/) and your client's generation settings.
-Reasoning/thinking controls are model-specific. No OpenAI model is assumed to run directly here and
-no native JSON/agent file is created by aih. Verify actual delegation and capacity before parallel work.
+Run the [read-only setup prompt](README.md#3-check-loading-then-give-a-task).
+Do not duplicate skills into `.gemini/skills` or replace existing settings.
+
+## Optional configuration
+
+Instead of the import, an existing `context.fileName` setting can include `AGENTS.md`.
+Choose one route and preserve other context names.
+Model/provider choices remain native to Gemini; see [Agent configuration](../agent-configuration.md).
+Harness does not supply credentials or create native subagents.
+
+## Official references
+
+Checked 2026-10-13; no logged-in Gemini client or live-agent smoke was run.
+
+- [Context files, imports and memory checks](https://geminicli.com/docs/cli/gemini-md/)
+- [Skill aliases and loading checks](https://geminicli.com/docs/cli/skills/)
