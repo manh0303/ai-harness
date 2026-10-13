@@ -96,3 +96,6 @@ mandatory checks or required publication prevent an unconditional completion cla
 completed scope and limitations, not simply “done”. Update the existing tasks.md handoff with current
 baseline, decisions, evidence revision, blockers, remaining work, next action/owner and distinct
 implementation/merge/release status. On the next session, start again at baseline discovery.
+
+## Meaningful-step recovery
+Use agent-routing.md for scoped perspectives. Keep the existing design/tasks/decisions/evidence current, then save a compact project-owned checkpoint after meaningful steps and before external side effects. aih checkpoint/resume supplies validation and local freshness hints, not execution. Record task/evidence IDs, baseline digests, completed/pending work, blockers, operation identity/status and next action; never copy chat or secrets. If interrupted, reconcile actual sources and unknown/prepared remote operations before retrying. Read real host usage/quota only when available; otherwise record unknown and retain user model settings. Use explicit actions/repository scope for an authorized autopilot; host/repo permission rules still apply.

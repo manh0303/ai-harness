@@ -6,6 +6,7 @@ description: Implement offline state transitions and safe synchronization in Rea
 # offline-sync
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 Offline UX, backend idempotency contract, local data policy and conflict rules.
 
 ## Procedure

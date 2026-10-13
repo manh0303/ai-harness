@@ -6,6 +6,7 @@ description: Implement React or Next.js feature slices with existing routes, com
 # Web feature delivery
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 Task/acceptance IDs, approved screen or compact UX notes, API contract, actual framework/router/version,
 and existing convention/component/client/state paths. Read only relevant source and skills.
 

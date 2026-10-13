@@ -22,3 +22,8 @@ Load the relevant skill and adapter. Respect the host's delegation policy; roles
 For new or consequential work, use `.harness/core/workflows/solution-framing.md` and relevant installed
 Product/Architecture/Delivery workflows. Carry source revisions, MVP/AC/NFR/ADR IDs, accepted boundaries,
 actual verification and unresolved dependencies in the handoff. Keep small clear fixes proportional.
+
+## Preferred skills
+- Required: `harness-review`
+- Optional: `harness-verification`
+Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.

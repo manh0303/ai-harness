@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "discovery",
+  "description": "Idea/research, product direction, MVP and outcomes. Canonical Product assets; selective context.",
+  "skills": [
+    "harness-product-idea-discovery",
+    "harness-product-product-research",
+    "harness-product-mvp-definition",
+    "harness-product-prd-generation",
+    "harness-product-product-outcomes"
+  ],
+  "workflows": [
+    "workflows/idea-driven.md",
+    "workflows/idea-to-prd.md",
+    "workflows/product-to-solution.md"
+  ],
+  "agents": [
+    "agents/product-manager.md",
+    "agents/product-owner.md"
+  ],
+  "templates": [
+    "templates/idea.md",
+    "templates/research.md",
+    "templates/product-brief.md",
+    "templates/prd.md",
+    "templates/prd-lite.md",
+    "templates/mvp.md",
+    "templates/outcomes.md",
+    "templates/decision-log.md"
+  ],
+  "module_version": "1.0.0",
+  "verification": "checks/verification.json",
+  "evaluation": "evals/cases.json",
+  "template_aliases": {},
+  "agent_aliases": {},
+  "asset_owner": "product"
+}

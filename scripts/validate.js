@@ -3,7 +3,7 @@ import { loadAdapter } from '../cli/adapter-schema.js';
 import { loadCapability } from '../cli/capabilities.js';
 import { validateRegistry } from '../cli/composition.js';
 import { checksFrom, casesFrom } from '../cli/evaluation-contract.js';
-import { agentDefaults, registeredRoles } from '../cli/agents.js';
+import { agentDefaults, registeredRoles, validatePreferredSkills } from '../cli/agents.js';
 import fs from 'node:fs';
 import { hasReleaseHeading } from './release-heading.js';
 import path from 'node:path';
@@ -43,6 +43,24 @@ try {
   }
   for (const name of m.capabilities ?? []) loadCapability(SOURCE, name);
   validateRegistry(SOURCE);
+  const knownSkills = new Set([...skills,
+    ...m.adapters.flatMap(id => loadAdapter(SOURCE,id).skills),
+    ...(m.capabilities ?? []).flatMap(id => loadCapability(SOURCE,id).skills)]);
+  const contracts = new Set([...Object.values(registeredRoles(SOURCE,m.capabilities ?? [])), ...(m.capabilities ?? []).flatMap(id => { const info=loadCapability(SOURCE,id); return info.agents.map(file => 'capabilities/' + (info.asset_owner ?? id) + '/' + file); })]);
+  for (const contract of contracts) {
+    try { validatePreferredSkills(fs.readFileSync(path.join(SOURCE,contract),'utf8'), knownSkills); }
+    catch(error) { errors.push(contract + ': ' + error.message); }
+  }
+  // Validate installed shared references and required skill availability, not just source paths.
+  for (const selection of [[],['analysis'],['discovery'],['product'],['product','analysis','discovery']]) {
+    const installed = bundle(SOURCE,{adapters:[],capabilities:selection}).files;
+    for (const [p, data] of Object.entries(installed)) {
+      if (p.startsWith('.agents/skills/')) {
+        for (const match of data.toString().matchAll(/\.harness\/capabilities\/[a-z0-9/-]+\.md/g))
+          if (!Object.hasOwn(installed, match[0])) errors.push('Missing installed reference: ' + p + ' -> ' + match[0]);
+      }
+    }
+  }
   const defaultAgents = agentDefaults(SOURCE);
   for (const role of Object.keys(registeredRoles(SOURCE, m.capabilities ?? []))) {
     if (!Object.hasOwn(defaultAgents.agents, role)) errors.push('Missing default agent role: ' + role);

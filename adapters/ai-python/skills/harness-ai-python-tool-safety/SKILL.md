@@ -6,6 +6,7 @@ description: Build bounded model tool calls with independent authorization.
 # tool-safety
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 Tool contracts, runtime permission policy, budget/timeouts and side-effect boundaries.
 
 ## Procedure

@@ -31,7 +31,7 @@ in the task note or existing change. Preserve each module's conventions in mixed
 the diff against those facts and run configured lint/type/build/tests and available boundary checks;
 report manual review where automated architecture coverage is absent.
 
-Use the harness-spec skill to draft and harness-tdd to implement. Use harness-debugging when diagnosing
+Use harness-spec to draft, harness-tdd to implement and harness-review for the review stage. Use harness-debugging when diagnosing
 an observed defect. Agents are roles, not automatically spawned workers; a single assistant can perform
 them sequentially. Respect the host's delegation rules.
 Small documentation edits or obvious low-risk fixes may skip a full spec with a rationale in the PR.

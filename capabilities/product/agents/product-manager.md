@@ -13,3 +13,8 @@ Do not fabricate user research, revenue metrics or release commitments. All prio
 
 ## Handoff
 Hand PRD, measurable outcomes and tradeoffs to Product Owner; request named product sign-off.
+
+## Preferred skills
+- Required: none
+- Optional: `harness-product-idea-discovery`, `harness-product-product-research`, `harness-product-prd-generation`, `harness-product-product-outcomes`
+Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.

@@ -32,4 +32,4 @@ Idea: a static calculator needs UX/formula/build/accessibility evidence, no API 
 Source revisions, requirement IDs, contracts, actual execution evidence and limits are distinguishable. Partial updates preserve approved text.
 
 ## Handoff
-Use `.harness/capabilities/product/workflows/techspec-maintenance.md`; pass evidence and proposed changes to review. Documentation remains pending-review until accepted.
+Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

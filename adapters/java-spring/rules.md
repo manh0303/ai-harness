@@ -1,5 +1,8 @@
 # Java / Spring Boot adapter
 
+## Design authority
+Actual host/user permissions apply. For design within its scope: approved SA/ADR decisions > existing project conventions > adapter defaults. Proposed technologies need alternatives, trade-offs and an owner decision before implementation; accepted choices are reused without asking again. Selecting this adapter does not select any infrastructure or pattern.
+
 Read the actual build files, JDK toolchain, Spring BOM, database dialect and local conventions first.
 Prefer the project's Maven/Gradle wrapper. No Spring, Java or dependency upgrades are implied by installation.
 
@@ -12,7 +15,7 @@ For Modulith projects verify module dependencies; use public module APIs, not an
 Use explicit transaction boundaries. Test concurrent updates and idempotency for retried writes.
 Use BigDecimal with an explicit rounding policy for money. Use Instant/offset-aware times and an explicit
 business timezone. Avoid accidental N+1 queries and unbounded queries; define pagination and indexes.
-If using an outbox, persist the business change and outbox event in one transaction; consumers deduplicate.
+For messaging or consistency changes, use approved SA contracts and existing project mechanisms. Do not select a messaging pattern from this adapter.
 Retries require bounds and retryable error classification. Async work needs a managed executor.
 
 ## Contracts and security

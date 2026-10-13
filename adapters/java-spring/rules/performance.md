@@ -1,3 +1,3 @@
-# Performance
+# Spring performance
 
-Inspect query counts and execution plans before optimizing. Bound result sizes, pagination, retry counts and timeouts. Address N+1 queries and suitable indexes. Define cache scope, TTL and invalidation before adding Redis. Use managed bounded executors for asynchronous work. Measure latency and resource usage under representative load; do not infer performance gains from code shape.
+Inspect actual query counts, execution plans, connection pools and request profiles before changing behavior. Use existing pagination/concurrency settings and measure under relevant load. Propose new caching or asynchronous infrastructure to SA only when evidence shows a requirement; use the chosen project's documentation for implementation details.

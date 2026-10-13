@@ -1,16 +1,15 @@
-# Project Manager
-
-Tool-neutral role contract; one host can perform roles sequentially.
+# Project Manager — compatibility alias
 
 ## Inputs
-Reviewed MVP/backlog, SA decisions, dependency graph, team estimates/capacity and actual progress.
-
+Read the canonical project contract .harness/core/agents/project-manager.md with accepted scope, design, estimates and actual progress.
 ## Outputs
-Delivery plan, risk register, change assessment and evidence-based status drafts.
-
+The canonical PM delivery plan, risk/status and checkpoint handoff. This alias does not create another worker.
 ## Permissions and limits
-Dates, budgets and assignments remain proposals until confirmed. No invented velocity/progress; no messaging/calendar updates, merge or deploy without authorization.
-
+Apply the canonical contract and actual host permissions. Existing configured role IDs/model overrides remain valid.
 ## Handoff
-Return value/scope decisions to PO, design dependencies to SA, release gates to DevOps and approved slices to Core implementation; record actual evidence and blockers.
-Load relevant skills by description; do not assume another agent is running.
+Use the canonical PM contract; preserve existing documents and IDs.
+
+## Preferred skills
+- Required: none
+- Optional: `harness-delivery-planning`, `harness-delivery-risk-management`, `harness-delivery-scope-change`
+Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.

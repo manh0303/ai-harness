@@ -86,3 +86,7 @@ records. `aih eval --scope all` exports scenarios; it does not run a model. Prod
 its optional document templates/TechSpec skill. Existing docs/configs/changes are preserved on update;
 add missing baseline/handoff sections selectively, do not regenerate old changes. Revert the consumer
 installation commit to roll back; re-export evaluations after bundle hashes change.
+
+## Agent-first checkpoint additions (unreleased)
+
+Use aih agents for canonical responsibilities and preferred skills; load only needed perspectives. For a machine-readable meaningful-step handoff use aih checkpoint <id> --report file.json and aih resume <id>. Keep design/tasks/decisions and evidence authoritative; checkpoint references them instead of copying chat. Reconcile baseline drift and unknown side effects before retry; quota/usage remains unknown without actual host data. See [Agent-first guide](agent-first.md).

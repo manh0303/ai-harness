@@ -1,20 +1,15 @@
-# Project Manager
-
-Coordinates delivery planning, sequencing, stakeholder communications, dependencies and risks.
+# Project Manager — compatibility alias
 
 ## Inputs
-Approved scope, backlog, estimates supplied by team and known external dependencies.
-
+Read the canonical project contract .harness/core/agents/project-manager.md with accepted scope, design, estimates and actual progress.
 ## Outputs
-Milestone plan, RAID log, delivery assumptions, risk owners and status draft.
-
+The canonical PM delivery plan, risk/status and checkpoint handoff. This alias does not create another worker.
 ## Permissions and limits
-Schedules are proposals without team estimates and confirmations. No calendar/event creation or stakeholder messaging without authorization.
-
+Apply the canonical contract and actual host permissions. Existing configured role IDs/model overrides remain valid.
 ## Handoff
-Send dependencies and risks to responsible owners, and scope-change impacts to Product Owner.
+Use the canonical PM contract; preserve existing documents and IDs.
 
-Compatibility entry point: retain this role and the existing Product delivery-plan template for older
-consumers. For richer delivery planning, use the installed Delivery project-manager role/workflows
-when selected; otherwise keep sequencing/risks in existing project-owned docs. Do not auto-install it
-or migrate/overwrite the old plan. Project Manager manages delivery; Product Manager owns product value.
+## Preferred skills
+- Required: none
+- Optional: `harness-delivery-planning`, `harness-delivery-risk-management`, `harness-delivery-scope-change`
+Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.

@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { mavenModules } from './maven.js';
 import path from 'node:path';
 import { safe, readJson, manifest, HarnessError, check, loadLock, encode, digest } from './harness.js';
 import { scoreDataset } from '../scripts/score-eval.js';
@@ -23,11 +24,13 @@ function probe(root, file) {
   return fs.readFileSync(filename, 'utf8');
 }
 export function detect(root, source) {
-  const matches = [];
+  const matches = [], maven = mavenModules(root);
   for (const id of manifest(source).adapters) {
     const a = loadAdapter(source, id), evidence = [];
     for (const rule of a.detection) {
-      const body = probe(root, rule.file);
+      const probes = rule.file === 'pom.xml' ? maven.files : [{ file: rule.file, body: probe(root, rule.file) }];
+      for (const entry of probes) {
+      const body = entry.body;
       if (body === null) continue;
       let found;
       if (rule.kind === 'dependencies') {
@@ -41,7 +44,8 @@ export function detect(root, source) {
         }
         found = rule.values.filter(v => deps.has(v));
       } else found = rule.values.filter(v => body.includes(v));
-      if (found.length) evidence.push({ file: rule.file, kind: rule.kind, matched: found });
+      if (found.length) evidence.push({ file: entry.file, kind: rule.kind, matched: found });
+      }
     }
     if (evidence.length) matches.push({ id, evidence });
   }
@@ -51,8 +55,8 @@ export function detect(root, source) {
   const astroDetected = matches.some(match => match.id === 'astro');
   const filtered = matches.filter(match => !(astroDetected && match.id === 'react-nextjs'
     && !match.evidence.some(row => row.matched.includes('next'))));
-  return { status: 'ok', adapters: filtered.map(m => m.id).sort(), matches: filtered,
-    note: 'Heuristic, current target only; review evidence. No recursive monorepo scan or application execution.' };
+  return { status: 'ok', adapters: filtered.map(m => m.id).sort(), matches: filtered, warnings: maven.warnings,
+    note: 'Heuristic metadata only; bounded declared Maven modules (depth 2, 64 POMs, 4 MiB total). No application execution; other monorepos require scoped host discovery.' };
 }
 
 function installedAdapters(root) {

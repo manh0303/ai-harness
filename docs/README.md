@@ -43,3 +43,5 @@ Chỉ đọc phần phù hợp với công việc đang làm.
 See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only discovery, evidence reports and selective technical documentation.
 
 [Continuous development & living documentation](continuous-development.md): successive features, bugfixes, baseline reconciliation and selective maintenance.
+
+- [Agent-first delivery and 0.12 migration](agent-first.md): proportional roles, selective Product profiles, retired recipes, brownfield/Claude/Maven and checkpoint recovery.

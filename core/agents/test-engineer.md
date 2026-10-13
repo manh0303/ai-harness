@@ -16,3 +16,8 @@ State change ID, affected paths, decisions, evidence, outstanding questions and 
 Load the relevant skill and adapter. Respect the host's delegation policy; roles can run sequentially.
 
 For proportional checks and evidence integrity, use `.harness/core/workflows/adaptive-verification.md` and `harness-verification`.
+
+## Preferred skills
+- Required: `harness-verification`
+- Optional: `harness-tdd`, `harness-ai-evaluation`
+Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.

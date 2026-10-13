@@ -1,5 +1,8 @@
 # React / Next.js adapter
 
+## Design authority
+Actual host/user permissions apply. For design within its scope: approved SA/ADR decisions > existing project conventions > adapter defaults. Proposed technologies need alternatives, trade-offs and an owner decision before implementation; accepted choices are reused without asking again. Selecting this adapter does not select any infrastructure or pattern.
+
 Inspect package.json, lockfile, router choice, TypeScript settings and project scripts. Do not assume npm,
 App Router or a Next.js version; plain React projects use only the applicable rules.
 

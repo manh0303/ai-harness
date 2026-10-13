@@ -14,3 +14,8 @@ May inspect and propose within authorized scope. Cannot self-approve stakeholder
 ## Handoff
 Pass requirement/NFR/ADR IDs, public boundaries, source revisions, acceptance/verification and risks to Delivery/Core/adapters. Return scope questions to BA/PO and operational gaps to DevOps.
 Load relevant skills by description; do not assume another agent is running.
+
+## Preferred skills
+- Required: none
+- Optional: `harness-architecture-project-context`, `harness-architecture-quality-attributes`, `harness-architecture-solution-design`, `harness-architecture-decision-records`, `harness-architecture-change-impact`
+Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.

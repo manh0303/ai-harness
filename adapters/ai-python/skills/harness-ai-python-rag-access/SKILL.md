@@ -6,6 +6,7 @@ description: Build retrieval with enforceable document access and grounded answe
 # rag-access
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 Document identities/revisions, tenant ACL policy, retrieval interface and evaluation dataset.
 
 ## Procedure

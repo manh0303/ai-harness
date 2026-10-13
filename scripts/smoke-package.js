@@ -64,7 +64,7 @@ try {
     const draft = JSON.parse(solutionRun(['new-doc', type, '--capability', owner]));
     assert.equal(draft.path, `docs/${owner}/${type}.md`);
     assert.equal(fs.readFileSync(path.join(solutionTarget, draft.path), 'utf8'),
-      fs.readFileSync(path.join(SOURCE, `capabilities/${owner}/templates/${type}.md`), 'utf8'));
+      fs.readFileSync(path.join(SOURCE, readJson(path.join(SOURCE, `capabilities/${owner}/capability.json`)).template_aliases?.[`templates/${type}.md`] ?? `capabilities/${owner}/templates/${type}.md`), 'utf8'));
   }
   assert.equal(JSON.parse(solutionRun(['check'])).status, 'ok');
   assert.equal(JSON.parse(solutionRun(['verify', '--scope', 'all'])).executed, false);
@@ -82,7 +82,7 @@ try {
     assert.ok(row && row.scores.every(score => score === null));
   }
   const agentPreferences = readJson(path.join(target, '.harness/agents.json'));
-  assert.equal(agentPreferences.defaultModel, 'gpt-6.1-sol');
+  assert.equal(agentPreferences.defaultModel, 'host-default');
   assert.equal(agentPreferences.execution.autoEscalateToPremium, false);
   const routing = JSON.parse(run(['setup', '--host', 'codex'])).agent_configuration;
   assert.ok(routing.roles.every(role => role.runtime_verified === false));
@@ -154,6 +154,20 @@ try {
   assert.equal(JSON.parse(productRun(['verify', '--report', 'verification.json'])).verdict, 'NOT_RUN');
   const draft = JSON.parse(productRun(['new-doc', 'techspec', '--report', 'verification.json']));
   assert.match(fs.readFileSync(path.join(productTarget, draft.path), 'utf8'), /UNVERIFIED/);
+  assert.ok(names.includes('scripts/compare-tasks.js'));
+  assert.ok(names.includes('cli/checkpoint.js'));
+  assert.ok(names.includes('capabilities/analysis/capability.json'));
+  assert.ok(names.includes('docs/i18n/README.zh-CN.md'));
+  assert.ok(!names.some(n => ['harness-java-spring-kafka-outbox','harness-java-spring-database-migration','harness-astro-cloudflare','harness-astro-microfrontend'].some(id => n.includes('/skills/'+id+'/'))));
+  assert.equal(JSON.parse(productRun(['agents'])).roles.find(r => r.id === 'product:project-manager').canonical_id, 'core:project-manager');
+  assert.equal(JSON.parse(productRun(['update','--link-claude','--claude-skills'])).status, 'ok');
+  assert.ok(fs.existsSync(path.join(productTarget,'.claude/skills/harness-tdd/SKILL.md')));
+  const linkedBytes=fs.readFileSync(path.join(productTarget,'CLAUDE.md'));
+  assert.equal(JSON.parse(productRun(['update','--link-claude','--claude-skills'])).changes.length,0);
+  assert.ok(fs.readFileSync(path.join(productTarget,'CLAUDE.md')).equals(linkedBytes));
+  const installedPackage=process.platform==='win32'?path.join(prefix,'node_modules',packageName):path.join(prefix,'lib/node_modules',packageName);
+  const exported=JSON.parse(command(process.execPath,[path.join(installedPackage,'scripts/compare-tasks.js'),'--template'],productTarget));
+  assert.equal(exported.runs.length,18);
   const artifactContract = { schema_version: 1, mode: 'idea-driven', inputs: {}, outputs: {
     requirements: { kind: 'docs', capability: 'product', location: { path: 'docs/chosen' }, canonical: true, write_policy: 'propose' },
   } };
@@ -176,11 +190,26 @@ try {
     .reduce((sum, id) => sum + readJson(path.join(SOURCE, 'adapters', id, 'evals/cases.json')).cases.length, 0);
   assert.equal(adapterEvaluation.dataset.cases.length, expectedCases);
   assert.ok(JSON.parse(run(['eval', '--scope', 'all'])).dataset.cases.some(x => x.id.startsWith('core/')));
-  assert.ok(fs.existsSync(path.join(target, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
+  assert.ok(!fs.existsSync(path.join(target, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
+  assert.ok(fs.existsSync(path.join(target, '.agents/skills/harness-java-spring-spring-api/SKILL.md')));
   JSON.parse(run(['new-change', 'package-smoke']));
   assert.ok(fs.existsSync(path.join(target, 'openspec/changes/package-smoke/.openspec.yaml')));
   assert.equal(JSON.parse(run(['setup'])).status, 'planned');
   assert.equal(JSON.parse(run(['doctor'])).environment.configured, true);
+  const recovery={schema_version:1,change_id:'package-smoke',phase:'implementation',summary:'Offline recovery fixture',timestamp:new Date().toISOString(),baseline:[],completed:[],pending:[{id:'next',summary:'Review fixture'}],in_progress:null,blockers:[],next_action:'Review actual host state',external_sources:[],operations:[]};
+  fs.writeFileSync(path.join(target,'handoff.json'),JSON.stringify(recovery));
+  const checkpoint=JSON.parse(run(['checkpoint','package-smoke','--report','handoff.json']));
+  assert.ok(checkpoint.checkpoint_sha256);
+  assert.equal(JSON.parse(run(['resume','package-smoke'])).revalidate_required,false);
+  const profileTarget=path.join(temp,'profile consumer');fs.mkdirSync(profileTarget);
+  const profileRun=args=>process.platform==='win32'
+    ? command(process.env.ComSpec||'cmd.exe',['/d','/s','/c',`""${bin}" ${args.join(' ')}"`],profileTarget,{windowsVerbatimArguments:true})
+    : command(bin,args,profileTarget);
+  assert.equal(JSON.parse(profileRun(['init','--capabilities','analysis,discovery'])).status,'ok');
+  const catalog=JSON.parse(profileRun(['skills'])).skills;
+  assert.equal(catalog.length,new Set(catalog.map(s=>s.name)).size);
+  assert.ok(fs.existsSync(path.join(profileTarget,JSON.parse(profileRun(['new-doc','srs'])).path)));
+  assert.equal(JSON.parse(profileRun(['check'])).status,'ok');
   const changeDir = path.join(target, 'openspec/changes/package-smoke');
   for (const file of ['decisions.json', 'verification.json', 'artifact-impact.json']) assert.ok(fs.existsSync(path.join(changeDir, file)));
   fs.writeFileSync(path.join(changeDir, 'proposal.md'), '# Proposal\nAdd the reviewed smoke behavior.\n');

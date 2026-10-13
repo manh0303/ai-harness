@@ -1,3 +1,3 @@
-# Database
+# Persistence
 
-Make transaction boundaries explicit. Use BigDecimal with a domain-defined rounding policy for money and explicit business timezones. Design idempotent retried writes and test concurrent updates. Use the deployed SQL dialect for integration tests. Evolve schemas with expand/contract migrations and deployment ordering. Persist domain change plus outbox event in the same transaction; consumers deduplicate.
+Use the project's actual database dialect, migration tool and approved data contracts. Align Spring transaction boundaries with accepted business semantics; test rollback and concurrency where relevant. Ask only unresolved deployment/compatibility decisions before schema changes. Do not add a broker, event relay, cache, migration framework or transaction pattern from this adapter. SA assesses those options when requirements demand them.

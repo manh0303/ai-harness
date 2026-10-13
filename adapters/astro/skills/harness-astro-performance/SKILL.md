@@ -6,6 +6,7 @@ description: Reduce Astro page JavaScript, images and hydration cost while prese
 # Astro performance
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 - Actual performance issue or quality goal, existing Astro build, package manager and route/island structure.
 - Measurements from browser/profiler or build reports where available.
 

@@ -6,6 +6,7 @@ description: Review Kubernetes workloads for resources, readiness, security and 
 # harness-kubernetes-workload-review
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 - Rendered manifests, workload requirements, Kubernetes version and approved environment policy.
 
 ## Procedure

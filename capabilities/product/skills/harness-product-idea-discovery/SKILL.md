@@ -28,17 +28,13 @@ description: Collaboratively refine a developer's rough software idea into an ev
 
 ## Template
 Read `.harness/capabilities/product/templates/idea.md`; `aih new-doc idea` creates only a missing
-draft. Reuse canonical existing documents and source pointers; never regenerate approved content by default.
+draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
 Synthetic illustration: Original idea is preserved; clarify prototype versus usable MVP and choose the smallest end-to-end journey with the user.
 
 ## Quality checklist
 - Original words, assumptions, actual answers and non-goals stay visible.
-- Actual decisions/status and source revisions distinguish approved facts from proposals.
-- Scope, relevant IDs, unresolved questions and verification limits are recorded.
 
 ## Handoff
-Use `.harness/capabilities/product/workflows/product-to-solution.md`; supply reviewed source/requirement
-IDs, output paths and actual owner decisions to the next BA/PO/SA/PM role as applicable. Return gaps
-to their owner; a single host may perform roles sequentially without claiming independent approval.
+Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

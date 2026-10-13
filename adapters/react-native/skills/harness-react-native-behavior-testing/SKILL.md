@@ -6,6 +6,7 @@ description: Verify React Native and Expo screens using existing JavaScript, nav
 # Mobile behavior testing
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 Changed screen/AC, actual test scripts/runner and navigation setup, affected platforms, native/device
 access, and existing API/storage/permission fixtures.
 

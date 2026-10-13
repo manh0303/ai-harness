@@ -59,7 +59,7 @@ for (const id of ['architecture', 'delivery']) test(`${id} installs alone, expos
     const result = cli(['new-doc', name, '--capability', id]);
     assert.equal(result.path, `docs/${id}/${name}.md`);
     assert.equal(result.capability, id);
-    assert.equal(read(result.path), fs.readFileSync(path.join(source, `capabilities/${id}/${template}`), 'utf8'));
+    assert.equal(read(result.path), fs.readFileSync(path.join(source, info.template_aliases?.[template] ?? `capabilities/${id}/${template}`), 'utf8'));
   }
   assert.equal(check(root).status, 'ok');
 });

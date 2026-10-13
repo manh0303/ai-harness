@@ -56,13 +56,11 @@ Lệnh `new-change` **chỉ tạo draft**, không validate/approve spec. Gate: r
 ~~~bash
 aih skill harness-java-spring-spring-api
 aih skill harness-tdd
-aih skill harness-java-spring-database-migration
-aih skill harness-java-spring-kafka-outbox
+aih skill harness-review
 ~~~
 
 - `spring-api`: controller/service/repository theo pattern hiện có, tenant-scope server-side, DTO và HTTP contract.
-- `database-migration`: chỉ dùng **khi đổi schema**; thiết kế expand → compatible deploy → contract, rollback/data-loss risk.
-- `kafka-outbox`: chỉ dùng **khi có event publication**; transactional write, duplicate consumer delivery, retry/dead-letter.
+- Schema, messaging và deployment choices theo approved SA/ADR và tooling thực tế. Khi chưa có quyết định quan trọng, SA đưa alternatives/trade-offs và hỏi owner trước implementation; không dùng recipe từ adapter.
 - `harness-tdd`: negative auth test, missing resource, validation, successful request, regression. Không tạo implementation Kafka/DB nếu requirement không cần.
 
 Lệnh verify ứng dụng **tùy repo** — dưới đây chỉ là ví dụ nếu có Maven wrapper:

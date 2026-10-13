@@ -41,7 +41,7 @@ function snapshot() {
 
 test('Monetization is independently registered with full source-validated skill, workflow and template contracts', () => {
   const names = listCapabilities(source).map(c => c.id);
-  assert.deepEqual(names, ['uiux','product','devops','monetization','architecture','delivery']);
+  assert.deepEqual(names, ['uiux','product','devops','monetization','architecture','delivery','analysis','discovery']);
   const m = loadCapability(source, 'monetization');
   assert.equal(m.module_version, '1.0.0');
   assert.equal(m.skills.length, 5);

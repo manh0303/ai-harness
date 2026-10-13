@@ -1,55 +1,39 @@
 # AI Harness
 
-**English** · [Tiếng Việt](docs/i18n/README.vi.md)
+**English** · [Tiếng Việt](docs/i18n/README.vi.md) · [简体中文](docs/i18n/README.zh-CN.md) · [Español](docs/i18n/README.es.md)
 
-**Reusable project instructions for AI-assisted development: Requirements → Code → Test → Review.**
+Reusable agent workflows for software development: **Requirements → Design → Code → Test → Review.**
 
-Install Harness in your project, then give tasks to your preferred AI coding tool.
+Give an idea, existing docs or a change request to your AI coding tool. Harness helps it inspect the project, clarify open decisions, implement accepted scope and maintain relevant specs/docs. Use only the roles and skills the task needs.
 
-## What can it help with?
-
-| Workflow | Outputs |
-| --- | --- |
-| **BA / PO — Business analysis & product** | Turn ideas or existing docs into BRD, PRD, SRS, user stories and acceptance criteria. |
-| **SA — Solution architecture** | Architecture, non-functional requirements, technical decisions and change-impact analysis. |
-| **PM — Delivery planning** | Delivery phases, dependencies, risks and scope changes. |
-| **Dev / QA — Implementation & testing** | Feature implementation, debugging, tests and code review following project conventions. |
-| **UI/UX & DevOps** | UI design, CI/CD, deployment and operations guidance when needed. |
-
-Stack adapters: Spring Boot, React/Next.js, React Native/Expo, Python AI/RAG, Astro and Kubernetes.
-Select only what you need; small tasks do not require a full set of docs or a spec. [Choose your stack & modules](docs/getting-started.md).
-
-## Where can you use it?
-
-| AI coding tool | Usage | Guide |
-| --- | --- | --- |
-| **Codex** | CLI or IDE extension | [Install & setup](docs/tool-setup/codex.md) |
-| **Claude Code** | Run `claude` in the project terminal | [Install & setup](docs/tool-setup/claude-code.md) |
-| **Cursor** | Open the project and use Agent | [Install & setup](docs/tool-setup/cursor.md) |
-| **GitHub Copilot** | IDE Agent or Copilot CLI | [Install & setup](docs/tool-setup/copilot.md) |
-| **Gemini CLI** | Run `gemini` in the project terminal | [Install & setup](docs/tool-setup/gemini-cli.md) |
-
-Harness installs instructions; your AI tool executes the work. Follow each guide for tool-specific instruction loading.
+Works with any project through Core workflows. Optional stack support: Spring Boot, React/Next.js, React Native, Python, Astro and Kubernetes. Stack selection does not choose infrastructure or architecture.
 
 ## Quick start
 
-Requires **Node.js 22+** and an AI coding tool above. Run in your project directory:
+Requires Node.js 22+. Run in your project directory:
 
 ```bash
-npx --yes @manhd_d/ai-harness init --detect
+npx --yes @manhd_d/ai-harness init
 ```
 
-Open your AI tool in the same project and send:
+Then ask your AI tool:
 
-> Read AGENTS.md, inspect the project and record relevant context in .harness/local.md.
-> Implement: [describe your task]. Run appropriate tests and report the results.
+> Read AGENTS.md. Inspect this project and its approved decisions. Implement [task], run appropriate checks and maintain the affected docs.
 
-Give tasks normally; you do not need to invoke each agent or skill, or open a chat for each role.
-If `--detect` cannot identify the stack, [select modules explicitly](docs/getting-started.md).
-`aih check` checks Harness files; application correctness requires project tests and review.
+Use `init --detect` for supported stack detection. Existing project instructions and custom skills are preserved; `aih check` checks Harness integrity. Your host executes application tests and controls tools, delegation and permissions.
 
-[Getting started](docs/getting-started.md) · [Docs & examples](docs/README.md) · [Input/output & integrations](docs/artifact-contract.md) · [Model/agent configuration](docs/agent-configuration.md)
+## Where it runs
 
-[Contributing](CONTRIBUTING.md) · [Harness maintenance](docs/harness-maintenance.md) · [MIT](LICENSE).
+| AI tool | Environment | Setup |
+| --- | --- | --- |
+| **Codex** | CLI, IDE or a connected cloud workspace | [Guide](docs/tool-setup/codex.md) |
+| **Claude Code** | Project terminal | [Guide](docs/tool-setup/claude-code.md) |
+| **Cursor** | IDE Agent | [Guide](docs/tool-setup/cursor.md) |
+| **GitHub Copilot** | IDE Agent or CLI | [Guide](docs/tool-setup/copilot.md) |
+| **Gemini CLI** | Project terminal | [Guide](docs/tool-setup/gemini-cli.md) |
 
-[Continuous development](docs/continuous-development.md) · [Adaptive verification & TechSpec](docs/adaptive-verification.md): successive changes, current context and selective docs.
+Local/cloud execution and external inputs depend on the host's actual access. MCP/connector/API connections can supply docs, designs, tickets and evidence under project source policies.
+
+[Getting started](docs/getting-started.md) · [Docs & examples](docs/README.md) · [Input/output](docs/artifact-contract.md) · [Agent configuration](docs/agent-configuration.md) · [Continuous development](docs/continuous-development.md)
+
+[Contributing](CONTRIBUTING.md) · [Harness maintenance](docs/harness-maintenance.md) · [MIT](LICENSE)

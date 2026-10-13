@@ -28,17 +28,13 @@ description: Research comparable products, user needs and implementation feasibi
 
 ## Template
 Read `.harness/capabilities/product/templates/research.md`; `aih new-doc research` creates only a missing
-draft. Reuse canonical existing documents and source pointers; never regenerate approved content by default.
+draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
 Synthetic illustration: With no browsing access, competitor claims are UNKNOWN and research questions are proposed rather than citations invented.
 
 ## Quality checklist
 - Retrieved facts, inferences and forecasts have provenance.
-- Actual decisions/status and source revisions distinguish approved facts from proposals.
-- Scope, relevant IDs, unresolved questions and verification limits are recorded.
 
 ## Handoff
-Use `.harness/capabilities/product/workflows/product-to-solution.md`; supply reviewed source/requirement
-IDs, output paths and actual owner decisions to the next BA/PO/SA/PM role as applicable. Return gaps
-to their owner; a single host may perform roles sequentially without claiming independent approval.
+Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

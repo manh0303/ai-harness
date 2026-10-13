@@ -11,3 +11,8 @@ JSON requests it. Premium requires explicit user model selection. No approval, m
 ## Handoff
 Use `.harness/core/workflows/agent-routing.md`. Pass only scope, source paths/revisions, decisions,
 acceptance, actual checks, blockers and next owner. Keep simple tasks in one host session.
+
+## Preferred skills
+- Required: `harness-spec`
+- Optional: `harness-verification`, `harness-review`
+Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.

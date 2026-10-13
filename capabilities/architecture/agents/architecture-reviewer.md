@@ -14,3 +14,8 @@ Review-only unless asked to fix; author self-review is not independent review. A
 ## Handoff
 Return requirements gaps to BA/PO, design gaps to SA, sequencing risks to PM and defects to Dev/QA; include actual source and uncertainty.
 Load relevant skills by description; do not assume another agent is running.
+
+## Preferred skills
+- Required: none
+- Optional: `harness-architecture-review`
+Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.

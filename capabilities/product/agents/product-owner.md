@@ -17,3 +17,8 @@ Hand approved stories and traceable AC to UI/UX and OpenSpec; return gaps to BA/
 
 Use product-to-solution workflow and MVP/outcomes skills; actual stakeholder decisions remain required
 for consequential scope choices. Send requirement/AC/NFR IDs and decision evidence to Architecture/Delivery.
+
+## Preferred skills
+- Required: none
+- Optional: `harness-product-mvp-definition`, `harness-product-backlog-prioritization`, `harness-product-user-stories`, `harness-product-acceptance-criteria`
+Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.

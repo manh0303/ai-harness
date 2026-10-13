@@ -29,17 +29,13 @@ description: Produce a testable Software Requirements Specification linked to ap
 
 ## Template
 Read `.harness/capabilities/product/templates/srs.md`; `aih new-doc srs` creates only a missing
-draft. Reuse canonical existing documents and source pointers; never regenerate approved content by default.
+draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
 Synthetic illustration: FR-001 defines search behavior; NFR-001 target is pending until agreed and is passed to Architecture for a scenario/test plan.
 
 ## Quality checklist
 - FR/NFR contracts, exception paths and trace IDs remain consistent.
-- Actual decisions/status and source revisions distinguish approved facts from proposals.
-- Scope, relevant IDs, unresolved questions and verification limits are recorded.
 
 ## Handoff
-Use `.harness/capabilities/product/workflows/product-to-solution.md`; supply reviewed source/requirement
-IDs, output paths and actual owner decisions to the next BA/PO/SA/PM role as applicable. Return gaps
-to their owner; a single host may perform roles sequentially without claiming independent approval.
+Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

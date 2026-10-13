@@ -152,3 +152,7 @@ See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only
 ## Continuous development
 
 The [continuous-development workflow](continuous-development.md) composes existing Core and optional Product/Architecture/Delivery contracts. Baseline/impact and handoff sections extend existing OpenSpec Markdown templates; no schema, runtime, state store or CLI command is added. Hosts reconcile revisions and perform authorized section edits; structural readiness cannot enforce semantic freshness.
+
+## Agent-first changes (unreleased)
+
+Optional capability profiles declare asset_owner for a canonical owner; loading validates subset membership, and installation vendors canonical assets while exposing selected skills once. Optional agent/template aliases retain old IDs/routes. Root CLAUDE managed import and native skill wrappers are opt-in locked payloads; external native settings remain project-owned. Checkpoint commands store declarations/history and compute local drift without a runtime/state server. See [Agent-first migration](agent-first.md).

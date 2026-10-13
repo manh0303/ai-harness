@@ -6,6 +6,7 @@ description: Plan Kubernetes rollout checks, observable abort gates and recovery
 # harness-kubernetes-rollout-safety
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 - Deployment manifest, replica count, traffic patterns, health telemetry, application migration plan.
 
 ## Procedure

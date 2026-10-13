@@ -104,3 +104,7 @@ scoped context, round checkpoint and actual checks; do not claim JSON enforced t
 ## Resume and lifecycle
 
 Use [Continuous development](continuous-development.md). Store baseline/tested revisions, decisions, blockers, remaining work and next action in the existing OpenSpec tasks handoff. Re-read actual sources on resume and invalidate affected stale evidence. Keep implementation complete, merged and released distinct; supplied feedback remains proposed scope until accepted.
+
+## Agent-first routing and PM aliases
+
+[Canonical Project Manager](../core/agents/project-manager.md) owns delivery. Product/Delivery PM IDs are compatibility aliases; route by canonical_id, not separate workers. Analysis/Discovery agents use canonical Product contracts above. Preferred skills are explicit; optional perspectives need not be installed. See [Agent-first migration](agent-first.md).

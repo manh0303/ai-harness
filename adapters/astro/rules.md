@@ -1,17 +1,8 @@
-# Astro adapter — static-first micro-tools
+# Astro support
 
-Astro should be the light, SEO-friendly shell for independent small utilities. Use TypeScript and browser-native capabilities by default. Prefer **zero backend and zero database** until a requirement justifies them.
+## Design authority
+Actual host/user permissions apply. Approved SA/ADR decisions > existing project conventions > adapter defaults. New technology needs alternatives, trade-offs and owner acceptance; reuse accepted decisions.
 
-## Read before implementation
-- Inspect installed Astro version, package manager, routes, integrations, output mode and actual scripts. Never assume a Vite or Astro minor-version API.
-- Read `rules/architecture.md`, `rules/security.md`, `rules/performance.md`, `rules/deployment.md` and only the relevant namespaced skills.
-- Distinguish static HTML, hydrated UI islands, server routes and **separately deployable** micro frontends. Astro Islands are not Module Federation.
-- Avoid adopting React, Tailwind, SSR, a Cloudflare adapter, API/server, storage, auth or a monorepo just because they are available.
+Inspect the installed Astro version, rendering mode, integrations, router/layout conventions and configured scripts. Support static, hybrid or server rendering according to approved requirements. Do not select a host, UI framework, backend, database, monorepo or microfrontend model.
 
-## Safe workflow
-Product approval/requirements → route/tool boundary and privacy model → static-first code with minimal client JS → real build/UX tests → reviewed release. Do not run deployments, fetch unauthorized third-party content or assert permissions without evidence.
-
-## Verification
-`aih verify` returns checklists without running commands; inspect package scripts and execute checks through an authorized host. Keep Core TDD/debugging/review; optional Product/UIUX/DevOps provide cross-cutting workflows.
-
-Official references: https://docs.astro.build/en/guides/framework-components/ and https://docs.astro.build/en/guides/deploy/cloudflare/.
+Read only relevant [architecture](rules/architecture.md), [security](rules/security.md), [performance](rules/performance.md) and [deployment](rules/deployment.md) support. Existing TypeScript/JavaScript and framework choices take precedence. Use actual build/browser evidence, not inferred results.

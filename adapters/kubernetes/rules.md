@@ -1,5 +1,8 @@
 # Kubernetes adapter
 
+## Design authority
+Actual host/user permissions apply. For design within its scope: approved SA/ADR decisions > existing project conventions > adapter defaults. Proposed technologies need alternatives, trade-offs and an owner decision before implementation; accepted choices are reused without asking again. Selecting this adapter does not select any infrastructure or pattern.
+
 Use this adapter for manifest, Helm and rollout decisions. Combine with the `devops` capability for broader release/incident workflows. It never grants cluster permissions.
 
 Read `rules/architecture.md`, `rules/security.md` and `rules/reliability.md` before applying the

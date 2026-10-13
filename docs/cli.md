@@ -159,3 +159,7 @@ local fallback. Configured output contracts require reviewed artifact-impact.jso
 review stage requires declared completion/evidence. No remote calls, source writes or approval claims.
 
 See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only discovery, evidence reports and selective technical documentation.
+
+## Agent-first additions (unreleased)
+
+aih agents shows canonical IDs, skill preferences and model declarations. init --host claude-code seeds a native preset only when agents.json is absent. init/update --link-claude and --claude-skills opt in to managed import/wrappers; native settings remain user-owned. checkpoint <id> --report saves project-owned recovery state; --expected supplies prior digest for replacement. resume <id> is read-only. See [Agent-first guide](agent-first.md). No command launches agents, probes providers, merges or measures quota.

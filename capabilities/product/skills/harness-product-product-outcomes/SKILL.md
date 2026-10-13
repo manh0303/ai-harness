@@ -32,8 +32,7 @@ For customer lookup, propose task completion and observed latency as measures. W
 - Experiment does not silently expand collection or release scope
 
 ## Handoff
-State source revisions, requirement/decision IDs, approval status, unresolved questions, output paths,
-actual checks and next role. Use the module workflow; role names are not human authorization.
+Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
 
 ## Constraints
 Follow Core permissions, clarification and project-conventions. Ask only consequential unknowns with

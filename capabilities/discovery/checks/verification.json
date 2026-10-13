@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "id": "profile-handoff",
+      "title": "Review discovery agent inputs/output and decisions",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Canonical sources and proportional scope",
+        "Actual owner decisions, evidence and next role"
+      ],
+      "execution": "manual"
+    }
+  ]
+}

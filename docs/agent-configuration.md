@@ -27,7 +27,7 @@ with a field-level error; it is not reset automatically. Keep credentials in hos
 ## Contract and precedence
 Schema version 1 uses provider, defaultModel, defaultReasoning, models, agents and execution, with
 optional hosts. Role IDs are namespace:role: core:planner, product:project-manager and
- delivery:project-manager remain distinct. Defaults cover all current roles; only installed selected
+ delivery:project-manager retain distinct configuration IDs but alias the canonical core:project-manager responsibility. Defaults cover all current roles; only installed selected
 roles are active. Unknown/custom role IDs can be declared but are not asserted to have a host contract.
 Future unmapped installed roles inherit project defaults and are listed by setup.
 
@@ -41,10 +41,10 @@ explicit role mappings. enabled:false disables a dedicated route, not required r
 ```json
 {
   "schema_version": 1,
-  "provider": "openai",
-  "defaultModel": "gpt-6.1-sol",
+  "provider": "host",
+  "defaultModel": "host-default",
   "defaultReasoning": "medium",
-  "models": { "economy": "gpt-6-luna", "balanced": "gpt-6.1-sol", "premium": "gpt-6-astra" },
+  "models": { "economy": "host-default", "balanced": "host-default", "premium": "host-default" },
   "agents": {
     "core:orchestrator": { "model": "@balanced", "reasoning": "high" },
     "core:implementer": { "model": "@balanced", "reasoning": "medium" },
@@ -56,7 +56,7 @@ explicit role mappings. enabled:false disables a dedicated route, not required r
 ```
 This is a partial example; omitted registered roles inherit defaults. The shipped default covers Core,
 Product, Architecture and Delivery roles. Orchestrator/Planner/Architect/Reviewer/Security Reviewer
-use Sol high; BA/PO/PM/Implementer/Test Engineer use Sol medium; Documentation uses Luna low.
+use declared high/medium reasoning preferences; new seeds retain host-selected models and documentation uses low reasoning. Explicit provider/model examples below illustrate configuration and are not defaults.
 Economy is Luna low with single-agent/one concurrent session; it is a preference, not a cost guarantee.
 
 Reasoning levels structurally accepted: none, minimal, low, medium, high, xhigh, max, ultra. Actual
@@ -97,3 +97,7 @@ controls vary by client. No role JSON automatically creates a native subagent or
 one lead plus at most one independent helper when supported. Keep inputs scoped, load skill metadata
 before one needed body and checkpoint unresolved work. Actual usage/quotas come from the host; no fake
 budget meter is inferred from model tiers, maxRounds or concurrency. See [Agent handoffs](agent-handoffs.md).
+
+## Agent-first defaults and declarations (unreleased)
+
+New seeds use host/host-default so the actual host model remains selected; old agents.json is preserved. Claude host init offers native aliases only when absent. aih agents resolves canonical role IDs and required/optional skill preferences. Optional execution.autonomy and execution.budget are validated declarations, not execution permission or quota enforcement. Checkpoint real usage or unknown; never infer cost or auto-escalate. See [Agent-first guide](agent-first.md).

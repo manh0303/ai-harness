@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "astro",
-  "description": "Static-first Astro and TypeScript micro-tool websites with selective framework islands, SEO, Cloudflare Workers deployment and optional micro frontend evolution.",
+  "description": "Astro framework support following approved project architecture and hosting decisions.",
   "detection": [
     {
       "file": "package.json",
@@ -21,11 +21,9 @@
     "harness-astro-project-architecture",
     "harness-astro-islands",
     "harness-astro-seo",
-    "harness-astro-performance",
-    "harness-astro-cloudflare",
-    "harness-astro-microfrontend"
+    "harness-astro-performance"
   ],
   "verification": "checks/verification.yaml",
   "evaluation": "evals/cases.json",
-  "module_version": "1.0.0"
+  "module_version": "1.1.0"
 }
