@@ -95,6 +95,13 @@
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.9.0](https://github.com/manh0303/ai-harness/compare/v0.8.0...v0.9.0) (2026-10-13)
+
+
+### Features
+
+* complete onboarding and web mobile coding skills ([4e26a1d](https://github.com/manh0303/ai-harness/commit/4e26a1de1d5c2c95a6b4a6c610ebc4d6ccad61f6))
+
 ## [0.8.0](https://github.com/manh0303/ai-harness/compare/v0.7.0...v0.8.0) (2026-10-12)
 
 
