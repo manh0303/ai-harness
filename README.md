@@ -1,96 +1,38 @@
 # AI Harness
 
-**Bộ quy tắc, skills và workflows tái sử dụng để AI hỗ trợ phát triển phần mềm theo quy trình _Spec → Code → Test → Review_.**
+**Giúp AI làm việc theo quy tắc của project: hiểu yêu cầu → viết code → test → review.**
 
-AI Harness cài context vào từng repository qua CLI `aih`. Có thể kết hợp các technology adapters và capabilities theo nhu cầu; không phụ thuộc một IDE hay mô hình AI cụ thể.
+Dùng với Codex, Claude Code, Cursor và các AI coding tools đọc được file trong project.
 
-> Yêu cầu **Node.js 22+**. CLI không tự chạy LLM, viết code, phê duyệt tài liệu, merge PR hoặc deploy.
+## Bắt đầu
 
-## Cài đặt và dùng nhanh
+Cần **Node.js 22+**. Chạy trong thư mục project của bạn:
 
 ```bash
-npm install -g @manhd_d/ai-harness
-
-# Chạy trong một project đã tồn tại
-cd /path/to/project
-aih init --adapters java-spring
-aih check
-aih setup --host codex
+npx --yes @manhd_d/ai-harness init --detect
 ```
 
-Đổi adapter thành `react-nextjs` cho React/Next.js hoặc `react-native` cho React Native/Expo.
-Đổi `--host` thành `claude-code`, `gemini-cli`, `cursor` hoặc `copilot` theo công cụ bạn dùng;
-xem [setup AI coding tool](docs/tool-setup/README.md) để nạp hướng dẫn và chọn model tương thích.
+Mở project trong công cụ AI bạn dùng, rồi gửi:
 
-Mở project trong AI tool và giao: **“Đọc AGENTS.md và workflow project-setup, khảo sát repo, hỏi phần còn thiếu
-và ghi context/lệnh test đã xác nhận vào .harness/local.md.”** Sau đó giao task bình thường; AI chỉ nạp skill liên quan.
+> Đọc AGENTS.md, khảo sát project và ghi context cần thiết vào .harness/local.md.
+> Thực hiện yêu cầu: [mô tả công việc]. Chạy test phù hợp và báo cáo kết quả.
 
-Thêm `--capabilities product` khi cần tài liệu BA; `aih new-doc prd-lite` tạo template, `aih new-change <id>` tạo spec nháp khi cần. Không bắt mọi task tạo đủ tài liệu. Xem [Getting started](docs/getting-started.md) và [CLI reference](docs/cli.md).
+Bạn giao việc bình thường, không cần gọi từng agent, skill hay mở chat riêng cho từng vai. Harness cài hướng dẫn; công cụ AI thực hiện công việc.
+`--detect` nhận diện stack từ file ở thư mục gốc; nếu báo chưa nhận diện được, chọn stack theo [hướng dẫn bắt đầu](docs/getting-started.md).
 
-**Phân biệt:** `aih check` kiểm tra file Harness; `aih verify` xuất checklist; build/test ứng dụng do AI host hoặc CI thực chạy. CLI không bảo đảm AI sẽ tuân thủ hướng dẫn; xem [đánh giá hành vi](evals/README.md).
+## Chọn theo nhu cầu
 
-`aih setup` đưa gợi ý câu hỏi cho AI host; AI hỏi phần còn mơ hồ bằng A/B/C có đề xuất và lưu câu trả lời.
-Cấu hình Maven/JDK riêng từng máy: [Project configuration](docs/project-configuration.md).
-Trước code/review tính năng có spec: [Change readiness](docs/change-readiness.md).
+- **Code:** Spring Boot, React/Next.js, React Native, Python AI/RAG, Astro, Kubernetes.
+- **Tài liệu:** từ ý tưởng hoặc tài liệu BA đã có đến yêu cầu và kế hoạch triển khai.
+- **Mở rộng:** UI/UX, kiến trúc, quản lý tiến độ, DevOps khi cần.
 
-
-Coding convention cho dự án mới/maintain: [Project conventions](docs/project-conventions.md).
-AI đọc cấu trúc, tìm common phù hợp trước khi tạo mới và review ranh giới module.
-
-Cấu hình agent/model: [Agent configuration](docs/agent-configuration.md).
-`aih init` tạo `.harness/agents.json` mặc định; không cần nhập cấu hình thủ công.
-`aih setup` chỉ xuất kế hoạch, không ghi config native hay tự đổi model.
-
-## Thành phần
-
-| Nhóm | Hỗ trợ |
-| --- | --- |
-| **Core** | Rules, agent roles, skills, workflows, review & verification |
-| **Adapters** | Java Spring Boot, React/Next.js, React Native, Python AI/RAG, Kubernetes, Astro |
-| **Capabilities** | Product/BA/PO, Architecture/SA, Delivery/PM, UI/UX & Figma, DevOps |
-| **OpenSpec** | Template cho proposal, design, tasks và spec có review |
-
-Bạn chỉ chọn module cần dùng, ví dụ `aih init --adapters astro` cho website và công cụ nhỏ, nhẹ. Xem [Astro adapter](adapters/astro/README.md).
-
-BA → PO → SA → PM → Dev/QA: [Solution workflow](docs/solution-workflow.md).
-Setup Codex, Claude Code, Cursor, Copilot, Gemini CLI: [Coding tools](docs/tool-setup/README.md).
-Code frontend/mobile, chọn và dùng skills: [React/Next.js & React Native](docs/frontend-mobile.md).
-
-## Hai luồng làm việc
-
-- **Idea-driven:** Ý tưởng → thảo luận/nghiên cứu → BRD/PRD/SRS → UI/UX → spec → code.
-- **Document-driven:** BRD/PRD/SRS/Confluence đã có → phân tích gap → technical spec → code.
-
-Chi tiết: [Documentation workflows](docs/documentation-workflows.md) · [Confluence integration](integrations/confluence/README.md).
+Chỉ cài phần cần dùng. Task nhỏ không cần đủ BRD/PRD/SRS hay spec.
 
 ## Tài liệu
 
-Nâng cấp chính AI Harness: [Quy trình bảo trì và ma trận ảnh hưởng](docs/harness-maintenance.md).
+[Bắt đầu & chọn stack](docs/getting-started.md) · [Tra cứu & ví dụ](docs/README.md) · [Cấu hình công cụ AI](docs/tool-setup/README.md)
 
-| Mục đích | Hướng dẫn |
-| --- | --- |
-| Bắt đầu | [Getting started](docs/getting-started.md) |
-| Phát triển end-to-end | [Full SDLC](docs/end-to-end-workflow.md) · [Agent handoffs](docs/agent-handoffs.md) |
-| Tra cứu kỹ năng | [Skill matrix](docs/skill-matrix.md) · [CLI reference](docs/cli.md) |
-| Tài liệu sản phẩm | [Idea-driven example](docs/examples/idea-driven-project.md) · [Document-driven example](docs/examples/document-driven-project.md) |
-| Ví dụ backend/full-stack | [Spring Boot API](docs/examples/spring-boot-api.md) · [Spring + Next.js](docs/examples/fullstack-web.md) |
-| Ví dụ mobile/AI | [React Native](docs/examples/react-native-app.md) · [Python AI/RAG](docs/examples/ai-rag-service.md) |
-| Micro-tools/website | [Astro micro-tools](docs/examples/astro-micro-tools.md) |
-| Phát hành npm | [Release guide](docs/npm-release.md) · [Changelog](CHANGELOG.md) |
+`aih check` chỉ kiểm tra file Harness; tính năng đúng hay chưa cần test của project và review.
 
-## Kiểm tra và cập nhật
-
-```bash
-# Trong repository AI Harness (maintainer)
-npm test
-npm run validate
-npm run test:package
-
-# Nâng CLI global, rồi cập nhật snapshot trong project
-npm install -g @manhd_d/ai-harness@latest
-aih update --dry-run
-aih update
-aih check
-```
-
-**License:** [MIT](LICENSE). GitHub source có thể private; package `@manhd_d/ai-harness` được phát hành công khai qua npm.
+Đóng góp: [Contributing](CONTRIBUTING.md) · [Bảo trì Harness](docs/harness-maintenance.md).
+License: [MIT](LICENSE).
