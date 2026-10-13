@@ -12,12 +12,18 @@ AI Harness cài context vào từng repository qua CLI `aih`. Có thể kết h�
 npm install -g @manhd_d/ai-harness
 
 # Chạy trong một project đã tồn tại
+cd /path/to/project
 aih init --adapters java-spring
 aih check
-aih setup
+aih setup --host codex
 ```
 
-Tiếp theo, ghi stack, nghiệp vụ và lệnh test vào `.harness/local.md`; mở project trong AI IDE và yêu cầu assistant đọc `AGENTS.md` trước khi làm việc. Bạn giao task bình thường, AI đọc skill liên quan và báo cáo test thực chạy.
+Đổi adapter thành `react-nextjs` cho React/Next.js hoặc `react-native` cho React Native/Expo.
+Đổi `--host` thành `claude-code`, `gemini-cli`, `cursor` hoặc `copilot` theo công cụ bạn dùng;
+xem [setup AI coding tool](docs/tool-setup/README.md) để nạp hướng dẫn và chọn model tương thích.
+
+Mở project trong AI tool và giao: **“Đọc AGENTS.md và workflow project-setup, khảo sát repo, hỏi phần còn thiếu
+và ghi context/lệnh test đã xác nhận vào .harness/local.md.”** Sau đó giao task bình thường; AI chỉ nạp skill liên quan.
 
 Thêm `--capabilities product` khi cần tài liệu BA; `aih new-doc prd-lite` tạo template, `aih new-change <id>` tạo spec nháp khi cần. Không bắt mọi task tạo đủ tài liệu. Xem [Getting started](docs/getting-started.md) và [CLI reference](docs/cli.md).
 
@@ -31,8 +37,9 @@ Trước code/review tính năng có spec: [Change readiness](docs/change-readin
 Coding convention cho dự án mới/maintain: [Project conventions](docs/project-conventions.md).
 AI đọc cấu trúc, tìm common phù hợp trước khi tạo mới và review ranh giới module.
 
-Agent/model preferences: [Agent configuration](docs/agent-configuration.md).
-`aih init` seeds project-owned `.harness/agents.json`; `aih setup --host codex` gives a read-only plan.
+Cấu hình agent/model: [Agent configuration](docs/agent-configuration.md).
+`aih init` tạo `.harness/agents.json` mặc định; không cần nhập cấu hình thủ công.
+`aih setup` chỉ xuất kế hoạch, không ghi config native hay tự đổi model.
 
 ## Thành phần
 
@@ -47,6 +54,7 @@ Bạn chỉ chọn module cần dùng, ví dụ `aih init --adapters astro` cho 
 
 BA → PO → SA → PM → Dev/QA: [Solution workflow](docs/solution-workflow.md).
 Setup Codex, Claude Code, Cursor, Copilot, Gemini CLI: [Coding tools](docs/tool-setup/README.md).
+Code frontend/mobile, chọn và dùng skills: [React/Next.js & React Native](docs/frontend-mobile.md).
 
 ## Hai luồng làm việc
 

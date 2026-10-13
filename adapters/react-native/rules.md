@@ -21,4 +21,7 @@ OTA compatibility, signing and store deployment need their own reviewed release 
 Read rules/conventions.md before coding, then relevant rules/architecture.md, rules/security.md,
 rules/database.md and rules/performance.md. Project conventions take precedence over adapter defaults.
 Use only relevant adapter skills listed in adapter.yaml; core TDD, debugging and review remain shared.
+Use harness-react-native-screen-delivery for screen/navigation/API/state slices and
+harness-react-native-behavior-testing for JS/platform/device evidence. Load offline-sync or
+device-permissions only when that behavior is touched; keep missing native verification explicit.
 Review checks/verification.yaml before choosing commands. No check executes automatically.

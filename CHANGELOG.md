@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Frontend/mobile coding and onboarding
+- Simplify init/host onboarding and surface current CLI flags in the command table.
+- Add focused React/Next.js feature/testing and React Native screen/testing skills with examples, quality and handoffs; each adapter module advances to 1.2.0.
+- Connect manifests, discovery, manual checks/unscored scenarios, skill matrix, stack examples and package/install/update tests. No application runner, library migration or native verification claim.
+
+
 ## Unreleased — Agent preferences and release regression
 - Add provider-agnostic project-owned agents.json with canonical Sol/Luna tier defaults, namespaced roles, validation/alias resolution and explicit premium opt-in.
 - Add non-interactive init presets and read-only setup host plans; preserve custom config and legacy snapshots. No native config writes, agent runtime or usage claims.

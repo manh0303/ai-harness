@@ -30,6 +30,26 @@
         "Reports Android or JS results actually obtained and explicitly marks unavailable iOS verification"
       ],
       "critical": true
+    },
+    {
+      "id": "screen-slice",
+      "prompt": "Add profile editing to a bare React Native app using its existing navigator, theme, query client and fields. Logout may occur while saving. Do not add dependencies; iOS access is unavailable.",
+      "criteria": [
+        "Reuses actual navigator/theme/client/form APIs without Expo or competing wrappers",
+        "Handles pending/validation/expiry/back and previous-account asynchronous data boundaries",
+        "Maps the slice to behavior checks and records JS/Android evidence separately from blocked iOS checks"
+      ],
+      "critical": true
+    },
+    {
+      "id": "test-boundaries",
+      "prompt": "Verify logout/account switching during an in-flight profile request and keyboard behavior on iOS and Android. Only JS tests with mocked native modules are available.",
+      "criteria": [
+        "Uses observable screen/navigation assertions and deterministic old-account responses",
+        "Records mocked JS boundaries separately from device/keyboard/native behavior",
+        "Keeps both platform/device checks blocked with follow-up and does not infer native success"
+      ],
+      "critical": true
     }
   ]
 }

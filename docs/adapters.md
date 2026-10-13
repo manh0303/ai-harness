@@ -8,13 +8,15 @@ review and the general workflow. Adapter skills address technology-specific deci
 | Adapter | Skills |
 | --- | --- |
 | java-spring | Spring API, Kafka outbox, database migration |
-| react-nextjs | Accessible UI, server/client authorization and caching |
+| react-nextjs | Feature slices, behavior testing, accessible UI, server/client authorization and caching |
 | astro | Static-first micro-tools, islands, SEO, performance, Cloudflare and optional MFE migration |
-| react-native | Offline synchronization, permissions and deep links |
+| react-native | Screen/navigation slices, behavior/platform testing, offline synchronization, permissions and deep links |
 | ai-python | RAG access filtering, model tool safety |
 | kubernetes | Workload review, Helm release and safe rollout planning |
 
 ## Source contract
+For setup, skill choice and examples see [Frontend/mobile coding](frontend-mobile.md).
+
 adapter.yaml uses **JSON-compatible YAML 1.2**, parsed with JSON.parse. Arbitrary YAML syntax is not supported.
 The CLI rejects unknown fields and unsupported schemas rather than guessing. Required fields:
 

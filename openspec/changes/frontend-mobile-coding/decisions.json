@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "reviewed": true,
+  "decisions": [
+    {
+      "id": "scope",
+      "question": "What should this improvement change?",
+      "status": "resolved",
+      "answer": "Complete onboarding docs and fill ordinary web/mobile implementation/testing gaps with four focused adapter skills. Preserve existing project architecture and keep runtime behavior unchanged; create a review PR without automatic merge/publish.",
+      "source": "User instruction on 2026-10-12 to complete the guides and assess FE Next.js/React Native code skills, plus repository AGENTS/maintenance contract."
+    }
+  ]
+}

@@ -80,6 +80,17 @@ try {
     assert.equal(fs.readFileSync(path.join(target, '.harness', name), 'utf8'),
       fs.readFileSync(path.join(SOURCE, name), 'utf8'));
   }
+  for (const [adapter, suffixes] of Object.entries({ 'react-nextjs': ['feature-delivery', 'behavior-testing'],
+    'react-native': ['screen-delivery', 'behavior-testing'] })) {
+    for (const suffix of suffixes) {
+      const name = `harness-${adapter}-${suffix}`, asset = `adapters/${adapter}/skills/${name}/SKILL.md`;
+      assert.ok(names.includes(asset), `Missing coding skill: ${asset}`);
+      assert.equal(fs.readFileSync(path.join(target, '.agents/skills', name, 'SKILL.md'), 'utf8'),
+        fs.readFileSync(path.join(SOURCE, asset), 'utf8'));
+      assert.ok(JSON.parse(run(['skills'])).skills.some(skill => skill.name === name));
+    }
+  }
+  assert.ok(names.includes('docs/frontend-mobile.md'), 'Missing frontend/mobile guide');
   assert.equal(JSON.parse(run(['list'])).adapters.length, manifest(SOURCE).adapters.length);
   assert.equal(JSON.parse(run(['list'])).capabilities.length, manifest(SOURCE).capabilities.length);
   const uiuxTarget = path.join(temp, 'uiux project'); fs.mkdirSync(uiuxTarget);
@@ -122,7 +133,10 @@ try {
   assert.equal(JSON.parse(productDocOut).status, 'ok');
   assert.ok(fs.existsSync(path.join(productTarget, 'docs/product/brd.md')));
   assert.equal(JSON.parse(run(['verify'])).executed, false);
-  assert.equal(JSON.parse(run(['eval'])).dataset.cases.length, 11);
+  const adapterEvaluation = JSON.parse(run(['eval']));
+  const expectedCases = ['java-spring', 'react-nextjs', 'react-native', 'ai-python']
+    .reduce((sum, id) => sum + readJson(path.join(SOURCE, 'adapters', id, 'evals/cases.json')).cases.length, 0);
+  assert.equal(adapterEvaluation.dataset.cases.length, expectedCases);
   assert.ok(JSON.parse(run(['eval', '--scope', 'all'])).dataset.cases.some(x => x.id.startsWith('core/')));
   assert.ok(fs.existsSync(path.join(target, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
   JSON.parse(run(['new-change', 'package-smoke']));

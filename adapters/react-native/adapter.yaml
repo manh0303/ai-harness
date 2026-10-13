@@ -21,9 +21,11 @@
   ],
   "skills": [
     "harness-react-native-offline-sync",
-    "harness-react-native-device-permissions"
+    "harness-react-native-device-permissions",
+    "harness-react-native-screen-delivery",
+    "harness-react-native-behavior-testing"
   ],
   "verification": "checks/verification.yaml",
   "evaluation": "evals/cases.json",
-  "module_version": "1.1.0"
+  "module_version": "1.2.0"
 }

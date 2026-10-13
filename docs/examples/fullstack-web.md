@@ -52,11 +52,15 @@ aih new-change add-ticket-creation
 aih skill harness-spec
 aih skill harness-tdd
 aih skill harness-java-spring-spring-api
+aih skill harness-react-nextjs-feature-delivery
 aih skill harness-react-nextjs-accessible-ui
 aih skill harness-react-nextjs-server-boundaries
+aih skill harness-react-nextjs-behavior-testing
 ~~~
 
 Spec phải chứa contract `POST /...` thực tế đã review, authorization, error envelope, loading/empty/errors, client/server boundaries, cache invalidation và contract tests. Implement thành vertical slice API + UI cùng acceptance IDs. Đối với giao diện frontend, kiểm tra SSR/client boundary và tránh đưa credentials ra browser.
+Chỉ đọc skill body cần cho task; reuse client/query/FormField hiện có. Skills delivery/testing bao phủ
+route/form/API/state và AC-linked component/browser evidence; không ép plain React dùng Next.js.
 
 Ví dụ kiểm tra **chỉ nếu repo có tương ứng**:
 
