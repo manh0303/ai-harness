@@ -148,3 +148,7 @@ copies. OpenSpec stays repository-owned; configured outputs add structural artif
 and completion to readiness. See [Artifact contract](artifact-contract.md).
 
 See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only discovery, evidence reports and selective technical documentation.
+
+## Continuous development
+
+The [continuous-development workflow](continuous-development.md) composes existing Core and optional Product/Architecture/Delivery contracts. Baseline/impact and handoff sections extend existing OpenSpec Markdown templates; no schema, runtime, state store or CLI command is added. Hosts reconcile revisions and perform authorized section edits; structural readiness cannot enforce semantic freshness.

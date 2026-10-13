@@ -164,3 +164,7 @@
 | [`harness-delivery-scope-change`](../capabilities/delivery/skills/harness-delivery-scope-change/SKILL.md) | scope-change | Evaluate scope changes across product value, architecture, dependencies and delivery before re-planning. | Project-owned docs/delivery or compact task note |
 
 Product → Architecture → Delivery → Core/adapter uses [Solution workflow](solution-workflow.md); source revisions, requirement/AC/NFR/ADR IDs and actual decisions travel together. See [host setup](tool-setup/README.md).
+
+## Continuous development
+
+[Continuous development](continuous-development.md) composes existing Core spec/debugging/tdd/verification/review with Product business-analysis/acceptance-criteria/traceability/backlog/TechSpec, Architecture change-impact and Delivery scope-change skills. Only affected perspectives are loaded; no new role or skill is required.

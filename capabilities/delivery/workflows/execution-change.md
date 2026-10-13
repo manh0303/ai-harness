@@ -7,3 +7,5 @@
 4. Update affected plan, requirements, ADRs and OpenSpec only after the actual decision; keep history.
 5. Produce a status draft with completed/pending/blocked work and evidence. Release ownership/gates
    remain in DevOps; PM proposals do not approve delivery or production changes.
+
+Enter via Core `continuous-development.md` to reconcile the current baseline with the previous handoff. Record remaining work and separate implementation, merge and release evidence in the existing change; feedback stays proposed until an owner accepts scope.

@@ -3,6 +3,8 @@
 
 1. Read `.harness/core/rules/foundations.md`, `.harness/core/rules/context.md` and `.harness/core/policies/security.md`.
 2. Read `.harness/core/policies/permissions.md` and `.harness/core/workflows/spec-to-code.md`.
+   For each feature, bugfix, business-rule change or resumed session, apply
+   `.harness/core/workflows/continuous-development.md`; recheck actual baseline before trusting a handoff.
    For new projects or consequential changes, apply `.harness/core/workflows/solution-framing.md`;
    preserve approved MVP/architecture and use compact notes for small clear fixes.
 3. Read `.harness/local.md` and `.harness/environment.json` (if present) for project facts and commands.

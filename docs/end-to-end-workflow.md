@@ -127,3 +127,7 @@ a compact source/impact note. Set up the host with [Coding tools](tool-setup/REA
 Before assigning roles, apply [Agent configuration](agent-configuration.md) and Core routing workflow.
 Use one session for simple work, hybrid only for independent authorized work with host support, and
 carry short source/evidence handoffs. User preferences do not grant runtime permissions or model access.
+
+## Continuous changes
+
+After the first delivery, use [Continuous development](continuous-development.md) for each feature, bugfix, rule change or resume. Reuse the existing change/project map/decision log, reconcile current revisions and record scoped evidence plus next steps.

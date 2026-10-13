@@ -100,3 +100,7 @@ IDs and source revisions with each handoff. Return gaps to the appropriate owner
 with Delivery PM. `.harness/agents.json` is project-owned; missing mappings inherit/report defaults.
 Actual host settings/access and delegation rules control execution. Report actual model/effort if known,
 scoped context, round checkpoint and actual checks; do not claim JSON enforced token/concurrency limits.
+
+## Resume and lifecycle
+
+Use [Continuous development](continuous-development.md). Store baseline/tested revisions, decisions, blockers, remaining work and next action in the existing OpenSpec tasks handoff. Re-read actual sources on resume and invalidate affected stale evidence. Keep implementation complete, merged and released distinct; supplied feedback remains proposed scope until accepted.

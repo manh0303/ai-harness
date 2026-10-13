@@ -153,3 +153,7 @@ external publication. Review update --dry-run/update/check; rollback through Git
 ## Adaptive verification migration (unreleased)
 
 Project/lock/artifact schemas and distribution version remain unchanged. Review source, update --dry-run, update and check to receive new managed Core skills and Product 1.4.0 templates. Existing project docs/configs remain owned by the project; new-doc never overwrites. New --adaptive/--report flags are optional; plain verify remains advisory. Revert the snapshot update commit to roll back.
+
+## Continuous development migration (unreleased)
+
+Product advances to 1.5.0; Architecture and Delivery to 1.1.0. Distribution version remains 0.11.0 and release-PR owned; no publish is part of this change. Config/lock/artifact/decision/evidence schemas stay unchanged. Reviewed update --dry-run/update/check adds the Core workflow and refreshed templates/skills. Existing project docs, changes, configs and handoffs remain project-owned; append missing baseline/handoff fields selectively. Re-export eval datasets after bundle changes; revert the consumer snapshot commit to roll back. See [Continuous development](continuous-development.md).

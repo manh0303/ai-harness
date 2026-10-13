@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "reviewed": true,
+  "decisions": [
+    {
+      "id": "continuous-scope",
+      "question": "Add another runtime/context/config or reuse existing contracts?",
+      "status": "resolved",
+      "answer": "Compose existing Core skills/workflows and OpenSpec/project-map/decision records; keep proportional depth and source-write policies. No merge/release/npm publish.",
+      "source": "User task sections 2, 3, 4, 6, 7 and deliverable; PR #40 confirmed merged before implementation."
+    }
+  ]
+}

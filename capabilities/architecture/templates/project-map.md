@@ -24,3 +24,8 @@ Refresh the touched entries; do not regenerate the entire project for every task
 ## Review and handoff
 Record actual owner decisions, unresolved consequential questions, verification performed/skipped,
 next role, source/output paths and affected OpenSpec change. Draft text is not an accepted decision.
+
+## Resume reconciliation
+Compare previous verified revisions with current touched source/working-tree changes. Link the active
+OpenSpec baseline, stale assumptions/evidence, authority decision and pending refresh; do not copy
+change-level progress into a second log.

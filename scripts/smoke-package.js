@@ -24,6 +24,7 @@ try {
   const packed = parsePackMetadata(npm(['pack', '--ignore-scripts', '--json', '--pack-destination', temp]), packageName);
   const names = packed.files.map(f => f.path);
   for (const required of ['LICENSE', 'bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/composition.js', 'cli/module-contract.js', 'cli/evaluation-contract.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'capabilities/product/capability.json', 'capabilities/devops/capability.json', 'capabilities/devops/evals/cases.json', 'capabilities/monetization/capability.json', 'capabilities/monetization/skills/harness-monetization-adsense-integration/SKILL.md', 'capabilities/monetization/templates/analytics-report.md', 'core/evals/composition.json', 'adapters/kubernetes/adapter.yaml', 'adapters/astro/adapter.yaml', 'adapters/astro/skills/harness-astro-islands/SKILL.md', 'capabilities/product/templates/brd.md', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
+    'core/workflows/continuous-development.md', 'docs/continuous-development.md', 'docs/examples/continuous-development.md',
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
   assert.ok(!names.some(n => /(^|\/)\.env(?:\.|$)/.test(n)));
@@ -71,6 +72,15 @@ try {
   assert.deepEqual(JSON.parse(solutionRun(['update'])).changes, []);
   JSON.parse(run(['init', '--adapters', 'java-spring,react-nextjs,react-native,ai-python']));
   assert.equal(JSON.parse(run(['check'])).status, 'ok');
+  const continuousPath = '.harness/core/workflows/continuous-development.md';
+  assert.ok(fs.readFileSync(path.join(target, 'AGENTS.md'), 'utf8').includes(continuousPath));
+  assert.equal(fs.readFileSync(path.join(target, continuousPath), 'utf8'),
+    fs.readFileSync(path.join(SOURCE, 'core/workflows/continuous-development.md'), 'utf8'));
+  const continuousEval = JSON.parse(run(['eval', '--scope', 'core']));
+  for (const suffix of ['feature', 'small-bug', 'business-rule', 'drift', 'resume', 'read-only', 'feedback']) {
+    const row = continuousEval.report.results.find(c => c.id === 'core/continuous-' + suffix);
+    assert.ok(row && row.scores.every(score => score === null));
+  }
   const agentPreferences = readJson(path.join(target, '.harness/agents.json'));
   assert.equal(agentPreferences.defaultModel, 'gpt-6.1-sol');
   assert.equal(agentPreferences.execution.autoEscalateToPremium, false);

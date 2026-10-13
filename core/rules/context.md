@@ -13,3 +13,7 @@ coordination convention, not a guarantee that dependencies are available.
 
 Begin document retrieval with search and explicit paths. Introduce RAG only when retrieval measurements
 show a need. Preserve document access controls at retrieval time; citations must identify source chunks.
+
+For a new change or resumed session, apply `.harness/core/workflows/continuous-development.md`.
+Compare current source revisions, scoped working-tree edits and evidence with the previous handoff.
+Refresh affected assumptions in the existing change/project map; stale summaries never override sources.

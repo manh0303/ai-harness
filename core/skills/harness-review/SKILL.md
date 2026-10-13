@@ -20,3 +20,9 @@ Base/head diff, change spec, selected adapters and test evidence.
 Findings ordered by severity; requirement coverage; actual checks; residual risk; review recommendation.
 ## Constraints
 No style churn without a project rule. No self-approval claims or automatic merge. No findings is not a security guarantee.
+
+## Continuous changes
+Use `.harness/core/workflows/continuous-development.md` to review baseline freshness, source authority,
+stable requirement → spec → code → tests/evidence links and selective documentation diffs/proposals.
+Check required maintenance blockers and remaining-work handoff. Separate implementation complete,
+merged and released; neither a passing test nor this review supplies business approval.

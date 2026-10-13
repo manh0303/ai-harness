@@ -51,6 +51,16 @@
         "Reuse canonical artifact routing"
       ],
       "critical": true
+    },
+    {
+      "id": "continuous-feedback",
+      "prompt": "Triage UAT-12 duplicating an existing null-label defect, UAT-13 requesting bulk import outside accepted release scope, and a supplied operating error report. No new implementation or release is authorized.",
+      "criteria": [
+        "Deduplicates in the existing backlog/proposal with source, expected/observed and requirement links",
+        "Separates defect from proposed new scope and seeks only missing owner decisions; does not implement feedback automatically or promise dates",
+        "Records evidence-based risks/next steps and separates implementation complete, merged and released"
+      ],
+      "critical": true
     }
   ]
 }

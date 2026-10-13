@@ -41,3 +41,9 @@ Follow Core permissions, clarification and project-conventions. Ask only consequ
 2–3 distinct options, evidence-based recommendation and free text; reuse established answers.
 No invented source, measured result, target, estimate or approval. No external messaging/publishing,
 paid tool use or production changes beyond the user's explicit authorization.
+
+## Feedback and evidence
+Use Core `continuous-development.md` for proposed feedback vs accepted scope and session continuity.
+Update dependencies, risks and plan progress from actual evidence. Track implementation complete,
+merged and released separately with PR/release references; absent evidence stays unknown. Store
+remaining work and next action in existing change tasks, without another progress registry.

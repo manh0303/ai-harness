@@ -84,6 +84,19 @@
         "Static UNVERIFIED claims and affected-section source policy"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "continuous-development",
+      "title": "Review baseline continuity and scoped completion",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Current vs handoff revisions, authority decisions and invalidated stale evidence",
+        "Artifact create/update/unchanged reasons, section diffs/proposals and pre-write revision recheck",
+        "Stable requirement/spec/code/test links with AC results and BLOCKED/NOT_RUN limits",
+        "Proposed feedback vs accepted scope; remaining work and distinct implementation/merge/release evidence"
+      ],
+      "execution": "manual"
     }
   ]
 }

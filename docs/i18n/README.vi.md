@@ -53,3 +53,5 @@ Nếu `--detect` chưa nhận diện được stack, [chọn module thủ công]
 Đóng góp: [Contributing](../../CONTRIBUTING.md) · [Bảo trì Harness](../../docs/harness-maintenance.md) · [MIT](../../LICENSE).
 
 [Adaptive verification & TechSpec](../adaptive-verification.md): verification plan theo project, evidence và cập nhật docs theo scope.
+
+[Continuous development](../continuous-development.md): phát triển qua nhiều changes, kiểm tra lại baseline và duy trì đúng phần tài liệu bị ảnh hưởng.

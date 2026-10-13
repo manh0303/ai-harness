@@ -41,3 +41,8 @@ Follow Core permissions, clarification and project-conventions. Ask only consequ
 2–3 distinct options, evidence-based recommendation and free text; reuse established answers.
 No invented source, measured result, target, estimate or approval. No external messaging/publishing,
 paid tool use or production changes beyond the user's explicit authorization.
+
+## Session continuity
+Use Core `continuous-development.md` to compare map, requirements/ADRs, code and evidence revisions
+with the prior handoff. Record drift with both source anchors and authority/owner; do not choose code
+or docs by recency alone. Refresh only touched map/contract/ADR sections after reconciliation.
