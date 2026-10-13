@@ -49,7 +49,7 @@ for (const id of ['architecture', 'delivery']) test(`${id} installs alone, expos
   assert.ok(!fs.existsSync(path.join(root, '.harness/capabilities/product')));
   assert.ok(read('AGENTS.md').includes(`.harness/capabilities/${id}/workflows/`));
   const catalog = skillCatalog(root, lock);
-  assert.equal(catalog.skills.length, 5 + info.skills.length);
+  assert.equal(catalog.skills.length, 6 + info.skills.length);
   for (const name of info.skills) {
     assert.ok(readSkill(root, lock, name).content.includes('## Quality checklist'));
     assert.equal(lock.files[`.agents/skills/${name}/SKILL.md`], lock.files[`.harness/capabilities/${id}/skills/${name}/SKILL.md`]);

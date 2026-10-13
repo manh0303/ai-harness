@@ -1,0 +1,24 @@
+---
+name: harness-verification
+description: Select proportional project checks and report requirement-linked runtime evidence without false PASS claims.
+---
+
+# Adaptive verification
+
+## Input
+Approved requirements/AC, scoped code and contracts, existing project tests/commands, artifact sources and actual host permissions.
+
+## Procedure
+1. Discover languages, frameworks, architecture, routes/auth, data dependencies, existing docs and test entry points. `aih verify --adaptive` supplies metadata hints only; inspect scoped source and record unknowns.
+2. Select needed unit, integration, API/contract, backend/browser/mobile E2E, authorization/security, regression or AI/RAG evaluation. Reuse existing frameworks. A static site needs no invented API; a mobile app needs no forced browser suite.
+3. Derive scenarios from requirements: CRUD, approval/roles, state transitions, uploads, asynchronous events, transactions or external integrations only when applicable. Record preconditions, isolated fixtures, steps, expected business assertions, cleanup and evidence.
+4. Check actual tools, permissions and environment. Declare BLOCKED for missing infrastructure/access; NOT_RUN for skipped scope. Agree consequential gaps using existing clarification workflow.
+5. Execute through authorized host tools with bounded timeouts/retries. Assert transport plus business/schema/state/authorization semantics. Expected errors require exact HTTP/application assertions; timeout/network exceptions never pass by default.
+6. Capture redacted raw observations, digests, executed command/tool, revision, timestamp/environment, expected/observed, error category and fixture cleanup. Record cost/tokens only from actual measurements. Use the report contract in the guide and `aih verify --report` for consistency validation.
+7. Report requirement coverage VERIFIED only with linked passing evidence; otherwise UNVERIFIED. Review raw execution independently and hand affected documentation to Product TechSpec maintenance.
+
+## Output
+Proportional verification plan, PASSED/FAILED/BLOCKED/NOT_RUN scenario report, VERIFIED/UNVERIFIED requirement coverage and unresolved limitations.
+
+## Constraints
+No killing by port, production/shared database fixture edits, MAX(ID)+1 IDs, embedded credentials or blanket catch-as-success. Use test-owned IDs and cleanup only owned fixtures. Permission enforcement belongs to the host. Static inspection and producer-declared receipts are not independent runtime proof. Reuse harness-tdd/debugging/ai-evaluation rather than creating a runner or making paid model calls each PR.

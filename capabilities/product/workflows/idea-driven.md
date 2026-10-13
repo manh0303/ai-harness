@@ -20,3 +20,5 @@ Deliverables are **consumer-owned** `docs/discovery/`, `docs/product/` and `open
 For new/material journeys, continue with `product-to-solution.md` after resolving the relevant scope.
 Use reviewed MVP/outcomes and optional Architecture/Delivery to assess solution/dependencies before
 OpenSpec implementation. Existing approved sources remain canonical; small clear changes stay compact.
+
+For implementation documentation and affected-section evidence updates, follow `techspec-maintenance.md` with `harness-product-techspec`.

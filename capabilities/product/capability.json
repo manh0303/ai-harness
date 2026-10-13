@@ -17,7 +17,8 @@
     "harness-product-srs-generation",
     "harness-product-use-case-generation",
     "harness-product-mvp-definition",
-    "harness-product-product-outcomes"
+    "harness-product-product-outcomes",
+    "harness-product-techspec"
   ],
   "workflows": [
     "workflows/idea-to-prd.md",
@@ -25,7 +26,8 @@
     "workflows/change-impact-analysis.md",
     "workflows/idea-driven.md",
     "workflows/document-driven.md",
-    "workflows/product-to-solution.md"
+    "workflows/product-to-solution.md",
+    "workflows/techspec-maintenance.md"
   ],
   "agents": [
     "agents/business-analyst.md",
@@ -52,9 +54,10 @@
     "templates/srs.md",
     "templates/use-cases.md",
     "templates/mvp.md",
-    "templates/outcomes.md"
+    "templates/outcomes.md",
+    "templates/techspec.md"
   ],
-  "module_version": "1.3.0",
+  "module_version": "1.4.0",
   "verification": "checks/verification.json",
   "evaluation": "evals/cases.json"
 }

@@ -151,6 +151,17 @@
         "Records actual output IDs/revisions and docs/spec/UI verification evidence"
       ],
       "critical": true
+    },
+    {
+      "id": "adaptive-evidence",
+      "prompt": "A static calculator has no API, a backend returned HTTP 200 with an application failure, and a network exception was caught. Report verification with no authorized live-model budget.",
+      "criteria": [
+        "Select proportional methods without inventing an API",
+        "Do not pass HTTP 200 or caught network exceptions",
+        "Link business assertions and raw evidence to AC",
+        "Report missing execution or model budget BLOCKED/NOT_RUN"
+      ],
+      "critical": true
     }
   ]
 }

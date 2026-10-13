@@ -136,6 +136,14 @@ try {
   const productRun = args => process.platform === 'win32'
     ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" ${args.join(' ')}"`], productTarget, { windowsVerbatimArguments: true })
     : command(bin, args, productTarget);
+  assert.equal(JSON.parse(productRun(['verify', '--adaptive'])).executed, false);
+  assert.ok(fs.existsSync(path.join(productTarget, '.agents/skills/harness-verification/SKILL.md')));
+  assert.ok(fs.existsSync(path.join(productTarget, '.agents/skills/harness-product-techspec/SKILL.md')));
+  const notRun = { schema_version: 1, metadata: { run_id: 'package', feature: 'package smoke', source_revision: 'fixture', environment: 'offline', producer: 'smoke-package', timestamp: new Date().toISOString() }, requirements: [{ id: 'AC-1', description: 'Pending host check', source: 'package fixture' }], scenarios: [{ id: 'pending', status: 'NOT_RUN', executed: false, references: ['AC-1'], method: 'unit', preconditions: ['host required'], fixture: 'none', steps: ['run host test'], expected: 'fixture result', observed: 'not executed', timestamp: new Date().toISOString(), mutates: false, cleanup: { strategy: 'no mutations', status: 'NOT_RUN' }, evidence: [], assertions: [], reason: 'offline smoke' }] };
+  fs.writeFileSync(path.join(productTarget, 'verification.json'), JSON.stringify(notRun));
+  assert.equal(JSON.parse(productRun(['verify', '--report', 'verification.json'])).verdict, 'NOT_RUN');
+  const draft = JSON.parse(productRun(['new-doc', 'techspec', '--report', 'verification.json']));
+  assert.match(fs.readFileSync(path.join(productTarget, draft.path), 'utf8'), /UNVERIFIED/);
   const artifactContract = { schema_version: 1, mode: 'idea-driven', inputs: {}, outputs: {
     requirements: { kind: 'docs', capability: 'product', location: { path: 'docs/chosen' }, canonical: true, write_policy: 'propose' },
   } };

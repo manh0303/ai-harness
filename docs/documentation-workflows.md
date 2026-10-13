@@ -83,3 +83,5 @@ docs/UI should be maintained, record canonical owner and source revisions, then 
 templates. Existing sources are read-only/propose/write as declared; host authorization still applies.
 Update affected docs/spec/UI with the change and record artifact-impact evidence. new-doc respects
 local output folders or returns a host handoff for external targets, without publishing itself.
+
+See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only discovery, evidence reports and selective technical documentation.

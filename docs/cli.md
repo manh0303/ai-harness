@@ -10,7 +10,7 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | list | --source | List validated adapters and namespaced skills |
 | detect | --source | Read target build files and return heuristic matches with evidence |
 | resolve | --source; --adapters a,b; --capabilities a,b | Validate module selection and compatibility; read-only |
-| verify | --scope adapters/core/capabilities/all | Read installed advisory checks; executed false, no subprocesses |
+| verify | --scope adapters/core/capabilities/all or --adaptive or --report file | Advisory checks, metadata plan or evidence consistency; executed false, no subprocesses |
 | eval | --scope adapters/core/capabilities/all; --report FILE | Emit unscored template or aggregate reviewed report; no model calls |
 | init | --detect OR --adapters a,b; --capabilities a,b; --agent-preset recommended/economy/custom; --source; --dry-run; --allow-major | Install a snapshot and seed project agent preferences; exact rerun without explicit preset is idempotent |
 | update | --source; --dry-run; --allow-major | Update unedited owned files and seed missing project files |
@@ -157,3 +157,5 @@ seed absent configs and preserve existing bytes; check validates schemas/referen
 legacy new-doc folders; external routes return a template/host handoff with executed false and no
 local fallback. Configured output contracts require reviewed artifact-impact.json coverage in ready;
 review stage requires declared completion/evidence. No remote calls, source writes or approval claims.
+
+See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only discovery, evidence reports and selective technical documentation.

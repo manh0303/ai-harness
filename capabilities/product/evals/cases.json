@@ -40,6 +40,17 @@
         "Does not invent success metrics or approve the MVP on behalf of the owner"
       ],
       "critical": true
+    },
+    {
+      "id": "selective-techspec",
+      "prompt": "Maintain an existing read-only BA document and TechSpec after a state transition change. Only static source analysis is available.",
+      "criteria": [
+        "Preserve unaffected approved sections and observed revisions",
+        "Propose affected changes without unauthorized source write",
+        "Keep static claims UNVERIFIED and missing runtime evidence explicit",
+        "Reuse canonical artifact routing"
+      ],
+      "critical": true
     }
   ]
 }

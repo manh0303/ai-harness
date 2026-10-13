@@ -14,3 +14,5 @@ No arbitrary coverage target or implementation-mirroring tests. Do not mark unex
 ## Handoff
 State change ID, affected paths, decisions, evidence, outstanding questions and next owner.
 Load the relevant skill and adapter. Respect the host's delegation policy; roles can run sequentially.
+
+For proportional checks and evidence integrity, use `.harness/core/workflows/adaptive-verification.md` and `harness-verification`.

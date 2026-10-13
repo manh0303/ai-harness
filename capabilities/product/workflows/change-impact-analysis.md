@@ -17,3 +17,5 @@ A `docs/product/change-impact.md` mapping `old source version â†’ new version â†
 Apply `.harness/core/workflows/artifact-contract.md` for canonical source revisions and storage/write
 policies. Record configured output impact in artifact-impact.json; complete docs/spec/UI updates or
 report blocking dependencies with evidence before review. Do not treat structural readiness as approval.
+
+For implementation documentation and affected-section evidence updates, follow `techspec-maintenance.md` with `harness-product-techspec`.

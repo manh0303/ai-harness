@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — Adaptive verification and TechSpec
+- Add read-only adaptive discovery and digest/pointer-based requirement evidence validation; preserve advisory verify behavior.
+- Add Core verification and Product 1.4.0 selective TechSpec maintenance using existing artifact routes/policies.
+- Add cross-project fixtures, actual isolated HTTP role/state workflow and package coverage. Live host/model evaluation remains unscored.
+
 ## Unreleased — Project artifact contracts
 - Add project-owned input/output/storage/canonical/source-write contracts and dynamic host connection declarations; seed/preserve and validate them before writes.
 - Add read-only artifacts reports/setup storage questions, local docs routing and explicit external template handoffs without network calls or fallback copies.

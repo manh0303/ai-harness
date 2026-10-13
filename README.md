@@ -51,3 +51,5 @@ If `--detect` cannot identify the stack, [select modules explicitly](docs/gettin
 [Getting started](docs/getting-started.md) · [Docs & examples](docs/README.md) · [Input/output & integrations](docs/artifact-contract.md) · [Model/agent configuration](docs/agent-configuration.md)
 
 [Contributing](CONTRIBUTING.md) · [Harness maintenance](docs/harness-maintenance.md) · [MIT](LICENSE).
+
+[Adaptive verification & TechSpec](docs/adaptive-verification.md): project-aware plans, requirement-linked evidence and selective docs.

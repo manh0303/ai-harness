@@ -51,3 +51,5 @@ Nếu `--detect` chưa nhận diện được stack, [chọn module thủ công]
 [Getting started](../../docs/getting-started.md) · [Docs & examples](../../docs/README.md) · [Input/output & integrations](../../docs/artifact-contract.md) · [Model/agent configuration](../../docs/agent-configuration.md)
 
 Đóng góp: [Contributing](../../CONTRIBUTING.md) · [Bảo trì Harness](../../docs/harness-maintenance.md) · [MIT](../../LICENSE).
+
+[Adaptive verification & TechSpec](../adaptive-verification.md): verification plan theo project, evidence và cập nhật docs theo scope.
