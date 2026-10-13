@@ -14,7 +14,7 @@
     "workflows/docs-to-figma.md",
     "workflows/idea-to-figma.md"
   ],
-  "module_version": "1.0.0",
+  "module_version": "1.0.1",
   "recommends": [
     "capability:product"
   ],

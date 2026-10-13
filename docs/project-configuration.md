@@ -4,6 +4,8 @@
 | --- | --- | --- |
 | `.harness/project.json` | Adapter/capability | Commit |
 | `.harness/agents.json` | Provider/model/reasoning theo role, execution preferences và host mappings | Commit |
+| `.harness/artifacts.json` | Input/output/storage, canonical ownership và source-write policy | Commit |
+| `.harness/integrations.json` | Dynamic host connection aliases và scope; không chứa credentials | Commit |
 | `.harness/local.md` | Nghiệp vụ, kiến trúc, nguồn và quyết định chung | Commit |
 | `.harness/environment.json` | Công cụ, lệnh, file cần có | Commit |
 | `.harness/machine.json` | Đường dẫn riêng của máy, tùy chọn | Ignore |
@@ -84,3 +86,8 @@ tự chạy lệnh, đổi JAVA_HOME, sửa settings.xml hay tải dependency.
 Chạy `aih setup` rồi nhờ AI đọc workflow `project-setup`. Host đọc repo và câu trả lời cũ trước khi
 hỏi 1–3 câu A/B/C có đề xuất dựa trên bằng chứng. Các gợi ý JSON của CLI có thể được bỏ qua nếu
 local.md đã trả lời. Setup không phải wizard nhập liệu và không tự ghi lựa chọn.
+
+## Input/output và integrations
+Xem [Artifact contract](artifact-contract.md). `aih artifacts` báo khai báo; `aih setup` gợi ý hỏi
+nơi lưu docs/UI nếu chưa biết. Các file này project-owned và được bảo toàn khi update; chúng không
+kết nối MCP, cấp quyền hay chạy tool. Credentials và native host config nằm ngoài Git.

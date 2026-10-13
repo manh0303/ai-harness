@@ -117,7 +117,7 @@ test('setup recommends an existing wrapper, honors configured tools and emits no
   write('build.gradle.kts', 'plugins {}');
   assert.equal(setupPlan(root, ['java-spring']).questions[0].id, 'build-tool');
   write('.harness/environment.json', { ...emptyEnvironment(), tools: { maven: { executable: process.execPath } } });
-  assert.deepEqual(setupPlan(root, ['java-spring']).questions, []);
+  assert.deepEqual(setupPlan(root, ['java-spring']).questions.map(q => q.id), ['artifact-storage']);
   write('.harness/environment.json', { ...emptyEnvironment(), tools: { maven: { executable: '${UNSET_AIH_TEST_VAR}' } } });
   assert.equal(cli(['doctor'], 1).environment.entries[0].status, 'missing-env');
   assert.equal(cli(['setup'], 1).status, 'blocked');

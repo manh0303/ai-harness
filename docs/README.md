@@ -20,6 +20,8 @@ Chỉ đọc phần phù hợp với công việc đang làm.
 
 [Code React/Next.js & React Native/Expo](frontend-mobile.md) · [Monetization capability](../capabilities/monetization/README.md).
 
+[Input/output, storage & integrations](artifact-contract.md).
+
 ## Ví dụ
 
 | Loại project | Hướng dẫn |

@@ -11,6 +11,11 @@
 | Deliver | Reviewed branch | PR with change ID, evidence, residual risks and rollback plan |
 | Archive | All associated PRs merged | Sync accepted specs and archive via OpenSpec in a separate reviewed change if needed |
 
+Apply `artifact-contract.md` for declared inputs/outputs, canonical ownership and connections.
+Maintain affected docs/spec/UI in the same change; record artifact-impact.json when outputs are
+configured, including unchanged reasons and actual evidence. No source write beyond declared policy
+and existing host/user authorization.
+
 For new projects or consequential features, follow `solution-framing.md`: source-linked overview,
 MVP/NFR, justified architecture/pattern choices and delivery dependencies feed OpenSpec design/tasks.
 For first use, read `project-setup.md` in this workflow directory. Before implementing consequential

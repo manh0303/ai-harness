@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Project artifact contracts
+- Add project-owned input/output/storage/canonical/source-write contracts and dynamic host connection declarations; seed/preserve and validate them before writes.
+- Add read-only artifacts reports/setup storage questions, local docs routing and explicit external template handoffs without network calls or fallback copies.
+- Connect idea/document/UI flows and spec-driven artifact-impact readiness/maintenance; Product 1.3.0 and UIUX 1.0.1.
+- Preserve legacy defaults when unconfigured; add path/policy/graph/preflight/rollback/routing tests, package smoke and unscored behavior scenarios.
+
 ## Unreleased — README languages
 - Make the concise root README English, add a Vietnamese translation and a language selector on both pages.
 - Preserve English technical terms in the Vietnamese overview and keep commands/setup links aligned.

@@ -10,6 +10,9 @@ reusable public APIs, intended code placement and rationale for new components/d
 ## Solution Fit
 TODO: Link MVP/AC/NFR, affected modules/data/contracts, important failure flows, accepted ADRs or
 proportional decision notes, dependencies and rollout/rollback constraints.
+## Artifact Impact
+TODO: Input IDs and observed source revisions; affected output docs/spec/UI/code; canonical owners,
+destinations and permitted write scope. Link artifact-impact.json when configured; justify unchanged outputs.
 ## Decisions
 TODO: Chosen approach, alternatives and trade-offs.
 ## Risks / Trade-offs

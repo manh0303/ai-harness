@@ -48,6 +48,6 @@ Give tasks normally; you do not need to invoke each agent or skill, or open a ch
 If `--detect` cannot identify the stack, [select modules explicitly](docs/getting-started.md).
 `aih check` checks Harness files; application correctness requires project tests and review.
 
-[Getting started](docs/getting-started.md) · [Docs & examples](docs/README.md) · [Model/agent configuration](docs/agent-configuration.md)
+[Getting started](docs/getting-started.md) · [Docs & examples](docs/README.md) · [Input/output & integrations](docs/artifact-contract.md) · [Model/agent configuration](docs/agent-configuration.md)
 
 [Contributing](CONTRIBUTING.md) · [Harness maintenance](docs/harness-maintenance.md) · [MIT](LICENSE).

@@ -17,6 +17,7 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | check | none | Compare installed files/block with lock and selection; no writes |
 | doctor | none | check plus configured environment/path diagnostics and generic PATH hints; no execution |
 | setup | --host codex/claude-code/gemini-cli/cursor/copilot/custom-ID (optional) | Read-only question and agent-routing plan; skips tool-selection suggestions when tools are configured |
+| artifacts | none | Report declared inputs/outputs/storage/write policy and host connection aliases; no discovery or tool calls |
 | ready ID | --stage implement/review | Structural readiness; blocked returns exit 1, ready returns exit 0; no business approval |
 | new-change ID | none | Create an unapproved OpenSpec draft using installed templates |
 | new-doc TYPE | --capability ID (default product) | Copy one selected locked template into the owner's project docs without overwrite; Product idea/research use `docs/discovery/`, other Product types use `docs/product/` |
@@ -148,3 +149,11 @@ See [Agent configuration](agent-configuration.md).
 Setup exit 0 means the read-only plan was produced, not that all models are usable. Inspect the nested
 agent_configuration.status and active route availability; host-incompatible/unverified requests require
 actual host checks before execution.
+
+## Artifact contract
+[Input/output/storage and integrations](artifact-contract.md) are project-owned configs. Init/update
+seed absent configs and preserve existing bytes; check validates schemas/references before writes.
+`aih artifacts` is read-only; setup suggests missing storage decisions. Explicit docs routes override
+legacy new-doc folders; external routes return a template/host handoff with executed false and no
+local fallback. Configured output contracts require reviewed artifact-impact.json coverage in ready;
+review stage requires declared completion/evidence. No remote calls, source writes or approval claims.

@@ -140,3 +140,12 @@ Project/lock/agent schemas and the distribution version stay unchanged. Existing
 usual reviewed update dry-run/update/check; local.md, agents.json, native host config and app files are
 project-owned and preserved. Re-export eval reports after bundle changes; revert the consumer install
 commit for rollback. See [Frontend/mobile coding](frontend-mobile.md).
+
+## Artifact contract and integrations (unreleased)
+New project-owned schema-1 artifacts.json/integrations.json are optional on legacy installs and
+seeded when absent; custom bytes, source docs and native host configs are preserved. Project/lock
+schemas remain 1. Product 1.3.0 and UIUX 1.0.1 connect routing/maintenance guidance. Configured docs
+outputs override new-doc routes; external destinations return a handoff without local/remote writes.
+Configured output contracts require artifact-impact.json in existing changes when using ready; copy
+the installed template and record reviewed impact. No automatic migration of source documents or
+external publication. Review update --dry-run/update/check; rollback through Git. See [Artifact contract](artifact-contract.md).
