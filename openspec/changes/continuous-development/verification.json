@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "name": "npm test",
+      "status": "passed",
+      "evidence": "evidence/test.txt; exit 0; SHA-256 94d58745bcde89b6943854ffa621589d151bf7fddbc448fa85e4631976d096bf"
+    },
+    {
+      "name": "npm run validate",
+      "status": "passed",
+      "evidence": "evidence/validate.txt; exit 0; SHA-256 eca95bc4cd43c610de50cad6c138b17a0a5cac5eff6426dc9cf1e2bd6acf155d"
+    },
+    {
+      "name": "npm run check:release",
+      "status": "passed",
+      "evidence": "evidence/release.txt; exit 0; SHA-256 98eb8bf00e166d0a907f1f3cdb2040af5753f402dcd684defe0e873bc2acb62c"
+    },
+    {
+      "name": "npm run test:package",
+      "status": "passed",
+      "evidence": "evidence/package.txt; exit 0; SHA-256 cd78ad2245081515ca2958aa5ae60025a4569675af34a32d0e1d04294618938f"
+    },
+    {
+      "name": "git diff --check",
+      "status": "passed",
+      "evidence": "Local scoped diff review: exit 0, no whitespace errors."
+    },
+    {
+      "name": "live-agent evaluation",
+      "status": "skipped",
+      "reason": "NOT_RUN: cases and fixture protocol supplied; no separate intended consumer host/model run or independent scored traces captured. Deterministic tests are not live-agent evidence."
+    },
+    {
+      "name": "upstream OpenSpec validation",
+      "status": "skipped",
+      "reason": "BLOCKED: openspec executable unavailable and no pinned local OpenSpec dependency installed. Requirement/scenario structure reviewed; not claimed as upstream validation."
+    }
+  ]
+}

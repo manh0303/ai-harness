@@ -60,6 +60,17 @@
         "Static UNVERIFIED claims and affected-section source policy"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "continuous-maintenance",
+      "title": "Continuous change review",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Stable rule/AC IDs and source-linked section changes",
+        "Feedback deduplicated and proposed until accepted; no automatic scope expansion"
+      ],
+      "execution": "manual"
     }
   ]
 }

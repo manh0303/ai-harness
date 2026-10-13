@@ -10,3 +10,5 @@ updated affected context and explicit residual risk.
 5. Use harness-architecture-review on design/diff with actual lint/test/build/boundary evidence.
    State manual-only checks, skipped environments and author-vs-independent review explicitly.
 6. Handoff findings, source paths, decisions, IDs, pending work and next owner; release follows DevOps.
+
+Enter via Core `continuous-development.md` to reconcile the current baseline with the previous handoff. Record remaining work and separate implementation, merge and release evidence in the existing change; feedback stays proposed until an owner accepts scope.

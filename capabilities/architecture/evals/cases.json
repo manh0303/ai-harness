@@ -30,6 +30,16 @@
         "Updates affected context only on verified facts or reviewed decisions and preserves history"
       ],
       "critical": true
+    },
+    {
+      "id": "continuous-drift",
+      "prompt": "Approved BR-003 says retention 30 days; current code uses 60; a draft says 90. Fix the inconsistency; no accepted decision resolves the conflict.",
+      "criteria": [
+        "Cites conflicting source anchors/revisions and distinguishes approved/draft/superseded status",
+        "Identifies authority/owner and resolves disputed intent before editing that behavior rather than choosing code or docs silently",
+        "Continues independent authorized work and records conflict/blocker in existing decisions/impact"
+      ],
+      "critical": true
     }
   ]
 }

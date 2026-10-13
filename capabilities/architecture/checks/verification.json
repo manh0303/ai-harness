@@ -24,6 +24,17 @@
         "Configured checks vs manual/unavailable verification"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "continuous-maintenance",
+      "title": "Continuous change review",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Current code/map/ADR revisions and authority decision for drift",
+        "Affected data/API/event consumers, NFR and compatibility/regression impact"
+      ],
+      "execution": "manual"
     }
   ]
 }

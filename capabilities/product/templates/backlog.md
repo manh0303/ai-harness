@@ -21,3 +21,10 @@ Version: 0.1-draft | PO: <person> | Prioritization method: proposed / approved
 - [ ] Story acceptance criteria are testable
 - [ ] UX states and permissions are specified where relevant
 - [ ] PO has explicitly approved priority and readiness
+
+## Feedback triage
+| Feedback ID / source / revision | Expected vs observed | Existing requirement / AC | Defect or new request / duplicate of | Proposed priority / value | Decision owner / accepted evidence | Change / next step |
+| --- | --- | --- | --- | --- | --- | --- |
+
+Bug reports, UAT findings, user feedback and supplied operating results remain proposals until an
+owner accepts scope. Do not promise a date or add work to the active change just because feedback exists.

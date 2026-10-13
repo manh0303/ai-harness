@@ -52,4 +52,4 @@ If `--detect` cannot identify the stack, [select modules explicitly](docs/gettin
 
 [Contributing](CONTRIBUTING.md) · [Harness maintenance](docs/harness-maintenance.md) · [MIT](LICENSE).
 
-[Adaptive verification & TechSpec](docs/adaptive-verification.md): project-aware plans, requirement-linked evidence and selective docs.
+[Continuous development](docs/continuous-development.md) · [Adaptive verification & TechSpec](docs/adaptive-verification.md): successive changes, current context and selective docs.

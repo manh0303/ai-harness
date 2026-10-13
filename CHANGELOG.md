@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- Continuous development workflow: fresh baselines, proportional cross-role impact, selective living documentation and source-policy proposals, feedback triage and session handoff.
+- Seven Core behavioral scenarios plus a cross-capability scenario, installation/update preservation coverage and package checks.
+
+### Changed
+- Existing Core/Product/Architecture/Delivery skills and OpenSpec templates retain stable IDs and distinguish implementation, merge and release evidence.
+- Product 1.5.0, Architecture/Delivery 1.1.0; no new runtime, CLI commands or config schemas. Distribution version and release automation remain unchanged.
+
 ## Unreleased — Adaptive verification and TechSpec
 - Add read-only adaptive discovery and digest/pointer-based requirement evidence validation; preserve advisory verify behavior.
 - Add Core verification and Product 1.4.0 selective TechSpec maintenance using existing artifact routes/policies.

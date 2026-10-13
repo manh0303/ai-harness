@@ -85,3 +85,5 @@ Update affected docs/spec/UI with the change and record artifact-impact evidence
 local output folders or returns a host handoff for external targets, without publishing itself.
 
 See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only discovery, evidence reports and selective technical documentation.
+
+For ongoing changes and feedback, use [Continuous development](continuous-development.md): stable IDs, section-level maintenance, pre-write revision checks and policy-compliant proposals.

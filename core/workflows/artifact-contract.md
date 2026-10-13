@@ -51,3 +51,8 @@ record the blocked dependency; do not claim completion while required maintenanc
 Before code, review the impact plan. Before handoff, inspect evidence and source revisions.
 `aih ready` checks declarations/coverage/completion only, not semantic consistency or truthful evidence.
 After associated PRs merge, sync accepted repository specs and archive via the normal OpenSpec flow.
+
+For change-by-change application and resume checks use `continuous-development.md`. Read-only
+sources stay unchanged; link a separate maintenance proposal in the impact reason/evidence. A
+proposal-only assignment may be delivered as a proposal, but required canonical updates remain
+blocked. Do not mark a proposed source patch as an actual publication.

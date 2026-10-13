@@ -20,6 +20,16 @@
         "Records actual owner answer before affected implementation and updates traceability/plan"
       ],
       "critical": true
+    },
+    {
+      "id": "continuous-resume",
+      "prompt": "Continue change X. Its handoff says code A and FR-002 rev 2 with PASS at A. Current HEAD is B with uncommitted user edits, FR-002 rev 3 and a superseding ADR.",
+      "criteria": [
+        "Re-reads current code/docs/ADR and working tree instead of trusting old summary",
+        "Reconciles changed assumptions and re-runs affected impact/checks; does not reuse old PASS as current proof",
+        "Preserves user edits and updates existing tasks/design/map with evidence and next step instead of a new context store"
+      ],
+      "critical": true
     }
   ]
 }

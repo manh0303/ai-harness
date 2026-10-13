@@ -40,3 +40,10 @@ Synthetic illustration: Rank secure create/search before optional import using a
 Use `.harness/capabilities/product/workflows/product-to-solution.md`; supply reviewed source/requirement
 IDs, output paths and actual owner decisions to the next BA/PO/SA/PM role as applicable. Return gaps
 to their owner; a single host may perform roles sequentially without claiming independent approval.
+
+## Feedback intake
+Under Core `continuous-development.md`, triage supplied bug reports, UAT findings, user feedback and
+operational evidence into the existing backlog or a policy-compliant proposal. Deduplicate source and
+requirement IDs; distinguish defects against approved AC from new wishes. Record expected/observed,
+severity/value, decision owner and proposed action. Only an actual accepted scope decision enters the
+active change; no automatic scope expansion, fabricated priority or promised timeline.

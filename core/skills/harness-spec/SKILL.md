@@ -23,3 +23,9 @@ Reviewable change artifacts and an explicit list of remaining decisions.
 ## Constraints
 Do not mark tasks complete before evidence. Do not archive until associated changes are merged.
 Draft creation does not grant permission to modify another repo or access a service.
+
+## Continuous changes
+Apply `.harness/core/workflows/continuous-development.md` first: compare actual baseline to handoff,
+reuse the active change and stable IDs, and record affected-section impact plus unchanged reasons.
+Do not silently resolve spec–code drift; record authoritative owner/source decisions. For a small
+compatible fix, an existing issue/PR note can replace a full OpenSpec pack with a scope rationale.

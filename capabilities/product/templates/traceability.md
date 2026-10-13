@@ -21,3 +21,10 @@ Version: 0.1-draft | Status: pending-review | Sources reviewed at: <date>
 - Missing or pending mappings: <number>
 
 Do not fabricate Figma node IDs, code commits or approvals. Write `pending` until they exist.
+
+## Implementation and verification links
+| Stable requirement / AC | Spec section / revision | Code / contract path / revision | Test / raw evidence / tested revision | Result / gap |
+| --- | --- | --- | --- | --- |
+
+Only observed execution supports runtime PASS. Invalidate affected stale coverage after baseline
+changes; record BLOCKED/NOT_RUN and their reasons. Preserve unchanged rows and retired ID history.

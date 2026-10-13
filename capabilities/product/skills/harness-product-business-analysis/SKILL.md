@@ -41,3 +41,8 @@ Synthetic illustration: BR-001 requires organization-scoped search; AS-IS behavi
 Use `.harness/capabilities/product/workflows/product-to-solution.md`; supply reviewed source/requirement
 IDs, output paths and actual owner decisions to the next BA/PO/SA/PM role as applicable. Return gaps
 to their owner; a single host may perform roles sequentially without claiming independent approval.
+
+## Continuous changes
+Use Core `continuous-development.md`. Compare approved vs proposed rule/use-case/AC deltas at actual
+source revisions; retain IDs and withdrawn history. Trace changed rules into API/data/event contracts
+and regression expectations. Record docs–code disagreement and its decision owner before propagation.

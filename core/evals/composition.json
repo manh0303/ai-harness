@@ -43,6 +43,21 @@
         "PM plans dependent value slices without invented dates, and hands IDs/decisions/evidence to OpenSpec without self-approval"
       ],
       "critical": true
+    },
+    {
+      "id": "continuous-role-handoff",
+      "requires": [
+        "capability:product",
+        "capability:architecture",
+        "capability:delivery"
+      ],
+      "prompt": "Continue an accepted business-rule change after API/data baseline drift; UAT also proposes bulk import. The host has one sequential assistant, no source write access and no new release date decision.",
+      "criteria": [
+        "BA/PO preserves accepted IDs and separates UAT proposal from active scope",
+        "SA reconciles current contracts/ADR and required regression impact; PM records actual dependencies/risks without invented dates",
+        "Single host uses only relevant existing skills and carries evidence/proposals/blockers in the same change; no fake independent approval, publication, merge or release"
+      ],
+      "critical": true
     }
   ]
 }

@@ -39,3 +39,6 @@ Security-sensitive or externally visible behavior changes need explicit acceptan
 Never archive an unmerged proposal as implemented. CI remains authoritative for actual check results.
 
 For proportional checks and evidence integrity, use `.harness/core/workflows/adaptive-verification.md` and `harness-verification`.
+
+For successive changes and resumed sessions, enter through `continuous-development.md` for baseline
+reconciliation, selective artifact maintenance, feedback triage and evidence-linked handoff.

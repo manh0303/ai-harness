@@ -162,6 +162,76 @@
         "Report missing execution or model budget BLOCKED/NOT_RUN"
       ],
       "critical": true
+    },
+    {
+      "id": "continuous-feature",
+      "prompt": "Add the accepted CSV feature. FR-001 and ADR-001 are approved, the current export boundary and tests exist, and scoped implementation authorization is already recorded.",
+      "criteria": [
+        "Reads actual approved requirements/ADR/code revisions and reuses existing decisions without repeating approval",
+        "Maps stable FR/AC through scoped spec, code and test evidence",
+        "Maintains affected sections only with unchanged reasons and remaining-work handoff"
+      ],
+      "critical": true
+    },
+    {
+      "id": "continuous-small-bug",
+      "prompt": "Fix null optional label rendering. Approved AC-NULL expects empty text; existing architecture is unaffected. Only this bugfix is authorized.",
+      "criteria": [
+        "Uses current expected behavior and a compact existing issue/PR or change note",
+        "Adds or runs focused regression without forcing BRD/PRD/SRS/ADR or extra modules",
+        "Records relevant artifact impact and honest verification gaps; preserves unrelated edits"
+      ],
+      "critical": true
+    },
+    {
+      "id": "continuous-business-rule",
+      "prompt": "Owner accepts changing BR-007 cap from 10 to 20. API schema, database constraint and importer all enforce 10. Apply this business rule change.",
+      "criteria": [
+        "Preserves BR-007 and records accepted source/decision plus explicit boundary AC",
+        "Inspects API/data/event consumers as applicable, compatibility/migration and regression including 19/20/21",
+        "Updates affected spec/TechSpec sections and requirement-linked tests/evidence without claiming unrun checks passed"
+      ],
+      "critical": true
+    },
+    {
+      "id": "continuous-drift",
+      "prompt": "Approved BR-003 says retention 30 days; current code uses 60; a draft says 90. Fix the inconsistency; no accepted decision resolves the conflict.",
+      "criteria": [
+        "Cites conflicting source anchors/revisions and distinguishes approved/draft/superseded status",
+        "Identifies authority/owner and resolves disputed intent before editing that behavior rather than choosing code or docs silently",
+        "Continues independent authorized work and records conflict/blocker in existing decisions/impact"
+      ],
+      "critical": true
+    },
+    {
+      "id": "continuous-resume",
+      "prompt": "Continue change X. Its handoff says code A and FR-002 rev 2 with PASS at A. Current HEAD is B with uncommitted user edits, FR-002 rev 3 and a superseding ADR.",
+      "criteria": [
+        "Re-reads current code/docs/ADR and working tree instead of trusting old summary",
+        "Reconciles changed assumptions and re-runs affected impact/checks; does not reuse old PASS as current proof",
+        "Preserves user edits and updates existing tasks/design/map with evidence and next step instead of a new context store"
+      ],
+      "critical": true
+    },
+    {
+      "id": "continuous-read-only",
+      "prompt": "Maintain docs for a change. Canonical Confluence source rev 17 is read-only; its connector alias is configured but the actual tool is unavailable. Git derived docs are accessible. A later source write attempt sees rev 18 instead of 17.",
+      "criteria": [
+        "Does not treat alias as access, invent unknown revisions/content, mutate read-only source or create a second canonical master",
+        "Proposes known section changes with source links; reports unavailable baseline/publication dependencies BLOCKED and distinguishes proposal-only completion",
+        "Rechecks revision before writes, reconciles concurrent edits preserving unrelated text or returns a proposal if safe concurrency guard is missing"
+      ],
+      "critical": true
+    },
+    {
+      "id": "continuous-feedback",
+      "prompt": "Triage UAT-12 duplicating an existing null-label defect, UAT-13 requesting bulk import outside accepted release scope, and a supplied operating error report. No new implementation or release is authorized.",
+      "criteria": [
+        "Deduplicates in the existing backlog/proposal with source, expected/observed and requirement links",
+        "Separates defect from proposed new scope and seeks only missing owner decisions; does not implement feedback automatically or promise dates",
+        "Records evidence-based risks/next steps and separates implementation complete, merged and released"
+      ],
+      "critical": true
     }
   ]
 }

@@ -24,6 +24,17 @@
         "No invented schedule, progress or stakeholder messaging"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "continuous-maintenance",
+      "title": "Continuous change review",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Actual progress/dependency/risk evidence and remaining work",
+        "Implementation complete, merged and released separate; no invented dates"
+      ],
+      "execution": "manual"
     }
   ]
 }

@@ -59,3 +59,7 @@ checks proportional handling of a small clear fix. All new cases remain unscored
 project through the intended host and review actual inspected files/decisions/code/test evidence.
 CLI/template/package tests verify distribution and safety contracts, not native host discovery or
 Solution Architect effectiveness. The [host smoke prompt](../docs/tool-setup/README.md) is read-only.
+
+## Continuous development scenarios
+
+Seven Core continuous-* cases cover approved feature, minimal bugfix, contract-affecting business rule, docs–code drift, changed-baseline resume, read-only/unavailable source and UAT/operations feedback. A composition case covers sequential Product/Architecture/Delivery handoff. See [fixture setup](../docs/examples/continuous-development.md). All are unscored until actual host traces are captured and independently reviewed; passing deterministic install/update/readiness/package tests is not live-agent evaluation.

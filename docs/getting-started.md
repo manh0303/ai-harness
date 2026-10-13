@@ -81,3 +81,5 @@ Dùng thường xuyên có thể cài global: `npm install -g @manhd_d/ai-harnes
 For idea-driven or existing-doc work, ask the AI to reuse or clarify input/output destinations,
 canonical owners and source-write scope. Record them in project-owned artifacts.json/integrations.json;
 `aih artifacts` shows declarations. See [Artifact contract](artifact-contract.md).
+
+For successive features, bugfixes or a resumed session, give the host a normal request. It follows [Continuous development](continuous-development.md), rechecks the baseline and maintains only affected docs.
