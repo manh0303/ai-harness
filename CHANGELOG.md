@@ -132,6 +132,13 @@
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.13.0](https://github.com/manh0303/ai-harness/compare/v0.12.0...v0.13.0) (2026-10-13)
+
+
+### Features
+
+* make harness agent-first and portable across projects ([5286c66](https://github.com/manh0303/ai-harness/commit/5286c66cb0895c412da4ff9f0a1e05c4b54f3881))
+
 ## [0.12.0](https://github.com/manh0303/ai-harness/compare/v0.11.0...v0.12.0) (2026-10-13)
 
 
