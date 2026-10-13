@@ -41,7 +41,8 @@ Mở thư mục project trong công cụ AI, rồi gửi:
 
 Bạn có thể giao ý tưởng, tài liệu BA hoặc task code. Không cần gọi từng agent/skill.
 Với web/mobile, giao màn hình hoặc tính năng theo common/API/state/navigation hiện có; [skills đã có](frontend-mobile.md).
-Nếu công cụ chưa tự nạp hướng dẫn, xem [cách cấu hình công cụ AI](tool-setup/README.md).
+Xem [setup theo AI tool](tool-setup/README.md) cho Codex, Claude Code, Cursor, Copilot, Gemini CLI và Kiro:
+phân biệt cài tool, cài Harness và kiểm tra instructions đã được đọc.
 Lệnh `setup` chỉ xuất gợi ý thiết lập, không phải bước bắt buộc để bắt đầu.
 
 Review diff và test, rồi commit `AGENTS.md`, `.harness/`, `.agents/skills/` cùng code.
@@ -80,6 +81,6 @@ Dùng thường xuyên có thể cài global: `npm install -g @manhd_d/ai-harnes
 ## Docs/UI destinations
 For idea-driven or existing-doc work, ask the AI to reuse or clarify input/output destinations,
 canonical owners and source-write scope. Record them in project-owned artifacts.json/integrations.json;
-`aih artifacts` shows declarations. See [Artifact contract](artifact-contract.md).
+`npx --yes @manhd_d/ai-harness artifacts` shows declarations. See [Artifact contract](artifact-contract.md).
 
 For successive features, bugfixes or a resumed session, give the host a normal request. It follows [Continuous development](continuous-development.md), rechecks the baseline and maintains only affected docs.

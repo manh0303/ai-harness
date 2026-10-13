@@ -14,9 +14,11 @@ Core workflows 可用于任何项目。Stack support 是可选的，不会自动
 npx --yes @manhd_d/ai-harness init
 ```
 
+`npx` 不会安装全局 `aih` command。使用 `npx --yes @manhd_d/ai-harness check` 检查，然后在 AI tool 中打开同一项目。[通用 Setup](../tool-setup/README.md)。
+
 > Read AGENTS.md. Inspect this project and its approved decisions. Implement [task], run appropriate checks and maintain affected docs.
 
-Host 执行 tests，并控制 tools、delegation 和 permissions。MCP/connector/API 可在 host 获得访问权限后提供 input。init --detect 用于支持的 stack；aih check 检查 Harness integrity。
+Host 执行 tests，并控制 tools、delegation 和 permissions。MCP/connector/API 可在 host 获得访问权限后提供 input。init --detect 用于支持的 stack；check 检查 Harness integrity。
 
 | AI tool | Setup |
 | --- | --- |
@@ -25,5 +27,6 @@ Host 执行 tests，并控制 tools、delegation 和 permissions。MCP/connector
 | **Cursor** | [使用指南](../tool-setup/cursor.md) |
 | **GitHub Copilot** | [使用指南](../tool-setup/copilot.md) |
 | **Gemini CLI** | [使用指南](../tool-setup/gemini-cli.md) |
+| **Kiro** | [使用指南](../tool-setup/kiro.md) |
 
 [Docs 与示例](../README.md) · [Getting started](../getting-started.md) · [Input/output](../artifact-contract.md) · [Agent configuration](../agent-configuration.md) · [Continuous development](../continuous-development.md) · [MIT](../../LICENSE)

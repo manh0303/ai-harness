@@ -171,3 +171,32 @@ test('Monetization capability and end-to-end publisher guides stay discoverable'
   assert.match(read('docs/getting-started.md'), /monetization/);
   assert.match(read('docs/architecture.md'), /Advertising monetization capability/);
 });
+
+test('tool setup uses Core-first npx commands and keeps host verification explicit', () => {
+  const common = read('docs/tool-setup/README.md');
+  assert.match(common, /npx --yes @manhd_d\/ai-harness init\n/);
+  assert.match(common, /npx --yes @manhd_d\/ai-harness check/);
+  assert.match(common, /npx.*does not install a global/);
+  assert.match(common, /project root/);
+  assert.doesNotMatch(common, /^aih init --adapters java-spring/m);
+  for (const host of ['codex', 'claude-code', 'cursor', 'copilot', 'gemini-cli', 'kiro']) {
+    const guide = read('docs/tool-setup/' + host + '.md');
+    assert.ok(common.includes('](' + host + '.md)'));
+    assert.match(guide, /\[common setup\]\(README.md\)/);
+    assert.ok(guide.includes('README.md#3-check-loading-then-give-a-task'));
+    assert.match(guide, /Official references/);
+    assert.match(guide, /no logged-in/i);
+  }
+});
+
+test('Kiro setup distinguishes canonical reading from native discovery and preserves ownership', () => {
+  const guide = read('docs/tool-setup/kiro.md');
+  assert.match(guide, /kiro-cli chat/);
+  assert.match(guide, /\.kiro\/skills\/harness-review\/SKILL.md/);
+  assert.match(guide, /\.agents\/skills\/harness-review\/SKILL.md/);
+  assert.ok(fs.existsSync(path.join(SOURCE, 'core/skills/harness-review/SKILL.md')));
+  assert.match(guide, /does not assume native discovery/);
+  assert.match(guide, /does not generate, update or drift-check Kiro files/);
+  assert.match(guide, /canonical.*write scope/);
+  assert.match(read('docs/tool-setup/claude-code.md'), /unreleased from the 0\.12\.0 npm baseline/);
+});

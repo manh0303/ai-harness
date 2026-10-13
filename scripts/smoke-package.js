@@ -37,7 +37,7 @@ try {
     'docs/solution-workflow.md', 'docs/tool-setup/README.md']) {
     assert.ok(names.includes(required), `Missing solution asset: ${required}`);
   }
-  for (const host of ['codex', 'claude-code', 'cursor', 'copilot', 'gemini-cli']) {
+  for (const host of ['codex', 'claude-code', 'cursor', 'copilot', 'gemini-cli', 'kiro']) {
     assert.ok(names.includes(`docs/tool-setup/${host}.md`), `Missing host guide: ${host}`);
   }
   const conventionAssets = ['core/rules/project-conventions.md',

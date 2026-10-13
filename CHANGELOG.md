@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Kiro and clearer tool setup
+
+- Add Kiro to all README languages and a documented IDE/CLI/Web setup guide with optional native skill pointers.
+- Separate AI tool installation from project Harness setup; use Core-first npx commands, explicit loading checks and client-specific instruction bridges for all six tools.
+- Preserve native settings; document unreleased Claude flags and Kiro ownership. Add guide/parity/package assertions. No installer, manifest/schema or runtime behavior change; no live-host compatibility claim.
+
+
 ## Unreleased — Agent-first delivery and brownfield
 - Route scoped work through agent contracts/preferred skills and approved SA decisions; retire Java outbox/migration and Astro cloud/microfrontend recipes.
 - Add Analysis/Discovery canonical Product profiles, PM/template aliases, shared document contract and host-native/Claude model seeds without overwriting existing settings.

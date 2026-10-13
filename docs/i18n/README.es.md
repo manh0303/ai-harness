@@ -14,9 +14,11 @@ Requiere Node.js 22+. Ejecuta en el directorio del proyecto:
 npx --yes @manhd_d/ai-harness init
 ```
 
+`npx` no instala el command global `aih`. Comprueba con `npx --yes @manhd_d/ai-harness check` y abre el mismo proyecto en tu AI tool. [Setup común](../tool-setup/README.md).
+
 > Read AGENTS.md. Inspect this project and its approved decisions. Implement [task], run appropriate checks and maintain affected docs.
 
-El host ejecuta tests y controla tools, delegation y permissions. MCP/connector/API pueden aportar input con acceso autorizado. init --detect identifica stacks compatibles; aih check comprueba la integrity de Harness.
+El host ejecuta tests y controla tools, delegation y permissions. MCP/connector/API pueden aportar input con acceso autorizado. init --detect identifica stacks compatibles; check comprueba la integrity de Harness.
 
 | AI tool | Setup |
 | --- | --- |
@@ -25,5 +27,6 @@ El host ejecuta tests y controla tools, delegation y permissions. MCP/connector/
 | **Cursor** | [Guía](../tool-setup/cursor.md) |
 | **GitHub Copilot** | [Guía](../tool-setup/copilot.md) |
 | **Gemini CLI** | [Guía](../tool-setup/gemini-cli.md) |
+| **Kiro** | [Guía](../tool-setup/kiro.md) |
 
 [Docs y ejemplos](../README.md) · [Getting started](../getting-started.md) · [Input/output](../artifact-contract.md) · [Agent configuration](../agent-configuration.md) · [Continuous development](../continuous-development.md) · [MIT](../../LICENSE)
