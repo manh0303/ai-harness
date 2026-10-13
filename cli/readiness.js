@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { safe, stat, SLUG, isObject, HarnessError } from './files.js';
-import { readConfig } from './environment.js';
+import { readConfig } from './project-config.js';
+import { artifactImpact } from './artifacts.js';
 
 const text = s => typeof s === 'string' && s.trim().length > 0;
 const draft = s => /\b(?:TODO|TBD|FIXME)\b|\{\{[^}]+\}\}/i.test(s);
@@ -108,6 +109,7 @@ export function ready(root, id, stage = 'implement') {
       if (!passed) problems.push('No completed passing check or manual review recorded');
     }
   }
+  problems.push(...artifactImpact(root, base, stage));
   return { status: problems.length ? 'blocked' : 'ready', change: id, stage, problems,
     tasks: { pre_merge: taskCount, pending }, skipped_checks: skipped, executed: false,
     next_steps: problems.length ? ['Resolve reported gaps; ask the user about unresolved consequential decisions.']

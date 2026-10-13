@@ -60,6 +60,18 @@
         "No premium fallback, fake token meter or overwritten host configuration"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "artifact-maintenance",
+      "title": "Review input/output ownership, source writes and spec-driven maintenance",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Declared input revisions, output destinations and single canonical owner per group",
+        "Actual host connection/access and bounded write authorization; no credentials in project config",
+        "Reviewed artifact-impact coverage with docs/spec/UI diffs or explicit blocked dependencies"
+      ],
+      "execution": "manual"
     }
   ]
 }

@@ -83,7 +83,7 @@ test('setup suggests mode without inference or writes and retains guidance with 
   write('.harness/environment.json', { ...emptyEnvironment(), tools: { node: { executable: process.execPath } } });
   before = snapshot();
   const configured = setupPlan(root, ['java-spring']);
-  assert.deepEqual(configured.questions, []);
+  assert.deepEqual(configured.questions.map(q => q.id), ['artifact-storage']);
   assert.match(configured.next_steps.join(' '), /mode per affected module/);
   assert.match(configured.next_steps.join(' '), /Skip answered questions/);
   assert.deepEqual(snapshot(), before);

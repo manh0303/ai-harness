@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "name": "unit-and-behavioral-cli",
+      "status": "passed",
+      "evidence": "172 tests passed locally; tests/artifacts.test.js covers preserved seeds, validation, scoped defaults, routing, impact and rollback."
+    },
+    {
+      "name": "structure-release-package",
+      "status": "passed",
+      "evidence": "validate/check:release passed; real tarball package smoke passed including artifact seeds/local routes/external handoff."
+    },
+    {
+      "name": "live-host-connections",
+      "status": "skipped",
+      "reason": "No live Figma/Confluence/Jira/DB account test or model-compliance evaluation; declared availability remains unverified."
+    }
+  ]
+}

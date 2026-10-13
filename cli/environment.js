@@ -2,6 +2,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { safe, stat, isObject, SLUG, HarnessError } from './files.js';
 import { agentPlan } from './agents.js';
+import { readConfig } from './project-config.js';
+export { readConfig } from './project-config.js';
+import { artifactReport } from './artifacts.js';
 
 export const ENVIRONMENT = '.harness/environment.json';
 export const MACHINE = '.harness/machine.json';
@@ -10,14 +13,6 @@ const validText = s => typeof s === 'string' && s.trim().length > 0 && !/[\0\r\n
 const own = (o, k) => Object.hasOwn(o, k);
 function requireThat(ok, message) { if (!ok) throw new HarnessError(message); }
 
-export function readConfig(root, name) {
-  const p = safe(root, name), info = stat(p);
-  if (!info) return null;
-  requireThat(info.size <= 1024 * 1024, 'Configuration exceeds 1 MiB: ' + name);
-  // Never include parser input (possibly private machine paths) in diagnostics.
-  try { return JSON.parse(fs.readFileSync(p, 'utf8')); }
-  catch { throw new HarnessError('Invalid JSON: ' + name); }
-}
 function keys(value, allowed, label) {
   requireThat(isObject(value) && Object.keys(value).every(k => allowed.includes(k)), 'Invalid fields: ' + label);
 }
@@ -122,6 +117,7 @@ export function environmentReport(root, env = process.env) {
 
 export function setupPlan(root, adapters, env = process.env, host) {
   const environment = environmentReport(root, env);
+  const artifacts = artifactReport(root);
   const configuredTools = environment.entries.some(e => e.group === 'tools');
   const questions = [];
   if (adapters.includes('java-spring') && !configuredTools) {
@@ -157,14 +153,17 @@ export function setupPlan(root, adapters, env = process.env, host) {
     reason: 'Inspect the task, local.md and neighboring code; stack detection or environment configuration does not establish project mode. Skip if already known.',
     allow_free_text: true
   });
-  return { status: environment.problems.length ? 'blocked' : 'planned', environment, questions,
+  questions.push(...artifacts.questions);
+  return { status: environment.problems.length ? 'blocked' : 'planned', environment, artifacts, questions,
     agent_configuration: agentPlan(root, host),
     next_steps: ['Read AGENTS.md, .harness/local.md and the installed project-setup workflow.',
       'Apply installed Core project-conventions.md and relevant adapter conventions; establish mode per affected module even when no setup questions are suggested.',
       'Inspect comparable code and search public shared APIs before creating files, dependencies or abstractions; record source paths and reuse/new-code rationale.',
       'Skip answered questions; ask at most 1–3 consequential questions with evidence-based recommendations.',
       'Review agents.json provider/model/reasoning and preset choices; verify access/effort/delegation in the actual host before execution. No automatic premium fallback.',
-      'Record shared decisions in local.md/environment.json; put only machine paths in ignored machine.json.',
+      'Record shared decisions in local.md/environment.json and input/output/storage/write decisions in artifacts.json/integrations.json; reuse prior answers and host authorization.',
+      'Inspect actual host tool availability before using declared connections; never store credentials in project config.',
+      'Put only machine paths in ignored machine.json.',
       'Run aih doctor, then use the reviewed project commands through your AI host.'],
     note: 'Read-only host-facing suggestions, not an interactive terminal wizard or approval.' };
 }

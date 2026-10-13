@@ -76,3 +76,10 @@ For new/material journeys, reuse existing BA documents and continue with [Soluti
 PO defines a usable MVP and evidence-backed outcomes, SA evaluates quality/architecture/contracts,
 PM sequences dependent value slices. Accepted decisions and requirement IDs feed OpenSpec and adapters.
 Depth scales to the task; no mandatory full document set for small fixes. Use [tool setup](tool-setup/README.md).
+
+## Input/output storage and source maintenance
+Use [Artifact contract](artifact-contract.md) before authoring: reuse known locations or ask where
+docs/UI should be maintained, record canonical owner and source revisions, then use proportional
+templates. Existing sources are read-only/propose/write as declared; host authorization still applies.
+Update affected docs/spec/UI with the change and record artifact-impact evidence. new-doc respects
+local output folders or returns a host handoff for external targets, without publishing itself.

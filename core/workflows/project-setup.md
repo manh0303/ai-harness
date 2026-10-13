@@ -2,6 +2,8 @@
 
 Read AGENTS.md, local.md, actual build files and existing environment configuration first.
 For project/MVP/architecture decisions, apply `solution-framing.md` at the appropriate depth.
+For input/output/storage/source-write decisions, apply `artifact-contract.md`; ask only when
+needed for the task and reuse known project/session decisions.
 Use `aih setup` for structured suggestions; it never interviews the user or writes answers.
 Do not ask about facts already established in the repository or current conversation.
 

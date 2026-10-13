@@ -132,6 +132,26 @@ try {
     : command(bin, ['new-doc', 'brd'], productTarget);
   assert.equal(JSON.parse(productDocOut).status, 'ok');
   assert.ok(fs.existsSync(path.join(productTarget, 'docs/product/brd.md')));
+  for (const name of ['artifacts.json', 'integrations.json']) assert.ok(fs.existsSync(path.join(productTarget, '.harness', name)));
+  const productRun = args => process.platform === 'win32'
+    ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" ${args.join(' ')}"`], productTarget, { windowsVerbatimArguments: true })
+    : command(bin, args, productTarget);
+  const artifactContract = { schema_version: 1, mode: 'idea-driven', inputs: {}, outputs: {
+    requirements: { kind: 'docs', capability: 'product', location: { path: 'docs/chosen' }, canonical: true, write_policy: 'propose' },
+  } };
+  fs.writeFileSync(path.join(productTarget, '.harness/artifacts.json'), JSON.stringify(artifactContract));
+  assert.equal(JSON.parse(productRun(['new-doc', 'prd-lite'])).path, 'docs/chosen/prd-lite.md');
+  assert.ok(fs.existsSync(path.join(productTarget, 'docs/chosen/prd-lite.md')));
+  artifactContract.outputs.requirements.location = { url: 'https://example.com/wiki/123', connection: 'wiki' };
+  fs.writeFileSync(path.join(productTarget, '.harness/artifacts.json'), JSON.stringify(artifactContract));
+  fs.writeFileSync(path.join(productTarget, '.harness/integrations.json'), JSON.stringify({ schema_version: 1, connections: {
+    wiki: { via: 'connector', binding: 'atlassian', purpose: 'Requirements' },
+  } }));
+  const handoff = JSON.parse(productRun(['new-doc', 'srs']));
+  assert.equal(handoff.status, 'planned'); assert.equal(handoff.executed, false); assert.ok(handoff.template);
+  assert.ok(!fs.existsSync(path.join(productTarget, 'docs/product/srs.md')));
+  assert.equal(JSON.parse(productRun(['artifacts'])).connections[0].availability, 'unverified');
+
   assert.equal(JSON.parse(run(['verify'])).executed, false);
   const adapterEvaluation = JSON.parse(run(['eval']));
   const expectedCases = ['java-spring', 'react-nextjs', 'react-native', 'ai-python']
@@ -144,7 +164,7 @@ try {
   assert.equal(JSON.parse(run(['setup'])).status, 'planned');
   assert.equal(JSON.parse(run(['doctor'])).environment.configured, true);
   const changeDir = path.join(target, 'openspec/changes/package-smoke');
-  for (const file of ['decisions.json', 'verification.json']) assert.ok(fs.existsSync(path.join(changeDir, file)));
+  for (const file of ['decisions.json', 'verification.json', 'artifact-impact.json']) assert.ok(fs.existsSync(path.join(changeDir, file)));
   fs.writeFileSync(path.join(changeDir, 'proposal.md'), '# Proposal\nAdd the reviewed smoke behavior.\n');
   fs.writeFileSync(path.join(changeDir, 'design.md'), '# Design\nUse the existing implementation boundary.\n');
   fs.writeFileSync(path.join(changeDir, 'tasks.md'), '# Tasks\n- [x] Implement and check\n## After merge\n- [ ] Archive\n');
@@ -163,5 +183,5 @@ try {
   assert.equal(localResult.status, 'ok');
   assert.equal(JSON.parse(npm(['exec', '--offline', '--', 'aih', 'check'], local)).status, 'ok');
   console.log(JSON.stringify({ status: 'ok', version: packed.version, package_files: names.length,
-    checks: ['npm pack assets', 'packaged and installed Core/BE/FE/mobile conventions', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'Architecture/Delivery capability drafts and isolated package installation', 'monetization bundle and advisory checks', 'Astro packaged detection and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'setup/doctor and structural readiness', 'idempotent update', 'local npm exec without network'] }, null, 2));
+    checks: ['npm pack assets', 'packaged and installed Core/BE/FE/mobile conventions', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'artifact seeds, routed docs and external host handoff', 'Architecture/Delivery capability drafts and isolated package installation', 'monetization bundle and advisory checks', 'Astro packaged detection and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'setup/doctor and structural readiness', 'idempotent update', 'local npm exec without network'] }, null, 2));
 } finally { fs.rmSync(temp, { recursive: true, force: true }); }

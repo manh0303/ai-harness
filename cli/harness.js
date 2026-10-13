@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import { emptyEnvironment, environmentReport } from './environment.js';
 import { AGENT_CONFIG, agentDefaults, loadAgentConfig } from './agents.js';
+import { ARTIFACTS, INTEGRATIONS, emptyArtifacts, emptyIntegrations, loadArtifactContract, artifactReport, docRoute } from './artifacts.js';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { loadAdapter } from './adapter-schema.js';
@@ -166,6 +167,7 @@ export function install(root, source, { command = 'init', adapters, capabilities
     if (command === 'update' && !hasLock) throw new HarnessError('Not installed; run init first');
     const old = hasLock ? loadLock(root) : null;
     const existingAgents = loadAgentConfig(root);
+    loadArtifactContract(root); // Validate project-owned declarations before planning any writes.
     if (agentPreset !== undefined && command !== 'init') throw new HarnessError('Agent preset is supported only by init');
     if (agentPreset !== undefined && existingAgents) throw new HarnessError('agents.json is project-owned; edit it explicitly instead of applying an init preset');
     const config = projectConfig(root, adapters, capabilities, hasLock);
@@ -193,6 +195,8 @@ export function install(root, source, { command = 'init', adapters, capabilities
     const seeds = {
       [AGENT_CONFIG]: encode(agentDefaults(source, agentPreset ?? 'recommended')),
       [CONFIG]: encode(config),
+      [ARTIFACTS]: encode(emptyArtifacts()),
+      [INTEGRATIONS]: encode(emptyIntegrations()),
       '.harness/environment.json': encode(emptyEnvironment()),
       'openspec/config.yaml': fs.readFileSync(safe(source, 'templates/openspec/config.yaml')),
       '.harness/local.md': Buffer.from('# Project overrides\n\nRecord project facts and reviewed exceptions here. Never weaken security boundaries.\n\n## Development conventions\nRecord scope/mode (new, maintain or mixed), authoritative source paths, module boundaries, reusable public APIs, naming/error/test conventions and configured checks. Link existing guides instead of duplicating them. Unknowns are not approved defaults; the AI host inspects evidence and asks only consequential questions.\n'),
@@ -216,6 +220,7 @@ export function install(root, source, { command = 'init', adapters, capabilities
 export function check(root) {
   const lock = loadLock(root), config = projectConfig(root, undefined, undefined, true);
   const problems = drift(root, lock);
+  loadArtifactContract(root);
   loadAgentConfig(root); // Optional on legacy installs; validate user config without managing its bytes.
   if (JSON.stringify([...config.adapters].sort()) !== JSON.stringify([...lock.adapters].sort())) problems.push(`${CONFIG}: adapter selection changed; run update`);
   if (JSON.stringify([...(config.capabilities ?? [])].sort()) !== JSON.stringify([...(lock.capabilities ?? [])].sort())) problems.push(`${CONFIG}: capability selection changed; run update`);
@@ -231,7 +236,7 @@ export function newChange(root, name) {
     if (stat(folder)) throw new HarnessError(`Change already exists: ${name}`);
     const mapping = { 'proposal.md': 'proposal.md', 'design.md': 'design.md', 'tasks.md': 'tasks.md', 'spec.md': `specs/${name}/spec.md`, '.openspec.yaml': '.openspec.yaml' };
     const locked = loadLock(root);
-    for (const name of ['decisions.json', 'verification.json']) {
+    for (const name of ['decisions.json', 'verification.json', 'artifact-impact.json']) {
       if (Object.hasOwn(locked.files, '.harness/templates/openspec/' + name)) mapping[name] = name;
     }
     const changes = {};
@@ -262,7 +267,12 @@ export function newDoc(root, name, capability = 'product') {
     if (!declared.includes(`templates/${name}.md`)) throw new HarnessError(`Unknown document type for ${capability}: ${name}`);
     if (!Object.hasOwn(lock.files, sourceName)) throw new HarnessError(`Document template is not locked: ${capability}/${name}`);
     const folder = capability === 'product' && ['idea', 'research'].includes(name) ? 'discovery' : capability;
-    const outputName = `docs/${folder}/${name}.md`;
+    const route = docRoute(root, capability, name);
+    if (route?.external) return { status: 'planned', type: name, capability, destination: route.destination,
+      write_policy: route.write_policy, executed: false,
+      template: fs.readFileSync(safe(root, sourceName), 'utf8'),
+      note: 'External destination: host handoff only. No local fallback or remote write. Use the declared connection and existing authorization; preserve observed revision and return publication evidence.' };
+    const outputName = route?.path ?? `docs/${folder}/${name}.md`;
     if (stat(safe(root, outputName))) throw new HarnessError(`Document already exists: ${outputName}`);
     transaction(root, { [outputName]: fs.readFileSync(safe(root, sourceName)) });
     return { status: 'ok', type: name, capability, path: outputName,
@@ -281,5 +291,5 @@ export function doctor(root) {
   }
   const state = check(root), environment = environmentReport(root);
   return { ...state, status: state.status !== 'ok' || environment.problems.length ? 'error' : 'ok',
-    tools, environment, note: 'Tool presence only; no commands executed or compatibility claim made. Configured project tools take precedence over generic PATH hints.' };
+    tools, environment, artifacts: artifactReport(root), note: 'Tool presence only; no commands executed or compatibility claim made. Configured project tools take precedence over generic PATH hints.' };
 }

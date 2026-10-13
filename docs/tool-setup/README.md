@@ -68,3 +68,8 @@ No logged-in host/MCP or live-agent smoke was run for these docs; follow each li
 Review [Agent configuration](../agent-configuration.md) and run `aih setup --host <id>` for a declared
 routing plan. Validate native model/effort in the actual picker/client; no account availability is
 probed or host config overwritten. Incompatible defaults need your explicit provider/model mapping.
+
+## Artifact destinations and connections
+After project setup, inspect artifacts.json/integrations.json and [Artifact contract](../artifact-contract.md).
+Resolve declared bindings against actual host tools; missing accounts/MCP/access remain unavailable.
+Reuse recorded storage and source-write scope, verify revisions and maintain docs/spec/UI with each change.

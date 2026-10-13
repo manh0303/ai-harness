@@ -137,3 +137,12 @@ the snapshot. agents.json is project-owned and preserved. agents.js validates/re
 namespaced roles; setup supplies an advisory host plan with availability unverified. No provider calls,
 native writes, orchestration, usage meter or automatic escalation. Old alternate sources use the packaged
 default when absent; old consumers without config remain valid. See [Agent configuration](agent-configuration.md).
+
+## Project artifact and integration contracts
+Project-owned artifacts.json/integrations.json use schema 1 independently of project/lock schemas.
+The installer seeds absent configs, validates before writes, and preserves custom bytes. The shared
+JSON reader does not echo parse input. artifacts.js validates local paths/refs/dependencies and
+provides a read-only host plan; no provider registry, connector runtime, secrets store or discovery.
+new-doc routes to an explicit docs folder or returns an external template handoff without fallback
+copies. OpenSpec stays repository-owned; configured outputs add structural artifact-impact coverage
+and completion to readiness. See [Artifact contract](artifact-contract.md).

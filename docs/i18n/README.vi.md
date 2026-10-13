@@ -48,6 +48,6 @@ Bạn giao việc bình thường, không cần gọi từng agent, skill hay m�
 Nếu `--detect` chưa nhận diện được stack, [chọn module thủ công](../../docs/getting-started.md).
 `aih check` chỉ kiểm tra file Harness; tính năng đúng hay chưa cần test của project và review.
 
-[Getting started](../../docs/getting-started.md) · [Docs & examples](../../docs/README.md) · [Model/agent configuration](../../docs/agent-configuration.md)
+[Getting started](../../docs/getting-started.md) · [Docs & examples](../../docs/README.md) · [Input/output & integrations](../../docs/artifact-contract.md) · [Model/agent configuration](../../docs/agent-configuration.md)
 
 Đóng góp: [Contributing](../../CONTRIBUTING.md) · [Bảo trì Harness](../../docs/harness-maintenance.md) · [MIT](../../LICENSE).

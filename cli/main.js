@@ -4,6 +4,7 @@ import { resolveModules } from './composition.js';
 import { parseArgs } from 'node:util';
 import { setupPlan } from './environment.js';
 import { ready } from './readiness.js';
+import { artifactReport } from './artifacts.js';
 import { SOURCE, readJson, targetRoot, install, check, doctor, newChange, newDoc, loadLock } from './harness.js';
 import path from 'node:path';
 
@@ -22,6 +23,7 @@ Usage: aih <command> [options]
   check                Check Harness file integrity, not application tests
   doctor               Check installation, configured paths and tool presence
   setup                Suggest first-run questions for the AI host (read-only)
+  artifacts            Show input/output/storage and connection declarations (read-only)
   ready <id>           Check structural change readiness, not approval
   new-change <id>      Create an OpenSpec draft using installed templates
   new-doc <type>       Scaffold a locked capability template (default: product)
@@ -93,7 +95,7 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (!['init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts'].includes(command)) throw new Error(`Unknown command: ${command}`);
     if (extra.length || (!['new-change', 'new-doc', 'skill', 'ready'].includes(command) && name !== undefined) || (['new-change', 'new-doc', 'skill', 'ready'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
     if (command === 'new-doc') allowed.add('capability');
@@ -131,6 +133,10 @@ export function main(argv = process.argv.slice(2)) {
     else if (command === 'detect') result = detect(root, targetRoot(values.source ?? SOURCE));
     else if (command === 'verify') result = verify(root, values.scope ?? 'adapters');
     else if (command === 'eval') result = evaluate(root, values.report, values.scope ?? 'adapters');
+    else if (command === 'artifacts') {
+      if (check(root).status !== 'ok') throw new Error('Fix installation drift before reading artifact declarations');
+      result = artifactReport(root);
+    }
     else if (command === 'setup' || command === 'ready') {
       const state = check(root);
       if (state.status !== 'ok') throw new Error('Fix installation drift before setup/readiness checks');
@@ -142,10 +148,11 @@ export function main(argv = process.argv.slice(2)) {
     if (command === 'init' || command === 'update') result.next_steps = values['dry-run']
       ? ['Review the proposed changes, then repeat without --dry-run.']
       : ['Run aih setup; ask your AI host to read AGENTS.md and the project-setup workflow.',
-         'Review .harness/local.md and environment.json; keep personal paths in ignored machine.json.',
+         'Review local.md/environment.json and artifacts.json/integrations.json; record input/output/storage/ownership, keep credentials in the host and personal paths in ignored machine.json.',
          'Run aih doctor and review/commit the shared configuration and snapshot.'];
     if (command === 'new-change') result.next_steps = [
       'Resolve consequential ambiguity with the user and record answers/sources in decisions.json.',
+      'When artifact outputs are configured, record create/update/unchanged impact and source-write policy in artifact-impact.json.',
       'Fill the change documents, then run aih ready ' + name + ' --stage implement.',
       'After implementation, record actual verification evidence and run aih ready ' + name + ' --stage review.'];
     if (command === 'new-doc') result.next_steps = ['Populate the draft from authorized sources; clarify missing decisions before implementation.'];

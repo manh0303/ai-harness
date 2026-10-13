@@ -76,3 +76,8 @@ Review diff và chạy test project trước khi commit. Nếu có conflict, xem
 Dùng thường xuyên có thể cài global: `npm install -g @manhd_d/ai-harness`, rồi dùng `aih` thay cho `npx --yes @manhd_d/ai-harness`. Nâng CLI global trước khi `aih update`.
 
 [Tra cứu & ví dụ theo nhu cầu](README.md).
+
+## Docs/UI destinations
+For idea-driven or existing-doc work, ask the AI to reuse or clarify input/output destinations,
+canonical owners and source-write scope. Record them in project-owned artifacts.json/integrations.json;
+`aih artifacts` shows declarations. See [Artifact contract](artifact-contract.md).

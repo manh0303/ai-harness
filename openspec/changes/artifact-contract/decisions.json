@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "reviewed": true,
+  "decisions": [
+    {
+      "id": "project-artifacts",
+      "question": "Should the project define inputs/outputs/storage/source writes and request one release?",
+      "status": "resolved",
+      "answer": "Implement project-owned declarations, proportional docs, dynamic host aliases and spec-driven maintenance; create/merge the feature PR and run a reviewed release/npm workflow.",
+      "source": "Project-owner request in this conversation on 2026-10-13."
+    }
+  ]
+}

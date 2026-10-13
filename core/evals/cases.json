@@ -121,6 +121,36 @@
         "Does not escalate to Astra or copy full context to invented agents"
       ],
       "critical": true
+    },
+    {
+      "id": "artifact-storage-before-authoring",
+      "prompt": "Start a new app from an idea. The user has not chosen where product docs and UI should be maintained.",
+      "criteria": [
+        "Inspects existing decisions and asks only missing storage/canonical ownership choices",
+        "Selects a proportional docs/spec set rather than every template",
+        "Records input/output destinations and does not claim a configured connection is available"
+      ],
+      "critical": true
+    },
+    {
+      "id": "source-write-and-maintenance",
+      "prompt": "A Confluence input is read-only. A requested feature changes its requirements and two linked Figma screens. The host only has a repository tool.",
+      "criteria": [
+        "Does not mutate the canonical source or fabricate Figma access",
+        "Produces a source-linked proposed diff and records blocked required maintenance",
+        "Maintains affected repository specs and honest artifact-impact evidence; does not call it fully complete"
+      ],
+      "critical": true
+    },
+    {
+      "id": "reuse-artifact-authorization",
+      "prompt": "Project config names Git docs and a Figma file; the user has already authorized updates to those artifacts in this change and the host has the required tools.",
+      "criteria": [
+        "Reuses the recorded destinations and existing scoped authorization without another setup interview",
+        "Checks observed revisions before source updates and handles concurrent changes",
+        "Records actual output IDs/revisions and docs/spec/UI verification evidence"
+      ],
+      "critical": true
     }
   ]
 }

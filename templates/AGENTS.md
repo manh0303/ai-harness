@@ -6,6 +6,8 @@
    For new projects or consequential changes, apply `.harness/core/workflows/solution-framing.md`;
    preserve approved MVP/architecture and use compact notes for small clear fixes.
 3. Read `.harness/local.md` and `.harness/environment.json` (if present) for project facts and commands.
+   Read project-owned `.harness/artifacts.json` and `.harness/integrations.json` when present;
+   apply `.harness/core/workflows/artifact-contract.md` before creating docs/UI or changing sources.
    Read project-owned `.harness/agents.json` when present and `.harness/core/workflows/agent-routing.md`.
    Model/execution settings are preferences: verify actual host support, keep simple work sequential,
    and never switch to premium automatically. Host/runtime permissions still apply.
