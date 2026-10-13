@@ -15,3 +15,12 @@ diff, not only generated hashes. Open a PR; do not merge automatically or enable
 
 Use original instructions or properly licensed attributed content. Do not copy proprietary workspace
 details or third-party skill source into this repository. This repository is released under the MIT License; see LICENSE. Only contribute material you own or are authorized to distribute under compatible terms.
+
+## README translations
+
+README.md is the English source; translations live in docs/i18n/README.<language-code>.md.
+Keep sections, capabilities, commands and setup links aligned with the source. Preserve technical
+terms such as Requirements, Code, Test, Review, docs, spec, workflow, agent and skill.
+Add a native-language link to every README selector only when its translation exists.
+For example, use es for Español, fr for Français, zh-CN for 简体中文 or ja for 日本語.
+Translation changes do not translate the linked guides automatically.
