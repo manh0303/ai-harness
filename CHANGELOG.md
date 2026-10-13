@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — Simpler onboarding
+- Consolidate first-use documentation into a one-command README and a copyable AI task; keep setup and model preferences optional.
+- Add docs/README.md for advanced guides and examples, preserving frontend/mobile onboarding and environment ownership from the latest main.
+- Verify documentation discovery through the index. No CLI, module or consumer schema changes.
+
 ## Unreleased — Frontend/mobile coding and onboarding
 - Simplify init/host onboarding and surface current CLI flags in the command table.
 - Add focused React/Next.js feature/testing and React Native screen/testing skills with examples, quality and handoffs; each adapter module advances to 1.2.0.
