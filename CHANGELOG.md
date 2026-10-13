@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — README languages
+- Make the concise root README English, add a Vietnamese translation and a language selector on both pages.
+- Preserve English technical terms in the Vietnamese overview and keep commands/setup links aligned.
+- Document how to add real translations; localized README files ship through the existing docs/ allowlist.
+
 ## Unreleased — README capabilities and coding tools
 - Explain Product/Architecture/Delivery/Dev/QA outcomes in a compact role-oriented table.
 - Add a coding-tool table with linked installation/setup recipes for Codex, Claude Code, Cursor, Copilot and Gemini CLI; retain one-command project installation.
