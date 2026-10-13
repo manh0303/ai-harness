@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased — README capabilities and coding tools
+- Explain Product/Architecture/Delivery/Dev/QA outcomes in a compact role-oriented table.
+- Add a coding-tool table with linked installation/setup recipes for Codex, Claude Code, Cursor, Copilot and Gemini CLI; retain one-command project installation.
+
 ## Unreleased — Simpler onboarding
 - Consolidate first-use documentation into a one-command README and a copyable AI task; keep setup and model preferences optional.
 - Add docs/README.md for advanced guides and examples, preserving frontend/mobile onboarding and environment ownership from the latest main.
