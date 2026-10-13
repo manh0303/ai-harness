@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "name": "ai-harness",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "adapters": [
     "java-spring",
     "react-nextjs",
