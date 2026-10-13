@@ -61,7 +61,7 @@ test('init detect installs exactly suggested adapter; no match fails without wri
 test('explicit selection still works and plain init remains core-only', () => {
   write('package.json', { dependencies: { next: 'x' } }); install([]); assert.deepEqual(h.loadLock(root).adapters, []);
   assert.deepEqual(verify(root).checks, []); assert.throws(() => evaluate(root), /at least one/);
-  cli(['init', '--detect', '--adapters', 'java-spring'], 2); cli(['update', '--detect'], 2); cli(['verify', '--report', 'x'], 2);
+  cli(['init', '--detect', '--adapters', 'java-spring'], 2); cli(['update', '--detect'], 2); cli(['verify', '--report', 'x'], 1);
 });
 test('adapter schema rejects traversal, unknown execution and duplicate skill/check IDs', () => {
   const file = 'adapters/java-spring/adapter.yaml', original = h.readJson(path.join(source, file));
@@ -182,7 +182,7 @@ test('Astro selected adapter exposes exactly six locked skills and advisory chec
     assert.ok(fs.existsSync(local), 'Missing installed Astro skill ' + name);
     assert.equal(cli(['skill', name]).name, name);
   }
-  assert.equal(cli(['skills']).skills.length, 11, 'Five core skills plus six Astro skills');
+  assert.equal(cli(['skills']).skills.length, 12, 'Six core skills plus six Astro skills');
   const before = snapshot();
   const checks = cli(['verify']);
   assert.equal(checks.executed, false);

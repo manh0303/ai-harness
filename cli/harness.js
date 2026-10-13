@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import { emptyEnvironment, environmentReport } from './environment.js';
 import { AGENT_CONFIG, agentDefaults, loadAgentConfig } from './agents.js';
+import { reviewVerification, techspecEvidence } from './verification-report.js';
 import { ARTIFACTS, INTEGRATIONS, emptyArtifacts, emptyIntegrations, loadArtifactContract, artifactReport, docRoute } from './artifacts.js';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
@@ -250,7 +251,7 @@ export function newChange(root, name) {
 }
 
 // Capability drafts are project-owned and never added to the managed bundle.
-export function newDoc(root, name, capability = 'product') {
+export function newDoc(root, name, capability = 'product', options = {}) {
   if (!SLUG.test(name)) throw new HarnessError('Document type must be a lowercase hyphenated slug');
   if (!SLUG.test(capability)) throw new HarnessError('Capability must be a lowercase hyphenated slug');
   return guard(root, () => {
@@ -266,15 +267,17 @@ export function newDoc(root, name, capability = 'product') {
     const declared = loadCapability(path.join(root, '.harness'), capability).templates;
     if (!declared.includes(`templates/${name}.md`)) throw new HarnessError(`Unknown document type for ${capability}: ${name}`);
     if (!Object.hasOwn(lock.files, sourceName)) throw new HarnessError(`Document template is not locked: ${capability}/${name}`);
+    if (options.report && (capability !== 'product' || name !== 'techspec')) throw new HarnessError('--report is supported only for product techspec');
+    const content = options.report ? techspecEvidence(reviewVerification(root, options.report)) : fs.readFileSync(safe(root, sourceName), 'utf8');
     const folder = capability === 'product' && ['idea', 'research'].includes(name) ? 'discovery' : capability;
     const route = docRoute(root, capability, name);
     if (route?.external) return { status: 'planned', type: name, capability, destination: route.destination,
       write_policy: route.write_policy, executed: false,
-      template: fs.readFileSync(safe(root, sourceName), 'utf8'),
+      template: content,
       note: 'External destination: host handoff only. No local fallback or remote write. Use the declared connection and existing authorization; preserve observed revision and return publication evidence.' };
     const outputName = route?.path ?? `docs/${folder}/${name}.md`;
     if (stat(safe(root, outputName))) throw new HarnessError(`Document already exists: ${outputName}`);
-    transaction(root, { [outputName]: fs.readFileSync(safe(root, sourceName)) });
+    transaction(root, { [outputName]: content });
     return { status: 'ok', type: name, capability, path: outputName,
       note: 'Template only; populate from authorized evidence and obtain human approval.' };
   });

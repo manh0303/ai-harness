@@ -1,6 +1,6 @@
-# Skill matrix — 68 skills, 13 nhóm module
+# Skill matrix — 70 skills, 13 nhóm module
 
-Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (5 Core, 41 capability, 22 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 68 skill vào prompt.
+Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (6 Core, 42 capability, 22 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 70 skill vào prompt.
 
 **Cách dùng:** `aih skills` xem skills đã cài, sau đó `aih skill harness-...` lấy nội dung. Danh mục này mô tả chức năng; **không** có nghĩa `aih` thực thi skills hoặc agent. Tech adapters và capabilities chỉ xuất hiện trong consumer khi được chọn; Core dùng chung.
 
@@ -14,7 +14,7 @@
 | Release → Operate | `devops`, `kubernetes` khi phù hợp | CI, container, manifests, rollout và SLO plan |
 | Traffic → Publisher Revenue | `monetization` (optional) | SEO growth, AdSense readiness, UX/consent checks, Page RPM review |
 
-## Core (5)
+## Core (6)
 
 | Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
 | --- | --- | --- | --- |
@@ -24,7 +24,9 @@
 | [`harness-spec`](../core/skills/harness-spec/SKILL.md) | Technical design | Soạn OpenSpec proposal/design/tasks/delta specs | OpenSpec change và các quyết định còn thiếu |
 | [`harness-tdd`](../core/skills/harness-tdd/SKILL.md) | Implementation | Red → green → refactor trên slice nhỏ | Code + test evidence |
 
-## Product capability (15)
+| [`harness-verification`](../core/skills/harness-verification/SKILL.md) | Verify | Adaptive checks and honest evidence | Requirement-linked report |
+
+## Product capability (16)
 
 | Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
 | --- | --- | --- | --- |
@@ -53,6 +55,8 @@
 | [`harness-monetization-seo-growth`](../capabilities/monetization/skills/harness-monetization-seo-growth/SKILL.md) | Organic acquisition | Search intent và nội dung hữu ích, không tạo thin/spam pages | SEO experiments backlog |
 | [`harness-monetization-analytics-revenue`](../capabilities/monetization/skills/harness-monetization-analytics-revenue/SKILL.md) | Traffic and revenue | Page RPM, nguồn dữ liệu thực vs dự phóng, hosting/API costs | Analytics report |
 | [`harness-monetization-publisher-compliance`](../capabilities/monetization/skills/harness-monetization-publisher-compliance/SKILL.md) | Policy/consent | Invalid traffic, consent/CMP khu vực, publisher policies | Privacy + consent checklist |
+
+| [`harness-product-techspec`](../capabilities/product/skills/harness-product-techspec/SKILL.md) | Technical docs | Requirements, code, contracts and evidence | Selective TechSpec |
 
 ## UI/UX capability (6)
 

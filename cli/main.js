@@ -4,6 +4,8 @@ import { resolveModules } from './composition.js';
 import { parseArgs } from 'node:util';
 import { setupPlan } from './environment.js';
 import { ready } from './readiness.js';
+import { adaptiveVerification } from './verification.js';
+import { reviewVerification } from './verification-report.js';
 import { artifactReport } from './artifacts.js';
 import { SOURCE, readJson, targetRoot, install, check, doctor, newChange, newDoc, loadLock } from './harness.js';
 import path from 'node:path';
@@ -16,7 +18,7 @@ Usage: aih <command> [options]
   skill <name>         Load one installed skill on demand
   detect               Suggest adapters with evidence from target files
   resolve              Validate a module selection and show compatibility warnings
-  verify               Show installed advisory checks (does not execute)
+  verify               Plan checks or validate --report evidence (does not execute)
   eval                 Emit evaluation template, or score --report <file>
   init                 Install rules and selected adapters
   update               Apply the installed CLI bundle to the project (no download)
@@ -36,7 +38,8 @@ Options:
   --agent-preset <id> init only: recommended (default), economy, custom; no overwrite
   --host <id>         setup only: codex,claude-code,gemini-cli,cursor,copilot or custom host ID
   --scope <type>      verify/eval: adapters (default), capabilities, core, all
-  --report <file>     eval only: score a reviewer-completed JSON report
+  --adaptive          verify: discover a read-only project verification plan
+  --report <file>     eval: score; verify: validate evidence; new-doc techspec: link evidence
   --adapters <a,b>     init/resolve: java-spring,react-nextjs,react-native,ai-python,kubernetes,astro
   --capabilities <a,b> init/resolve: uiux,product,architecture,delivery,devops,monetization
   --source <directory> init/update/list/detect/resolve: trusted alternate bundle directory
@@ -46,7 +49,7 @@ Options:
   -v, --version       Show installed CLI version
 
 Start: init → fill .harness/local.md → ask your AI host to read AGENTS.md.
-The host runs application tests; verify only prints a checklist.
+The host runs application tests; verify prints plans or validates supplied evidence.
 Update a global CLI with npm install -g @manhd_d/ai-harness@latest,
 then run aih update --dry-run, aih update, and aih check in the project.
 
@@ -61,6 +64,9 @@ Examples:
   aih doctor
   aih ready add-order --stage implement
   aih skills
+  aih verify --adaptive
+  aih verify --report verification/report.json
+  aih new-doc techspec --report verification/report.json
   aih new-doc brd
   aih new-doc idea
   aih new-doc research
@@ -83,7 +89,7 @@ export function main(argv = process.argv.slice(2)) {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
       target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
       'agent-preset': { type: 'string' }, host: { type: 'string' },
-      detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' }, stage: { type: 'string' },
+      adaptive: { type: 'boolean' }, detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' }, stage: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
       help: { type: 'boolean', short: 'h' }, version: { type: 'boolean', short: 'v' },
     } });
@@ -98,7 +104,10 @@ export function main(argv = process.argv.slice(2)) {
     if (!['init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts'].includes(command)) throw new Error(`Unknown command: ${command}`);
     if (extra.length || (!['new-change', 'new-doc', 'skill', 'ready'].includes(command) && name !== undefined) || (['new-change', 'new-doc', 'skill', 'ready'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
-    if (command === 'new-doc') allowed.add('capability');
+    if (command === 'new-doc') { allowed.add('capability'); allowed.add('report'); }
+    if (command === 'verify') { allowed.add('adaptive'); allowed.add('report'); }
+    if (args.values.adaptive && args.values.report) throw new Error('Choose --adaptive or --report');
+    if (args.values.scope && (args.values.adaptive || (command === 'verify' && args.values.report))) throw new Error('--scope applies only to advisory checks');
     if (command === 'init') allowed.add('agent-preset');
     if (command === 'setup') allowed.add('host');
     for (const key of Object.keys(args.values)) if (!allowed.has(key)) throw new Error(`--${key} is not supported for ${command}`);
@@ -131,7 +140,10 @@ export function main(argv = process.argv.slice(2)) {
       capabilities: values.capabilities === undefined ? [] : values.capabilities.split(',').map(x => x.trim()),
     });
     else if (command === 'detect') result = detect(root, targetRoot(values.source ?? SOURCE));
-    else if (command === 'verify') result = verify(root, values.scope ?? 'adapters');
+    else if (command === 'verify') {
+      if (values.adaptive || values.report) { if (check(root).status !== 'ok') throw new Error('Fix installation drift before verification'); }
+      result = values.report ? reviewVerification(root, values.report) : values.adaptive ? adaptiveVerification(root, SOURCE) : verify(root, values.scope ?? 'adapters');
+    }
     else if (command === 'eval') result = evaluate(root, values.report, values.scope ?? 'adapters');
     else if (command === 'artifacts') {
       if (check(root).status !== 'ok') throw new Error('Fix installation drift before reading artifact declarations');
@@ -143,7 +155,7 @@ export function main(argv = process.argv.slice(2)) {
       result = command === 'setup' ? setupPlan(root, loadLock(root).adapters, process.env, values.host) : ready(root, name, values.stage ?? 'implement');
     }
     else if (command === 'new-change') result = newChange(root, name);
-    else if (command === 'new-doc') result = newDoc(root, name, values.capability ?? 'product');
+    else if (command === 'new-doc') result = newDoc(root, name, values.capability ?? 'product', { report: values.report });
     else result = command === 'doctor' ? doctor(root) : check(root);
     if (command === 'init' || command === 'update') result.next_steps = values['dry-run']
       ? ['Review the proposed changes, then repeat without --dry-run.']

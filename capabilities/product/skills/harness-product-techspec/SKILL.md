@@ -1,0 +1,35 @@
+---
+name: harness-product-techspec
+description: Maintain a selective technical specification from requirements, scoped code, contracts and honest verification evidence.
+---
+
+# TechSpec
+
+## Input
+Approved/provisional requirements, code revision, applicable contracts, existing canonical docs, artifact/source-write policy and runtime evidence.
+
+## Procedure
+1. Use existing artifacts.json/integrations.json. Reuse known storage answers; for idea-only input ask where canonical docs should live before writing. External tools need actual host capability, not just a configured alias.
+2. Inspect existing documentation and affected code/contracts. Identify facts, proposals and unknowns; do not derive runtime success from static inspection.
+3. Include only relevant overview, architecture, business rules, API/error contracts, data/auth, UI flows, dependencies, compatibility, security and operations sections. Do not force a CRM template, database or API onto every project.
+4. Link requirement IDs to scenario status and raw evidence. Use Core harness-verification; keep static statements UNVERIFIED until checked. Record BLOCKED/NOT_RUN and measured usage honestly.
+5. For existing documents, propose affected section changes and retain unaffected user edits. Compare observed source revision and before/after contracts; record artifact-impact. Source read-only means no write; propose means reviewable patch; write still requires actual host authorization and concurrency checks.
+6. Route a new draft with `aih new-doc techspec`, optionally `--report verification/report.json`. The CLI refuses overwrite and hands external destinations to the host; it does not publish or automatically update sources.
+
+## Output
+Selective draft TechSpec, traceability, evidence and affected-section maintenance proposal.
+
+## Constraints
+No invented requirements, universal test suite, credentials, blanket regeneration or automatic merge/deployment. Existing BA source is writable only under its declared policy plus actual host permission.
+
+## Template
+Use `.harness/capabilities/product/templates/techspec.md` and existing canonical documents.
+
+## Example
+Idea: a static calculator needs UX/formula/build/accessibility evidence, no API section. Existing document: an approval transition needs role/state assertions and a proposed affected-section patch.
+
+## Quality checklist
+Source revisions, requirement IDs, contracts, actual execution evidence and limits are distinguishable. Partial updates preserve approved text.
+
+## Handoff
+Use `.harness/capabilities/product/workflows/techspec-maintenance.md`; pass evidence and proposed changes to review. Documentation remains pending-review until accepted.

@@ -48,6 +48,18 @@
         "Metrics/targets and scope approval source or unresolved owner"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "adaptive-evidence-review",
+      "title": "Review proportional verification and selective docs",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Applicable project methods and actual host limitations",
+        "Requirement-linked raw evidence, business assertions and owned cleanup",
+        "Static UNVERIFIED claims and affected-section source policy"
+      ],
+      "execution": "manual"
     }
   ]
 }

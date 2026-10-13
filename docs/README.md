@@ -39,3 +39,5 @@ Chỉ đọc phần phù hợp với công việc đang làm.
 
 [Contributing](../CONTRIBUTING.md) · [Bảo trì & ma trận ảnh hưởng](harness-maintenance.md) · [Kiến trúc](architecture.md) · [Thêm adapter](adapters.md).
 [Release policy](release-policy.md) · [Phát hành npm](npm-release.md) · [Versioning & migration](versioning.md) · [Changelog](../CHANGELOG.md).
+
+See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only discovery, evidence reports and selective technical documentation.

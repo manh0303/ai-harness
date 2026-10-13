@@ -146,3 +146,5 @@ provides a read-only host plan; no provider registry, connector runtime, secrets
 new-doc routes to an explicit docs folder or returns an external template handoff without fallback
 copies. OpenSpec stays repository-owned; configured outputs add structural artifact-impact coverage
 and completion to readiness. See [Artifact contract](artifact-contract.md).
+
+See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only discovery, evidence reports and selective technical documentation.

@@ -149,3 +149,7 @@ outputs override new-doc routes; external destinations return a handoff without 
 Configured output contracts require artifact-impact.json in existing changes when using ready; copy
 the installed template and record reviewed impact. No automatic migration of source documents or
 external publication. Review update --dry-run/update/check; rollback through Git. See [Artifact contract](artifact-contract.md).
+
+## Adaptive verification migration (unreleased)
+
+Project/lock/artifact schemas and distribution version remain unchanged. Review source, update --dry-run, update and check to receive new managed Core skills and Product 1.4.0 templates. Existing project docs/configs remain owned by the project; new-doc never overwrites. New --adaptive/--report flags are optional; plain verify remains advisory. Revert the snapshot update commit to roll back.

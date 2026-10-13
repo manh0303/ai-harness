@@ -87,7 +87,7 @@ test('list, skills and skill disclose metadata before locked full content', () =
   run(['init', '--source', source, '--capabilities', 'uiux']);
   assert.equal(run(['list', '--source', source]).capabilities.length, 6);
   const before = snapshot(), result = run(['skills']);
-  assert.equal(result.skills.length, 11);
+  assert.equal(result.skills.length, 12);
   const entry = result.skills.find(s => s.name === 'harness-uiux-figma-design');
   assert.ok(entry.description);
   assert.ok(!JSON.stringify(result).includes('## Procedure'));
