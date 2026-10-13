@@ -110,6 +110,13 @@
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.10.0](https://github.com/manh0303/ai-harness/compare/v0.9.0...v0.10.0) (2026-10-13)
+
+
+### Features
+
+* add project artifact and integration contracts ([fcc1728](https://github.com/manh0303/ai-harness/commit/fcc172860988692c0f8a9b2d3bb96b3214e35d5f))
+
 ## [0.9.0](https://github.com/manh0303/ai-harness/compare/v0.8.0...v0.9.0) (2026-10-13)
 
 
