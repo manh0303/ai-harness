@@ -42,7 +42,7 @@ function snapshot() {
 
 test('registered UI/UX capability has validated skills and two workflows', () => {
   const registered = listCapabilities(source);
-  assert.equal(registered.length, 6);
+  assert.equal(registered.length, 8);
   assert.equal(registered.find(c => c.id === 'devops').skills.length, 6);
   assert.equal(loadCapability(source, 'devops').workflows.length, 2);
   assert.ok(registered.some(c => c.id === 'uiux'));
@@ -85,7 +85,7 @@ test('UI/UX combines with a stack adapter without installing unrelated adapters'
 
 test('list, skills and skill disclose metadata before locked full content', () => {
   run(['init', '--source', source, '--capabilities', 'uiux']);
-  assert.equal(run(['list', '--source', source]).capabilities.length, 6);
+  assert.equal(run(['list', '--source', source]).capabilities.length, 8);
   const before = snapshot(), result = run(['skills']);
   assert.equal(result.skills.length, 12);
   const entry = result.skills.find(s => s.name === 'harness-uiux-figma-design');

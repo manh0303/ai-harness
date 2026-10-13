@@ -20,9 +20,9 @@ function cli(args, expected = 0) { const r = spawnSync(process.execPath, [path.j
 function install(adapters = ['java-spring']) { h.install(root, source, { adapters }); }
 function report() { const r = evaluate(root).report; Object.assign(r.metadata, { model: 'synthetic-fixture', harness_commit: 'fixture', reviewer: 'test', run_id: 'test', parameters: 'none' }); for (const row of r.results) { row.scores.fill(true); row.evidence = 'Synthetic test evidence; no model execution'; } return r; }
 
-test('list validates six adapters and twenty-two namespaced skills', () => {
+test('list validates six adapters and eighteen namespaced skills', () => {
   const result = listAdapters(source); assert.equal(result.adapters.length, 6);
-  assert.equal(result.adapters.flatMap(a => a.skills).length, 22);
+  assert.equal(result.adapters.flatMap(a => a.skills).length, 18);
   assert.deepEqual(snapshot(), {});
 });
 test('detection distinguishes generic Java/Python from Spring/AI', () => {
@@ -135,7 +135,8 @@ for (const nextRelease of [false, true]) test('real npm 0.2 migration keeps note
   // Current source version changes with Release Please; the legacy fixture remains pinned to 0.2.0.
   assert.equal(h.check(root).version, h.manifest(source).version);
   assert.ok(!fs.existsSync(path.join(root, '.harness/adapters/java-spring/adapter.json')));
-  assert.ok(fs.existsSync(path.join(root, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
+  assert.ok(!fs.existsSync(path.join(root, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
+  assert.ok(fs.existsSync(path.join(root, '.agents/skills/harness-java-spring-spring-api/SKILL.md')));
   assert.ok(fs.readFileSync(path.join(root, 'AGENTS.md'), 'utf8').endsWith('Keep npm project notes.\n'));
 });
 test('edited legacy npm metadata blocks migration before any writes', () => {
@@ -172,17 +173,17 @@ test('Astro detector prioritizes Astro over React islands, but preserves explici
   assert.deepEqual(detect(root, source).adapters, ['react-nextjs']);
 });
 
-test('Astro selected adapter exposes exactly six locked skills and advisory checks', () => {
+test('Astro selected adapter exposes exactly four locked skills and advisory checks', () => {
   cli(['init', '--source', source, '--adapters', 'astro']);
   assert.equal(h.check(root).status, 'ok');
   assert.deepEqual(h.loadLock(root).adapters, ['astro']);
-  for (const id of ['project-architecture', 'islands', 'seo', 'performance', 'cloudflare', 'microfrontend']) {
+  for (const id of ['project-architecture', 'islands', 'seo', 'performance']) {
     const name = 'harness-astro-' + id;
     const local = path.join(root, '.agents/skills', name, 'SKILL.md');
     assert.ok(fs.existsSync(local), 'Missing installed Astro skill ' + name);
     assert.equal(cli(['skill', name]).name, name);
   }
-  assert.equal(cli(['skills']).skills.length, 12, 'Six core skills plus six Astro skills');
+  assert.equal(cli(['skills']).skills.length, 10, 'Six core skills plus four Astro skills');
   const before = snapshot();
   const checks = cli(['verify']);
   assert.equal(checks.executed, false);

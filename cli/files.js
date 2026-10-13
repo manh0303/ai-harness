@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
+import { claudeBlock } from './claude.js';
 import { fileURLToPath } from 'node:url';
 
 // Resolve from the installed package, never the consumer's cwd or npm's bin symlink.
@@ -100,7 +101,7 @@ export function payload(root, name) {
   const filename = safe(root, name);
   if (!stat(filename)) return null;
   const data = fs.readFileSync(filename);
-  return name === 'AGENTS.md' ? block(data) : data;
+  return name === 'AGENTS.md' ? block(data) : name === 'CLAUDE.md' ? claudeBlock(data) : data;
 }
 
 export function manifest(source) {

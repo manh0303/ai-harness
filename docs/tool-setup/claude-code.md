@@ -55,3 +55,9 @@ client-supported effort controls, preserving existing settings/authentication. N
 use [official subagent format](https://code.claude.com/docs/en/sub-agents) in .claude/agents with model
 and supported effort settings. Role contracts can be referenced by a short instruction. aih does not
 write these files, infer account access or equate native Claude reasoning with OpenAI reasoning.
+
+## Brownfield bridge and native wrappers (unreleased)
+
+Use init/update --link-claude for an explicit managed @AGENTS.md import; --claude-skills creates locked wrappers that instruct Claude to read canonical skills. Existing native settings/custom skills remain unchanged. init --host claude-code uses native Anthropic aliases only for a missing agents.json; existing model choices stay intact. doctor reports local shadowing hints; check actual version/settings/ancestor instructions and /context. See [Agent-first guide](../agent-first.md) and official https://code.claude.com/docs/en/memory .
+
+Native alias reference: https://code.claude.com/docs/en/model-config . Aliases resolve by host/provider/version; verify actual selected model/access rather than assuming availability.

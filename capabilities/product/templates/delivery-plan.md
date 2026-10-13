@@ -1,18 +1,4 @@
-# Delivery plan and RAID register (optional)
+# Delivery plan — compatibility template
 
-Status: draft | PM: <person> | Planning horizon: <dates or TBD>
-
-## Milestones
-| Milestone | Scope / deliverables | Dependency | Estimate evidence | Proposed date | Accountable owner |
-| --- | --- | --- | --- | --- | --- |
-
-## RAID log
-| ID | Risk / Assumption / Issue / Dependency | Probability / impact (if evidenced) | Mitigation | Owner | Status |
-| --- | --- | --- | --- | --- | --- |
-
-## Communications / change control
-- Stakeholders and review cadence:
-- Scope change requests and PRD/BRD impact:
-- Escalation route:
-
-Never substitute invented effort, capacity or promised dates for team estimates.
+Status: draft / pending review
+Canonical template: .harness/templates/delivery-plan.md. Existing document paths remain project-owned; new-doc resolves this alias without migrating old documents.

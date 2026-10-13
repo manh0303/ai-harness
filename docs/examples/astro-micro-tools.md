@@ -114,7 +114,7 @@ aih eval --scope all    # dataset/review template, không gọi model
 aih check
 ```
 
-Dùng Core review/TDD và `harness-astro-performance` để ghi bằng chứng build/browser thực chạy, cùng `harness-astro-microfrontend` khi đánh giá split. Hoàn tất spec → code → tests → human PR review. Harness không deploy/merge tự động.
+Dùng Core review/TDD và `harness-astro-performance` để ghi bằng chứng build/browser thực chạy, và SA/approved ADR khi có yêu cầu deployment độc lập. Hoàn tất spec → code → tests → human PR review. Harness không deploy/merge tự động.
 
 ## Tài liệu chính thức
 

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "analysis",
+  "description": "Requirements, domain rules, AC, traceability and living technical docs. Canonical Product assets; selective context.",
+  "skills": [
+    "harness-product-knowledge-analysis",
+    "harness-product-business-analysis",
+    "harness-product-brd-generation",
+    "harness-product-user-stories",
+    "harness-product-acceptance-criteria",
+    "harness-product-backlog-prioritization",
+    "harness-product-traceability",
+    "harness-product-document-review",
+    "harness-product-srs-generation",
+    "harness-product-use-case-generation",
+    "harness-product-techspec"
+  ],
+  "workflows": [
+    "workflows/document-driven.md",
+    "workflows/confluence-to-spec.md",
+    "workflows/change-impact-analysis.md",
+    "workflows/techspec-maintenance.md",
+    "workflows/product-to-solution.md"
+  ],
+  "agents": [
+    "agents/business-analyst.md",
+    "agents/requirements-reviewer.md"
+  ],
+  "templates": [
+    "templates/source-register.md",
+    "templates/brd.md",
+    "templates/business-rules.md",
+    "templates/backlog.md",
+    "templates/acceptance-criteria.md",
+    "templates/traceability.md",
+    "templates/review-report.md",
+    "templates/decision-log.md",
+    "templates/srs.md",
+    "templates/use-cases.md",
+    "templates/techspec.md"
+  ],
+  "module_version": "1.0.0",
+  "verification": "checks/verification.json",
+  "evaluation": "evals/cases.json",
+  "template_aliases": {},
+  "agent_aliases": {},
+  "asset_owner": "product"
+}

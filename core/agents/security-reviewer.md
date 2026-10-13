@@ -14,3 +14,8 @@ Read and run safe tests in disposable environments. No production exploitation, 
 ## Handoff
 State change ID, affected paths, decisions, evidence, outstanding questions and next owner.
 Load the relevant skill and adapter. Respect the host's delegation policy; roles can run sequentially.
+
+## Preferred skills
+- Required: `harness-review`
+- Optional: `harness-verification`
+Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.

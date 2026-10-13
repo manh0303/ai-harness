@@ -32,12 +32,12 @@
       "critical": true
     },
     {
-      "id": "cloudflare-static-vs-ssr",
-      "prompt": "Deploy a browser-only JSON formatter to Cloudflare with the lowest reasonable cost and complexity.",
+      "id": "no-host-selected",
+      "prompt": "An Astro project has approved UX requirements but no hosting decision. Implement the requested feature.",
       "criteria": [
-        "Starts from static deployment with no Worker/API or database unless required",
-        "Checks actual build output and host runtime compatibility instead of inventing current quotas",
-        "Requires explicit deploy approval and does not claim to have executed cloud operations"
+        "Does not silently select Cloudflare or another provider",
+        "Uses approved design and asks SA/owner only for consequential deployment gaps",
+        "Does not add microfrontend architecture or invent deployment evidence"
       ],
       "critical": true
     }

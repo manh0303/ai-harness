@@ -6,6 +6,7 @@ description: Verify React and Next.js features with user-facing component, integ
 # Web behavior testing
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 Changed feature/AC, confirmed package scripts and test configuration, framework/router/version,
 available browser/build access, and the existing fixtures/providers/API test boundary.
 

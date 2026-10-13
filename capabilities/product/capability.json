@@ -57,7 +57,13 @@
     "templates/outcomes.md",
     "templates/techspec.md"
   ],
-  "module_version": "1.5.0",
+  "module_version": "1.6.0",
   "verification": "checks/verification.json",
-  "evaluation": "evals/cases.json"
+  "evaluation": "evals/cases.json",
+  "template_aliases": {
+    "templates/delivery-plan.md": "templates/delivery-plan.md"
+  },
+  "agent_aliases": {
+    "agents/project-manager.md": "core/agents/project-manager.md"
+  }
 }

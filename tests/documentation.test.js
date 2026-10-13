@@ -18,11 +18,11 @@ test('skill matrix covers exactly every registered Core, adapter and capability 
   const m = manifest(SOURCE);
   const core = fs.readdirSync(path.join(SOURCE, 'core/skills'), { withFileTypes: true })
     .filter(entry => entry.isDirectory()).map(entry => entry.name);
-  const declared = [
+  const declared = [...new Set([
     ...core,
     ...m.adapters.flatMap(id => loadAdapter(SOURCE, id).skills),
     ...(m.capabilities ?? []).flatMap(id => loadCapability(SOURCE, id).skills),
-  ].sort();
+  ])].sort();
   const matrix = read('docs/skill-matrix.md');
   assert.ok(matrix.includes(declared.length + ' skills'), 'Skill matrix total must match the registry');
   const matches = [...matrix.matchAll(/^\| \[\x60(harness-[a-z0-9-]+)\x60\]\((\.\.\/[^)]+)\) \|/gm)]
@@ -71,7 +71,7 @@ test('agent handoff guide links every Core and registered capability role contra
   }
   for (const id of manifest(SOURCE).capabilities ?? []) {
     for (const role of loadCapability(SOURCE, id).agents) {
-      assert.ok(guide.includes(`capabilities/${id}/` + role), 'Missing capability role: ' + id + '/' + role);
+      assert.ok(guide.includes(`capabilities/${loadCapability(SOURCE,id).asset_owner ?? id}/` + role), 'Missing capability role: ' + id + '/' + role);
     }
   }
 });
@@ -126,11 +126,11 @@ test('Astro adapter guide, skill matrix and CLI help remain discoverable', () =>
   const m = manifest(SOURCE);
   assert.ok(m.adapters.includes('astro'));
   const astro = loadAdapter(SOURCE, 'astro');
-  assert.equal(astro.skills.length, 6);
+  assert.equal(astro.skills.length, 4);
   assert.equal(astro.checks.length, 4);
   assert.equal(astro.cases.length, 4);
   const matrix = read('docs/skill-matrix.md');
-  assert.match(matrix, /Astro adapter \(6\)/);
+  assert.match(matrix, /Astro adapter \(4\)/);
   for (const name of astro.skills) {
     assert.ok(matrix.includes('[' + String.fromCharCode(96) + name + String.fromCharCode(96) + ']'));
   }

@@ -33,11 +33,9 @@
     "rules/conventions.md"
   ],
   "skills": [
-    "harness-java-spring-spring-api",
-    "harness-java-spring-kafka-outbox",
-    "harness-java-spring-database-migration"
+    "harness-java-spring-spring-api"
   ],
   "verification": "checks/verification.yaml",
   "evaluation": "evals/cases.json",
-  "module_version": "1.1.0"
+  "module_version": "1.2.0"
 }

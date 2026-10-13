@@ -16,3 +16,8 @@ Hand reviewed requirements and source references to Product Manager and Product 
 
 Pass source revisions, business rules, FR/US/AC/NFR IDs, contradictions and approval status to PO;
 use product-to-solution for accepted scope and return technical assumptions to Architecture.
+
+## Preferred skills
+- Required: none
+- Optional: `harness-product-knowledge-analysis`, `harness-product-business-analysis`, `harness-product-srs-generation`, `harness-product-use-case-generation`, `harness-product-acceptance-criteria`
+Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "change_id": "change-id",
+  "phase": "implementation",
+  "summary": "Draft handoff; replace with actual evidence",
+  "timestamp": "2026-10-13T10:00:00Z",
+  "baseline": [],
+  "completed": [],
+  "pending": [
+    {
+      "id": "task-1",
+      "summary": "Continue scoped work"
+    }
+  ],
+  "in_progress": null,
+  "blockers": [],
+  "next_action": "Inspect actual baseline and populate references",
+  "external_sources": [],
+  "operations": []
+}

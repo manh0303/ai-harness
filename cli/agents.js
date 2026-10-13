@@ -61,7 +61,7 @@ export function validateAgentConfig(config) {
     requireThat(agent.enabled === undefined || typeof agent.enabled === 'boolean', id + ' enabled');
   }
   const execution = config.execution;
-  fields(execution, ['mode', 'maxConcurrentAgents', 'maxRounds', 'autoEscalateToPremium'],
+  fields(execution, ['mode', 'maxConcurrentAgents', 'maxRounds', 'autoEscalateToPremium', 'autonomy', 'budget'],
     ['mode', 'maxConcurrentAgents', 'maxRounds', 'autoEscalateToPremium'], 'execution');
   requireThat(['single-agent', 'hybrid', 'multi-agent'].includes(execution.mode), 'execution mode');
   requireThat(Number.isSafeInteger(execution.maxConcurrentAgents) && execution.maxConcurrentAgents >= 1
@@ -70,6 +70,21 @@ export function validateAgentConfig(config) {
   requireThat(Number.isSafeInteger(execution.maxRounds) && execution.maxRounds >= 1 && execution.maxRounds <= 20,
     'maxRounds must be an integer from 1 to 20');
   requireThat(execution.autoEscalateToPremium === false, 'autoEscalateToPremium must be false; select premium explicitly');
+  if (execution.autonomy !== undefined) {
+    const a=execution.autonomy;
+    fields(a,['mode','actions','repositories'],['mode','actions','repositories'],'autonomy');
+    requireThat(['assisted','autopilot'].includes(a.mode),'autonomy mode');
+    const allowed=['read','edit','test','commit','push','create-pr','source-write','merge','release','deploy'];
+    requireThat(Array.isArray(a.actions)&&new Set(a.actions).size===a.actions.length&&a.actions.every(v=>allowed.includes(v)),'autonomy actions');
+    requireThat(Array.isArray(a.repositories)&&new Set(a.repositories).size===a.repositories.length&&a.repositories.every(v=>text(v)&&/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(v)),'autonomy repositories');
+    requireThat(a.mode!=='autopilot'||(a.actions.length>0&&a.repositories.length>0),'autopilot needs explicit actions and repository scope');
+  }
+  if (execution.budget !== undefined) {
+    const b=execution.budget;fields(b,['maxTokens','maxCost','currency'],[],'budget');
+    requireThat(b.maxTokens===undefined||(Number.isSafeInteger(b.maxTokens)&&b.maxTokens>0),'maxTokens');
+    requireThat(b.maxCost===undefined||(Number.isFinite(b.maxCost)&&b.maxCost>=0&&text(b.currency)),'maxCost/currency');
+    requireThat(b.maxTokens!==undefined||b.maxCost!==undefined,'budget needs a declared limit');
+  }
   const hosts = config.hosts ?? {};
   requireThat(isObject(hosts) && Object.keys(hosts).length <= 16, 'hosts map (max 16 profiles)');
   for (const [id, profile] of Object.entries(hosts)) {
@@ -97,10 +112,11 @@ function readConfiguration(root, relative) {
 }
 export function loadAgentConfig(root) { return readConfiguration(root, AGENT_CONFIG); }
 
-export function agentDefaults(source = SOURCE, preset = 'recommended') {
+export function agentDefaults(source = SOURCE, preset = 'recommended', host) {
   requireThat(PRESETS.includes(preset), 'unknown preset; use recommended, economy or custom');
   // Older alternate bundles remain usable; the packaged CLI supplies the new canonical seed.
-  const config = structuredClone(readConfiguration(source, DEFAULT_AGENTS) ?? readConfiguration(SOURCE, DEFAULT_AGENTS));
+  const seed = host === 'claude-code' ? 'config/agents.claude-code.json' : DEFAULT_AGENTS;
+  const config = structuredClone(readConfiguration(source, seed) ?? readConfiguration(SOURCE, seed));
   requireThat(config !== null, 'missing canonical default');
   if (preset === 'economy') {
     config.defaultModel = '@economy'; config.defaultReasoning = 'low';
@@ -120,7 +136,7 @@ export function registeredRoles(source, capabilities = []) {
     const metadata = readJson(safe(source, `capabilities/${id}/capability.json`));
     for (const file of metadata.agents ?? []) {
       const role = id + ':' + path.basename(file, '.md');
-      roles[role] = `capabilities/${id}/${file}`;
+      roles[role] = metadata.agent_aliases?.[file] ?? `capabilities/${metadata.asset_owner ?? id}/${file}`;
     }
   }
   return roles;
@@ -137,10 +153,10 @@ export function resolveAgent(config, id) {
 export function agentPlan(root, host) {
   if (host !== undefined) requireThat(typeof host === 'string' && SLUG.test(host), 'host ID');
   const config = loadAgentConfig(root);
-  const presets = [{ label: 'A', value: 'recommended', description: 'Sol, hybrid, at most two concurrent agents when supported.' },
+  const presets = [{ label: 'A', value: 'recommended', description: 'Keep the host-selected model; hybrid, at most two concurrent agents when supported.' },
     { label: 'B', value: 'economy', description: 'Economy model, single-agent roles.' },
     { label: 'C', value: 'custom', description: 'Edit provider/model/reasoning and role/host mappings explicitly.' }];
-  const note = 'Read-only declaration. No provider/model probing, native config writes, agent spawning, concurrency/token enforcement or usage tracking. Verify model access, effort and delegation in the actual host before execution.';
+  const note = 'Read-only declaration. No provider/model probing, native config writes, agent spawning, permission/concurrency/token enforcement or usage tracking. Autonomy and budget are declarations; verify actual user authorization and host limits. Verify model access, effort and delegation in the actual host before execution.';
   if (!config) return { status: 'not-configured', configured: false, presets, roles: [], note };
   const lock = readJson(safe(root, '.harness/lock.json'));
   const registry = registeredRoles(path.join(root, '.harness'), lock.capabilities ?? []);
@@ -151,9 +167,12 @@ export function agentPlan(root, host) {
     const active = requested.enabled && Object.hasOwn(registry, id);
     const mapping = profile.models?.[requested.provider + '/' + requested.model];
     const incompatible = !mapping && ((host === 'claude-code' &&
-      (!['anthropic', 'bedrock', 'vertex'].includes(requested.provider) || requested.model.startsWith('gpt-'))) ||
-      (host === 'gemini-cli' && (!['google', 'vertex'].includes(requested.provider) || requested.model.startsWith('gpt-'))));
-    return { ...requested, active, contract: registry[id] ? '.harness/' + registry[id] : null,
+      (!['host', 'anthropic', 'bedrock', 'vertex'].includes(requested.provider) || requested.model.startsWith('gpt-'))) ||
+      (host === 'gemini-cli' && (!['host', 'google', 'vertex'].includes(requested.provider) || requested.model.startsWith('gpt-'))));
+    const parts = registry[id]?.split('/');
+    const canonical = parts ? (parts[0] === 'core' ? 'core:' : parts[1] + ':') + path.basename(registry[id], '.md') : id;
+    const skills = registry[id] ? preferredSkills(fs.readFileSync(safe(path.join(root, '.harness'), registry[id]), 'utf8')) : { required: [], optional: [] };
+    return { ...requested, active, canonical_id: canonical, skills, contract: registry[id] ? '.harness/' + registry[id] : null,
       host_model: mapping ?? requested.model, host_reasoning: profile.reasoning?.[requested.reasoning] ?? requested.reasoning,
       mapping: mapping ? 'explicit-user-host-mapping' : 'requested',
       availability: active && incompatible ? 'incompatible-provider' : 'unverified',
@@ -162,4 +181,21 @@ export function agentPlan(root, host) {
   return { status: roles.some(role => role.active && role.availability === 'incompatible-provider') ? 'host-incompatible' : 'requires-host-verification',
     configured: true, host: host ?? null, presets, execution: config.execution, roles,
     missing_mappings: Object.keys(registry).filter(id => !Object.hasOwn(config.agents, id)), note };
+}
+
+export function preferredSkills(body) {
+  const result={required:[],optional:[]};
+  const section=body.split('## Preferred skills')[1]?.split(/\n## /)[0] ?? '';
+  for(const line of section.split(/\r?\n/)){
+    const kind=line.match(/^- (Required|Optional):/)?.[1]?.toLowerCase();if(!kind)continue;
+    result[kind].push(...[...line.matchAll(/harness-[a-z0-9-]+/g)].map(m=>m[0]));
+  }
+  for(const list of Object.values(result))if(new Set(list).size!==list.length)throw new HarnessError('Duplicate preferred skill');
+  return result;
+}
+export function validatePreferredSkills(body, known) {
+  if(!body.includes('## Preferred skills'))throw new HarnessError('Agent missing preferred skill declaration');
+  const declared=preferredSkills(body);
+  for(const name of [...declared.required,...declared.optional])if(!known.has(name))throw new HarnessError('Unknown preferred skill: '+name);
+  return declared;
 }

@@ -157,3 +157,7 @@ Project/lock/artifact schemas and distribution version remain unchanged. Review 
 ## Continuous development migration (unreleased)
 
 Product advances to 1.5.0; Architecture and Delivery to 1.1.0. Distribution version remains 0.11.0 and release-PR owned; no publish is part of this change. Config/lock/artifact/decision/evidence schemas stay unchanged. Reviewed update --dry-run/update/check adds the Core workflow and refreshed templates/skills. Existing project docs, changes, configs and handoffs remain project-owned; append missing baseline/handoff fields selectively. Re-export eval datasets after bundle changes; revert the consumer snapshot commit to roll back. See [Continuous development](continuous-development.md).
+
+## Agent-first migration from 0.12.0 (unreleased)
+
+Distribution version remains 0.12.0 until Release Please prepares a reviewed release. Plan a minor release with optional profiles/config fields and retained product/PM/template routes; four named recipes are retired with explicit migration guidance. Module versions advance; project/lock/config schema versions stay 1, with opt-in Claude managed paths. Old edited managed recipes/imports block update. Model/native settings and user docs are preserved; existing agent config is not replaced by host-native defaults. Check reviewed update --dry-run/update/check, retired catalog, required skill references and aliases; re-export evaluations and revert consumer snapshot commit for rollback. See [Agent-first guide](agent-first.md).

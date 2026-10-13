@@ -73,6 +73,7 @@ export function validateRegistry(source) {
   const graph = new Map();
   for (const {kind,id,data} of entries) {
     const owner=moduleRef(kind,id);
+    if (data.asset_owner && !declared.has(moduleRef('capability',data.asset_owner))) throw new HarnessError('Unknown capability asset owner');
     for (const field of ['requires','recommends','conflicts']) {
       for (const ref of data[field] ?? []) {
         if (!declared.has(ref)) throw new HarnessError(`Unknown ${field} reference ${ref} in ${owner}`);

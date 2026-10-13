@@ -6,6 +6,7 @@ description: Implement Next.js server operations with isolated authorization and
 # server-boundaries
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 Actual router/version, server action/API contract and data access policy.
 
 ## Procedure

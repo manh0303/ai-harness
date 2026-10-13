@@ -1,57 +1,29 @@
 # AI Harness
 
-[English](../../README.md) · **Tiếng Việt**
+[English](../../README.md) · **Tiếng Việt** · [简体中文](README.zh-CN.md) · [Español](README.es.md)
 
-**Bộ hướng dẫn cho AI phát triển project theo workflow: Requirements → Code → Test → Review.**
+Agent workflows tái sử dụng cho phát triển phần mềm: **Requirements → Design → Code → Test → Review.**
 
-Cài bộ hướng dẫn vào project, rồi giao việc cho công cụ AI bạn đang dùng.
+Đưa ý tưởng, docs có sẵn hoặc change request cho AI coding tool. Harness giúp AI đọc project, làm rõ quyết định, triển khai scope đã chấp nhận và maintain spec/docs liên quan. Chỉ dùng roles và skills cần cho task.
 
-## Hỗ trợ workflow nào?
+Core workflows dùng được với mọi project. Stack support là tùy chọn; không tự chọn infrastructure hay architecture.
 
-| Workflow | Outputs |
-| --- | --- |
-| **BA / PO — Business analysis & product** | Từ ý tưởng hoặc docs có sẵn đến BRD, PRD, SRS, user stories và acceptance criteria. |
-| **SA — Solution architecture** | Architecture, non-functional requirements, technical decisions và change-impact analysis. |
-| **PM — Delivery planning** | Delivery phases, dependencies, risks và scope changes. |
-| **Dev / QA — Implementation & testing** | Feature implementation, debugging, tests và code review theo project conventions. |
-| **UI/UX & DevOps** | UI design, CI/CD, deployment và operations guidance khi cần. |
-
-Hỗ trợ Spring Boot, React/Next.js, React Native/Expo, Python AI/RAG, Astro và Kubernetes.
-Chỉ chọn phần cần dùng; task nhỏ không cần đủ bộ docs hay spec. [Chọn stack & module](../../docs/getting-started.md).
-
-## Chạy ở đâu?
-
-| Công cụ AI | Cách sử dụng | Hướng dẫn |
-| --- | --- | --- |
-| **Codex** | CLI hoặc extension trong IDE | [Cài đặt & thiết lập](../../docs/tool-setup/codex.md) |
-| **Claude Code** | Chạy `claude` trong terminal của project | [Cài đặt & thiết lập](../../docs/tool-setup/claude-code.md) |
-| **Cursor** | Mở project, giao việc trong Agent | [Cài đặt & thiết lập](../../docs/tool-setup/cursor.md) |
-| **GitHub Copilot** | Agent trong IDE hoặc Copilot CLI | [Cài đặt & thiết lập](../../docs/tool-setup/copilot.md) |
-| **Gemini CLI** | Chạy `gemini` trong terminal của project | [Cài đặt & thiết lập](../../docs/tool-setup/gemini-cli.md) |
-
-Harness cài hướng dẫn; công cụ AI thực hiện công việc. Cách nạp hướng dẫn tùy công cụ, theo link trên.
-
-## Quick start
-
-Cần **Node.js 22+** và một công cụ AI ở bảng trên. Chạy trong thư mục project:
+Cần Node.js 22+. Chạy trong project:
 
 ```bash
-npx --yes @manhd_d/ai-harness init --detect
+npx --yes @manhd_d/ai-harness init
 ```
 
-Mở công cụ AI tại cùng project, rồi gửi:
+> Read AGENTS.md. Inspect this project and its approved decisions. Implement [task], run appropriate checks and maintain affected docs.
 
-> Đọc AGENTS.md, khảo sát project và ghi context cần thiết vào .harness/local.md.
-> Thực hiện yêu cầu: [mô tả công việc]. Chạy test phù hợp và báo cáo kết quả.
+Host chạy tests và quản lý tools, delegation, permissions. MCP/connector/API có thể cung cấp input khi host có quyền truy cập. init --detect nhận diện stack hỗ trợ; aih check kiểm tra integrity của Harness.
 
-Bạn giao việc bình thường, không cần gọi từng agent, skill hay mở chat riêng cho từng vai.
-Nếu `--detect` chưa nhận diện được stack, [chọn module thủ công](../../docs/getting-started.md).
-`aih check` chỉ kiểm tra file Harness; tính năng đúng hay chưa cần test của project và review.
+| AI tool | Setup |
+| --- | --- |
+| **Codex** | [Hướng dẫn](../tool-setup/codex.md) |
+| **Claude Code** | [Hướng dẫn](../tool-setup/claude-code.md) |
+| **Cursor** | [Hướng dẫn](../tool-setup/cursor.md) |
+| **GitHub Copilot** | [Hướng dẫn](../tool-setup/copilot.md) |
+| **Gemini CLI** | [Hướng dẫn](../tool-setup/gemini-cli.md) |
 
-[Getting started](../../docs/getting-started.md) · [Docs & examples](../../docs/README.md) · [Input/output & integrations](../../docs/artifact-contract.md) · [Model/agent configuration](../../docs/agent-configuration.md)
-
-Đóng góp: [Contributing](../../CONTRIBUTING.md) · [Bảo trì Harness](../../docs/harness-maintenance.md) · [MIT](../../LICENSE).
-
-[Adaptive verification & TechSpec](../adaptive-verification.md): verification plan theo project, evidence và cập nhật docs theo scope.
-
-[Continuous development](../continuous-development.md): phát triển qua nhiều changes, kiểm tra lại baseline và duy trì đúng phần tài liệu bị ảnh hưởng.
+[Docs & examples](../README.md) · [Getting started](../getting-started.md) · [Input/output](../artifact-contract.md) · [Agent configuration](../agent-configuration.md) · [Continuous development](../continuous-development.md) · [MIT](../../LICENSE)

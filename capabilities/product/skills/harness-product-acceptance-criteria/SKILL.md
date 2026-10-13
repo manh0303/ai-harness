@@ -14,7 +14,8 @@ description: Write verifiable acceptance criteria in Given/When/Then for each st
 2. Cover happy path, validation errors, permission denied, empty/loading/retry/offline when relevant, data integrity and concurrency as needed.
 3. Express acceptance scenarios with Given/When/Then; make outcomes observable and independently testable.
 4. Trace each criterion to story/requirement and identify test level where useful (UX/API/integration).
-5. Flag untestable ambiguity and request decision rather than inventing thresholds.
+5. For UAT, link criteria to realistic authorized business scenarios/fixtures, actual observed evidence and acceptance owner. Technical test PASS does not invent business acceptance. Triage feedback as defect or new scope.
+6. Flag untestable ambiguity and request decision rather than inventing thresholds.
 
 ## Output
 - `docs/product/acceptance-criteria.md` with criteria, linkage and unanswered cases.
@@ -26,17 +27,13 @@ description: Write verifiable acceptance criteria in Given/When/Then for each st
 
 ## Template
 Read `.harness/capabilities/product/templates/acceptance-criteria.md`; `aih new-doc acceptance-criteria` creates only a missing
-draft. Reuse canonical existing documents and source pointers; never regenerate approved content by default.
+draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
 Synthetic illustration: Given an employee outside the organization, when searching its customer, then access is denied without leaking existence.
 
 ## Quality checklist
 - Happy, negative and boundary cases are observable.
-- Actual decisions/status and source revisions distinguish approved facts from proposals.
-- Scope, relevant IDs, unresolved questions and verification limits are recorded.
 
 ## Handoff
-Use `.harness/capabilities/product/workflows/product-to-solution.md`; supply reviewed source/requirement
-IDs, output paths and actual owner decisions to the next BA/PO/SA/PM role as applicable. Return gaps
-to their owner; a single host may perform roles sequentially without claiming independent approval.
+Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

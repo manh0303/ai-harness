@@ -6,6 +6,7 @@ description: Implement a Spring API with resource-scoped authorization and stabl
 # spring-api
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 Approved endpoint contract, actual Spring version, existing controller/service patterns and access policy.
 
 ## Procedure

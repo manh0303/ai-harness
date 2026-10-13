@@ -6,6 +6,7 @@ description: Build accessible React UI states using the existing design system.
 # accessible-ui
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 Approved screen/flow, design system components and API contract.
 
 ## Procedure

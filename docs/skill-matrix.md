@@ -1,6 +1,6 @@
-# Skill matrix — 70 skills, 13 nhóm module
+# Skill matrix — 66 skills, 15 nhóm module
 
-Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (6 Core, 42 capability, 22 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 70 skill vào prompt.
+Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (6 Core, 42 capability, 18 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 66 skill vào prompt.
 
 **Cách dùng:** `aih skills` xem skills đã cài, sau đó `aih skill harness-...` lấy nội dung. Danh mục này mô tả chức năng; **không** có nghĩa `aih` thực thi skills hoặc agent. Tech adapters và capabilities chỉ xuất hiện trong consumer khi được chọn; Core dùng chung.
 
@@ -84,8 +84,6 @@
 
 | Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
 | --- | --- | --- | --- |
-| [`harness-java-spring-database-migration`](../adapters/java-spring/skills/harness-java-spring-database-migration/SKILL.md) | DB change | Expand/migrate/contract theo release tương thích | Versioned migration và recovery evidence |
-| [`harness-java-spring-kafka-outbox`](../adapters/java-spring/skills/harness-java-spring-kafka-outbox/SKILL.md) | Async events | Outbox transaction và consumer dedupe | Event implementation + failure tests |
 | [`harness-java-spring-spring-api`](../adapters/java-spring/skills/harness-java-spring-spring-api/SKILL.md) | Backend API | Authorization resource scoped, API contract | Endpoint + auth/contract tests |
 
 ## React / Next.js adapter (4)
@@ -114,7 +112,7 @@
 | [`harness-ai-python-tool-safety`](../adapters/ai-python/skills/harness-ai-python-tool-safety/SKILL.md) | Agent tools | Bounded tools, explicit auth, no escalation | Policy wrapper + security tests |
 
 
-## Astro adapter (6)
+## Astro adapter (4)
 
 | Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
 | --- | --- | --- | --- |
@@ -122,8 +120,6 @@
 | [`harness-astro-islands`](../adapters/astro/skills/harness-astro-islands/SKILL.md) | React Islands | Hydrate tương tác có chọn lọc, không nhầm Islands với MFE | Island component và UX tests |
 | [`harness-astro-seo`](../adapters/astro/skills/harness-astro-seo/SKILL.md) | SEO | Metadata, sitemap, nội dung hữu ích và a11y | Trang có metadata và kiểm chứng HTML |
 | [`harness-astro-performance`](../adapters/astro/skills/harness-astro-performance/SKILL.md) | Performance | JS budget, lazy loading, Web Vitals thực đo | Benchmark/build evidence |
-| [`harness-astro-cloudflare`](../adapters/astro/skills/harness-astro-cloudflare/SKILL.md) | Deploy | Static/CDN trước, Workers khi cần backend có kiểm soát | Kế hoạch Cloudflare và approval |
-| [`harness-astro-microfrontend`](../adapters/astro/skills/harness-astro-microfrontend/SKILL.md) | Scale | Lộ trình tách công cụ thành deploy riêng nếu thực cần | ADR/MFE migration checklist |
 
 ## Kubernetes adapter (3)
 
@@ -168,3 +164,7 @@ Product → Architecture → Delivery → Core/adapter uses [Solution workflow](
 ## Continuous development
 
 [Continuous development](continuous-development.md) composes existing Core spec/debugging/tdd/verification/review with Product business-analysis/acceptance-criteria/traceability/backlog/TechSpec, Architecture change-impact and Delivery scope-change skills. Only affected perspectives are loaded; no new role or skill is required.
+
+## Selective Product profiles
+
+Analysis exposes 11 and Discovery 5 canonical Product skills. IDs and source ownership stay Product; selecting both or the compatibility product bundle exposes each skill once. Profiles add module choices, not duplicate skill IDs. Canonical assets are vendored for valid shared references; this is selective context, not a smaller npm download.

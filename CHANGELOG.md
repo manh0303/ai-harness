@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Agent-first delivery and brownfield
+- Route scoped work through agent contracts/preferred skills and approved SA decisions; retire Java outbox/migration and Astro cloud/microfrontend recipes.
+- Add Analysis/Discovery canonical Product profiles, PM/template aliases, shared document contract and host-native/Claude model seeds without overwriting existing settings.
+- Add opt-in Claude import/native wrappers, bounded Maven modules, checkpoint/history/resume and local manual 18-run comparison.
+- Simplify progressive context and README; add Chinese/Spanish translations, migration and behavior/evidence tests. No model calls, merge or npm publish.
+
+
 ## Unreleased
 
 ### Added

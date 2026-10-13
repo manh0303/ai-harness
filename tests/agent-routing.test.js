@@ -40,8 +40,8 @@ test('recommended default covers every namespaced role without activating premiu
   const all = registeredRoles(source, readJson(path.join(source, 'harness.yaml')).capabilities);
   assert.deepEqual(Object.keys(config.agents).sort(), Object.keys(all).sort());
   for (const [id, role] of Object.entries(config.agents)) {
-    assert.equal(resolveAgent(config, id).model, id === 'core:documentation' ? 'gpt-6-luna' : 'gpt-6.1-sol');
-    assert.equal(resolveAgent(config, id).provider, 'openai');
+    assert.equal(resolveAgent(config, id).model, 'host-default');
+    assert.equal(resolveAgent(config, id).provider, 'host');
     assert.ok(['low', 'medium', 'high'].includes(role.reasoning));
   }
   assert.equal(config.agents['core:orchestrator'].reasoning, 'high');
@@ -61,6 +61,7 @@ test('alias descriptors and role overrides preserve provider and reasoning prece
   assert.equal(resolveAgent(validateAgentConfig(config), 'core:implementer').provider, 'bedrock');
   assert.equal(resolveAgent(config, 'core:implementer').reasoning, 'low');
   assert.equal(resolveAgent(config, 'custom:new-role').source, 'project-default');
+  config.models.premium = { provider: 'openai', model: 'gpt-6-astra' };
   config.agents['core:reviewer'].model = '@premium';
   assert.equal(resolveAgent(validateAgentConfig(config), 'core:reviewer').model, 'gpt-6-astra');
   assert.equal(config.execution.autoEscalateToPremium, false, 'Explicit choice is not automatic escalation');
@@ -151,6 +152,10 @@ test('legacy snapshots and older alternate sources seed defaults on update witho
 
 test('setup host plans are read-only, signal incompatible providers and never claim availability', () => {
   install(root, source, { capabilities: ['architecture', 'delivery'] });
+  const explicit = loadAgentConfig(root);
+  explicit.provider = 'openai'; explicit.defaultModel = 'gpt-6.1-sol';
+  explicit.models.balanced = 'gpt-6.1-sol'; explicit.models.economy = 'gpt-6-luna';
+  write('.harness/agents.json', explicit);
   const before = snapshot();
   assert.equal(cli(['setup', '--host', 'claude-code']).agent_configuration.status, 'host-incompatible');
   assert.equal(cli(['setup', '--host', 'gemini-cli']).agent_configuration.status, 'host-incompatible');

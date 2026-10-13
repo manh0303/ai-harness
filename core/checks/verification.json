@@ -97,6 +97,18 @@
         "Proposed feedback vs accepted scope; remaining work and distinct implementation/merge/release evidence"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "agent-first-review",
+      "title": "Review scoped role/design authority and checkpoint recovery",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "No unapproved adapter infrastructure or design recipe",
+        "Canonical role/skill handoff with source/AC evidence",
+        "Reconciled baseline, side effects and measured or unknown usage"
+      ],
+      "execution": "manual"
     }
   ]
 }

@@ -13,3 +13,8 @@ Review does not constitute stakeholder approval. No fabricated execution evidenc
 
 ## Handoff
 Return blocking findings to responsible role; escalate acceptance to authorized humans.
+
+## Preferred skills
+- Required: none
+- Optional: `harness-product-document-review`, `harness-product-traceability`
+Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.

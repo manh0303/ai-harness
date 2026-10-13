@@ -47,3 +47,7 @@ observations; this is separate from the boolean behavioral report accepted by `a
 Report per-task outcomes and variation across repeats. Distinguish instruction-following gains from
 model capability and runtime differences. Do not claim a general productivity gain from one anecdote.
 Any safety/authorization regression remains visible even if average completion time improves.
+
+## Local report helper (unreleased)
+
+Run node scripts/compare-tasks.js --template for 18 unperformed slots (3 tasks × 3 repeats × 2 conditions). Save the emitted JSON in project-owned evaluation artifacts. Fill observations yourself from actual transcripts/evidence, then run node scripts/compare-tasks.js --report comparison.json from that project. Helper validates IDs/status/counts/accepted totals and emits per-task/condition median/range for supplied values only. UNPERFORMED metrics stay null; failed/interrupted/blocked rows and unknown usage remain visible. Token/cost observations need a measurement source and cost currency. Do not mix currencies or acceptance criteria across comparable runs; independently audit evidence and equal runtime/budget. No model or subprocess is called by the helper. Unit fixtures demonstrate parsing, not observed model productivity.

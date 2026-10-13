@@ -4,16 +4,21 @@ import { resolveModules } from './composition.js';
 import { parseArgs } from 'node:util';
 import { setupPlan } from './environment.js';
 import { ready } from './readiness.js';
+import { resumePlan } from './checkpoint.js';
+import { agentPlan } from './agents.js';
 import { adaptiveVerification } from './verification.js';
 import { reviewVerification } from './verification-report.js';
 import { artifactReport } from './artifacts.js';
-import { SOURCE, readJson, targetRoot, install, check, doctor, newChange, newDoc, loadLock } from './harness.js';
+import { SOURCE, readJson, targetRoot, install, check, doctor, newChange, newDoc, loadLock, saveCheckpoint } from './harness.js';
 import path from 'node:path';
 
 const HELP = `aih — install reusable AI development rules into a project
 
 Usage: aih <command> [options]
   list                 List available adapters and capabilities
+  checkpoint <id>      Save a validated --report handoff; replace with --expected digest
+  resume <id>          Inspect checkpoint freshness and side effects before continuation
+  agents               Show installed agent contracts and declared model/skill routing
   skills               List installed skill names/descriptions without full content
   skill <name>         Load one installed skill on demand
   detect               Suggest adapters with evidence from target files
@@ -36,10 +41,13 @@ Options:
   --stage <type>      ready only: implement (default) or review
   --capability <id>   new-doc only: installed template owner (default: product)
   --agent-preset <id> init only: recommended (default), economy, custom; no overwrite
-  --host <id>         setup only: codex,claude-code,gemini-cli,cursor,copilot or custom host ID
+  --link-claude       init/update: opt in to a managed CLAUDE.md import
+  --claude-skills     init/update: opt in to canonical .claude/skills wrappers
+  --host <id>         init/setup/agents: codex,claude-code,gemini-cli,cursor,copilot or custom host ID
   --scope <type>      verify/eval: adapters (default), capabilities, core, all
   --adaptive          verify: discover a read-only project verification plan
-  --report <file>     eval: score; verify: validate evidence; new-doc techspec: link evidence
+  --expected <sha>    checkpoint: observed prior checkpoint digest for replacement
+  --report <file>     checkpoint: save handoff; eval: score; verify: validate evidence; new-doc techspec: link evidence
   --adapters <a,b>     init/resolve: java-spring,react-nextjs,react-native,ai-python,kubernetes,astro
   --capabilities <a,b> init/resolve: uiux,product,architecture,delivery,devops,monetization
   --source <directory> init/update/list/detect/resolve: trusted alternate bundle directory
@@ -88,8 +96,8 @@ export function main(argv = process.argv.slice(2)) {
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
       target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
-      'agent-preset': { type: 'string' }, host: { type: 'string' },
-      adaptive: { type: 'boolean' }, detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' }, stage: { type: 'string' },
+      'agent-preset': { type: 'string' }, host: { type: 'string' }, expected: { type: 'string' },
+      'link-claude': { type: 'boolean' }, 'claude-skills': { type: 'boolean' }, adaptive: { type: 'boolean' }, detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' }, stage: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
       help: { type: 'boolean', short: 'h' }, version: { type: 'boolean', short: 'v' },
     } });
@@ -101,15 +109,17 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts'].includes(command)) throw new Error(`Unknown command: ${command}`);
-    if (extra.length || (!['new-change', 'new-doc', 'skill', 'ready'].includes(command) && name !== undefined) || (['new-change', 'new-doc', 'skill', 'ready'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
+    if (!['init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (extra.length || (!['new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name !== undefined) || (['new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
+    if (command === 'checkpoint') { allowed.add('report'); allowed.add('expected'); if (!args.values.report) throw new Error('checkpoint requires --report'); }
     if (command === 'new-doc') { allowed.add('capability'); allowed.add('report'); }
     if (command === 'verify') { allowed.add('adaptive'); allowed.add('report'); }
     if (args.values.adaptive && args.values.report) throw new Error('Choose --adaptive or --report');
     if (args.values.scope && (args.values.adaptive || (command === 'verify' && args.values.report))) throw new Error('--scope applies only to advisory checks');
     if (command === 'init') allowed.add('agent-preset');
-    if (command === 'setup') allowed.add('host');
+    if (['setup','agents','init'].includes(command)) allowed.add('host');
+    if (['init','update'].includes(command)) { allowed.add('link-claude'); allowed.add('claude-skills'); }
     for (const key of Object.keys(args.values)) if (!allowed.has(key)) throw new Error(`--${key} is not supported for ${command}`);
     if (args.values.detect && args.values.adapters !== undefined) throw new Error('Choose either --detect or --adapters');
     for (const key of ['target', 'source', 'adapters', 'capabilities', 'capability', 'report', 'agent-preset', 'host']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
@@ -124,7 +134,7 @@ export function main(argv = process.argv.slice(2)) {
       if (values.detect && !selection.length) throw new Error('No stack detected; choose --adapters explicitly or omit --detect for core only');
       result = install(root, source, {
         command, adapters: selection ?? (values.adapters === undefined ? undefined : values.adapters.split(',').map(v => v.trim())),
-        agentPreset: values['agent-preset'],
+        agentPreset: values['agent-preset'], host: values.host, linkClaude: values['link-claude'], claudeSkills: values['claude-skills'],
         capabilities: values.capabilities === undefined ? undefined : values.capabilities.split(',').map(v => v.trim()),
         dryRun: values['dry-run'], allowMajor: values['allow-major'],
       });
@@ -145,6 +155,9 @@ export function main(argv = process.argv.slice(2)) {
       result = values.report ? reviewVerification(root, values.report) : values.adaptive ? adaptiveVerification(root, SOURCE) : verify(root, values.scope ?? 'adapters');
     }
     else if (command === 'eval') result = evaluate(root, values.report, values.scope ?? 'adapters');
+    else if (command === 'checkpoint') result = saveCheckpoint(root, name, values.report, values.expected);
+    else if (command === 'resume') { if (check(root).status !== 'ok') throw new Error('Fix installation drift before resume'); result = resumePlan(root, name); }
+    else if (command === 'agents') { if (check(root).status !== 'ok') throw new Error('Fix installation drift before reading agents'); result = agentPlan(root, values.host); }
     else if (command === 'artifacts') {
       if (check(root).status !== 'ok') throw new Error('Fix installation drift before reading artifact declarations');
       result = artifactReport(root);

@@ -6,6 +6,7 @@ description: Implement device permissions and deep-link flows safely.
 # device-permissions
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 Required device capability, platform support matrix and navigation/access policy.
 
 ## Procedure

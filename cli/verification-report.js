@@ -11,7 +11,7 @@ const errorKinds = ['timeout', 'network', 'http', 'application', 'assertion', 'e
 const finite = n => typeof n === 'number' && Number.isFinite(n) && n >= 0;
 const iso = s => text(s) && /^\d{4}-\d{2}-\d{2}T.*(?:Z|[+-]\d{2}:\d{2})$/.test(s) && Number.isFinite(Date.parse(s));
 const secretKey = /^(password|passwd|secret|api[_-]?key|access[_-]?token|refresh[_-]?token|authorization|cookie|credentials?)$/i;
-function redacted(value) {
+export function redacted(value) {
   if (typeof value === 'string') {
     assert(!/Bearer\s+[A-Za-z0-9._~-]{8,}/i.test(value), 'Redact bearer credentials before verification');
     return;

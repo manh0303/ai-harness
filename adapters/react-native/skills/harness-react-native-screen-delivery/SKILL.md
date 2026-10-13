@@ -6,6 +6,7 @@ description: Implement React Native or Expo screens with existing navigation, fo
 # Mobile screen delivery
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 Task/AC and screen/flow notes, API contract, actual Expo/bare setup and router/version, supported
 platforms, and existing navigation/theme/client/storage/test paths.
 

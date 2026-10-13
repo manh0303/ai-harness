@@ -27,17 +27,13 @@ description: Produce a Product Requirements Document with user value, measurable
 
 ## Template
 Read `.harness/capabilities/product/templates/prd.md`; `aih new-doc prd` creates only a missing
-draft. Reuse canonical existing documents and source pointers; never regenerate approved content by default.
+draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
 Synthetic illustration: PRD includes authorized create/search and defers import; it links MVP/AC and leaves numeric adoption targets pending.
 
 ## Quality checklist
 - MVP journey, exclusions and minimum quality are explicit.
-- Actual decisions/status and source revisions distinguish approved facts from proposals.
-- Scope, relevant IDs, unresolved questions and verification limits are recorded.
 
 ## Handoff
-Use `.harness/capabilities/product/workflows/product-to-solution.md`; supply reviewed source/requirement
-IDs, output paths and actual owner decisions to the next BA/PO/SA/PM role as applicable. Return gaps
-to their owner; a single host may perform roles sequentially without claiming independent approval.
+Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

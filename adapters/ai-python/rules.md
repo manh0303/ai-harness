@@ -1,5 +1,8 @@
 # AI / Python adapter
 
+## Design authority
+Actual host/user permissions apply. For design within its scope: approved SA/ADR decisions > existing project conventions > adapter defaults. Proposed technologies need alternatives, trade-offs and an owner decision before implementation; accepted choices are reused without asking again. Selecting this adapter does not select any infrastructure or pattern.
+
 Inspect the actual Python version, package manager, provider SDK, orchestration and data boundaries.
 This adapter works for model-backed APIs, agents and RAG; those architectures are optional choices.
 

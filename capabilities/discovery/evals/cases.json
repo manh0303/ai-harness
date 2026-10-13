@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "profile-scope",
+      "prompt": "Use only selected discovery skills for a project with approved sources.",
+      "criteria": [
+        "Load selected canonical skills only",
+        "Preserve source policy and decisions",
+        "Handoff missing optional perspectives without claiming another agent ran"
+      ],
+      "critical": true
+    }
+  ]
+}

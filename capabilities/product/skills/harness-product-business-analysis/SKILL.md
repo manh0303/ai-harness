@@ -12,10 +12,11 @@ description: Elicit actors, existing versus future processes, business rules, re
 ## Procedure
 1. Identify actors, triggers, business events, permissions and upstream/downstream systems.
 2. Describe AS-IS and TO-BE processes, entry/exit conditions, exceptions and alternatives; use text or Mermaid flow charts where helpful.
-3. Assign stable IDs `BR-###`, `FR-###`, `NFR-###`, linked to their sources. Record proposed identifiers without reusing withdrawn IDs.
-4. For each requirement specify objective, actor, rule, preconditions, outcomes, measurable validation and impact. Distinguish system constraints from user preferences.
-5. Flag conflicts, compliance assumptions, data sensitivity, cross-service impact and unanswered stakeholder questions.
-6. Request stakeholder review before treating inferred flows or rules as authoritative.
+3. When relevant, maintain glossary/data dictionary, domain entities/relationships, business state transitions and decision tables. Keep business invariants distinct from SA implementation choices.
+4. Assign stable IDs `BR-###`, `FR-###`, `NFR-###`, linked to their sources. Record proposed identifiers without reusing withdrawn IDs.
+5. For each requirement specify objective, actor, rule, preconditions, outcomes, measurable validation and impact. Distinguish system constraints from user preferences.
+6. Flag conflicts, compliance assumptions, data sensitivity, cross-service impact and unanswered stakeholder questions.
+7. Request stakeholder review before treating inferred flows or rules as authoritative.
 
 ## Output
 - `business-rules.md`, AS-IS/TO-BE flows and requirement inventory.
@@ -27,20 +28,16 @@ description: Elicit actors, existing versus future processes, business rules, re
 
 ## Template
 Read `.harness/capabilities/product/templates/business-rules.md`; `aih new-doc business-rules` creates only a missing
-draft. Reuse canonical existing documents and source pointers; never regenerate approved content by default.
+draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
 Synthetic illustration: BR-001 requires organization-scoped search; AS-IS behavior and proposed TO-BE duplicate handling remain distinct.
 
 ## Quality checklist
 - Business rules and AS-IS/TO-BE preserve source authority.
-- Actual decisions/status and source revisions distinguish approved facts from proposals.
-- Scope, relevant IDs, unresolved questions and verification limits are recorded.
 
 ## Handoff
-Use `.harness/capabilities/product/workflows/product-to-solution.md`; supply reviewed source/requirement
-IDs, output paths and actual owner decisions to the next BA/PO/SA/PM role as applicable. Return gaps
-to their owner; a single host may perform roles sequentially without claiming independent approval.
+Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
 
 ## Continuous changes
 Use Core `continuous-development.md`. Compare approved vs proposed rule/use-case/AC deltas at actual

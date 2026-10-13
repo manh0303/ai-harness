@@ -6,6 +6,7 @@ description: Build discoverable and accessible Astro utility pages with accurate
 # Astro SEO for useful utilities
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 - Target search intent and approved page copy, routes, domain/deployment base URL and localization.
 - Existing metadata, robots, sitemap integration, performance metrics and brand constraints.
 

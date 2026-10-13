@@ -33,8 +33,7 @@ Customer-search MVP: an authorized employee creates and finds customers within p
 - Explicit exclusions, decision source and unresolved owner questions
 
 ## Handoff
-State source revisions, requirement/decision IDs, approval status, unresolved questions, output paths,
-actual checks and next role. Use the module workflow; role names are not human authorization.
+Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
 
 ## Constraints
 Follow Core permissions, clarification and project-conventions. Ask only consequential unknowns with

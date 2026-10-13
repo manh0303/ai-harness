@@ -6,6 +6,7 @@ description: Review Helm charts, versioned dependencies and environment-aware re
 # harness-kubernetes-helm-release
 
 ## Input
+Approved SA/ADR decisions for the affected scope, existing project conventions and actual stack versions. This skill implements accepted design; it does not select infrastructure, dependencies or architecture.
 - Chart, values overlays, image provenance, namespace and target Kubernetes version.
 
 ## Procedure

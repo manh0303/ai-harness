@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "reviewed": true,
+  "decisions": [
+    {
+      "id": "one-mr",
+      "status": "resolved",
+      "question": "Stage approvals or one combined implementation?",
+      "answer": "One combined implementation/MR; no intermediate phase approval pauses.",
+      "source": "User message 2026-10-13: sửa all 1 lần luôn ko cần chia giai đoạn",
+      "blocking": true
+    },
+    {
+      "id": "design-authority",
+      "status": "resolved",
+      "question": "Keep fixed adapter recipes?",
+      "answer": "Remove fixed recipes; use agent responsibilities and approved SA/owner decisions for project-specific design.",
+      "source": "User messages 2026-10-13: loại bỏ hết; không bó cứng vì nhiều người dùng",
+      "blocking": true
+    }
+  ]
+}

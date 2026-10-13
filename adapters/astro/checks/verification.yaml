@@ -33,7 +33,7 @@
     },
     {
       "id": "tool-browser",
-      "title": "Review micro-tool accessibility, privacy and browser workflows",
+      "title": "Review applicable Astro page accessibility and browser behavior",
       "command": [],
       "when_file": null,
       "evidence": [
@@ -44,14 +44,14 @@
       "execution": "manual"
     },
     {
-      "id": "cloudflare-release",
-      "title": "Confirm Cloudflare runtime compatibility and explicit deployment approval",
+      "id": "approved-hosting",
+      "title": "Review approved runtime compatibility and deployment authorization",
       "command": [],
       "when_file": null,
       "evidence": [
-        "Correct Astro output mode/adapter and selected Cloudflare target",
-        "Preview asset/routing/caching verification",
-        "Named owner approved production change; no deploy executed by Harness"
+        "Actual approved host/runtime and output mode",
+        "Preview/build compatibility evidence",
+        "Actual owner permission; installation does not deploy"
       ],
       "execution": "manual"
     }
