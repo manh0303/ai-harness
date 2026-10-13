@@ -115,6 +115,13 @@
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.11.0](https://github.com/manh0303/ai-harness/compare/v0.10.0...v0.11.0) (2026-10-13)
+
+
+### Features
+
+* add adaptive verification and selective TechSpec ([2049514](https://github.com/manh0303/ai-harness/commit/2049514a3f97aede8ed0d9cc1f2bb18da7f6dfe9))
+
 ## [0.10.0](https://github.com/manh0303/ai-harness/compare/v0.9.0...v0.10.0) (2026-10-13)
 
 
