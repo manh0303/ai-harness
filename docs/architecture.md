@@ -183,3 +183,10 @@ bounded YAML/JSON; legacy prose is preserved. CLI seed stores local source/confi
 knowledge.json outside the managed lock. --host kiro installs locked native wrappers and SessionStart
 v1; requires are read-only prerequisites, extensions are host loading plans, MCP sync imports aliases
 only. No model/runtime, provider probe, network or shell execution. See [contracts](session-onboarding.md).
+
+setup stays read-only by default; setup --apply restores missing shared seeds from the locked installed
+snapshot without changing managed assets or lock. It validates existing and proposed config before
+transactional writes. Optional project-owned decisions.json separates confirmed/proposed/superseded
+project/module choices from per-change decisions. Config backup retains shared decisions, transfer
+omits them, and context freshness includes their digest. Compact start provides orientation only,
+with freshness unchecked. None of these declarations grant permission or prove live host compliance.

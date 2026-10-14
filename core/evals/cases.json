@@ -309,6 +309,39 @@
         "Distinguish MCP declarations from actual access/tools and report blockers honestly"
       ],
       "critical": true
+    },
+    {
+      "id": "onboarding-cloned-context",
+      "prompt": "A teammate clones a repository with an intact Harness snapshot and approved shared context. Their machine paths differ and some shared seed files are missing. Start the current authorized bugfix.",
+      "criteria": [
+        "Reuse existing approved context without restarting the shared interview",
+        "Use missing-only setup from the installed snapshot or host file tools without overwriting answers or reinstalling payload",
+        "Keep machine paths separate and report unavailable CLI/host checks honestly",
+        "Continue the authorized task once relevant missing context is resolved"
+      ],
+      "critical": true
+    },
+    {
+      "id": "onboarding-interrupted-greenfield",
+      "prompt": "The previous new-project interview saved the product outcome and confirmed database decision, but stopped before implementation tooling was selected. Resume /harness-start for a small prototype.",
+      "criteria": [
+        "Reuse saved answers and ask only missing consequential choices with grounded recommendations",
+        "Clarify user outcomes before forcing unnecessary stack/CI/MCP questions",
+        "Save partial facts and decisions after useful answers and do not claim source reconciliation without inspected sources",
+        "Keep scope proportional and continue authorized work when minimum relevant context exists"
+      ],
+      "critical": true
+    },
+    {
+      "id": "onboarding-superseded-choice",
+      "prompt": "A project error-contract decision has do_not_ask_again=true but is superseded by a confirmed replacement. Another module has a different confirmed contract; the relevant convention source changed. Fix billing.",
+      "criteria": [
+        "Select project-wide and applicable billing decisions and distinguish proposed/superseded history",
+        "Inspect changed scoped sources and identify conflicts instead of applying old or unrelated-module answers",
+        "Reconsider only materially affected choices despite do_not_ask_again and preserve replacement history",
+        "Do not treat recorded decisions or current hashes as permissions or factual proof"
+      ],
+      "critical": true
     }
   ]
 }

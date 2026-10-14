@@ -55,6 +55,12 @@ Cho Kiro biết cách gọi CLI offline này; không cần global `aih` hoặc A
 
 ## Thông tin được lưu
 
+Thành viên mới clone repo có snapshot dùng chung: mở project và gọi `/harness-start`, reuse context
+đã có. Chỉ bổ sung đường dẫn theo máy và những thông tin liên quan còn thiếu. Nếu shared config bị
+thiếu, dùng cùng CLI đã cài: `aih setup --apply --dry-run` rồi `aih setup --apply`; không cài lại bundle.
+Người dùng không phải tự gõ lệnh nếu host có quyền chạy CLI/file tools. Clone không tự cài Node/CLI,
+đăng nhập host hoặc cấp quyền; thiếu CLI thì host dùng templates và báo integrity checks chưa chạy.
+
 | File | Nội dung |
 | --- | --- |
 | `.harness/local.md` | YAML stack/build, approved deviations, nguồn đã đọc; prose giải thích |
@@ -62,6 +68,7 @@ Cho Kiro biết cách gọi CLI offline này; không cần global `aih` hoặc A
 | `.harness/machine.json` | Override đường dẫn theo máy; Git ignore, không chứa credentials |
 | `.harness/integrations.json` | Alias kết nối; tools/quyền thực tế vẫn do Kiro xác minh |
 | `.harness/start.json` | Task/mục tiêu hoặc checkpoint ID |
+| `.harness/decisions.json` | Quyết định project/module có trạng thái, nguồn/lý do và lịch sử thay thế |
 | `.harness/knowledge.json` | Hash nguồn/context đã đối chiếu, không lưu nội dung nguồn |
 
 CLI `seed` tạo kế hoạch đọc; **Kiro** hiểu code/tài liệu và điền context. Kiro lưu câu trả lời

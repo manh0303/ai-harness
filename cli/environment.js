@@ -5,6 +5,7 @@ import { agentPlan } from './agents.js';
 import { readConfig } from './project-config.js';
 export { readConfig } from './project-config.js';
 import { artifactReport } from './artifacts.js';
+import { projectDecisionReport } from './project-decisions.js';
 
 export const ENVIRONMENT = '.harness/environment.json';
 export const MACHINE = '.harness/machine.json';
@@ -155,6 +156,7 @@ export function setupPlan(root, adapters, env = process.env, host) {
   });
   questions.push(...artifacts.questions);
   return { status: environment.problems.length ? 'blocked' : 'planned', environment, artifacts, questions,
+    project_decisions: projectDecisionReport(root),
     agent_configuration: agentPlan(root, host),
     next_steps: ['Read AGENTS.md, .harness/local.md and the installed project-setup workflow.',
       'Apply installed Core project-conventions.md and relevant adapter conventions; establish mode per affected module even when no setup questions are suggested.',

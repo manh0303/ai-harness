@@ -16,7 +16,8 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | update | --host kiro (optional); --source; --dry-run; --allow-major | Update unedited owned files and seed missing project files |
 | check | none | Compare installed files/block with lock and selection; no writes |
 | doctor | --skill NAME (optional) | check plus configured environment/path diagnostics and generic PATH hints; no execution |
-| setup | --host codex/claude-code/gemini-cli/cursor/copilot/custom-ID (optional) | Read-only question and agent-routing plan; skips tool-selection suggestions when tools are configured |
+| setup | --host; --apply [--dry-run]; --greenfield | Read-only by default; --apply creates missing user config from installed templates without reinstalling the snapshot |
+| decisions | --scope project/module:name (optional) | Read confirmed/proposed/superseded shared choices; project scope is included in module results; no approval or writes |
 | artifacts | none | Report declared inputs/outputs/storage/write policy and host connection aliases; no discovery or tool calls |
 | ready ID | --stage implement/review | Structural readiness; blocked returns exit 1, ready returns exit 0; no business approval |
 | new-change ID | none | Create an unapproved OpenSpec draft using installed templates |
@@ -170,7 +171,7 @@ aih agents shows canonical IDs, skill preferences and model declarations. init -
 | --- | --- |
 | `aih start` | Terminal: intake ngắn; không TTY: read-only plan; trả host_prompt |
 | `aih start --goal docs --task "Implement requirements" --input docs/requirements --output docs/specs` | Lưu task và seed nguồn/output còn thiếu |
-| `aih backup [--output backups/config.json]` | Export 8 file cấu hình dùng chung; không ghi đè archive |
+| `aih backup [--output backups/config.json]` | Export tối đa 9 file cấu hình dùng chung, gồm decisions.json; không ghi đè archive |
 | `aih restore --from config.json --dry-run` | Kiểm tra schema/digest và xem file/conflict trước ghi |
 | `aih restore --from config.json [--replace]` | Phục hồi cùng dự án, tự backup trước thay file khác nội dung |
 | `aih restore --from config.json --transfer` | Chuyển module/model; bỏ repo autonomy và nguồn/task/domain/command cũ |
@@ -197,6 +198,9 @@ See [Kiro quick start](tool-setup/kiro.md) and [schema/ownership](session-onboar
 | --- | --- | --- |
 | init / update | --host kiro | Lock native wrappers + v1 SessionStart; preserve custom host files |
 | start | --host kiro | Read-only host question plan, including TTY |
+| start | --compact [--host kiro] | Short JSON orientation without terminal intake/source scan; freshness is unchecked, no MCP access claim |
+| setup | --apply [--dry-run]; --greenfield | Scaffold missing user config only; existing paths/answers and managed payload/lock stay intact; --greenfield selects host guidance |
+| decisions | --scope module:name | Read project-wide and matching module choices; host must check source applicability |
 | seed | --record OR --check | Plan loading, record reconciled hashes or check freshness; no model calls |
 | doctor | --skill NAME | Check local requires; MCP remains unverified |
 | sync-integrations | --host kiro; --from FILE; --dry-run | Import aliases only; no credentials/server execution/tool inference |

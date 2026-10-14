@@ -17,6 +17,7 @@ chỉ dùng với bản đã phát hành có các lệnh đó, hoặc checkout/p
 | `.harness/integrations.json` | Tên kết nối của host và phạm vi khai báo | Giữ nguyên |
 | `.harness/environment.json` | Tool/lệnh test và tham chiếu biến môi trường | Giữ nguyên |
 | `.harness/local.md` | Nghiệp vụ, convention và quyết định đã chốt | Giữ nguyên |
+| `.harness/decisions.json` | Quyết định dùng chung: phạm vi, trạng thái, nguồn/lý do và lịch sử thay thế | Giữ nguyên; backup cùng dự án, không transfer |
 | `openspec/config.yaml` | Cấu hình OpenSpec của dự án | Giữ nguyên |
 | `.harness/machine.json` | Đường dẫn chỉ dùng trên máy này | Giữ nguyên, Git ignore; không vào backup cấu hình |
 | `openspec/changes/<id>/` | Spec, tiến độ, checkpoint/history và evidence | Giữ nguyên; backup cùng repo |
@@ -45,7 +46,7 @@ aih backup --output backups/harness-config.json
 ```
 
 Đường dẫn CLI tính từ project root; không dùng đường dẫn tuyệt đối. CLI từ chối ghi đè backup đã có.
-Archive JSON giữ nguyên bytes UTF-8 của 8 file dùng chung ở bảng (nếu hiện có), kèm schema version,
+Archive JSON giữ nguyên bytes UTF-8 của tối đa 9 file dùng chung ở bảng (nếu hiện có), kèm schema version,
 CLI version và SHA-256 từng file. Digest phát hiện sửa nhầm, không xác thực nguồn backup.
 Review file trước khi chia sẻ; bản backup là plain text và không tự dò/xóa mọi secret bạn có thể đã ghi nhầm.
 Folder mặc định `.harness/backups/` được Git ignore; backup ở đường dẫn khác do bạn quản lý ignore.
@@ -115,6 +116,7 @@ aih start
 ```
 
 Transfer mang **project.json + agents.json**: adapter/capability và model/reasoning/execution preferences.
+Quyết định dùng chung trong decisions.json thuộc dự án cũ và không được mang theo.
 Khai báo autonomy và role extensions gắn repo cũ bị loại bỏ. Task, domain facts, nguồn input/output, connection aliases,
 commands, OpenSpec config và state không được chuyển. `start` giúp khai báo lại theo dự án mới.
 Nếu repo mới đã có cấu hình khác, review conflict và chỉ dùng --replace khi muốn thay chúng.
