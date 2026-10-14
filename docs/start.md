@@ -1,6 +1,11 @@
 # Bắt đầu một nhiệm vụ
 
-**init → start → làm việc trong AI tool.** Sau cài đặt, chạy trong project root:
+**Kiro: init --host kiro → session đầu tiên → /harness-start.**
+Kiro tự khảo sát và hỏi trong chat; [cài/upgrade/offline](tool-setup/kiro.md).
+`start --host kiro` trả plan, không phỏng vấn trong terminal. Session sau kiểm tra freshness
+và chỉ bổ sung context bị ảnh hưởng. [Seed và contracts](session-onboarding.md).
+
+**Host khác: init → start → làm việc trong AI tool.** Sau cài đặt, chạy trong project root:
 
 ```bash
 npx --yes @manhd_d/ai-harness start
@@ -33,6 +38,6 @@ quyền đã đủ. Root-file probes không thay thế khảo sát monorepo ho�
 
 Nếu bạn có nguồn/link/mô tả tự do hoặc cần output bên ngoài, đưa cho AI trong cuộc thảo luận và lưu
 quyết định vào artifacts.json/integrations.json/local.md. Terminal hỏi đáp ngắn; phần BA/thiết kế nằm
-trong AI tool. Không có slash command `/start` chung cho mọi tool ở bản này.
+trong AI tool. Core skill harness-start là điểm vào onboarding; menu slash native phụ thuộc host.
 
 [File cấu hình, backup, cài lại và chuyển dự án](configuration-backup.md) · [AI tool setup](tool-setup/README.md).

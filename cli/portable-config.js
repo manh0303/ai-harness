@@ -1,3 +1,4 @@
+import { localContext } from './knowledge.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -53,7 +54,7 @@ function validateFiles(files) {
     }
     const config = projectConfig(temp, undefined, undefined, true);
     resolveModules(SOURCE, config);
-    loadAgentConfig(temp); loadArtifactContract(temp); loadEnvironment(temp); loadStartConfig(temp);
+    loadAgentConfig(temp); loadArtifactContract(temp); loadEnvironment(temp); loadStartConfig(temp); localContext(temp);
   } finally { fs.rmSync(temp, { recursive: true, force: true }); }
 }
 function outputPath(root, name) {
@@ -79,7 +80,8 @@ export function restoreConfig(root, from, { dryRun = false, transfer = false, re
     const files = transfer ? Object.fromEntries(Object.entries(archive.files).filter(([name]) => ['.harness/project.json', '.harness/agents.json'].includes(name))) : archive.files;
     if (transfer && files['.harness/agents.json']) {
       const config = JSON.parse(files['.harness/agents.json'].content);
-      delete config.execution.autonomy; // Repository-scoped autonomy decisions never move to a different project.
+      delete config.execution.autonomy; // Repository-scoped decisions never move to a different project.
+      for (const agent of Object.values(config.agents)) delete agent.extensions;
       files['.harness/agents.json'] = { content: encode(config).toString() };
     }
     const changes = {}, conflicts = [];

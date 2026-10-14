@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — Session onboarding and knowledge freshness
+
+- Add Kiro init/update --host kiro, canonical native wrappers and locked SessionStart v1; first chat: /harness-start.
+- Keep Kiro questions in the current session, reuse saved facts/tasks and preserve partial setup.
+- Add structured local.md with legacy preservation, seed plan/record/check and separate source/context hashes.
+- Add skill requires diagnostics, role extensions/load order, missing-only external propose sidecars and MCP alias-only discovery.
+- Document first/later sessions, offline/upgrade and backup/transfer boundaries; live loading/token savings remain unmeasured. No distribution bump or provider calls.
+
 ## Unreleased — End-user acceptance
 
 - Add Core end-user-testing skill/workflow and test-engineer/review routing to exercise real browser/device/CLI/API journeys.

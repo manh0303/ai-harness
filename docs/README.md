@@ -50,3 +50,5 @@ See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only
 - [Lưu cấu hình, backup, cài lại và chuyển dự án](configuration-backup.md)
 
 - [Kiểm thử như người dùng thật: browser/device/CLI/API](end-user-testing.md)
+
+- [Session onboarding, seed, prerequisites và role extensions](session-onboarding.md)

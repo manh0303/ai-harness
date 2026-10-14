@@ -1,6 +1,6 @@
-# Skill matrix — 67 skills, 15 nhóm module
+# Skill matrix — 68 skills, 15 nhóm module
 
-Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (7 Core, 42 capability, 18 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 67 skill vào prompt.
+Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (8 Core, 42 capability, 18 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 68 skill vào prompt.
 
 **Cách dùng:** `aih skills` xem skills đã cài, sau đó `aih skill harness-...` lấy nội dung. Danh mục này mô tả chức năng; **không** có nghĩa `aih` thực thi skills hoặc agent. Tech adapters và capabilities chỉ xuất hiện trong consumer khi được chọn; Core dùng chung.
 
@@ -14,10 +14,11 @@
 | Release → Operate | `devops`, `kubernetes` khi phù hợp | CI, container, manifests, rollout và SLO plan |
 | Traffic → Publisher Revenue | `monetization` (optional) | SEO growth, AdSense readiness, UX/consent checks, Page RPM review |
 
-## Core (7)
+## Core (8)
 
 | Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
 | --- | --- | --- | --- |
+| [`harness-start`](../core/skills/harness-start/SKILL.md) | First session / setup / resume | Inspect before asking, save context/task | local/environment/start and knowledge freshness |
 | [`harness-end-user-testing`](../core/skills/harness-end-user-testing/SKILL.md) | End-user QA | Thao tác giao diện thật và kiểm tra luồng nghiệp vụ | AC → outcome/evidence, real/mocked scope, blockers |
 | [`harness-ai-evaluation`](../core/skills/harness-ai-evaluation/SKILL.md) | QA, AI eval | Đánh giá kết quả AI với dataset và ngưỡng đã review | Report chất lượng AI, regressions, release decision |
 | [`harness-debugging`](../core/skills/harness-debugging/SKILL.md) | Bugfix | Tái hiện và phân tích lỗi trước khi sửa | Reproduction, root-cause evidence, regression |

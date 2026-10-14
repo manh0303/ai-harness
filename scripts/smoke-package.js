@@ -82,6 +82,21 @@ try {
   const packagedCli = path.join(prefix, 'lib/node_modules', packageName, 'bin/aih.js');
   const portableCli = process.platform === 'win32' ? path.join(prefix, 'node_modules', packageName, 'bin/aih.js') : packagedCli;
   const portableRun = args => JSON.parse(command(process.execPath, [portableCli, ...args], portableTarget));
+  for (const asset of ['cli/knowledge.js','cli/structured.js','cli/kiro.js','cli/skill-requirements.js','cli/sync-integrations.js','core/skills/harness-start/SKILL.md','templates/local.md','docs/session-onboarding.md']) assert.ok(names.includes(asset), 'Missing session asset: ' + asset);
+  const kiroTarget = path.join(temp, 'kiro project'); fs.mkdirSync(kiroTarget);
+  const kiroRun = args => JSON.parse(command(process.execPath, [portableCli, ...args], kiroTarget));
+  assert.equal(kiroRun(['init','--host','kiro']).status,'ok');
+  assert.ok(fs.existsSync(path.join(kiroTarget,'.kiro/skills/harness-start/SKILL.md')));
+  assert.equal(JSON.parse(fs.readFileSync(path.join(kiroTarget,'.kiro/hooks/harness-session.json'),'utf8')).hooks[0].trigger,'SessionStart');
+  assert.equal(kiroRun(['start','--host','kiro']).knowledge.status,'missing');
+  assert.equal(kiroRun(['doctor','--skill','harness-start']).status,'ok');
+  fs.writeFileSync(path.join(kiroTarget,'README.md'),'# Source inspected by smoke fixture\n');
+  fs.writeFileSync(path.join(kiroTarget,'.harness/local.md'),'---\nschema_version: 1\nstack: {}\nbuild: {}\napproved_deviations: []\nsources: ["README.md"]\n---\n# Fixture summary\n');
+  assert.equal(kiroRun(['seed','--record']).status,'ok');
+  assert.equal(kiroRun(['seed','--check']).freshness,'current');
+  assert.deepEqual(kiroRun(['update']).changes,[]);
+  assert.equal(kiroRun(['check']).status,'ok');
+
   assert.equal(portableRun(['restore', '--from', 'settings.json', '--transfer', '--dry-run']).status, 'planned');
   assert.equal(fs.existsSync(path.join(portableTarget, '.harness/project.json')), false);
   assert.equal(portableRun(['restore', '--from', 'settings.json', '--transfer']).status, 'ok');

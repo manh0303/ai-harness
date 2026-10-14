@@ -115,8 +115,14 @@ aih start
 ```
 
 Transfer mang **project.json + agents.json**: adapter/capability và model/reasoning/execution preferences.
-Khai báo autonomy gắn repo cũ bị loại bỏ. Task, domain facts, nguồn input/output, connection aliases,
+Khai báo autonomy và role extensions gắn repo cũ bị loại bỏ. Task, domain facts, nguồn input/output, connection aliases,
 commands, OpenSpec config và state không được chuyển. `start` giúp khai báo lại theo dự án mới.
 Nếu repo mới đã có cấu hình khác, review conflict và chỉ dùng --replace khi muốn thay chúng.
 Model đã khai báo vẫn cần host hỗ trợ; restore không đăng nhập, cấp quyền hoặc gọi API/provider.
 Muốn dùng lại nguồn tài liệu cũ, khai báo rõ nguồn/revision/quyền truy cập tại dự án mới sau review.
+
+## Session cache
+
+knowledge.json is a reproducible project-owned cache omitted from config archives; full repo backup
+retains it. Reconcile with /harness-start after restore. Extensions/custom host files need repo backup;
+transfer omits old repository extensions as well as autonomy. [Session onboarding](session-onboarding.md).

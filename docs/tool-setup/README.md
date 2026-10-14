@@ -30,7 +30,7 @@ Install/sign in through its official guide, open this same project and follow th
 | **Cursor** | [Install](https://cursor.com/docs) | `AGENTS.md`; native `.agents/skills` | [Setup](cursor.md) |
 | **GitHub Copilot** | [Install](https://docs.github.com/en/copilot) | Client-specific instructions; CLI native `.agents/skills` | [Setup](copilot.md) |
 | **Gemini CLI** | [Install](https://geminicli.com/docs/) | `GEMINI.md` import; native `.agents/skills` alias | [Setup](gemini-cli.md) |
-| **Kiro** | [IDE / CLI](https://kiro.dev/docs/getting-started/installation/) | `AGENTS.md`; read canonical skills explicitly or use optional native pointers | [Setup](kiro.md) |
+| **Kiro** | [IDE / CLI](https://kiro.dev/docs/getting-started/installation/) | `init --host kiro`; first session `/harness-start`, managed wrappers + SessionStart | [Setup](kiro.md) |
 
 Existing instructions/settings remain yours. Do not replace host configs or copy the whole Harness into
 them. Host/version/account capabilities vary; these guides are not live-client compatibility results.

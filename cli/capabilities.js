@@ -1,3 +1,4 @@
+import { skillRequirements } from './skill-requirements.js';
 import fs from 'node:fs';
 import { manifest, readJson, safe, SLUG, HarnessError, payload } from './files.js';
 import { validateContract } from './module-contract.js';
@@ -17,7 +18,7 @@ function skillMetadata(body, name) {
   for (const heading of ['## Input', '## Procedure', '## Output', '## Constraints']) {
     if (!body.includes(heading)) fail(`Missing ${heading} in skill: ${name}`);
   }
-  return { name, description };
+  return { name, description, requires: skillRequirements(body) };
 }
 
 export function loadCapability(source, id) {

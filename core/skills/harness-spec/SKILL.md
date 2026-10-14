@@ -11,7 +11,9 @@ User request, authoritative source links, existing specs and repository boundari
 1. Read source context and identify missing or conflicting business decisions. Follow the installed
    clarification workflow: ask 1–3 consequential questions with A/B/C trade-offs, a grounded
    recommendation and free text. Reuse established answers and authorization.
-2. Draft proposal, design, tasks and capability delta specs in openspec/changes/<id>/.
+2. Use aih new-change <id> for Harness drafts. If an external OpenSpec propose flow created the change,
+   run aih change-sidecars <id> to add missing metadata/decisions/verification/artifact-impact templates
+   without overwriting existing files. Draft proposal, design, tasks and capability delta specs there.
 3. Use ADDED/MODIFIED/REMOVED requirement sections and WHEN/THEN acceptance scenarios.
 4. Include affected repositories, non-goals, security impact, migration and rollback.
 5. Plan vertical tasks with public test boundaries and trace them to requirements.

@@ -54,7 +54,11 @@ export function validateAgentConfig(config) {
   requireThat(isObject(config.agents) && Object.keys(config.agents).length <= 128, 'agents map (max 128 roles)');
   for (const [id, agent] of Object.entries(config.agents)) {
     requireThat(ROLE.test(id), 'role ID must use namespace:role');
-    fields(agent, ['model', 'provider', 'reasoning', 'enabled'], [], id);
+    fields(agent, ['model', 'provider', 'reasoning', 'enabled', 'extensions'], [], id);
+    if (agent.extensions !== undefined) {
+      requireThat(Array.isArray(agent.extensions) && agent.extensions.length <= 16 && new Set(agent.extensions).size === agent.extensions.length, id + ' extensions');
+      for (const file of agent.extensions) requireThat(typeof file === 'string' && /^[A-Za-z0-9._/-]+[.]md$/.test(file) && !file.startsWith('/') && !file.split('/').some(p => !p || p === '.' || p === '..') && !/^\.harness\/(?:core|adapters|capabilities|templates)\//.test(file), id + ' extension path must be project-owned Markdown');
+    }
     if (agent.model !== undefined) { reference(agent.model, id); resolveModel(config, agent.model); }
     if (agent.provider !== undefined) provider(agent.provider, id);
     if (agent.reasoning !== undefined) reasoning(agent.reasoning, id);
@@ -110,7 +114,11 @@ function readConfiguration(root, relative) {
   catch { throw new HarnessError('Invalid JSON in ' + relative); }
   return validateAgentConfig(config);
 }
-export function loadAgentConfig(root) { return readConfiguration(root, AGENT_CONFIG); }
+export function loadAgentConfig(root) {
+  const config = readConfiguration(root, AGENT_CONFIG);
+  for (const agent of Object.values(config?.agents ?? {})) for (const file of agent.extensions ?? []) safe(root, file);
+  return config;
+}
 
 export function agentDefaults(source = SOURCE, preset = 'recommended', host) {
   requireThat(PRESETS.includes(preset), 'unknown preset; use recommended, economy or custom');
@@ -146,7 +154,7 @@ export function resolveAgent(config, id) {
   const agent = Object.hasOwn(config.agents, id) ? config.agents[id] : {};
   const resolved = resolveModel(config, agent.model ?? config.defaultModel);
   return { id, ...resolved, provider: agent.provider ?? resolved.provider,
-    reasoning: agent.reasoning ?? config.defaultReasoning, enabled: agent.enabled !== false,
+    extensions: agent.extensions ?? [], reasoning: agent.reasoning ?? config.defaultReasoning, enabled: agent.enabled !== false,
     source: Object.hasOwn(config.agents, id) ? 'role' : 'project-default' };
 }
 
@@ -172,13 +180,14 @@ export function agentPlan(root, host) {
     const parts = registry[id]?.split('/');
     const canonical = parts ? (parts[0] === 'core' ? 'core:' : parts[1] + ':') + path.basename(registry[id], '.md') : id;
     const skills = registry[id] ? preferredSkills(fs.readFileSync(safe(path.join(root, '.harness'), registry[id]), 'utf8')) : { required: [], optional: [] };
-    return { ...requested, active, canonical_id: canonical, skills, contract: registry[id] ? '.harness/' + registry[id] : null,
+    const extensionFiles = requested.extensions.map(file => { const info = stat(safe(root,file)); requireThat(!info || info.size <= 65536, 'extension exceeds 64 KiB'); return { path: file, status: info ? 'present' : 'missing' }; });
+    return { ...requested, extension_files: extensionFiles, contract_load_order: [registry[id] ? '.harness/' + registry[id] : null, ...requested.extensions].filter(Boolean), active, canonical_id: canonical, skills, contract: registry[id] ? '.harness/' + registry[id] : null,
       host_model: mapping ?? requested.model, host_reasoning: profile.reasoning?.[requested.reasoning] ?? requested.reasoning,
       mapping: mapping ? 'explicit-user-host-mapping' : 'requested',
       availability: active && incompatible ? 'incompatible-provider' : 'unverified',
       runtime_verified: false };
   });
-  return { status: roles.some(role => role.active && role.availability === 'incompatible-provider') ? 'host-incompatible' : 'requires-host-verification',
+  return { status: roles.some(role => role.active && role.extension_files.some(f => f.status === 'missing')) ? 'blocked' : roles.some(role => role.active && role.availability === 'incompatible-provider') ? 'host-incompatible' : 'requires-host-verification',
     configured: true, host: host ?? null, presets, execution: config.execution, roles,
     missing_mappings: Object.keys(registry).filter(id => !Object.hasOwn(config.agents, id)), note };
 }

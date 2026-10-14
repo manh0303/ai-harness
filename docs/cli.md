@@ -13,9 +13,9 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | verify | --scope adapters/core/capabilities/all or --adaptive or --report file | Advisory checks, metadata plan or evidence consistency; executed false, no subprocesses |
 | eval | --scope adapters/core/capabilities/all; --report FILE | Emit unscored template or aggregate reviewed report; no model calls |
 | init | --detect OR --adapters a,b; --capabilities a,b; --agent-preset recommended/economy/custom; --source; --dry-run; --allow-major | Install a snapshot and seed project agent preferences; exact rerun without explicit preset is idempotent |
-| update | --source; --dry-run; --allow-major | Update unedited owned files and seed missing project files |
+| update | --host kiro (optional); --source; --dry-run; --allow-major | Update unedited owned files and seed missing project files |
 | check | none | Compare installed files/block with lock and selection; no writes |
-| doctor | none | check plus configured environment/path diagnostics and generic PATH hints; no execution |
+| doctor | --skill NAME (optional) | check plus configured environment/path diagnostics and generic PATH hints; no execution |
 | setup | --host codex/claude-code/gemini-cli/cursor/copilot/custom-ID (optional) | Read-only question and agent-routing plan; skips tool-selection suggestions when tools are configured |
 | artifacts | none | Report declared inputs/outputs/storage/write policy and host connection aliases; no discovery or tool calls |
 | ready ID | --stage implement/review | Structural readiness; blocked returns exit 1, ready returns exit 0; no business approval |
@@ -188,3 +188,18 @@ Core skill/workflow references and a host prompt. The CLI does not execute inter
 verify --report accepts optional schema-1 end-user requirement targets, surface/journey fields and
 separately bounded binary attachment digests. Wrong-surface/mocked/unknown scope cannot satisfy full
 end-user acceptance. See [End-user guide](end-user-testing.md); producer receipts need independent review.
+
+## Session onboarding commands
+
+See [Kiro quick start](tool-setup/kiro.md) and [schema/ownership](session-onboarding.md).
+
+| Command | Options | Effect |
+| --- | --- | --- |
+| init / update | --host kiro | Lock native wrappers + v1 SessionStart; preserve custom host files |
+| start | --host kiro | Read-only host question plan, including TTY |
+| seed | --record OR --check | Plan loading, record reconciled hashes or check freshness; no model calls |
+| doctor | --skill NAME | Check local requires; MCP remains unverified |
+| sync-integrations | --host kiro; --from FILE; --dry-run | Import aliases only; no credentials/server execution/tool inference |
+| change-sidecars ID | none | Add missing external proposal sidecars; no overwrite |
+
+New commands require supporting reviewed source/release.

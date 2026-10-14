@@ -27,3 +27,9 @@ canonical aliases and preferred skills without spawning workers or probing provi
    receipts and next owner. Reconcile checkpoint and current source/remote state before retries.
 
 Use continuous-development.md for full changes/resume. No CLI orchestration runtime or paid model calls.
+
+Before applying a role, read contract_load_order from aih agents: the canonical core/capability contract,
+then project-owned extensions in declared order. Extensions specialize domain facts; they cannot grant
+permissions or weaken core security. Missing extensions block that role; reconcile contradictory facts
+with the owner. Before a selected skill use aih doctor --skill <name> for declared requires; verify MCP
+access/tools in the actual host even when local prerequisites pass.

@@ -12,12 +12,22 @@ Works with any project through Core workflows. Optional stack support: Spring Bo
 
 Install/sign in to an AI tool below. Requires Node.js 22+. Run in your **project root** terminal:
 
+**Kiro:**
+
+```bash
+npx --yes @manhd_d/ai-harness init --host kiro
+```
+
+Open your first Kiro chat and select `/harness-start`. The agent inspects the project, asks only missing questions and saves context. [Kiro guide](docs/tool-setup/kiro.md).
+
+**Other hosts:**
+
 ```bash
 npx --yes @manhd_d/ai-harness init
 npx --yes @manhd_d/ai-harness start
 ```
 
-Run `start` for guided intake, then send its `host_prompt` to your AI tool. [Settings, backup & transfer](docs/configuration-backup.md).
+Send the returned `host_prompt` to your AI tool. [Settings, backup & transfer](docs/configuration-backup.md).
 
 `npx` does not install a global `aih` command. Check the installation with
 `npx --yes @manhd_d/ai-harness check`; then open the same project in your AI tool.

@@ -175,3 +175,11 @@ schema-1 journey declarations and bounded binary attachment digests qualify expl
 end-user requirements by matching surface and dependency scope. Receipts are producer declarations,
 not authenticated browser/model execution or UAT approval. No browser dependency/runner enters the CLI.
 See [End-user testing](end-user-testing.md).
+
+## Session onboarding and Kiro bridge (unreleased)
+
+Core harness-start delegates semantic seed/questions to the host. Optional local.md frontmatter is
+bounded YAML/JSON; legacy prose is preserved. CLI seed stores local source/config hashes in project
+knowledge.json outside the managed lock. --host kiro installs locked native wrappers and SessionStart
+v1; requires are read-only prerequisites, extensions are host loading plans, MCP sync imports aliases
+only. No model/runtime, provider probe, network or shell execution. See [contracts](session-onboarding.md).

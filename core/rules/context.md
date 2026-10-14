@@ -17,3 +17,8 @@ show a need. Preserve document access controls at retrieval time; citations must
 For a new change or resumed session, apply `.harness/core/workflows/continuous-development.md`.
 Compare current source revisions, scoped working-tree edits and evidence with the previous handoff.
 Refresh affected assumptions in the existing change/project map; stale summaries never override sources.
+
+Session onboarding: use harness-start. Read local.md structured frontmatter before prose; aih seed --check
+compares local source/config hashes in project-owned knowledge.json. On stale/missing context inspect
+only affected sources, reconcile summaries, then aih seed --record. Remote revisions require host checks.
+Keep scoped AGENTS and conventions authoritative; a current hash does not certify summary correctness.

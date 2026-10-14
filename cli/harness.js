@@ -1,4 +1,7 @@
 import fs from 'node:fs';
+import { localContext } from './knowledge.js';
+import { kiroPayload, KIRO_HOOK } from './kiro.js';
+import { requirementReport } from './skill-requirements.js';
 import { loadStartConfig } from './start-config.js';
 import { checkpointPath, validateCheckpoint } from './checkpoint.js';
 import { readConfig } from './project-config.js';
@@ -95,7 +98,7 @@ export function bundle(source, config) {
 }
 
 function managedName(name) {
-  return name === 'AGENTS.md' || name === 'CLAUDE.md' || ['.harness/core/', '.harness/adapters/', '.harness/capabilities/', '.harness/integrations/', '.harness/templates/', '.agents/skills/harness-', '.claude/skills/harness-'].some(prefix => name.startsWith(prefix));
+  return name === 'AGENTS.md' || name === 'CLAUDE.md' || name === KIRO_HOOK || ['.harness/core/', '.harness/adapters/', '.harness/capabilities/', '.harness/integrations/', '.harness/templates/', '.agents/skills/harness-', '.claude/skills/harness-', '.kiro/skills/harness-'].some(prefix => name.startsWith(prefix));
 }
 
 export function loadLock(root) {
@@ -174,6 +177,7 @@ export function install(root, source, { command = 'init', adapters, capabilities
     const old = hasLock ? loadLock(root) : null;
     const existingAgents = loadAgentConfig(root);
     loadStartConfig(root);
+    localContext(root);
     loadArtifactContract(root); // Validate project-owned declarations before planning any writes.
     if (agentPreset !== undefined && command !== 'init') throw new HarnessError('Agent preset is supported only by init');
     if (agentPreset !== undefined && existingAgents) throw new HarnessError('agents.json is project-owned; edit it explicitly instead of applying an init preset');
@@ -195,6 +199,9 @@ export function install(root, source, { command = 'init', adapters, capabilities
         files[destination] = Buffer.from('---\nname: ' + id + '\ndescription: ' + description + '\n---\n\nRead the complete canonical project file ' + String.fromCharCode(96) + name + String.fromCharCode(96) + ' before applying this skill. Follow its inputs, procedure, constraints and handoff; do not substitute this wrapper for the full instructions.\n');
         lock.files[destination] = digest(files[destination]);
       }
+    }
+    if (host === 'kiro' || Object.keys(old?.files ?? {}).some(p => p.startsWith('.kiro/skills/harness-'))) {
+      for (const [name, data] of Object.entries(kiroPayload(files))) { files[name] = data; lock.files[name] = digest(data); }
     }
     lock.files = Object.fromEntries(Object.entries(lock.files).sort(([a],[b]) => a.localeCompare(b)));
     lock.bundle_sha256 = digest(encode(lock.files));
@@ -225,7 +232,7 @@ export function install(root, source, { command = 'init', adapters, capabilities
       [INTEGRATIONS]: encode(emptyIntegrations()),
       '.harness/environment.json': encode(emptyEnvironment()),
       'openspec/config.yaml': fs.readFileSync(safe(source, 'templates/openspec/config.yaml')),
-      '.harness/local.md': Buffer.from('# Project overrides\n\nRecord project facts and reviewed exceptions here. Never weaken security boundaries.\n\n## Stack\nstack: unknown\nRecord actual dependency versions and approved design sources. This field does not select technology.\n\n## Development conventions\nRecord scope/mode (new, maintain or mixed), authoritative source paths, module boundaries, reusable public APIs, naming/error/test conventions and configured checks. Link existing guides instead of duplicating them. Unknowns are not approved defaults; the AI host inspects evidence and asks only consequential questions.\n'),
+      '.harness/local.md': stat(safe(source, 'templates/local.md')) ? fs.readFileSync(safe(source, 'templates/local.md')) : Buffer.from('# Project overrides\n\nRecord project facts and reviewed exceptions here.\n'),
     };
     for (const [name, data] of Object.entries(seeds)) if (!stat(safe(root, name))) changes[name] = data;
     // Project-owned ignore file: preserve all prior rules, place our anchored rule last.
@@ -248,10 +255,29 @@ export function check(root) {
   const problems = drift(root, lock);
   loadArtifactContract(root);
   loadStartConfig(root);
+  localContext(root);
   loadAgentConfig(root); // Optional on legacy installs; validate user config without managing its bytes.
   if (JSON.stringify([...config.adapters].sort()) !== JSON.stringify([...lock.adapters].sort())) problems.push(`${CONFIG}: adapter selection changed; run update`);
   if (JSON.stringify([...(config.capabilities ?? [])].sort()) !== JSON.stringify([...(lock.capabilities ?? [])].sort())) problems.push(`${CONFIG}: capability selection changed; run update`);
   return { status: problems.length ? 'error' : 'ok', version: lock.version, problems };
+}
+
+export function changeSidecars(root, name) {
+  if (!SLUG.test(name) || name === 'archive') throw new HarnessError('Invalid change ID');
+  return guard(root, () => {
+    if (check(root).status !== 'ok') throw new HarnessError('Fix installation drift before creating sidecars');
+    const base = 'openspec/changes/' + name;
+    if (!stat(safe(root, base + '/proposal.md'))) throw new HarnessError('Sidecars require an existing proposal.md');
+    const lock = loadLock(root), changes = {};
+    for (const file of ['.openspec.yaml', 'decisions.json', 'verification.json', 'artifact-impact.json']) {
+      const template = '.harness/templates/openspec/' + file;
+      if (!Object.hasOwn(lock.files, template)) throw new HarnessError('Update Harness to install sidecar templates');
+      const destination = base + '/' + file;
+      if (!stat(safe(root,destination))) changes[destination] = Buffer.from(fs.readFileSync(safe(root,template),'utf8').replaceAll('{{change_id}}',name));
+    }
+    transaction(root, changes);
+    return { status: 'ok', change: name, created: Object.keys(changes), note: 'Draft sidecars only; existing files preserved.' };
+  });
 }
 
 export function newChange(root, name) {
@@ -320,7 +346,7 @@ export function newDoc(root, name, capability = 'product', options = {}) {
   });
 }
 
-export function doctor(root) {
+export function doctor(root, skill) {
   const extensions = process.platform === 'win32' ? (process.env.PATHEXT || '.EXE;.CMD;.BAT').split(';') : [''];
   const tools = {};
   for (const name of ['git', 'node', 'npm', 'java', 'mvn', 'openspec']) {
@@ -330,8 +356,9 @@ export function doctor(root) {
     }));
   }
   const state = check(root), environment = environmentReport(root);
-  return { ...state, status: state.status !== 'ok' || environment.problems.length ? 'error' : 'ok',
-    tools, environment, claude: claudeReport(root), artifacts: artifactReport(root), note: 'Tool presence only; no commands executed or compatibility claim made. Configured project tools take precedence over generic PATH hints.' };
+  const prerequisites = skill ? requirementReport(root, skill) : null;
+  return { ...state, status: state.status !== 'ok' || environment.problems.length || prerequisites?.status === 'blocked' ? 'error' : 'ok',
+    prerequisites, tools, environment, claude: claudeReport(root), artifacts: artifactReport(root), note: 'Tool presence only; no commands executed or compatibility claim made. Configured project tools take precedence over generic PATH hints.' };
 }
 
 export function saveCheckpoint(root, id, report, expected) {

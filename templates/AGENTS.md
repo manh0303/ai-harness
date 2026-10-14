@@ -11,7 +11,8 @@ New/consequential or resumed work: .harness/core/workflows/continuous-developmen
 Open design choices: .harness/core/workflows/solution-framing.md + SA; present alternatives and ask the owner.
 Accepted decisions are reused. Adapters implement them; adapter selection does not select infrastructure.
 Missing consequential facts: .harness/core/workflows/clarification.md; reuse prior answers and record actual decisions.
-Start/resume intake: read .harness/start.json when present; aih start suggests the next step.
+Start/resume intake: use harness-start in the current AI session; Kiro exposes /harness-start. Read .harness/start.json when present.
+Read structured local.md before prose; use aih seed --check for source freshness and refresh only affected context.
 First use or missing environment: .harness/core/workflows/project-setup.md and project-owned environment.json.
 Docs/UI/source outputs: .harness/core/workflows/artifact-contract.md with artifacts.json/integrations.json and source-write policy.
 End-user journeys: .harness/core/workflows/end-user-acceptance.md + harness-end-user-testing; real interface evidence or explicit blockers.

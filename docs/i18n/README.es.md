@@ -10,10 +10,19 @@ Los Core workflows sirven para cualquier proyecto. El stack support es opcional 
 
 Requiere Node.js 22+. Ejecuta en el directorio del proyecto:
 
+**Kiro:** instala, abre la primera sesión y selecciona `/harness-start`. [Guía](../tool-setup/kiro.md).
+
+```bash
+npx --yes @manhd_d/ai-harness init --host kiro
+```
+
+**Otros hosts:**
+
 ```bash
 npx --yes @manhd_d/ai-harness init
 npx --yes @manhd_d/ai-harness start
 ```
+
 
 Ejecuta `start` para comenzar con tus entradas y envía `host_prompt` a tu herramienta de IA. [Configuración, copia de seguridad y transferencia](../configuration-backup.md).
 
