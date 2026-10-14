@@ -1,0 +1,19 @@
+[build-system]
+requires = []
+build-backend = "build_backend"
+backend-path = ["python"]
+
+[project]
+name = "manhd-ai-harness"
+dynamic = ["version"]
+description = "AI Harness shared workflows and Node.js CLI, installable without npm"
+requires-python = ">=3.9"
+license = "MIT"
+readme = "README.md"
+dependencies = []
+
+[project.scripts]
+aih = "ai_harness.launcher:main"
+
+[project.urls]
+Repository = "https://github.com/manh0303/ai-harness"

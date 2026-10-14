@@ -1,0 +1,1 @@
+{"status": "ok", "version": "0.14.0", "checks": "offline wheel/sdist install, .venv overlap, byte parity, reinstall/update preservation, missing Node, no registry/build dependencies"}

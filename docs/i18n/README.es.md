@@ -8,29 +8,30 @@ Entrega una idea, docs existentes o un change request a tu AI coding tool. Harne
 
 Los Core workflows sirven para cualquier proyecto. El stack support es opcional y no elige infrastructure ni architecture.
 
-Requiere Node.js 22+. Ejecuta en el directorio del proyecto:
-
-**Kiro:** instala, abre la primera sesión y selecciona `/harness-start`. [Guía](../tool-setup/kiro.md).
+Requiere **Node.js 22+**. Ejecuta en la raíz del proyecto:
 
 ```bash
-npx --yes @manhd_d/ai-harness init --host kiro
+npx --yes @manhd_d/ai-harness init --host codex
 ```
 
-**Otros hosts:**
+Host: codex, claude-code, cursor, copilot, gemini-cli o kiro.
+En la primera sesión invoca harness-start; si el cliente no descubre el skill, envía:
+
+> Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
+
+Kiro ofrece `/harness-start`; el descubrimiento depende del cliente. [Guías](../tool-setup/README.md).
+
+**pip / sin conexión** se incluye en la próxima versión revisada; requiere configurar PyPI publisher:
 
 ```bash
-npx --yes @manhd_d/ai-harness init
-npx --yes @manhd_d/ai-harness start
+python -m pip install manhd-ai-harness
+aih init --host codex
 ```
 
-
-Ejecuta `start` para comenzar con tus entradas y envía `host_prompt` a tu herramienta de IA. [Configuración, copia de seguridad y transferencia](../configuration-backup.md).
-
-`npx` no instala el command global `aih`. Comprueba con `npx --yes @manhd_d/ai-harness check` y abre el mismo proyecto en tu AI tool. [Setup común](../tool-setup/README.md).
-
-> Read AGENTS.md. Inspect this project and its approved decisions. Implement [task], run appropriate checks and maintain affected docs.
-
-El host ejecuta tests y controla tools, delegation y permissions. MCP/connector/API pueden aportar input con acceso autorizado. init --detect identifica stacks compatibles; check comprueba la integrity de Harness.
+Necesita Python 3.9+ y Node.js 22+; incluye el mismo CLI y recursos, sin ejecutar npm/npx.
+Sin conexión: `python -m pip install --no-index --no-deps /path/to/package.whl`.
+[pip y actualizaciones](../python-installation.md) · [Backup](../configuration-backup.md).
+`npx` no crea un comando global aih; comprueba con `npx --yes @manhd_d/ai-harness check`.
 
 | AI tool | Setup |
 | --- | --- |

@@ -145,7 +145,7 @@ export function evaluate(root, reportPath, scope = 'adapters') {
   const bytes = encode(dataset), hash = digest(bytes);
   if (!reportPath) return { status: 'planned', scope, dataset, report: { schema_version: 1,
     metadata: { model: '', harness_commit: '', dataset_sha256: hash, bundle_sha256: lock.bundle_sha256, reviewer: '', run_id: '', parameters: '' },
-    results: dataset.cases.map(c => ({ id: c.id, scores: c.criteria.map(() => null), evidence: '' })) },
+    results: dataset.cases.map(c => ({ id: c.id, scores: c.criteria.map(() => null), ...(c.assertions ? { assertions: c.assertions.map(() => null) } : {}), evidence: '' })) },
     note: 'Unscored template; run a real model separately and record reviewer evidence. No model is invoked.' };
   const report = readJson(path.resolve(reportPath));
   requireThat(report?.metadata?.bundle_sha256 === lock.bundle_sha256, 'Evaluation report belongs to a different installed bundle');

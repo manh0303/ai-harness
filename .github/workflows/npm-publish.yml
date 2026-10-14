@@ -1,4 +1,4 @@
-name: Publish npm package
+name: Publish npm and PyPI packages
 # Single trusted publisher filename for npm OIDC: npm-publish.yml
 # The GITHUB_TOKEN-created release event does not trigger another workflow.
 # Keep release creation and npm publishing in THIS workflow.
@@ -111,6 +111,9 @@ jobs:
             if (pkg.publishConfig?.access !== "public") throw new Error("Expected public npm package");
             if (manifest["."] !== pkg.version) throw new Error("Release Please manifest/version mismatch");
           '
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - name: Run all release checks
         run: |
           npm ci --ignore-scripts --offline --no-audit --no-fund
@@ -119,7 +122,32 @@ jobs:
           npm run check:release
           npm run test:package
           npm pack --dry-run
+          python scripts/smoke-python.py
+          python scripts/build-python.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-release
+          path: dist/
+          if-no-files-found: error
       - name: Publish package with npm OIDC (no npm token)
         run: npm publish --access public
         env:
           NPM_CONFIG_PROVENANCE: 'false'
+
+  publish-pypi:
+    # Uses the same immutable tag and the wheels tested BEFORE npm publication.
+    needs: publish
+    if: ${{ always() && needs.publish.result == 'success' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/manhd-ai-harness
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-release
+          path: dist/
+      - name: Publish wheels and sdist with PyPI Trusted Publishing
+        uses: pypa/gh-action-pypi-publish@release/v1

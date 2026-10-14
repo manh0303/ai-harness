@@ -35,3 +35,13 @@ Checked 2026-10-13; no logged-in Gemini client or live-agent smoke was run.
 
 - [Context files, imports and memory checks](https://geminicli.com/docs/cli/gemini-md/)
 - [Skill aliases and loading checks](https://geminicli.com/docs/cli/skills/)
+
+## Common first-session onboarding
+
+npm and pip/offline use the same `aih init --host gemini-cli` bundle and canonical harness-start.
+Invoke the native skill when available (Kiro: `/harness-start`), or send:
+
+> Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
+
+Reuse saved answers; do not start a second terminal interview. Client-specific imports/discovery above
+still apply. [pip/offline prerequisites and updates](../python-installation.md).

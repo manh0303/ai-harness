@@ -15,6 +15,7 @@ gốc được liên kết bên dưới; không sao chép quy tắc thành nhi�
 | Artifact / integration contracts | [Artifact contract](artifact-contract.md), [loader](../cli/artifacts.js), [seeds](../templates/artifacts.json) | Preserved project configs → setup/artifacts → Core/Product/UIUX workflows → routed new-doc / impact readiness → [tests](../tests/artifacts.test.js) and package smoke |
 | Agent preferences | [Canonical default](../config/agents.default.json), [configuration contract](agent-configuration.md) | Project-owned `agents.json` → read-only setup plan → [routing workflow](../core/workflows/agent-routing.md) → [host setup](tool-setup/README.md); tests verify preservation, not live model availability |
 | Quy trình sử dụng | [Getting started](getting-started.md), [full SDLC](end-to-end-workflow.md) | [Examples](examples/), [README](../README.md), [documentation workflows](documentation-workflows.md) |
+| Distribution / conformance driver | [pip/offline](python-installation.md), [workflow contract](workflow-contract.md), [runner](conformance-runner.md) | Shared npm allowlist → Python wheel/sdist → launcher/shared CLI → offline parity smoke; installer never imports host execution |
 | Release / migration | [Versioning](versioning.md), [release policy](release-policy.md) | [Changelog](../CHANGELOG.md), [npm release](npm-release.md), [release workflow](../.github/workflows/npm-publish.yml) |
 
 Một quy tắc chỉ hoàn chỉnh khi xác định được: **nơi khai báo → nơi đóng gói → điểm AI đọc → bước áp dụng

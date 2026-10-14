@@ -47,3 +47,13 @@ Checked 2026-10-13; no logged-in Claude client or live-agent smoke was run.
 - [Memory, AGENTS conditions and imports](https://code.claude.com/docs/en/memory)
 - [Native skills](https://code.claude.com/docs/en/skills)
 - [Models](https://code.claude.com/docs/en/model-config)
+
+## Common first-session onboarding
+
+npm and pip/offline use the same `aih init --host claude-code` bundle and canonical harness-start.
+Invoke the native skill when available (Kiro: `/harness-start`), or send:
+
+> Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
+
+Reuse saved answers; do not start a second terminal interview. Client-specific imports/discovery above
+still apply. [pip/offline prerequisites and updates](../python-installation.md).

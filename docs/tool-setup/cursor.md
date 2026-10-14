@@ -27,3 +27,13 @@ Checked 2026-10-13; no logged-in Cursor client or live-agent smoke was run.
 
 - [Rules and AGENTS](https://cursor.com/docs/rules)
 - [Skills, discovery and cloud scope](https://cursor.com/docs/skills)
+
+## Common first-session onboarding
+
+npm and pip/offline use the same `aih init --host cursor` bundle and canonical harness-start.
+Invoke the native skill when available (Kiro: `/harness-start`), or send:
+
+> Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
+
+Reuse saved answers; do not start a second terminal interview. Client-specific imports/discovery above
+still apply. [pip/offline prerequisites and updates](../python-installation.md).

@@ -63,3 +63,10 @@ Solution Architect effectiveness. The [host smoke prompt](../docs/tool-setup/REA
 ## Continuous development scenarios
 
 Seven Core continuous-* cases cover approved feature, minimal bugfix, contract-affecting business rule, docs–code drift, changed-baseline resume, read-only/unavailable source and UAT/operations feedback. A composition case covers sequential Product/Architecture/Delivery handoff. See [fixture setup](../docs/examples/continuous-development.md). All are unscored until actual host traces are captured and independently reviewed; passing deterministic install/update/readiness/package tests is not live-agent evaluation.
+
+## Optional host driver
+
+[Conformance runner](../docs/conformance-runner.md) generates schema-1 reports from per-case Claude
+headless transcripts and a different judge model, with 3–5 trials and pass rates. Assertions are
+optional deterministic observations; missing declared assertion scores are rejected. No host execution
+is triggered by aih eval. Read-only driver trials do not prove action/tool permission compliance.

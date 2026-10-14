@@ -24,5 +24,17 @@
     "delivery",
     "analysis",
     "discovery"
+  ],
+  "distribution": {
+    "npm": "@manhd_d/ai-harness",
+    "pypi": "manhd-ai-harness",
+    "python": ">=3.9",
+    "node": ">=22",
+    "shared_payload": "package.json files allowlist",
+    "python_runtime_dependencies": []
+  },
+  "workflow_contracts": [
+    "core/workflows/spec-to-code.workflow.json",
+    "capabilities/product/workflows/idea-to-prd.workflow.json"
   ]
 }

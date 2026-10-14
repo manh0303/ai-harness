@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "id": "spec-to-code",
+  "stages": [
+    {
+      "id": "discover",
+      "owner": "core:planner",
+      "next": [
+        "specify"
+      ]
+    },
+    {
+      "id": "specify",
+      "owner": "core:planner",
+      "outputs": [
+        "proposal.md",
+        "design.md",
+        "tasks.md"
+      ],
+      "next": [
+        "review-spec"
+      ]
+    },
+    {
+      "id": "review-spec",
+      "owner": "human:spec-owner",
+      "entry_gate": {
+        "deterministic": [
+          "spec-structure"
+        ]
+      },
+      "approval": {
+        "role": "spec-owner"
+      },
+      "next": [
+        "implement"
+      ],
+      "on_reject": "specify"
+    },
+    {
+      "id": "implement",
+      "owner": "core:implementer",
+      "entry_gate": {
+        "deterministic": [
+          "spec-structure",
+          "decisions-resolved",
+          "tasks-present",
+          "artifact-impact"
+        ],
+        "approval_from": "review-spec"
+      },
+      "next": [
+        "verify"
+      ]
+    },
+    {
+      "id": "verify",
+      "owner": "core:test-engineer",
+      "entry_gate": {
+        "deterministic": [
+          "tasks-complete"
+        ]
+      },
+      "next": [
+        "review"
+      ],
+      "on_fail": "implement"
+    },
+    {
+      "id": "review",
+      "owner": "core:reviewer",
+      "entry_gate": {
+        "deterministic": [
+          "spec-structure",
+          "decisions-resolved",
+          "tasks-complete",
+          "verification-evidence",
+          "artifact-impact"
+        ]
+      },
+      "next": [
+        "deliver"
+      ],
+      "on_fail": "implement"
+    },
+    {
+      "id": "deliver",
+      "owner": "core:planner",
+      "next": [
+        "archive"
+      ]
+    },
+    {
+      "id": "archive",
+      "owner": "core:planner",
+      "next": []
+    }
+  ]
+}

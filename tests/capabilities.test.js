@@ -204,7 +204,7 @@ test('capability and combined evaluation scopes remain advisory and locked', () 
   const synthetic = report.report;
   Object.assign(synthetic.metadata, { model: 'synthetic', harness_commit: 'test', reviewer: 'test',
     run_id: 'test', parameters: 'offline' });
-  for (const row of synthetic.results) { row.scores.fill(true); row.evidence = 'Synthetic only; no model executed'; }
+  for (const row of synthetic.results) { row.scores.fill(true); row.assertions?.fill(true); row.evidence = 'Synthetic only; no model executed'; }
   write('report.json', synthetic);
   assert.equal(run(['eval', '--scope', 'all', '--report', 'report.json']).status, 'pass');
   run(['eval', '--scope', 'adapters', '--report', 'report.json'], 1);

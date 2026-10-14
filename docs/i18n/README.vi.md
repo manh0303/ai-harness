@@ -6,31 +6,32 @@ Agent workflows tái sử dụng cho phát triển phần mềm: **Requirements 
 
 Đưa ý tưởng, docs có sẵn hoặc change request cho AI coding tool. Harness giúp AI đọc project, làm rõ quyết định, triển khai scope đã chấp nhận và maintain spec/docs liên quan. Chỉ dùng roles và skills cần cho task.
 
-Core workflows dùng được với mọi project. Stack support là tùy chọn; không tự chọn infrastructure hay architecture.
+Core dùng được với mọi project; stack adapter là tùy chọn.
 
-Cần Node.js 22+. Chạy trong project:
-
-**Kiro:** cài một lần, mở session đầu tiên và chọn `/harness-start`. [Hướng dẫn](../tool-setup/kiro.md).
+Cần **Node.js 22+**. Chạy trong project root:
 
 ```bash
-npx --yes @manhd_d/ai-harness init --host kiro
+npx --yes @manhd_d/ai-harness init --host codex
 ```
 
-**Host khác:**
+Chọn host: codex, claude-code, cursor, copilot, gemini-cli hoặc kiro.
+Session AI đầu tiên: gọi **harness-start** nếu host nhận diện; hoặc gửi:
+
+> Đọc .agents/skills/harness-start/SKILL.md và thực hiện cho project này. Task: [yêu cầu].
+
+Kiro có `/harness-start`; discovery tùy client. [Setup đa IDE](../tool-setup/README.md).
+
+**pip/offline** được bổ sung trong release tiếp theo, cần cấu hình PyPI publisher:
 
 ```bash
-npx --yes @manhd_d/ai-harness init
-npx --yes @manhd_d/ai-harness start
+python -m pip install manhd-ai-harness
+aih init --host codex
 ```
 
-
-Chạy `start` để được hướng dẫn theo input hiện có, rồi gửi `host_prompt` cho AI. [Cấu hình, backup và chuyển dự án](../configuration-backup.md).
-
-`npx` không cài global command `aih`. Kiểm tra bằng `npx --yes @manhd_d/ai-harness check`, rồi mở cùng project trong AI tool. [Setup chung](../tool-setup/README.md).
-
-> Read AGENTS.md. Inspect this project and its approved decisions. Implement [task], run appropriate checks and maintain affected docs.
-
-Host chạy tests và quản lý tools, delegation, permissions. MCP/connector/API có thể cung cấp input khi host có quyền truy cập. init --detect nhận diện stack hỗ trợ; check kiểm tra integrity của Harness.
+Cần thêm Python 3.9+, vẫn cần Node 22+; cùng CLI/assets, không gọi npm/npx.
+Offline: `python -m pip install --no-index --no-deps /path/to/package.whl`.
+[pip và cập nhật](../python-installation.md) · [Backup và chuyển dự án](../configuration-backup.md).
+`npx` không tạo global aih; dùng `npx --yes @manhd_d/ai-harness check` kiểm integrity.
 
 | AI tool | Setup |
 | --- | --- |

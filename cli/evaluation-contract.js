@@ -30,10 +30,20 @@ export function casesFrom(source, relative) {
     && doc.cases.length > 0, `Invalid evaluation: ${relative}`);
   const ids = new Set();
   for (const c of doc.cases) {
-    requireThat(exact(c, ['id', 'prompt', 'criteria', 'critical'])
+    requireThat(c && Object.keys(c).every(k => ['id', 'prompt', 'criteria', 'critical', 'assertions'].includes(k)) && ['id', 'prompt', 'criteria', 'critical'].every(k => Object.hasOwn(c, k))
       && typeof c.id === 'string' && SLUG.test(c.id) && !ids.has(c.id)
       && text(c.prompt) && Array.isArray(c.criteria) && c.criteria.length > 0 && c.criteria.every(text)
       && typeof c.critical === 'boolean', `Invalid eval case: ${relative}`);
+    if (c.assertions !== undefined) {
+      requireThat(Array.isArray(c.assertions) && c.assertions.length <= 32, `Invalid assertions: ${relative}`);
+      const assertionIds = new Set();
+      for (const a of c.assertions) {
+        requireThat(exact(a, ['id', 'type', 'target', 'value']) && typeof a.id === 'string' && SLUG.test(a.id)
+          && !assertionIds.has(a.id) && ['contains', 'not-contains'].includes(a.type)
+          && ['transcript', 'tool-inputs'].includes(a.target) && text(a.value) && a.value.length <= 4096, `Invalid assertion: ${relative}`);
+        assertionIds.add(a.id);
+      }
+    }
     ids.add(c.id);
   }
   return doc.cases;

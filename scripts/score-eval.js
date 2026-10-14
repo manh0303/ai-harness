@@ -25,7 +25,9 @@ export function scoreDataset(report, raw) {
     if (!Array.isArray(row.scores) || row.scores.length !== cases.get(row.id).criteria.length
         || row.scores.some(v => typeof v !== 'boolean')) throw new Error(`Invalid boolean scores: ${row.id}`);
     if (typeof row.evidence !== 'string' || !row.evidence.trim()) throw new Error(`Missing evidence: ${row.id}`);
-    if (!row.scores.every(Boolean)) { failed.push(row.id); if (cases.get(row.id).critical) critical.push(row.id); }
+    if (row.assertions !== undefined && (!Array.isArray(row.assertions) || row.assertions.some(v => typeof v !== 'boolean'))) throw new Error(`Invalid assertion scores: ${row.id}`);
+    if (cases.get(row.id).assertions?.length && row.assertions?.length !== cases.get(row.id).assertions.length) throw new Error(`Missing assertion scores: ${row.id}`);
+    if (!row.scores.every(Boolean) || row.assertions?.some(v => !v)) { failed.push(row.id); if (cases.get(row.id).critical) critical.push(row.id); }
   }
   if (seen.size !== cases.size) throw new Error(`Missing cases: ${[...cases.keys()].filter(k => !seen.has(k)).join(', ')}`);
   return { status: failed.length ? 'fail' : 'pass', cases: cases.size, passed: cases.size - failed.length, failed,

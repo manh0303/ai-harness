@@ -37,3 +37,13 @@ Checked 2026-10-13; no logged-in Copilot client or live-agent smoke was run.
 
 - [Instructions by IDE](https://docs.github.com/en/copilot/how-tos/copilot-in-your-ide/customize-copilot/configure-custom-instructions/add-repository-instructions-in-your-ide)
 - [CLI skill paths and loading checks](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills)
+
+## Common first-session onboarding
+
+npm and pip/offline use the same `aih init --host copilot` bundle and canonical harness-start.
+Invoke the native skill when available (Kiro: `/harness-start`), or send:
+
+> Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
+
+Reuse saved answers; do not start a second terminal interview. Client-specific imports/discovery above
+still apply. [pip/offline prerequisites and updates](../python-installation.md).

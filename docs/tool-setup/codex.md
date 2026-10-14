@@ -30,3 +30,13 @@ Checked 2026-10-13; no logged-in Codex client or live-agent smoke was run.
 
 - [AGENTS discovery and verification](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
 - [Skill discovery](https://learn.chatgpt.com/docs/build-skills)
+
+## Common first-session onboarding
+
+npm and pip/offline use the same `aih init --host codex` bundle and canonical harness-start.
+Invoke the native skill when available (Kiro: `/harness-start`), or send:
+
+> Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
+
+Reuse saved answers; do not start a second terminal interview. Client-specific imports/discovery above
+still apply. [pip/offline prerequisites and updates](../python-installation.md).

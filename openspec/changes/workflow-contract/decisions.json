@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "reviewed": true,
+  "decisions": [
+    {
+      "id": "distribution-runtime",
+      "question": "Should pip replace JavaScript or share it?",
+      "status": "resolved",
+      "answer": "Bundle the same JavaScript CLI and require existing Node.js 22+ without npm/npx.",
+      "source": "User request: Shared Core and npm-independent distribution."
+    },
+    {
+      "id": "legacy-readiness",
+      "question": "How to add approvals without breaking two existing stages?",
+      "status": "resolved",
+      "answer": "Keep implicit implement/review gates; explicit --workflow enables full contract approvals.",
+      "source": "User request: additive schema-1 upgrade and backward compatibility."
+    }
+  ]
+}

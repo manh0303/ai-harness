@@ -218,3 +218,22 @@ changing the snapshot/lock. It does not recover lost customized answers; restore
 or configuration backup. No machine/start/cache values are guessed. Reviewed update installs the
 seed/greenfield workflows and decision-aware Kiro prompt. Roll back consumer snapshot and config
 with Git/before-backup, then inspect/reconcile the cache. [Contracts](session-onboarding.md).
+
+## Workflow contracts and pip distribution (unreleased)
+
+Project/lock/decision/eval schemas stay 1. Distribution version remains Release Please-owned;
+Python metadata derives dynamically from package.json, not a second hand-bumped version.
+Reviewed update installs Core JSON schema/contract and selected Product JSON; new CLI supports
+workflow validate and named stages. Old implement/review calls retain structural gates; opt into
+--workflow to require recorded approvals. Old snapshots still support the two legacy stages.
+Copy approvals template only when recording actual external review. Existing docs/user configuration
+remain project-owned. Product contract advances additively to 1.7.0. Re-export datasets after changed
+bundle/check assertions; approvals are declarations, not automatically migrated business approval.
+Conformance driver is opt-in and separate; live model evidence remains NOT_RUN until recorded.
+
+pip wheel uses the same version and payload, needs Python 3.9+ plus Node.js 22+ and no npm/npx.
+Upgrade pip CLI then backup/update --dry-run/update/check per project. CLI changes do not update
+snapshots automatically. Revert consumer snapshot/config via Git/backup; choose either npm or pip
+launcher in PATH. Downgrades still refuse; restore the matching prior snapshot for rollback.
+PyPI Trusted Publisher configuration is a maintainer prerequisite outside this PR; feature merge does
+not publish. See [pip guide](python-installation.md), [workflow guide](workflow-contract.md).

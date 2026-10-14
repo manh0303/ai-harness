@@ -18,3 +18,18 @@ Store project-owned generated drafts under `docs/product/`: product-brief, sourc
 
 ## Integration boundary
 After approval, UI/UX consumes PRD + requirement IDs + stories/AC; OpenSpec consumes approved stories and rules. This workflow does not invoke LLM, Jira, Confluence, Figma or git actions by itself.
+
+## Contract stages
+
+| Stage ID | Owner |
+| --- | --- |
+| `intake` | product:business-analyst |
+| `business-discovery` | product:business-analyst |
+| `brd-gate` | product:business-analyst |
+| `prd` | product:product-manager |
+| `backlog` | product:product-owner |
+| `traceability` | product:business-analyst |
+| `independent-qa` | product:requirements-reviewer |
+| `human-approval` | human:product-owner |
+
+Machine contract: idea-to-prd.workflow.json. `ready --workflow idea-to-prd` uses the installed Product contract and per-change approvals; output checks require the declared docs/product files. Configure a different driver contract for externally stored artifacts. Sign-off remains external evidence, not identity verification.

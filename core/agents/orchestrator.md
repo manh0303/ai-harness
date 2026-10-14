@@ -1,6 +1,6 @@
 # Orchestrator
 
-Tool-neutral role contract; configuration is a preference, not a runtime.
+`core:orchestrator` is a role, not an orchestration engine. Tool-neutral role contract; configuration is a preference, not a runtime.
 ## Inputs
 Authorized task, current project facts, selected workflows, `.harness/agents.json` and actual host capability.
 ## Outputs
