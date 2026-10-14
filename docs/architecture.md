@@ -3,7 +3,8 @@
 Maintainer entry point: [Harness maintenance and impact matrix](harness-maintenance.md).
 
 AI Harness is a versioned instruction and workflow distribution framework. Its executable part is a
-local installer and integrity checker. It is not an LLM gateway, an orchestration server or a sandbox.
+local installer and integrity checker, with a separate opt-in conformance host driver.
+It is not an LLM gateway, an orchestration server or a sandbox.
 
 | Layer | Responsibility | Owner |
 | --- | --- | --- |
@@ -69,9 +70,11 @@ See docs/adapters.md for the strict JSON-compatible YAML contract. Detection is 
 checks are advisory and never executed. Installed capabilities are read from the locked snapshot, not
 from the latest global CLI source. Core TDD/debug/review are not duplicated in adapters.
 
-## npm distribution
+## npm and Python distribution
 The package exposes bin/aih.js as `aih`. It uses native JavaScript ES modules and Node.js built-ins:
-there is no Python bridge, transpilation step, runtime dependency, network client or install hook.
+the npm executable has no runtime dependency, network client or install hook. The pip distribution
+adds a thin Python launcher for the same JavaScript CLI; Node.js 22+ remains required. Its wheel
+contains the shared package allowlist, with no npm/npx invocation or Python runtime dependencies.
 Source paths resolve relative to the package, not cwd. The target defaults to cwd. Local node_modules
 installation is an explicit exception to overlap rejection; payload destinations never include node_modules.
 The npm files allowlist ships runtime assets including the hidden OpenSpec template. A smoke test packs
@@ -190,3 +193,16 @@ transactional writes. Optional project-owned decisions.json separates confirmed/
 project/module choices from per-change decisions. Config backup retains shared decisions, transfer
 omits them, and context freshness includes their digest. Compact start provides orientation only,
 with freshness unchecked. None of these declarations grant permission or prove live host compliance.
+
+## Contract, driver and evidence planes
+
+| Plane | Harness responsibility | Execution owner |
+| --- | --- | --- |
+| Contract | Workflow stage/entry gate/role/artifact declarations | Harness owns schema; host applies semantics |
+| Driver | Optional separate conformance script; no execution in cli/ | Host or replaceable engine such as Temporal |
+| Evidence | Evaluation/verification/approval record formats | Producer/reviewer owns truth and identity |
+
+core:orchestrator is a role, not an engine. JSON contracts currently cover spec-to-code and selected
+Product idea-to-prd; validation/entry readiness neither executes stages nor authenticates approval.
+See [workflow contracts](workflow-contract.md), [conformance driver](conformance-runner.md), and
+[pip/offline distribution](python-installation.md). The non-goal remains: no LLM gateway or server.

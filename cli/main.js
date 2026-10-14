@@ -9,6 +9,7 @@ import { listCapabilities, skillCatalog, readSkill } from './capabilities.js';
 import { resolveModules } from './composition.js';
 import { parseArgs } from 'node:util';
 import { ready } from './readiness.js';
+import { workflowReport } from './workflow.js';
 import { resumePlan } from './checkpoint.js';
 import { agentPlan } from './agents.js';
 import { adaptiveVerification } from './verification.js';
@@ -43,6 +44,7 @@ Usage: aih <command> [options]
   setup                Suggest questions; --apply scaffolds missing user config only
   decisions            Read shared decisions; --scope module:<name> narrows context
   artifacts            Show input/output/storage and connection declarations (read-only)
+  workflow validate    Validate installed workflow contracts (read-only)
   ready <id>           Check structural change readiness, not approval
   new-change <id>      Create an OpenSpec draft using installed templates
   new-doc <type>       Scaffold a locked capability template (default: product)
@@ -63,7 +65,8 @@ Options:
   --replace           restore: explicit replacement; automatic before-backup
   --target <directory> Project directory (default: current directory)
   --detect            init only: opt in to detected stack selection
-  --stage <type>      ready only: implement (default) or review
+  --stage <type>      ready: workflow stage ID; legacy implement/review stay compatible
+  --workflow <id>     ready: opt into full workflow gates and approval records
   --capability <id>   new-doc only: installed template owner (default: product)
   --agent-preset <id> init only: recommended (default), economy, custom; no overwrite
   --link-claude       init/update: opt in to a managed CLAUDE.md import
@@ -81,8 +84,8 @@ Options:
   -h, --help          Show help
   -v, --version       Show installed CLI version
 
-Kiro: init --host kiro → open the project → first chat: /harness-start.
-Other hosts: init → start → send the returned host_prompt in your AI session.
+All hosts: init --host <host> → first AI chat: invoke/read harness-start.
+Kiro exposes /harness-start; other clients can read .agents/skills/harness-start/SKILL.md.
 User settings: .harness/; backup exports only documented user files.
 Restore config before init on a fresh project; --transfer excludes old sources/tasks.
 The host runs application tests; verify prints plans or validates supplied evidence.
@@ -124,7 +127,7 @@ export function main(argv = process.argv.slice(2)) {
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
       apply: { type: 'boolean' }, greenfield: { type: 'boolean' }, compact: { type: 'boolean' }, record: { type: 'boolean' }, check: { type: 'boolean' }, skill: { type: 'string' }, goal: { type: 'string' }, task: { type: 'string' }, change: { type: 'string' }, input: { type: 'string' }, output: { type: 'string' }, from: { type: 'string' }, transfer: { type: 'boolean' }, replace: { type: 'boolean' }, target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
-      'agent-preset': { type: 'string' }, host: { type: 'string' }, expected: { type: 'string' },
+      workflow: { type: 'string' }, 'agent-preset': { type: 'string' }, host: { type: 'string' }, expected: { type: 'string' },
       'link-claude': { type: 'boolean' }, 'claude-skills': { type: 'boolean' }, adaptive: { type: 'boolean' }, detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' }, stage: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
       help: { type: 'boolean', short: 'h' }, version: { type: 'boolean', short: 'v' },
@@ -137,9 +140,11 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
-    if (extra.length || (!['change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name !== undefined) || (['change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
+    if (!['workflow', 'decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (extra.length || (!['workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name !== undefined) || (['workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
+    if (command === 'workflow' && name !== 'validate') throw new Error('Usage: aih workflow validate');
+    if (command === 'ready') allowed.add('workflow');
     if (command === 'seed') { allowed.add('record'); allowed.add('check'); if (args.values.record && args.values.check) throw new Error('Choose --record or --check'); }
     if (command === 'doctor') allowed.add('skill');
     if (command === 'sync-integrations') { for (const key of ['host','from','dry-run']) allowed.add(key); }
@@ -171,7 +176,10 @@ export function main(argv = process.argv.slice(2)) {
     const { values, positionals: [command, name] } = args;
     const root = targetRoot(values.target ?? process.cwd());
     let result;
-    if (command === 'start') {
+    if (command === 'workflow') {
+      if (check(root).status !== 'ok') throw new Error('Fix installation drift before reading workflows');
+      result = workflowReport(path.join(root, '.harness'), loadLock(root).capabilities ?? []);
+    } else if (command === 'start') {
       if (!values.compact && !values.goal && values.host !== 'kiro' && process.stdin.isTTY && process.stdout.isTTY) return guidedStart(root, { host: values.host }).then(value => { console.log(JSON.stringify(value, null, 2)); return value.status === 'blocked' ? 1 : 0; }).catch(error => { console.error(JSON.stringify({ status: 'error', message: error.message })); return 1; });
       result = values.compact ? compactStart(root, values.host) : values.goal ? saveStart(root, { goal: values.goal, task: values.task, changeId: values.change, input: values.input, output: values.output, host: values.host }) : startPlan(root, values.host);
     } else if (command === 'setup') result = setupProject(root, { apply: values.apply, dryRun: values['dry-run'], greenfield: values.greenfield, host: values.host });
@@ -218,7 +226,7 @@ export function main(argv = process.argv.slice(2)) {
     else if (command === 'ready') {
       const state = check(root);
       if (state.status !== 'ok') throw new Error('Fix installation drift before setup/readiness checks');
-      result = ready(root, name, values.stage ?? 'implement');
+      result = ready(root, name, values.stage ?? 'implement', values.workflow);
     }
     else if (command === 'new-change') result = newChange(root, name);
     else if (command === 'new-doc') result = newDoc(root, name, values.capability ?? 'product', { report: values.report });

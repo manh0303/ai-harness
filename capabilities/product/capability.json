@@ -57,7 +57,7 @@
     "templates/outcomes.md",
     "templates/techspec.md"
   ],
-  "module_version": "1.6.0",
+  "module_version": "1.7.0",
   "verification": "checks/verification.json",
   "evaluation": "evals/cases.json",
   "template_aliases": {

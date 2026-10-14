@@ -9,8 +9,8 @@ The native Kiro wrapper exposes this skill as /harness-start. Other hosts can lo
 
 ## Procedure
 1. Read AGENTS.md and the installed project-setup workflow. Identify the installed CLI invocation
-   already used by the user (global aih, npx, or offline node/aih.cmd); reuse it without downloading
-   or requiring another installation. Run `start --host kiro` for Kiro, or read the same local configs
+   already used by the user (npm/pip aih, npx, or offline node/aih.cmd); reuse it without downloading
+   or requiring another installation. Run `start --compact --host <current-host>` for a read-only orientation in any host, or read the same local configs
    if shell access is unavailable. This returns a plan, not a second interview in a terminal.
    If shared configuration is missing in a cloned snapshot, use `setup --apply --dry-run`, then
    `setup --apply` with that same CLI. This scaffolds missing user files without changing the bundle.

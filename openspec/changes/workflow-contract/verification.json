@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "name": "npm test",
+      "status": "passed",
+      "evidence": "evidence/test.txt"
+    },
+    {
+      "name": "npm run validate",
+      "status": "passed",
+      "evidence": "evidence/validate.txt"
+    },
+    {
+      "name": "npm run test:package",
+      "status": "passed",
+      "evidence": "evidence/package.txt"
+    },
+    {
+      "name": "python scripts/smoke-python.py",
+      "status": "passed",
+      "evidence": "evidence/python.txt"
+    },
+    {
+      "name": "npm run check:release",
+      "status": "passed",
+      "evidence": "evidence/release.txt"
+    }
+  ]
+}

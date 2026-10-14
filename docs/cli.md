@@ -207,3 +207,11 @@ See [Kiro quick start](tool-setup/kiro.md) and [schema/ownership](session-onboar
 | change-sidecars ID | none | Add missing external proposal sidecars; no overwrite |
 
 New commands require supporting reviewed source/release.
+
+## Workflow contract (schema 1)
+
+`aih workflow validate` validates locked installed workflows without execution.
+`aih ready <id> --workflow spec-to-code --stage implement` opts into declared entry/approval gates;
+`--workflow idea-to-prd` requires Product. Legacy implement/review without --workflow retain behavior.
+[Contract and approvals](workflow-contract.md). Runner stays separate: [conformance](conformance-runner.md).
+All CLI commands also work through [pip/offline](python-installation.md); Node.js 22+ still required.

@@ -2,14 +2,14 @@
 
 | Stage | Input | Output and gate |
 | --- | --- | --- |
-| Discover | Request, repository, linked sources | Scope/mode, affected repos and risks, convention sources, comparable code and reuse candidates; clarify consequential unknowns |
-| Specify | Agreed behavior | proposal, design, delta specs and vertical tasks |
-| Review spec | Acceptance scenarios and design | Owner agreement for consequential choices; explicit task authorization may already cover routine choices |
-| Implement | One task with a public test boundary and reuse plan | Failing meaningful test, minimal implementation, green test; established boundaries and rationale for new components |
-| Verify | Changed behavior | Relevant automated checks and honest skipped-check list |
-| Review | Diff plus spec and convention sources | Findings on correctness, security, compatibility, reuse, placement and unnecessary abstraction |
-| Deliver | Reviewed branch | PR with change ID, evidence, residual risks and rollback plan |
-| Archive | All associated PRs merged | Sync accepted specs and archive via OpenSpec in a separate reviewed change if needed |
+| `discover` | Request, repository, linked sources | Scope/mode, affected repos and risks, convention sources, comparable code and reuse candidates; clarify consequential unknowns |
+| `specify` | Agreed behavior | proposal, design, delta specs and vertical tasks |
+| `review-spec` | Acceptance scenarios and design | Owner agreement for consequential choices; explicit task authorization may already cover routine choices |
+| `implement` | One task with a public test boundary and reuse plan | Failing meaningful test, minimal implementation, green test; established boundaries and rationale for new components |
+| `verify` | Changed behavior | Relevant automated checks and honest skipped-check list |
+| `review` | Diff plus spec and convention sources | Findings on correctness, security, compatibility, reuse, placement and unnecessary abstraction |
+| `deliver` | Reviewed branch | PR with change ID, evidence, residual risks and rollback plan |
+| `archive` | All associated PRs merged | Sync accepted specs and archive via OpenSpec in a separate reviewed change if needed |
 
 Apply `artifact-contract.md` for declared inputs/outputs, canonical ownership and connections.
 Maintain affected docs/spec/UI in the same change; record artifact-impact.json when outputs are
@@ -51,3 +51,5 @@ BLOCKED/NOT_RUN reasons before completion. API/unit/build success cannot replace
 When an external OpenSpec propose flow creates a change, run aih change-sidecars <id> before the
 clarification/readiness stages to create missing metadata, decisions, verification and artifact-impact
 sidecars. Existing files remain unchanged; Harness does not patch the upstream OpenSpec CLI.
+
+Machine contract: spec-to-code.workflow.json. Use explicit `aih ready <id> --workflow spec-to-code --stage implement` to require a recorded review-spec approval; legacy implement/review calls retain their structural behavior. Approval records declare an external review, not authenticated identity or permission.

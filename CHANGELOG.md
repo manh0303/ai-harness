@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased — Workflow contracts and npm-independent pip distribution
+
+- Add schema-1 spec-to-code/Product idea-to-prd JSON contracts, offline graph/role/gate validation and Markdown drift checks; clarify contract/driver/evidence ownership.
+- Add workflow validate, named readiness stages and opt-in recorded approvals; preserve legacy implement/review behavior and describe identity/semantic limitations.
+- Add a separate Claude headless conformance driver with per-case progress, optional deterministic assertions, independent judge and 3–5 trial pass rates; live hosts/human audit remain NOT_RUN until actually recorded.
+- Add zero-dependency Python launcher and PEP 517 wheel/sdist packaging from the npm shared allowlist; pip/offline install needs Node 22+ but no npm/npx.
+- Add offline wheel parity/install/update smoke, dynamic shared version checks and dual-channel release from the same reviewed tag; PyPI Trusted Publisher setup required before publication.
+- Unify six-host harness-start guidance and make README host-neutral.
+
 ## Unreleased — Missing-only setup and scoped project decisions
 
 - Add setup --apply/--dry-run using the installed snapshot; preserve user answers, managed payload/lock and machine data, with validation before writes.

@@ -10,33 +10,35 @@ Works with any project through Core workflows. Optional stack support: Spring Bo
 
 ## Quick start
 
-Install/sign in to an AI tool below. Requires Node.js 22+. Run in your **project root** terminal:
-
-**Kiro:**
+Requires **Node.js 22+** and your AI coding tool. Run in your **project root**:
 
 ```bash
-npx --yes @manhd_d/ai-harness init --host kiro
+npx --yes @manhd_d/ai-harness init --host codex
 ```
 
-Open your first Kiro chat and select `/harness-start`. The agent inspects the project, asks only missing questions and saves context. [Kiro guide](docs/tool-setup/kiro.md).
+Set `--host` to `codex`, `claude-code`, `cursor`, `copilot`, `gemini-cli` or `kiro`.
+In your first AI session, invoke **harness-start** if the host exposes it, or send:
 
-**Other hosts:**
+> Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
+
+The agent inspects the project, asks only missing questions and saves context. Kiro exposes
+`/harness-start`; native discovery varies by client. [Host guides](docs/tool-setup/README.md).
+`npx` does not create a global command; use `npx --yes @manhd_d/ai-harness check` to check integrity.
+
+**pip / restricted networks** (included in the next reviewed release; PyPI publication requires maintainer setup):
 
 ```bash
-npx --yes @manhd_d/ai-harness init
-npx --yes @manhd_d/ai-harness start
+python -m pip install manhd-ai-harness
+aih init --host codex
 ```
 
-Send the returned `host_prompt` to your AI tool. [Settings, backup & transfer](docs/configuration-backup.md).
+Requires Python 3.9+ **and Node.js 22+**. The wheel bundles the same JavaScript CLI and assets;
+it never calls npm or `npx`. Offline: `python -m pip install --no-index --no-deps /path/to/package.whl`.
+[Offline install & update](docs/python-installation.md) · [Settings & backup](docs/configuration-backup.md).
 
-`npx` does not install a global `aih` command. Check the installation with
-`npx --yes @manhd_d/ai-harness check`; then open the same project in your AI tool.
-
-Then ask your AI tool:
-
-> Read AGENTS.md. Inspect this project and its approved decisions. Implement [task], run appropriate checks and maintain the affected docs.
-
-Use `init --detect` for supported stack detection. Existing project instructions and custom skills are preserved; `check` checks Harness integrity. Your host executes application tests and controls tools, delegation and permissions.
+Use `init --detect` for stack detection. Your host runs tests and controls tools, delegation and permissions.
+Harness owns workflow contracts and evidence formats; hosts or separate drivers execute them.
+[Workflow contracts](docs/workflow-contract.md) · [Conformance runner](docs/conformance-runner.md).
 
 ## Where it runs
 

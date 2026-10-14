@@ -33,18 +33,19 @@ Với project đã cài, đổi lựa chọn trong `.harness/project.json` rồi
 
 ## 2. Start và mở AI làm việc
 
-**Kiro:** thêm `--host kiro` vào init. Mở project, tạo session đầu tiên và chọn `/harness-start`.
-Agent đọc context, hỏi phần còn thiếu và lưu theo từng bước. Dự án đã cài dùng
-`update --host kiro`; xem [Kiro và offline](tool-setup/kiro.md).
+Chọn `--host codex|claude-code|cursor|copilot|gemini-cli|kiro` khi init. Trong session AI đầu tiên,
+gọi **harness-start** nếu client nhận diện skill; hoặc gửi cùng prompt cho mọi host:
 
-Với host khác:
+> Đọc .agents/skills/harness-start/SKILL.md và thực hiện onboarding cho project này.
+> Yêu cầu của tôi: [task].
 
-Chạy `npx --yes @manhd_d/ai-harness start`: trả lời mục tiêu/input/output còn thiếu, rồi gửi
-`host_prompt` từ kết quả vào AI tool đang mở project. [Luồng start](start.md). Nếu đã biết task, có thể gửi thẳng:
+Kiro có `/harness-start`; các host khác có discovery/import riêng trong
+[setup đa IDE](tool-setup/README.md). Agent inspect context, chỉ hỏi điều quan trọng còn thiếu và lưu
+câu trả lời. Không cần interview terminal trước chat. `start --compact --host <host>` là orientation
+read-only; `start` và host_prompt vẫn dùng được khi cần. [Luồng start](start.md).
 
-> Đọc AGENTS.md và .harness/local.md. Khảo sát code, tài liệu và lệnh test hiện có;
-> ghi context còn thiếu vào .harness/local.md, chỉ hỏi phần chưa rõ.
-> Thực hiện yêu cầu: [mô tả công việc]. Chạy test phù hợp, báo cáo kết quả và phần chưa kiểm chứng.
+Cài bằng pip/offline cũng dùng **cùng flow**: `aih init --host <host>` rồi harness-start.
+Cần Python 3.9+ và Node 22+, không cần npm; xem [pip/offline](python-installation.md).
 
 Bạn có thể giao ý tưởng, tài liệu BA hoặc task code. Không cần gọi từng agent/skill.
 Với web/mobile, giao màn hình hoặc tính năng theo common/API/state/navigation hiện có; [skills đã có](frontend-mobile.md).

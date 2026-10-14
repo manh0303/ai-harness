@@ -117,3 +117,13 @@ Tests xác minh file/schema/ownership và package; live hook/skill loading và g
 - [Hooks v1 schema](https://kiro.dev/docs/hooks/)
 - [SessionStart and surfaces](https://kiro.dev/docs/hooks/types/)
 - [Steering](https://kiro.dev/docs/steering/)
+
+## Common first-session onboarding
+
+npm and pip/offline use the same `aih init --host kiro` bundle and canonical harness-start.
+Invoke the native skill when available (Kiro: `/harness-start`), or send:
+
+> Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
+
+Reuse saved answers; do not start a second terminal interview. Client-specific imports/discovery above
+still apply. [pip/offline prerequisites and updates](../python-installation.md).

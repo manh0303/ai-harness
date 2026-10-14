@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { workflowReport } from '../cli/workflow.js';
 import { loadAdapter } from '../cli/adapter-schema.js';
 import { loadCapability } from '../cli/capabilities.js';
 import { validateRegistry } from '../cli/composition.js';
@@ -43,6 +44,8 @@ try {
   }
   for (const name of m.capabilities ?? []) loadCapability(SOURCE, name);
   validateRegistry(SOURCE);
+  const workflowContracts = workflowReport(SOURCE, m.capabilities ?? []).workflows.map(w => w.path);
+  if (JSON.stringify(m.workflow_contracts) !== JSON.stringify(workflowContracts)) errors.push('Workflow manifest paths differ from validated contracts');
   const knownSkills = new Set([...skills,
     ...m.adapters.flatMap(id => loadAdapter(SOURCE,id).skills),
     ...(m.capabilities ?? []).flatMap(id => loadCapability(SOURCE,id).skills)]);

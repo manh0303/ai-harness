@@ -1,7 +1,8 @@
 # Set up AI Harness in your AI tool
 
 Harness installs project instructions; it does not install an IDE, start an AI model or connect accounts.
-You need Node.js 22+, your chosen AI tool and a project folder.
+You need Node.js 22+, your chosen AI tool and a project folder. pip additionally needs Python 3.9+;
+see [pip/offline setup](../python-installation.md). npm and pip use the same onboarding.
 
 ## 1. Install Harness in your project
 
@@ -35,22 +36,20 @@ Install/sign in through its official guide, open this same project and follow th
 Existing instructions/settings remain yours. Do not replace host configs or copy the whole Harness into
 them. Host/version/account capabilities vary; these guides are not live-client compatibility results.
 
-## 3. Check loading, then give a task
+## 3. Start the first session
 
-Send this **read-only prompt** in the AI chat:
+Invoke **harness-start** if your client discovers the installed skill, or send this same prompt:
 
-> Read AGENTS.md and .harness/local.md. Do not change files or run commands.
-> State the selected adapters/capabilities from .harness/project.json, the project's known decisions,
-> and one relevant installed skill with its exact path. Report anything you cannot read.
+> Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
 
-Compare the answer with the actual files; a model's assertion alone does not prove loading.
-If skills are not discovered, ask it to read the needed `.agents/skills/<installed-name>/SKILL.md`.
-The tool guides show additional native loading checks. `check` verifies Harness files, not AI behavior.
+Kiro exposes `/harness-start`. Other clients have native discovery/import differences in the guides;
+reading the canonical skill is the common fallback. It asks only missing consequential questions and
+saves answers incrementally. `aih start --compact --host <host>` returns read-only orientation; use
+`start`/host_prompt if terminal intake is preferred. Reuse the existing npm, pip or offline CLI.
 
-Then give your normal task:
-
-> Read AGENTS.md. Inspect the project and approved decisions. Implement [task], run appropriate
-> project tests and maintain affected specs/docs. Report actual results and anything blocked.
+For a loading-only check, ask the host to report selected adapters/capabilities and one exact relevant
+installed skill path without executing anything; compare with project.json and actual files. Client
+claims are not live compatibility evidence. `check` verifies the snapshot, not model behavior.
 
 You do not need to configure models, native subagents or MCP to begin. Harness role files are contracts,
 not automatically created native agents. See [Agent configuration](../agent-configuration.md) when needed.

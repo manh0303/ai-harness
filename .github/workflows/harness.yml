@@ -35,3 +35,21 @@ jobs:
         run: npm install --global npm@12
       - run: npm ci --ignore-scripts --offline --no-audit --no-fund
       - run: npm run test:package
+
+  python-package-smoke:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.9', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: npm run check:release
+      - run: python scripts/smoke-python.py

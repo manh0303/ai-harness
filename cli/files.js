@@ -67,8 +67,13 @@ export function assertSeparate(root, source) {
   };
   // npm local installs intentionally place the package in the consumer's node_modules.
   const localPackage = path.relative(root, source).split(path.sep)[0] === 'node_modules';
-  if (inside(source, root) || (inside(root, source) && !localPackage)) {
-    throw new HarnessError('Source and target must not overlap, except a source installed in node_modules');
+  const relativeParts = path.relative(root, source).split(path.sep);
+  const pythonPackage = relativeParts[0] === '.venv' && relativeParts.includes('site-packages')
+    && relativeParts.slice(-2).join('/') === 'ai_harness/_bundle'
+    && stat(path.join(source, '_python_distribution.json'))?.isFile()
+    && readJson(path.join(source, '_python_distribution.json')).name === 'manhd-ai-harness';
+  if (inside(source, root) || (inside(root, source) && !localPackage && !pythonPackage)) {
+    throw new HarnessError('Source and target must not overlap, except a package installed in node_modules or .venv site-packages');
   }
 }
 

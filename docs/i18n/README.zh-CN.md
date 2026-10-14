@@ -8,29 +8,30 @@
 
 Core workflows 可用于任何项目。Stack support 是可选的，不会自动选择 infrastructure 或 architecture。
 
-需要 Node.js 22+。在项目目录运行：
-
-**Kiro:** 安装后打开首次聊天并选择 `/harness-start`。[指南](../tool-setup/kiro.md)。
+需要 **Node.js 22+**。在项目根目录运行：
 
 ```bash
-npx --yes @manhd_d/ai-harness init --host kiro
+npx --yes @manhd_d/ai-harness init --host codex
 ```
 
-**其他工具：**
+host 可选 codex、claude-code、cursor、copilot、gemini-cli 或 kiro。
+首次 AI 会话调用 harness-start；如果客户端未发现技能，请发送：
+
+> Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
+
+Kiro 提供 `/harness-start`；原生发现因客户端而异。[多 IDE 指南](../tool-setup/README.md)。
+
+**pip / 离线安装**将在下一次审核后的版本中提供，首次发布需要配置 PyPI publisher：
 
 ```bash
-npx --yes @manhd_d/ai-harness init
-npx --yes @manhd_d/ai-harness start
+python -m pip install manhd-ai-harness
+aih init --host codex
 ```
 
-
-运行 `start` 获取引导，然后将 `host_prompt` 发送给 AI 工具。[配置备份与项目迁移](../configuration-backup.md)。
-
-`npx` 不会安装全局 `aih` command。使用 `npx --yes @manhd_d/ai-harness check` 检查，然后在 AI tool 中打开同一项目。[通用 Setup](../tool-setup/README.md)。
-
-> Read AGENTS.md. Inspect this project and its approved decisions. Implement [task], run appropriate checks and maintain affected docs.
-
-Host 执行 tests，并控制 tools、delegation 和 permissions。MCP/connector/API 可在 host 获得访问权限后提供 input。init --detect 用于支持的 stack；check 检查 Harness integrity。
+需要 Python 3.9+ 和 Node.js 22+；使用相同 CLI/资源，不调用 npm/npx。
+离线：`python -m pip install --no-index --no-deps /path/to/package.whl`。
+[pip 与更新](../python-installation.md) · [备份](../configuration-backup.md)。
+`npx` 不创建全局 aih；用 `npx --yes @manhd_d/ai-harness check` 检查文件完整性。
 
 | AI tool | Setup |
 | --- | --- |

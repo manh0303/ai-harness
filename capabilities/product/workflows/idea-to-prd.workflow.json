@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "id": "idea-to-prd",
+  "stages": [
+    {
+      "id": "intake",
+      "owner": "product:business-analyst",
+      "next": [
+        "business-discovery"
+      ]
+    },
+    {
+      "id": "business-discovery",
+      "owner": "product:business-analyst",
+      "next": [
+        "brd-gate"
+      ]
+    },
+    {
+      "id": "brd-gate",
+      "owner": "product:business-analyst",
+      "next": [
+        "prd"
+      ],
+      "approval": {
+        "role": "product-owner"
+      },
+      "on_reject": "business-discovery"
+    },
+    {
+      "id": "prd",
+      "owner": "product:product-manager",
+      "next": [
+        "backlog"
+      ],
+      "entry_gate": {
+        "approval_from": "brd-gate"
+      }
+    },
+    {
+      "id": "backlog",
+      "owner": "product:product-owner",
+      "next": [
+        "traceability"
+      ]
+    },
+    {
+      "id": "traceability",
+      "owner": "product:business-analyst",
+      "next": [
+        "independent-qa"
+      ]
+    },
+    {
+      "id": "independent-qa",
+      "owner": "product:requirements-reviewer",
+      "next": [
+        "human-approval"
+      ],
+      "outputs": [
+        "docs/product/brd.md",
+        "docs/product/prd.md",
+        "docs/product/acceptance-criteria.md",
+        "docs/product/traceability.md"
+      ]
+    },
+    {
+      "id": "human-approval",
+      "owner": "human:product-owner",
+      "next": [],
+      "entry_gate": {
+        "deterministic": [
+          "outputs-present"
+        ]
+      },
+      "approval": {
+        "role": "product-owner"
+      },
+      "on_reject": "prd"
+    }
+  ]
+}
