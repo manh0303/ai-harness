@@ -109,6 +109,18 @@
         "Reconciled baseline, side effects and measured or unknown usage"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "end-user-acceptance",
+      "title": "Review actual user-journey evidence and blocked dependencies",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Requirement surface and actual browser/device/CLI/API interaction at the tested revision",
+        "AC-linked visible/persisted outcomes, real vs mocked dependency scope and redacted attachments",
+        "Isolated actor/data/cleanup; required missing tools/account/environment explicitly BLOCKED or NOT_RUN"
+      ],
+      "execution": "manual"
     }
   ]
 }

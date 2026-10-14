@@ -26,3 +26,7 @@ Use `.harness/core/workflows/continuous-development.md` to review baseline fresh
 stable requirement → spec → code → tests/evidence links and selective documentation diffs/proposals.
 Check required maintenance blockers and remaining-work handoff. Separate implementation complete,
 merged and released; neither a passing test nor this review supplies business approval.
+
+For required end-user acceptance, inspect actual interface interaction, real/mocked dependency scope,
+requirement surface, redacted attachments and source revision. API/unit/build evidence cannot prove a
+browser/device journey. Required BLOCKED/NOT_RUN journeys prevent an unconditional completion claim.

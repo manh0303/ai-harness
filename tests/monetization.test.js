@@ -63,7 +63,7 @@ test('Minimal monetization-only install exposes five skills without Astro, Produ
   assert.ok(!fs.existsSync(path.join(root,'.harness/adapters/astro')));
   assert.equal(cli(['check']).status,'ok');
   const catalog = cli(['skills']);
-  assert.equal(catalog.skills.length, 11); // Six Core plus five monetization
+  assert.equal(catalog.skills.length, fs.readdirSync(path.join(source, 'core/skills'), { withFileTypes: true }).filter(entry => entry.isDirectory()).length + loadCapability(source, 'monetization').skills.length);
   for(const id of ['adsense-integration','ad-placement-ux','seo-growth','analytics-revenue','publisher-compliance']) {
     const name = 'harness-monetization-'+id;
     assert.equal(cli(['skill',name]).name,name);

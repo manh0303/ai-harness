@@ -181,3 +181,15 @@ re-export evals. New commands require a supporting CLI release. Restore before i
 transfer intentionally omits sources/tasks/state/autonomy. Unknown schema versions fail with no writes,
 not automatic migration. Roll back the consumer snapshot via Git and settings via before-backup.
 See [Configuration backup](configuration-backup.md).
+
+## End-user acceptance (unreleased after 0.14.0)
+
+Core adds a tool-neutral skill/workflow and optional adaptive-plan output. React/Next.js and React Native
+modules advance to 1.4.0 for additive Core QA routing. Distribution stays release-PR owned; project/lock/
+verification schemas remain 1. Existing behavior reports remain valid; optional end-user targets need
+a matching real/not-applicable dependency interface journey. Browser/mobile/CLI reports claiming PASS
+from transport-only assertions now fail consistency validation; rerun with actual user outcome evidence,
+do not relabel transport observations as UI proof. Snapshot update preserves user config/docs/state.
+Review update --dry-run/update/check; re-export eval datasets after bundle changes. Report files and
+attachments are project-owned. Roll back the consumer snapshot commit and retain previous reports.
+See [End-user guide](end-user-testing.md).

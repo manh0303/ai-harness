@@ -183,7 +183,7 @@ test('Astro selected adapter exposes exactly four locked skills and advisory che
     assert.ok(fs.existsSync(local), 'Missing installed Astro skill ' + name);
     assert.equal(cli(['skill', name]).name, name);
   }
-  assert.equal(cli(['skills']).skills.length, 10, 'Six core skills plus four Astro skills');
+  assert.equal(cli(['skills']).skills.length, fs.readdirSync(path.join(source, 'core/skills'), { withFileTypes: true }).filter(entry => entry.isDirectory()).length + loadAdapter(source, 'astro').skills.length, 'Current Core skills plus selected Astro skills');
   const before = snapshot();
   const checks = cli(['verify']);
   assert.equal(checks.executed, false);

@@ -40,7 +40,7 @@ Evidence is `{path,sha256}` with a real local regular file, maximum 1 MiB. Asser
 
 Supported operators: equal, not-equal, contains, type. Layers: transport, schema, business, state, authorization, result. Assertion basis must reference the scenario's requirement. Optional typed observed must match raw JSON. Expected values come from reviewed AC/contracts, never copied from observations just to pass.
 
-PASSED requires successful execution receipt, nonempty matching assertions, allowed error semantics and successful mutation cleanup. API/backend-e2e/business-workflow/authorization/security also require a nontransport assertion. `error: {kind,message}` distinguishes timeout/network/http/application/assertion/environment. `expected_error` can only name http/application and still needs assertions; arbitrary catch is never success. Contradictory status is rejected. FAILED dominates the overall result, then BLOCKED, then NOT_RUN or missing coverage. A requirement is VERIFIED only if all its linked scenarios pass; otherwise UNVERIFIED. Empty coverage cannot pass.
+PASSED requires successful execution receipt, nonempty matching assertions, allowed error semantics and successful mutation cleanup. API/backend-e2e/business-workflow/authorization/security/browser-e2e/mobile-e2e/cli-e2e also require a nontransport assertion. `error: {kind,message}` distinguishes timeout/network/http/application/assertion/environment. `expected_error` can only name http/application and still needs assertions; arbitrary catch is never success. Contradictory status is rejected. FAILED dominates the overall result, then BLOCKED, then NOT_RUN or missing coverage. A requirement is VERIFIED only if all its linked scenarios pass; otherwise UNVERIFIED. Empty coverage cannot pass.
 
 Digests detect evidence drift. Execution receipts and semantic layer labels are producer-declared: validation does not authenticate that a command ran, a requirement is correct, cleanup truly occurred or the recorded revision matches source. Independently inspect raw logs/source and business assertions. Redact secrets before reports; automatic credential screening is limited and does not replace review. Paths/symlinks and oversized evidence fail safely.
 
@@ -57,3 +57,12 @@ Use test-owned UUIDs and isolated fixtures, bounded retries/timeouts and cleanup
 Live agent evaluation is BLOCKED until an intended host/model and authorized budget are available. Reuse Core/Product cases via `aih eval --scope all` and the existing eval rubric; run the same requirement/code fixtures with baseline and candidate, record versions and raw evidence, compare success, denied effects, gaps, measured latency/tokens/cost. Unscored cases remain unscored. See [evaluation guide](../evals/README.md).
 
 Reference review reused generic lifecycle, role/state/error and selective-maintenance patterns. Hardcoded project ports/accounts, database mutation snippets, kill-by-port, false expected-error success and CRM-specific contracts were deliberately excluded.
+
+## End-user verification target
+
+For user-facing acceptance, use [End-user testing](end-user-testing.md). Adaptive discovery now exports
+end_user_acceptance hints and a host handoff. Requirement verification_target=end-user requires a
+web/mobile/cli/api surface; a matching passing journey using actual interface interaction and
+real/not-applicable dependencies must exist. Mock/unknown or another interface cannot satisfy it.
+Existing behavior-only schema-1 reports remain valid. Optional journey attachments use separate
+bounded binary digests rather than JSON assertion evidence; the guide defines limits and semantics.

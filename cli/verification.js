@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { endUserPlan } from './end-user.js';
 import { safe, stat, HarnessError } from './files.js';
 import { detect } from './adapters.js';
 import { loadArtifactContract } from './artifacts.js';
@@ -24,7 +25,7 @@ export function adaptiveVerification(root, source) {
     if (pkg.scripts !== undefined && (!pkg.scripts || typeof pkg.scripts !== 'object' || Array.isArray(pkg.scripts))) throw new HarnessError('Invalid package scripts during discovery');
     languages.add('javascript/typescript');
     const deps = new Set(Object.keys({ ...pkg.dependencies, ...pkg.devDependencies }));
-    for (const [dep, method] of [['vitest','unit'],['jest','unit'],['@playwright/test','browser-e2e'],['cypress','browser-e2e'],['detox','mobile-e2e']]) {
+    for (const [dep, method] of [['vitest','unit'],['jest','unit'],['@playwright/test','browser-e2e'],['playwright','browser-e2e'],['cypress','browser-e2e'],['detox','mobile-e2e']]) {
       if (deps.has(dep)) { frameworks.add(dep); add(method, 'Reuse declared project framework', 'package.json#' + dep); }
     }
     for (const [name, command] of Object.entries(pkg.scripts ?? {})) {
@@ -50,8 +51,10 @@ export function adaptiveVerification(root, source) {
       if (/langchain|llama.index|sentence.transformers/i.test(body)) add('ai-rag-evaluation', 'AI/retrieval dependency; inspect actual requirements and datasets', name);
     } else languages.add(name === 'go.mod' ? 'go' : 'rust');
   }
+  let hasApi = false;
   for (const name of ['openapi.json','openapi.yaml','openapi.yml']) {
     if (read(root, name) !== null) {
+      hasApi = true;
       signals.push({ source: name, fact: 'API contract present; does not prove a running service' });
       add('contract', 'Existing interface contract', name); add('api', 'Exercise applicable contract scenarios through authorized host tools', name);
     }
@@ -61,7 +64,8 @@ export function adaptiveVerification(root, source) {
     signals.push({ source: 'input:' + id, fact: 'Declared source; availability/content not verified', location: a.location });
     if (a.kind === 'business-workflow') add('business-workflow', 'Declared workflow source; inspect transitions and AC before choosing a pattern', 'input:' + id);
   }
-  if (detected.adapters.includes('astro') || read(root, 'index.html') !== null) {
+  const hasStaticPage = read(root, 'index.html') !== null;
+  if (detected.adapters.includes('astro') || hasStaticPage) {
     add('build', 'Static site must build or validate its output', 'static-site metadata');
     add('accessibility', 'Review applicable static-site accessibility requirements', 'static-site metadata');
   }
@@ -70,6 +74,7 @@ export function adaptiveVerification(root, source) {
   if (!methods.size) add('manual-review', 'No supported test entry point discovered; inspect source and clarify essential gaps', 'project discovery');
   return { status: 'planned', executed: false, discovery: { adapters: detected.adapters, languages: [...languages],
     frameworks: [...frameworks], signals, commands: Object.keys(env.shared.commands).map(id => ({ id, source: '.harness/environment.json#commands.' + id })) },
+    end_user_acceptance: endUserPlan({ adapters: detected.adapters, frameworks: [...frameworks], hasStaticPage, hasApi, hasCli: typeof pkg.bin === 'string' || (pkg.bin !== null && typeof pkg.bin === 'object' && !Array.isArray(pkg.bin) && Object.keys(pkg.bin).length > 0) }),
     methods: [...methods.values()], connections: Object.entries(contract.integrations.connections).map(([id]) => ({ id, availability: 'unverified' })),
     unknowns: ['Inspect scoped source to determine architecture, routes/auth, database/service dependencies and business patterns.',
       'Check actual tools, fixture isolation and permission before executing; metadata is not evidence of environment readiness.',

@@ -14,6 +14,7 @@ Missing consequential facts: .harness/core/workflows/clarification.md; reuse pri
 Start/resume intake: read .harness/start.json when present; aih start suggests the next step.
 First use or missing environment: .harness/core/workflows/project-setup.md and project-owned environment.json.
 Docs/UI/source outputs: .harness/core/workflows/artifact-contract.md with artifacts.json/integrations.json and source-write policy.
+End-user journeys: .harness/core/workflows/end-user-acceptance.md + harness-end-user-testing; real interface evidence or explicit blockers.
 Implementation: .harness/core/workflows/spec-to-code.md. Verification/review: .harness/core/workflows/adaptive-verification.md and harness-review.
 
 {{adapters}}

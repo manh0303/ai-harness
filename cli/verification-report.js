@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { reviewJourney } from './journey-evidence.js';
 import { isDeepStrictEqual } from 'node:util';
 import { safe, stat, digest, isObject, HarnessError } from './files.js';
 import { readConfig } from './project-config.js';
@@ -89,6 +90,8 @@ export function reviewVerification(root, reportPath) {
   const reqs = new Map();
   for (const req of report.requirements) {
     assert(isObject(req) && text(req.id) && !reqs.has(req.id) && text(req.description) && text(req.source), 'Invalid/duplicate requirement');
+    assert(req.verification_target === undefined || ['behavior', 'end-user'].includes(req.verification_target), 'Unknown requirement verification target');
+    assert(req.verification_target !== 'end-user' || ['web', 'mobile', 'cli', 'api'].includes(req.surface), 'End-user requirement needs an interface surface');
     reqs.set(req.id, req);
   }
   assert(Array.isArray(report.scenarios) && report.scenarios.length > 0, 'Declare scenarios, including NOT_RUN/BLOCKED gaps');
@@ -123,17 +126,18 @@ export function reviewVerification(root, reportPath) {
       assert(refs.length > 0, 'Executed scenarios need digest-checked evidence');
       if (ex.duration_ms !== undefined) assert(finite(ex.duration_ms), 'Invalid observed duration');
       const permittedError = !row.error || (row.expected_error === row.error.kind && ['http', 'application'].includes(row.error.kind));
-      const semantic = !['api', 'backend-e2e', 'business-workflow', 'authorization', 'security'].includes(row.method) || assertions.some(a => a.layer !== 'transport');
+      const semantic = !['api', 'backend-e2e', 'business-workflow', 'authorization', 'security', 'browser-e2e', 'mobile-e2e', 'cli-e2e', 'end-user'].includes(row.method) || assertions.some(a => a.layer !== 'transport');
       const pass = semantic && ex.exit_code === 0 && assertions.length > 0 && assertions.every(a => a.passed) && permittedError &&
         (!row.mutates || row.cleanup.status === 'PASSED');
       // Trust no typed PASS: recompute assertion/execution/cleanup consistency.
       assert(row.status === (pass ? 'PASSED' : 'FAILED'), 'Claimed status contradicts assertions, execution, error or cleanup');
     }
-    return { ...row, assertions, evidence: refs };
+    return { ...row, assertions, evidence: refs, ...reviewJourney(root, row) };
   });
   const requirements = [...reqs.values()].map(req => {
     const linked = scenarios.filter(s => s.references.includes(req.id));
-    return { ...req, verification: linked.length > 0 && linked.every(s => s.status === 'PASSED' && s.assertions.some(a => a.basis === req.id && a.passed)) ? 'VERIFIED' : 'UNVERIFIED',
+    return { ...req, verification: linked.length > 0 && linked.every(s => s.status === 'PASSED' && s.assertions.some(a => a.basis === req.id && a.passed))
+      && (req.verification_target !== 'end-user' || linked.some(s => s.status === 'PASSED' && s.acceptance_scope === 'end-user' && s.journey.surface === req.surface && s.assertions.some(a => a.basis === req.id && a.layer !== 'transport' && a.passed))) ? 'VERIFIED' : 'UNVERIFIED',
       scenarios: linked.map(s => s.id) };
   });
   const counts = Object.fromEntries(statuses.map(s => [s, scenarios.filter(row => row.status === s).length]));
@@ -164,9 +168,9 @@ export function techspecEvidence(summary) {
     ...summary.requirements.map(r => '| ' + cell(r.id) + ' — ' + cell(r.description) + ' | ' + cell(r.source) + ' | ' + r.verification + ' | ' + cell(r.scenarios.join(', ')) + ' |'),
     '',
     '## Scenario results',
-    '| Scenario | Method | Status | Expected | Observed | Evidence |',
+    '| Scenario | Method / acceptance scope | Status | Expected | Observed | Evidence |',
     '| --- | --- | --- | --- | --- | --- |',
-    ...summary.scenarios.map(s => '| ' + cell(s.id) + ' | ' + cell(s.method) + ' | ' + s.status + ' | ' + cell(s.expected) + ' | ' + cell(s.observed) + ' | ' + cell(s.evidence.map(e => e.path + ' sha256:' + e.sha256).join(', ')) + ' |'),
+    ...summary.scenarios.map(s => '| ' + cell(s.id) + ' | ' + cell(s.method + ' / ' + s.acceptance_scope) + ' | ' + s.status + ' | ' + cell(s.expected) + ' | ' + cell(s.observed) + ' | ' + cell(s.evidence.map(e => e.path + ' sha256:' + e.sha256).join(', ')) + ' |'),
     '',
     '## Limitations and change maintenance',
     'Report validation checks consistency, not independent execution authenticity or business approval.',
