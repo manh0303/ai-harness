@@ -22,3 +22,7 @@ Session onboarding: use harness-start. Read local.md structured frontmatter befo
 compares local source/config hashes in project-owned knowledge.json. On stale/missing context inspect
 only affected sources, reconcile summaries, then aih seed --record. Remote revisions require host checks.
 Keep scoped AGENTS and conventions authoritative; a current hash does not certify summary correctness.
+Read project-wide/applicable module decisions in .harness/decisions.json before questions, followed
+by active change decisions. Reuse confirmed choices while applicable, retain superseded history,
+and revisit affected assumptions when sources or scope change. Label observations, inferences and
+confirmed choices separately; a hash or self-assigned confidence number is not evidence of truth.

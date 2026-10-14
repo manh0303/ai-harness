@@ -202,3 +202,19 @@ backup, update --host kiro --dry-run, update --host kiro, check; first Kiro chat
 collisions/edited files block writes. Hook v1 targets IDE 1.x/CLI V3; older clients need a compatible
 bridge. Revert consumer snapshot in Git, then reconcile cache. Config backup omits knowledge cache;
 transfer removes old role extensions/autonomy. [Guide](tool-setup/kiro.md).
+
+## Missing-only setup and shared decisions (unreleased)
+
+Distribution version remains release-PR owned. init/update seed project-owned decisions.json only
+when absent; old snapshots without it remain valid. Existing local prose, agent extensions/budget,
+commands, machine paths and custom native files survive. Invalid environment/decision schemas now
+fail before installer writes; fix malformed config rather than discarding it. Config/lock/archive
+schema versions stay 1; the archive allowlist gains decisions.json. Use a supporting CLI to restore
+archives containing it: older readers reject that unrecognized path instead of silently losing it.
+Legacy archives without it still restore. Same-project restore retains choices; transfer omits them.
+Knowledge cache gains the decisions digest and becomes stale once: reconcile before seed --record.
+setup remains read-only; setup --apply creates missing shared files from installed templates without
+changing the snapshot/lock. It does not recover lost customized answers; restore those through Git
+or configuration backup. No machine/start/cache values are guessed. Reviewed update installs the
+seed/greenfield workflows and decision-aware Kiro prompt. Roll back consumer snapshot and config
+with Git/before-backup, then inspect/reconcile the cache. [Contracts](session-onboarding.md).

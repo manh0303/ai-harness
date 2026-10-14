@@ -3,10 +3,11 @@ import { localContext } from './knowledge.js';
 import { kiroPayload, KIRO_HOOK } from './kiro.js';
 import { requirementReport } from './skill-requirements.js';
 import { loadStartConfig } from './start-config.js';
+import { PROJECT_DECISIONS, emptyProjectDecisions, loadProjectDecisions, projectDecisionReport } from './project-decisions.js';
 import { checkpointPath, validateCheckpoint } from './checkpoint.js';
 import { readConfig } from './project-config.js';
 import { claudeReport, claudeBlock, linkClaude } from './claude.js';
-import { emptyEnvironment, environmentReport } from './environment.js';
+import { emptyEnvironment, environmentReport, loadEnvironment } from './environment.js';
 import { AGENT_CONFIG, agentDefaults, loadAgentConfig } from './agents.js';
 import { reviewVerification, techspecEvidence } from './verification-report.js';
 import { ARTIFACTS, INTEGRATIONS, emptyArtifacts, emptyIntegrations, loadArtifactContract, artifactReport, docRoute } from './artifacts.js';
@@ -136,6 +137,18 @@ export function guard(root, operation) {
   finally { fs.closeSync(fd); fs.unlinkSync(filename); }
 }
 
+export function snapshotCheck(root) {
+  const lock = loadLock(root), problems = drift(root, lock);
+  return { status: problems.length ? 'error' : 'ok', version: lock.version, problems };
+}
+
+export function userIgnoreChanges(root) {
+  const name = '.harness/.gitignore', filename = safe(root, name);
+  const data = stat(filename) ? fs.readFileSync(filename, 'utf8') : '';
+  return data.trimEnd().split(/\r?\n/).slice(-2).join('\n') === '/backups/\n/machine.json' ? {}
+    : { [name]: Buffer.from(data + (data && !data.endsWith('\n') ? '\n' : '') + '/backups/\n/machine.json\n') };
+}
+
 export function atomicWrite(filename, data, mode = 0o644) {
   fs.mkdirSync(path.dirname(filename), { recursive: true });
   const tmp = path.join(path.dirname(filename), `.harness-tmp-${randomUUID()}`);
@@ -177,6 +190,8 @@ export function install(root, source, { command = 'init', adapters, capabilities
     const old = hasLock ? loadLock(root) : null;
     const existingAgents = loadAgentConfig(root);
     loadStartConfig(root);
+    loadProjectDecisions(root);
+    loadEnvironment(root);
     localContext(root);
     loadArtifactContract(root); // Validate project-owned declarations before planning any writes.
     if (agentPreset !== undefined && command !== 'init') throw new HarnessError('Agent preset is supported only by init');
@@ -230,6 +245,7 @@ export function install(root, source, { command = 'init', adapters, capabilities
       [CONFIG]: encode(config),
       [ARTIFACTS]: encode(emptyArtifacts()),
       [INTEGRATIONS]: encode(emptyIntegrations()),
+      [PROJECT_DECISIONS]: encode(emptyProjectDecisions()),
       '.harness/environment.json': encode(emptyEnvironment()),
       'openspec/config.yaml': fs.readFileSync(safe(source, 'templates/openspec/config.yaml')),
       '.harness/local.md': stat(safe(source, 'templates/local.md')) ? fs.readFileSync(safe(source, 'templates/local.md')) : Buffer.from('# Project overrides\n\nRecord project facts and reviewed exceptions here.\n'),
@@ -237,11 +253,7 @@ export function install(root, source, { command = 'init', adapters, capabilities
     for (const [name, data] of Object.entries(seeds)) if (!stat(safe(root, name))) changes[name] = data;
     // Project-owned ignore file: preserve all prior rules, place our anchored rule last.
     // This does not remove an already tracked machine file from the Git index.
-    const ignoreName = '.harness/.gitignore', ignorePath = safe(root, ignoreName);
-    const ignore = stat(ignorePath) ? fs.readFileSync(ignorePath, 'utf8') : '';
-    if (ignore.trimEnd().split(/\r?\n/).slice(-2).join('\n') !== '/backups/\n/machine.json') {
-      changes[ignoreName] = Buffer.from(ignore + (ignore && !ignore.endsWith('\n') ? '\n' : '') + '/backups/\n/machine.json\n');
-    }
+    Object.assign(changes, userIgnoreChanges(root));
     const newLock = encode(lock);
     if (!hasLock || !fs.readFileSync(safe(root, LOCK)).equals(newLock)) changes[LOCK] = newLock;
     const plan = Object.entries(changes).map(([name, data]) => ({ path: name, action: data === null ? 'delete' : 'write' }));
@@ -255,6 +267,7 @@ export function check(root) {
   const problems = drift(root, lock);
   loadArtifactContract(root);
   loadStartConfig(root);
+  loadProjectDecisions(root);
   localContext(root);
   loadAgentConfig(root); // Optional on legacy installs; validate user config without managing its bytes.
   if (JSON.stringify([...config.adapters].sort()) !== JSON.stringify([...lock.adapters].sort())) problems.push(`${CONFIG}: adapter selection changed; run update`);
@@ -358,7 +371,9 @@ export function doctor(root, skill) {
   const state = check(root), environment = environmentReport(root);
   const prerequisites = skill ? requirementReport(root, skill) : null;
   return { ...state, status: state.status !== 'ok' || environment.problems.length || prerequisites?.status === 'blocked' ? 'error' : 'ok',
-    prerequisites, tools, environment, claude: claudeReport(root), artifacts: artifactReport(root), note: 'Tool presence only; no commands executed or compatibility claim made. Configured project tools take precedence over generic PATH hints.' };
+    prerequisites, tools, environment, decisions: projectDecisionReport(root),
+    context: { structured: localContext(root).structured, warnings: localContext(root).structured ? [] : ['Legacy prose is valid; use harness-start to add source-linked structured context when needed.'] },
+    claude: claudeReport(root), artifacts: artifactReport(root), note: 'Tool presence only; no commands executed or compatibility claim made. Configured project tools take precedence over generic PATH hints.' };
 }
 
 export function saveCheckpoint(root, id, report, expected) {

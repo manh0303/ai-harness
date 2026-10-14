@@ -6,7 +6,7 @@ import { frontmatter } from './structured.js';
 import { check, loadLock, guard, transaction } from './harness.js';
 
 export const KNOWLEDGE = '.harness/knowledge.json';
-const CONTEXT = ['.harness/local.md', '.harness/environment.json', '.harness/agents.json', '.harness/artifacts.json', '.harness/integrations.json'];
+const CONTEXT = ['.harness/local.md', '.harness/environment.json', '.harness/agents.json', '.harness/artifacts.json', '.harness/integrations.json', '.harness/decisions.json'];
 const EXCLUDE = new Set(['.git', '.harness', '.agents', '.kiro', '.claude', 'node_modules', 'target', 'build', 'dist', '.next', '.venv', 'vendor']);
 const RELEVANT = /^(?:AGENTS\.md|README\.md|OVERVIEW\.md|pom\.xml|package\.json|build\.gradle(?:\.kts)?|pyproject\.toml|[^/]*(?:conventions|workflow|testing)[^/]*\.md)$/i;
 function assert(ok, message) { if (!ok) throw new HarnessError(message); }

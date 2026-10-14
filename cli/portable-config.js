@@ -10,9 +10,10 @@ import { loadAgentConfig } from './agents.js';
 import { loadArtifactContract } from './artifacts.js';
 import { loadStartConfig } from './start-config.js';
 import { resolveModules } from './composition.js';
+import { PROJECT_DECISIONS, loadProjectDecisions } from './project-decisions.js';
 
 export const USER_FILES = ['.harness/project.json', '.harness/agents.json', '.harness/artifacts.json',
-  '.harness/integrations.json', '.harness/environment.json', '.harness/local.md', '.harness/start.json', 'openspec/config.yaml'];
+  '.harness/integrations.json', '.harness/environment.json', '.harness/local.md', '.harness/start.json', PROJECT_DECISIONS, 'openspec/config.yaml'];
 const MAX_FILE = 1024 * 1024, MAX_ARCHIVE = 12 * MAX_FILE;
 const fail = (ok, message) => { if (!ok) throw new HarnessError(message); };
 export const backupName = () => '.harness/backups/config-' + new Date().toISOString().replace(/[:.]/g, '-') + '-' + randomUUID() + '.json';
@@ -54,7 +55,7 @@ function validateFiles(files) {
     }
     const config = projectConfig(temp, undefined, undefined, true);
     resolveModules(SOURCE, config);
-    loadAgentConfig(temp); loadArtifactContract(temp); loadEnvironment(temp); loadStartConfig(temp); localContext(temp);
+    loadAgentConfig(temp); loadArtifactContract(temp); loadEnvironment(temp); loadStartConfig(temp); localContext(temp); loadProjectDecisions(temp);
   } finally { fs.rmSync(temp, { recursive: true, force: true }); }
 }
 function outputPath(root, name) {

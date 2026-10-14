@@ -90,6 +90,17 @@ try {
   assert.equal(JSON.parse(fs.readFileSync(path.join(kiroTarget,'.kiro/hooks/harness-session.json'),'utf8')).hooks[0].trigger,'SessionStart');
   assert.equal(kiroRun(['start','--host','kiro']).knowledge.status,'missing');
   assert.equal(kiroRun(['doctor','--skill','harness-start']).status,'ok');
+  for (const asset of ['cli/setup.js', 'cli/project-decisions.js', 'templates/decisions.json', 'core/workflows/seed.md', 'core/workflows/greenfield-setup.md']) assert.ok(names.includes(asset), 'Missing onboarding asset: ' + asset);
+  const kiroLockBefore = fs.readFileSync(path.join(kiroTarget, '.harness/lock.json'), 'utf8');
+  fs.rmSync(path.join(kiroTarget, '.harness/environment.json'));
+  fs.rmSync(path.join(kiroTarget, '.harness/project.json'));
+  assert.equal(kiroRun(['setup', '--apply', '--dry-run']).applied, false);
+  assert.equal(fs.existsSync(path.join(kiroTarget, '.harness/environment.json')), false);
+  assert.equal(kiroRun(['setup', '--apply']).applied, true);
+  assert.equal(fs.readFileSync(path.join(kiroTarget, '.harness/lock.json'), 'utf8'), kiroLockBefore);
+  assert.deepEqual(kiroRun(['setup', '--apply']).changes, []);
+  assert.deepEqual(kiroRun(['decisions']).confirmed, []);
+  assert.equal(kiroRun(['start', '--compact', '--host', 'kiro']).context.freshness, 'unchecked');
   fs.writeFileSync(path.join(kiroTarget,'README.md'),'# Source inspected by smoke fixture\n');
   fs.writeFileSync(path.join(kiroTarget,'.harness/local.md'),'---\nschema_version: 1\nstack: {}\nbuild: {}\napproved_deviations: []\nsources: ["README.md"]\n---\n# Fixture summary\n');
   assert.equal(kiroRun(['seed','--record']).status,'ok');

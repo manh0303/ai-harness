@@ -8,6 +8,11 @@ Use harness-start in the current session (Kiro: /harness-start), with seed fresh
 Use `aih start` for terminal intake or a read-only host plan; reuse `.harness/start.json` and declared
 artifacts before asking. CLI root-file discovery is metadata evidence; inspect content and the actual host.
 Use `aih setup` for structured suggestions; it never interviews the user or writes answers.
+Use `aih setup --apply` only to scaffold missing user files from a cloned installed snapshot;
+preview with --dry-run. Existing configs and managed payload/lock are preserved. Missing setup
+does not justify reinstalling the bundle. machine.json/start.json are not fabricated by scaffolding.
+Follow seed.md for existing modules and greenfield-setup.md for new modules; inspect their relevant
+project-wide and module-scoped decisions in .harness/decisions.json before asking.
 Do not ask about facts already established in the repository or current conversation.
 
 1. Identify project scope, source documents, build/test commands and environment constraints.
@@ -20,11 +25,15 @@ Do not ask about facts already established in the repository or current conversa
 3. For Java, inspect Maven/Gradle wrappers before proposing PATH or a custom tool. A wrapper is
    a recommendation only when present and consistent with project policy; do not switch corporate
    tools or download a replacement without authorization.
-4. Record shared facts and decisions in `.harness/local.md`: scope/mode, authoritative source paths,
+4. Record shared facts in `.harness/local.md`: scope/mode, authoritative source paths,
    layout and dependency boundaries, reusable common APIs, naming/error/test conventions, commands
    and approved exceptions. Link existing documentation instead of duplicating it. Keep missing facts
    explicit; do not overwrite previous answers. Define exact tool IDs, argument arrays
    and required file paths in `.harness/environment.json`. Record evidence/source, not guessed versions.
+   Save project-wide/module decisions in `.harness/decisions.json` with scope/status/answer/reason/source.
+   Keep proposed choices separate from confirmed ones. When replacing a decision preserve the old
+   record as superseded and link its confirmed replacement. Reuse answers only while applicable;
+   changed scope or contradictory sources can warrant a focused question even with do_not_ask_again.
 5. For a machine-specific executable/file location, use `.harness/machine.json` or an environment
    reference. The machine file can only override declared paths. It does not override permissions,
    arguments, requirements or business decisions. Do not store passwords/tokens in either file.
@@ -45,7 +54,8 @@ If C is selected, ask for only the missing executable/settings locations. Do not
 
 Explain the user-owned files in `.harness/`: project selection in project.json, model/agent preferences in
 agents.json, task in start.json, sources/destinations in artifacts.json, connection aliases in
-integrations.json, shared commands in environment.json and domain facts in local.md. OpenSpec config
+integrations.json, shared commands in environment.json, domain facts in local.md and shared decisions
+in decisions.json. OpenSpec config
 lives in openspec/config.yaml; checkpoints/evidence live under openspec/changes/<id>/, not in `.harness/state/`.
 Keep managed core/adapters/capabilities/templates/lock separate from customization. Update preserves
 user files; use `aih backup` and copy the reported JSON outside the project before consequential changes.

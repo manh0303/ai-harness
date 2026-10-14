@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — Missing-only setup and scoped project decisions
+
+- Add setup --apply/--dry-run using the installed snapshot; preserve user answers, managed payload/lock and machine data, with validation before writes.
+- Add optional schema-1 project/module decisions, confirmed/proposed/superseded states and validated replacement history; expose decisions and reuse guidance without permanent approval claims.
+- Include shared decisions in same-project backup/freshness, omit them from transfer, and reject malformed environment config before installation writes.
+- Add compact start orientation, existing/new-project workflows, interruption/source-change scenarios and packaged clone checks. Keep one-command install → /harness-start; no new runtime dependency or distribution bump.
+- Publish a live-host validation protocol; actual Kiro activation/model behavior and token savings remain NOT_RUN until measured.
+
 ## Unreleased — Session onboarding and knowledge freshness
 
 - Add Kiro init/update --host kiro, canonical native wrappers and locked SessionStart v1; first chat: /harness-start.

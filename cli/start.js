@@ -1,4 +1,5 @@
-import { knowledgeReport } from './knowledge.js';
+import { knowledgeReport, localContext } from './knowledge.js';
+import { projectDecisionReport } from './project-decisions.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -12,6 +13,15 @@ import { configArchive, backupName } from './portable-config.js';
 import { resumePlan } from './checkpoint.js';
 
 function assert(ok, message) { if (!ok) throw new HarnessError(message); }
+export function compactStart(root, host) {
+  assert(check(root).status === 'ok', 'Fix installation drift before start');
+  const lock = loadLock(root), saved = loadStartConfig(root), local = localContext(root);
+  return { status: 'planned', version: lock.version, adapters: lock.adapters,
+    task: saved?.task ?? null, change: saved?.change_id ?? null, stack: local.value?.stack ?? null,
+    context: { structured: local.structured, freshness: 'unchecked' },
+    next_action: host === 'kiro' ? '/harness-start' : 'Read .agents/skills/harness-start/SKILL.md',
+    note: 'Orientation only; no source scan, MCP probe, interview or task execution. Check freshness with seed --check.' };
+}
 export function startPlan(root, host) {
   assert(check(root).status === 'ok', 'Fix installation drift before start');
   const lock = loadLock(root), saved = loadStartConfig(root), contract = loadArtifactContract(root);
@@ -36,6 +46,7 @@ export function startPlan(root, host) {
   }
   return { status: resume?.status === 'blocked' ? 'blocked' : 'planned', saved, discovery: { evidence, checkpoints, inputs: Object.keys(contract.artifacts.inputs), outputs: Object.keys(contract.artifacts.outputs) },
     knowledge: knowledgeReport(root),
+    project_decisions: projectDecisionReport(root),
     recommendation, reason: saved ? 'Reuse the saved task; choose a new goal explicitly to start another task.'
       : checkpoints.length ? 'Checkpoint candidates exist; inspect freshness before continuing.'
       : 'Based on declared sources and root build-file presence; the host must inspect their contents.',
@@ -50,7 +61,7 @@ export function startPlan(root, host) {
     resume,
     configuration: { directory: '.harness/', task: START_CONFIG, inputs_outputs: '.harness/artifacts.json', models_agents: '.harness/agents.json',
       backup: 'aih backup', restore: 'aih restore --from <project-relative-backup.json>', transfer: 'aih restore --from <backup.json> --transfer' },
-    host_prompt: (Object.hasOwn(lock.files, '.agents/skills/harness-start/SKILL.md') ? 'Read .agents/skills/harness-start/SKILL.md and follow its session onboarding procedure. ' : '') + 'Read AGENTS.md, .harness/start.json if present, .harness/local.md and .harness/core/workflows/project-setup.md. '
+    host_prompt: (Object.hasOwn(lock.files, '.agents/skills/harness-start/SKILL.md') ? 'Read .agents/skills/harness-start/SKILL.md and follow its session onboarding procedure. ' : '') + 'Read AGENTS.md, .harness/start.json if present, .harness/local.md, .harness/decisions.json if present and .harness/core/workflows/project-setup.md. '
       + 'Inspect declared input/output locations and current code. Reuse saved answers; ask only missing consequential decisions with options and a grounded recommendation. '
       + 'Use .harness/core/workflows/' + workflow + '. Discover only relevant installed agents/skills; suggest missing modules before editing project.json. '
       + 'Keep model defaults unless requested; save accepted source/output/connection choices in their project-owned configs. '

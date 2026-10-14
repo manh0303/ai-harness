@@ -12,6 +12,8 @@ sources: []
 
 Record evidence-backed project facts and already reviewed exceptions here. Keep versions quoted.
 Unknowns are not approved defaults. Never weaken security boundaries.
+Label observations and inferences with sources. Record confirmed project/module decisions in
+decisions.json with scope/reason/source; change-specific choices belong to the OpenSpec change.
 
 ## Development conventions
 Record scope/mode (new, maintain or mixed), authoritative source paths, module boundaries,
