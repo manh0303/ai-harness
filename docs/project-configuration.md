@@ -99,3 +99,9 @@ Chạy `aih start` để lưu intake. File được bảo toàn khi update. Ch�
 repo; `aih restore --from <file> --dry-run` xem trước phục hồi. Dùng --transfer ở repo mới để chỉ
 chuyển module/model, tránh nguồn/tiến độ cũ. [Hướng dẫn đầy đủ](configuration-backup.md) mô tả các
 file được lưu, những gì không có trong backup, conflict/backup-before-replace và cách cài lại.
+
+## Structured context and skill prerequisites
+
+New local.md uses optional schema-1 YAML frontmatter; legacy prose stays valid and preserved.
+See [session onboarding](session-onboarding.md) for sources, seed and doctor --skill requirements.
+Maven settings remain files.maven-settings.path with a machine override, not tools.maven.settings.

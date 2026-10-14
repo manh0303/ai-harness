@@ -1,55 +1,112 @@
-# Kiro
+# Kiro: bắt đầu bằng /harness-start
 
-## Install and open
+**Cài trong project → mở session Kiro đầu tiên → chọn `/harness-start`.**
+Kiro đọc project trước, chỉ hỏi phần còn thiếu và lưu context cho session sau.
+Cần reviewed source/release chứa tính năng này; không mặc định npm 0.14.0 đã có.
 
-1. Install/sign in using [official Kiro installation](https://kiro.dev/docs/getting-started/installation/).
-   Choose the IDE or CLI for your environment.
-2. Run [common setup](README.md) in your project root.
-3. Open that folder in Kiro IDE and start a chat, or run `kiro-cli chat` from the same root.
+## Cài mới và session đầu tiên
 
-## Load and verify
+Cần Node.js 22+ và Kiro đã đăng nhập. Chạy tại project root:
 
-Kiro documents automatic root/nested `AGENTS.md` loading. Keep existing `.kiro/steering` files;
-you do not need to generate another full set of steering docs just to use Harness.
-
-Run the [read-only setup prompt](README.md#3-check-loading-then-give-a-task).
-Ask Kiro to read the needed `.agents/skills/<installed-name>/SKILL.md` explicitly.
-The official native skill path is `.kiro/skills`; this guide does not assume native discovery of
-Harness's `.agents/skills`.
-
-## Optional native skill pointer
-
-For slash invocation, create a project-owned file
-`.kiro/skills/harness-review/SKILL.md` without replacing existing files:
-
-```markdown
----
-name: harness-review
-description: Review this project's changes against its installed Harness instructions.
----
-Read AGENTS.md and .harness/local.md, then read and follow
-.agents/skills/harness-review/SKILL.md.
-Report findings, missing evidence and actual verification without changing files.
+```bash
+npx --yes @manhd_d/ai-harness init --host kiro
 ```
 
-In Kiro IDE, inspect **Agent Steering & Skills** and the `/` skill menu.
-Verify the pointer actually loads the canonical skill in your session.
-Custom agents require explicit steering/skill resources; follow the official docs for your client.
-The pointer is yours to maintain; Harness does not generate, update or drift-check Kiro files.
+Thêm `--adapters java-spring` cho Spring, `--adapters react-nextjs` cho React/Next.js
+hoặc `--detect` khi muốn nhận diện stack hỗ trợ. Chỉ thêm `--capabilities product`
+khi cần tài liệu BA. [common setup](README.md) dành cho các host khác.
 
-## Optional cloud/spec work
+Mở cùng project trong Kiro IDE, tạo **session chat đầu tiên**, gõ `/` và chọn:
 
-For Kiro Web, commit the Harness files to its connected branch; verify workspace/tool access.
-Local steering, credentials and MCP connections are not automatically available in the cloud.
-When using Kiro Specs, declare which documents are canonical and their write scope in
-[Artifact contracts](../artifact-contract.md); do not silently create a competing source of truth.
+```text
+/harness-start
+```
 
-Models and permissions remain Kiro-controlled; see [Agent configuration](../agent-configuration.md).
+Đưa task ngay trong lần gọi skill, ví dụ: “Fix bug phân quyền ở API cập nhật user”.
+Kiro suy ra mục tiêu, kiểm tra build/conventions/nguồn và hỏi tối đa 1–3 phần còn thiếu mỗi lượt.
+Không cần khai báo lại stack/Maven/quyết định đã có bằng chứng. Với client CLI sử dụng tên
+lệnh này, chạy `kiro-cli chat` tại project root rồi chọn skill trong chat.
+
+## Dự án đã cài / bộ offline
+
+Lấy CLI/package hoặc checkout **mới đã review**. Commit hiện trạng và backup, rồi chạy:
+
+```bash
+aih backup
+aih update --host kiro --dry-run
+aih update --host kiro
+aih check
+```
+
+Nếu dùng npx, thay `aih` bằng `npx --yes @manhd_d/ai-harness@<reviewed-version>`.
+`update` dùng bundle của CLI đang chạy, không tự tải bản mới. Thêm bridge vào snapshot
+đã cài bằng `update --host kiro`, không chạy lại init với selection mới.
+
+Offline Windows: thay đường dẫn bằng bundle mới chứa tính năng này:
+
+```powershell
+& 'D:\ai-harness-reviewed\aih.cmd' update --host kiro --dry-run
+& 'D:\ai-harness-reviewed\aih.cmd' update --host kiro
+& 'D:\ai-harness-reviewed\aih.cmd' check
+```
+
+Checkout không có shim: gọi `node 'D:\ai-harness-reviewed\bin\aih.js'` rồi thêm subcommand.
+Cho Kiro biết cách gọi CLI offline này; không cần global `aih` hoặc API key riêng.
+
+## Thông tin được lưu
+
+| File | Nội dung |
+| --- | --- |
+| `.harness/local.md` | YAML stack/build, approved deviations, nguồn đã đọc; prose giải thích |
+| `.harness/environment.json` | Tool/file/command dùng chung |
+| `.harness/machine.json` | Override đường dẫn theo máy; Git ignore, không chứa credentials |
+| `.harness/integrations.json` | Alias kết nối; tools/quyền thực tế vẫn do Kiro xác minh |
+| `.harness/start.json` | Task/mục tiêu hoặc checkpoint ID |
+| `.harness/knowledge.json` | Hash nguồn/context đã đối chiếu, không lưu nội dung nguồn |
+
+CLI `seed` tạo kế hoạch đọc; **Kiro** hiểu code/tài liệu và điền context. Kiro lưu câu trả lời
+qua từng bước, chạy `seed --record` khi đã đối chiếu. Nếu ngắt, gọi lại `/harness-start`
+để hoàn thành phần còn thiếu. Summary không thay thế hướng dẫn scoped của module đang sửa.
+
+## Session tiếp theo
+
+SessionStart đọc summary/task và kiểm tra freshness; gợi ý `/harness-start` khi cần.
+Bạn có thể giao task tiếp theo trực tiếp hoặc gọi lại skill để tiếp tục setup.
+Hook không tự interview hoặc tự chạy task cũ chỉ vì session mới mở.
+`aih seed --check` phát hiện nguồn local đã đổi; Kiro refresh đúng phần bị ảnh hưởng.
+Remote revisions cần host kiểm tra. [Schema và seed](../session-onboarding.md).
+
+## File native và compatibility
+
+`--host kiro` tạo `.kiro/skills/harness-*/SKILL.md` trỏ tới canonical `.agents/skills/`,
+ví dụ `.kiro/skills/harness-review/SKILL.md` → `.agents/skills/harness-review/SKILL.md`.
+Harness does not assume native discovery of `.agents/skills` trong Kiro.
+`aih check` kiểm tra wrappers và `.kiro/hooks/harness-session.json` qua lock; file sửa tay
+hoặc file người dùng trùng tên khác nội dung chặn update. Steering/hooks/skills khác được giữ.
+Update sau tự giữ bridge, không cần lặp `--host kiro`.
+
+Hook v1 dành cho **Kiro IDE 1.x / CLI V3** theo tài liệu chính thức. Client cũ cần nâng cấp
+hoặc bridge phù hợp riêng. Web không chạy SessionStart; dùng skill/prompt bằng tay và xác minh
+workspace access. CLI không auto-detect phiên bản hoặc chép cấu hình đăng nhập.
+
+Nếu chưa thấy `/harness-start`, mở session mới, kiểm tra **Agent Steering & Skills** và
+`.kiro/skills/harness-start/SKILL.md`. Prompt dự phòng:
+
+> Đọc AGENTS.md và .agents/skills/harness-start/SKILL.md, thực hiện onboarding trong session này.
+> Tự khảo sát project, giữ quyết định đã có và chỉ hỏi phần còn thiếu.
+
+Dùng [read-only loading check](README.md#3-check-loading-then-give-a-task) khi cần.
+Khi dùng Kiro Specs, khai báo canonical documents và write scope trong
+[Artifact contracts](../artifact-contract.md). Với propose ngoài Harness, dùng
+`aih change-sidecars <id>` để thêm sidecar còn thiếu, giữ nguyên file cũ.
 
 ## Official references
 
-Checked 2026-10-13; no logged-in Kiro IDE/CLI/Web or live-agent smoke was run.
+Checked 2026-10-14; no logged-in Kiro IDE/CLI/Web or live-agent smoke was run.
+Tests xác minh file/schema/ownership và package; live hook/skill loading và giảm token chưa đo.
 
-- [CLI setup and commands](https://kiro.dev/docs/cli/setup/)
-- [Steering, AGENTS and custom-agent scope](https://kiro.dev/docs/steering/)
-- [Skills, native locations and resources](https://kiro.dev/docs/skills/)
+- [Installation](https://kiro.dev/docs/getting-started/installation/)
+- [Skills and slash invocation](https://kiro.dev/docs/skills/)
+- [Hooks v1 schema](https://kiro.dev/docs/hooks/)
+- [SessionStart and surfaces](https://kiro.dev/docs/hooks/types/)
+- [Steering](https://kiro.dev/docs/steering/)

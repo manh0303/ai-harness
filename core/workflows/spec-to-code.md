@@ -47,3 +47,7 @@ For changed public journeys or an explicit end-user testing request, apply
 `.harness/core/workflows/end-user-acceptance.md` and `harness-end-user-testing`: exercise the actual
 interface, distinguish real/mocked dependencies, and include user-facing outcome evidence or concrete
 BLOCKED/NOT_RUN reasons before completion. API/unit/build success cannot replace required browser/device flows.
+
+When an external OpenSpec propose flow creates a change, run aih change-sidecars <id> before the
+clarification/readiness stages to create missing metadata, decisions, verification and artifact-impact
+sidecars. Existing files remain unchanged; Harness does not patch the upstream OpenSpec CLI.

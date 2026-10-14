@@ -196,7 +196,10 @@ test('Kiro setup distinguishes canonical reading from native discovery and prese
   assert.match(guide, /\.agents\/skills\/harness-review\/SKILL.md/);
   assert.ok(fs.existsSync(path.join(SOURCE, 'core/skills/harness-review/SKILL.md')));
   assert.match(guide, /does not assume native discovery/);
-  assert.match(guide, /does not generate, update or drift-check Kiro files/);
+  assert.match(guide, /update --host kiro/);
+  assert.match(guide, /harness-session\.json/);
+  assert.match(guide, /session.*harness-start/);
+  assert.match(guide, /IDE 1\.x \/ CLI V3/);
   assert.match(guide, /canonical.*write scope/);
   assert.match(read('docs/tool-setup/claude-code.md'), /unreleased from the 0\.12\.0 npm baseline/);
 });

@@ -1,3 +1,4 @@
+import { knowledgeReport } from './knowledge.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -34,6 +35,7 @@ export function startPlan(root, host) {
     catch (error) { if (!(error instanceof HarnessError)) throw error; resume = { status: 'blocked', executed: false, message: error.message, next_action: 'Restore/reconcile checkpoints and evidence before continuation, or choose a new task.' }; }
   }
   return { status: resume?.status === 'blocked' ? 'blocked' : 'planned', saved, discovery: { evidence, checkpoints, inputs: Object.keys(contract.artifacts.inputs), outputs: Object.keys(contract.artifacts.outputs) },
+    knowledge: knowledgeReport(root),
     recommendation, reason: saved ? 'Reuse the saved task; choose a new goal explicitly to start another task.'
       : checkpoints.length ? 'Checkpoint candidates exist; inspect freshness before continuing.'
       : 'Based on declared sources and root build-file presence; the host must inspect their contents.',
@@ -48,12 +50,12 @@ export function startPlan(root, host) {
     resume,
     configuration: { directory: '.harness/', task: START_CONFIG, inputs_outputs: '.harness/artifacts.json', models_agents: '.harness/agents.json',
       backup: 'aih backup', restore: 'aih restore --from <project-relative-backup.json>', transfer: 'aih restore --from <backup.json> --transfer' },
-    host_prompt: 'Read AGENTS.md, .harness/start.json if present, .harness/local.md and .harness/core/workflows/project-setup.md. '
+    host_prompt: (Object.hasOwn(lock.files, '.agents/skills/harness-start/SKILL.md') ? 'Read .agents/skills/harness-start/SKILL.md and follow its session onboarding procedure. ' : '') + 'Read AGENTS.md, .harness/start.json if present, .harness/local.md and .harness/core/workflows/project-setup.md. '
       + 'Inspect declared input/output locations and current code. Reuse saved answers; ask only missing consequential decisions with options and a grounded recommendation. '
       + 'Use .harness/core/workflows/' + workflow + '. Discover only relevant installed agents/skills; suggest missing modules before editing project.json. '
       + 'Keep model defaults unless requested; save accepted source/output/connection choices in their project-owned configs. '
       + 'For resumed tasks inspect checkpoint freshness and side effects. Implement accepted scope with actual verification and maintain affected docs.',
-    next_steps: ['In a terminal start interviews and saves answers; without a TTY it prints this plan. Use --goal/--task to save non-interactively.',
+    next_steps: [host === 'kiro' ? 'In Kiro select /harness-start; complete the interview in the current AI session. This CLI plan never asks terminal questions for --host kiro.' : 'In a terminal start interviews and saves answers; without a TTY it prints this plan. Use --goal/--task to save non-interactively.',
       'Open this project in your AI tool and send host_prompt; CLI does not launch a model or read remote document contents.',
       'Use backup and copy its file outside the repository; see the configuration backup guide.'] };
 }

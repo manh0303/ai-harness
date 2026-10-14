@@ -33,6 +33,12 @@ Với project đã cài, đổi lựa chọn trong `.harness/project.json` rồi
 
 ## 2. Start và mở AI làm việc
 
+**Kiro:** thêm `--host kiro` vào init. Mở project, tạo session đầu tiên và chọn `/harness-start`.
+Agent đọc context, hỏi phần còn thiếu và lưu theo từng bước. Dự án đã cài dùng
+`update --host kiro`; xem [Kiro và offline](tool-setup/kiro.md).
+
+Với host khác:
+
 Chạy `npx --yes @manhd_d/ai-harness start`: trả lời mục tiêu/input/output còn thiếu, rồi gửi
 `host_prompt` từ kết quả vào AI tool đang mở project. [Luồng start](start.md). Nếu đã biết task, có thể gửi thẳng:
 

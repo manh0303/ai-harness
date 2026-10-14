@@ -4,6 +4,7 @@ Read AGENTS.md, local.md, actual build files and existing environment configurat
 For project/MVP/architecture decisions, apply `solution-framing.md` at the appropriate depth.
 For input/output/storage/source-write decisions, apply `artifact-contract.md`; ask only when
 needed for the task and reuse known project/session decisions.
+Use harness-start in the current session (Kiro: /harness-start), with seed freshness checks.
 Use `aih start` for terminal intake or a read-only host plan; reuse `.harness/start.json` and declared
 artifacts before asking. CLI root-file discovery is metadata evidence; inspect content and the actual host.
 Use `aih setup` for structured suggestions; it never interviews the user or writes answers.

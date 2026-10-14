@@ -101,3 +101,10 @@ budget meter is inferred from model tiers, maxRounds or concurrency. See [Agent 
 ## Agent-first defaults and declarations (unreleased)
 
 New seeds use host/host-default so the actual host model remains selected; old agents.json is preserved. Claude host init offers native aliases only when absent. aih agents resolves canonical role IDs and required/optional skill preferences. Optional execution.autonomy and execution.budget are validated declarations, not execution permission or quota enforcement. Checkpoint real usage or unknown; never infer cost or auto-escalate. See [Agent-first guide](agent-first.md).
+
+## Project role extensions
+
+Role overrides can add `extensions: ["plugins/project/agents/security-reviewer.md"]`.
+`aih agents` exports core-first contract_load_order and blocks missing extensions. The host loads
+them in order, preserving core security and reconciling conflicts. Extensions do not transfer to
+another project. See [session contracts](session-onboarding.md#role-extensions).

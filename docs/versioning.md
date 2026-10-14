@@ -193,3 +193,12 @@ do not relabel transport observations as UI proof. Snapshot update preserves use
 Review update --dry-run/update/check; re-export eval datasets after bundle changes. Report files and
 attachments are project-owned. Roll back the consumer snapshot commit and retain previous reports.
 See [End-user guide](end-user-testing.md).
+
+## Session onboarding migration (unreleased)
+
+Distribution version stays release-PR owned. Project/lock/config schemas remain 1; optional structured
+local.md and knowledge cache use independent schema 1. Legacy prose/configs survive. Use reviewed CLI:
+backup, update --host kiro --dry-run, update --host kiro, check; first Kiro chat: /harness-start. Native
+collisions/edited files block writes. Hook v1 targets IDE 1.x/CLI V3; older clients need a compatible
+bridge. Revert consumer snapshot in Git, then reconcile cache. Config backup omits knowledge cache;
+transfer removes old role extensions/autonomy. [Guide](tool-setup/kiro.md).
