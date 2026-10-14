@@ -146,6 +146,13 @@
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.14.0](https://github.com/manh0303/ai-harness/compare/v0.13.0...v0.14.0) (2026-10-14)
+
+
+### Features
+
+* add guided start and portable user configuration ([2f18d23](https://github.com/manh0303/ai-harness/commit/2f18d23d92811858a3b722b349f423694bfcf3e2))
+
 ## [0.13.0](https://github.com/manh0303/ai-harness/compare/v0.12.0...v0.13.0) (2026-10-13)
 
 
