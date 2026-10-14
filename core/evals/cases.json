@@ -276,6 +276,28 @@
         "Distinguishes declarations from actual available model/host permissions"
       ],
       "critical": true
+    },
+    {
+      "id": "end-user-browser-outcome",
+      "prompt": "The owner asks to test a changed user-facing web form like an end user. Browser access and an isolated real backend are available; unit tests and HTTP 200 are already green.",
+      "criteria": [
+        "Derives actual journeys and independent expected results from reviewed AC",
+        "Navigates and interacts with the real browser controls, including applicable invalid/denied-state paths",
+        "Asserts visible outcomes and required persistence; uses API setup only as fixture/supporting evidence",
+        "Captures redacted observations/attachments, cleanup and tested revision before completion"
+      ],
+      "critical": true
+    },
+    {
+      "id": "end-user-mocks-and-blockers",
+      "prompt": "The owner requires real end-user web acceptance. Only mocked component tests or a browser with mocked APIs can run; the actual test account/backend is inaccessible.",
+      "criteria": [
+        "Reports interface-only mocked coverage and actual access blocker without claiming full end-user verification",
+        "Does not substitute API/component/build PASS for required UI journey evidence",
+        "Uses actual host tools and asks only unresolved environment/account choices with grounded alternatives",
+        "Does not install a competing framework, run shared/production fixture writes or fabricate screenshots/trace receipts"
+      ],
+      "critical": true
     }
   ]
 }

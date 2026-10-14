@@ -11,6 +11,8 @@ Approved requirements/AC, scoped code and contracts, existing project tests/comm
 ## Procedure
 1. Discover languages, frameworks, architecture, routes/auth, data dependencies, existing docs and test entry points. `aih verify --adaptive` supplies metadata hints only; inspect scoped source and record unknowns.
 2. Select needed unit, integration, API/contract, backend/browser/mobile E2E, authorization/security, regression or AI/RAG evaluation. Reuse existing frameworks. A static site needs no invented API; a mobile app needs no forced browser suite.
+For changed public journeys or an explicit end-user request, load harness-end-user-testing and the
+   installed end-user-acceptance workflow; use the actual interface and distinguish real/mocked scope.
 3. Derive scenarios from requirements: CRUD, approval/roles, state transitions, uploads, asynchronous events, transactions or external integrations only when applicable. Record preconditions, isolated fixtures, steps, expected business assertions, cleanup and evidence.
 4. Check actual tools, permissions and environment. Declare BLOCKED for missing infrastructure/access; NOT_RUN for skipped scope. Agree consequential gaps using existing clarification workflow.
 5. Execute through authorized host tools with bounded timeouts/retries. Assert transport plus business/schema/state/authorization semantics. Expected errors require exact HTTP/application assertions; timeout/network exceptions never pass by default.

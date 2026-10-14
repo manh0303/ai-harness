@@ -180,3 +180,11 @@ Tất cả nhận --target. Đường dẫn --from/--output tính từ project r
 không đổi target hoặc chờ stdin. Fresh repo restore trước init; installed repo update/check sau khi
 selection đổi. Đọc [Start](start.md) và [Configuration backup](configuration-backup.md) cho giới hạn,
 phục hồi checkpoint và rollback. Các lệnh không truy cập remote, chạy model, cấp quyền hay auto-merge.
+
+## End-user acceptance (unreleased)
+
+verify --adaptive exports end_user_acceptance with metadata surface/tool candidates, required context,
+Core skill/workflow references and a host prompt. The CLI does not execute interfaces or install tooling.
+verify --report accepts optional schema-1 end-user requirement targets, surface/journey fields and
+separately bounded binary attachment digests. Wrong-surface/mocked/unknown scope cannot satisfy full
+end-user acceptance. See [End-user guide](end-user-testing.md); producer receipts need independent review.

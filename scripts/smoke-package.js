@@ -23,7 +23,7 @@ try {
   const packageName = readJson(path.join(SOURCE, 'package.json')).name;
   const packed = parsePackMetadata(npm(['pack', '--ignore-scripts', '--json', '--pack-destination', temp]), packageName);
   const names = packed.files.map(f => f.path);
-  for (const required of ['cli/start.js', 'cli/start-config.js', 'cli/portable-config.js', 'docs/start.md', 'docs/configuration-backup.md', 'LICENSE', 'bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/composition.js', 'cli/module-contract.js', 'cli/evaluation-contract.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'capabilities/product/capability.json', 'capabilities/devops/capability.json', 'capabilities/devops/evals/cases.json', 'capabilities/monetization/capability.json', 'capabilities/monetization/skills/harness-monetization-adsense-integration/SKILL.md', 'capabilities/monetization/templates/analytics-report.md', 'core/evals/composition.json', 'adapters/kubernetes/adapter.yaml', 'adapters/astro/adapter.yaml', 'adapters/astro/skills/harness-astro-islands/SKILL.md', 'capabilities/product/templates/brd.md', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
+  for (const required of ['cli/end-user.js', 'cli/journey-evidence.js', 'core/skills/harness-end-user-testing/SKILL.md', 'core/workflows/end-user-acceptance.md', 'docs/end-user-testing.md', 'cli/start.js', 'cli/start-config.js', 'cli/portable-config.js', 'docs/start.md', 'docs/configuration-backup.md', 'LICENSE', 'bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/composition.js', 'cli/module-contract.js', 'cli/evaluation-contract.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'capabilities/product/capability.json', 'capabilities/devops/capability.json', 'capabilities/devops/evals/cases.json', 'capabilities/monetization/capability.json', 'capabilities/monetization/skills/harness-monetization-adsense-integration/SKILL.md', 'capabilities/monetization/templates/analytics-report.md', 'core/evals/composition.json', 'adapters/kubernetes/adapter.yaml', 'adapters/astro/adapter.yaml', 'adapters/astro/skills/harness-astro-islands/SKILL.md', 'capabilities/product/templates/brd.md', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
     'core/workflows/continuous-development.md', 'docs/continuous-development.md', 'docs/examples/continuous-development.md',
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
@@ -67,6 +67,11 @@ try {
       fs.readFileSync(path.join(SOURCE, readJson(path.join(SOURCE, `capabilities/${owner}/capability.json`)).template_aliases?.[`templates/${type}.md`] ?? `capabilities/${owner}/templates/${type}.md`), 'utf8'));
   }
   assert.equal(JSON.parse(solutionRun(['check'])).status, 'ok');
+  const acceptancePlan = JSON.parse(solutionRun(['verify', '--adaptive'])).end_user_acceptance;
+  assert.equal(acceptancePlan.executed, false);
+  assert.equal(acceptancePlan.skill, 'harness-end-user-testing');
+  assert.ok(fs.existsSync(path.join(solutionTarget, '.agents/skills/harness-end-user-testing/SKILL.md')));
+  assert.ok(fs.existsSync(path.join(solutionTarget, '.harness/core/workflows/end-user-acceptance.md')));
   const startPlan = JSON.parse(solutionRun(['start']));
   assert.equal(startPlan.status, 'planned');
   assert.ok(startPlan.host_prompt.includes('project-setup.md'));
@@ -247,5 +252,5 @@ try {
   assert.equal(localResult.status, 'ok');
   assert.equal(JSON.parse(npm(['exec', '--offline', '--', 'aih', 'check'], local)).status, 'ok');
   console.log(JSON.stringify({ status: 'ok', version: packed.version, package_files: names.length,
-    checks: ['npm pack assets', 'packaged and installed Core/BE/FE/mobile conventions', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'artifact seeds, routed docs and external host handoff', 'Architecture/Delivery capability drafts and isolated package installation', 'monetization bundle and advisory checks', 'Astro packaged detection and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'setup/doctor and structural readiness', 'guided start, configuration backup/transfer/restore before init', 'idempotent update', 'local npm exec without network'] }, null, 2));
+    checks: ['npm pack assets', 'packaged and installed Core/BE/FE/mobile conventions', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'artifact seeds, routed docs and external host handoff', 'Architecture/Delivery capability drafts and isolated package installation', 'monetization bundle and advisory checks', 'Astro packaged detection and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'setup/doctor and structural readiness', 'guided start, configuration backup/transfer/restore before init', 'installed end-user skill/workflow and adaptive host plan', 'idempotent update', 'local npm exec without network'] }, null, 2));
 } finally { fs.rmSync(temp, { recursive: true, force: true }); }

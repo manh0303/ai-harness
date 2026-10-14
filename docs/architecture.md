@@ -166,3 +166,12 @@ saves a before-backup through the same installation guard/rollback machinery. Tr
 project/agent preferences and removes repository autonomy. No credentials, machine paths, locked
 payload, custom skills or checkpoint/document contents are exported. Full repo recovery remains Git
 and external-source backup. See [Configuration backup](configuration-backup.md).
+
+## End-user acceptance
+
+Core test-engineer routes public journeys to harness-end-user-testing and the end-user-acceptance
+workflow. Adaptive CLI exports tool/surface hints only; the host executes actual interfaces. Optional
+schema-1 journey declarations and bounded binary attachment digests qualify explicitly requested
+end-user requirements by matching surface and dependency scope. Receipts are producer declarations,
+not authenticated browser/model execution or UAT approval. No browser dependency/runner enters the CLI.
+See [End-user testing](end-user-testing.md).

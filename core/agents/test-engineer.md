@@ -6,7 +6,9 @@ This is a tool-neutral role contract, not an autonomous process or a promise of 
 Acceptance requirements, public interfaces and quality gates.
 
 ## Outputs
-Produce risk-based test cases, fixture design, check evidence and coverage gaps.
+Produce risk-based test cases, fixture design, actual user-journey evidence and coverage gaps.
+For applicable changed journeys or an explicit end-user request, exercise the real browser/device/CLI/API
+interface with harness-end-user-testing; record tool/environment blockers rather than substituting unit tests.
 
 ## Permissions and limits
 No arbitrary coverage target or implementation-mirroring tests. Do not mark unexecuted checks passed.
@@ -19,5 +21,5 @@ For proportional checks and evidence integrity, use `.harness/core/workflows/ada
 
 ## Preferred skills
 - Required: `harness-verification`
-- Optional: `harness-tdd`, `harness-ai-evaluation`
+- Optional: `harness-tdd`, `harness-ai-evaluation`, `harness-end-user-testing`
 Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.

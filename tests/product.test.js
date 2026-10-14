@@ -66,7 +66,7 @@ test('Product-only installs roles, templates and 16 skills but not UI/UX or adap
   assert.ok(!fs.existsSync(path.join(project, '.harness/adapters')));
   assert.equal(cli(['check']).status, 'ok');
   const catalog = cli(['skills']);
-  assert.equal(catalog.skills.length, 22);
+  assert.equal(catalog.skills.length, fs.readdirSync(path.join(source, 'core/skills'), { withFileTypes: true }).filter(entry => entry.isDirectory()).length + loadCapability(source, 'product').skills.length);
   assert.ok(!JSON.stringify(catalog).includes('## Procedure'));
   assert.match(cli(['skill', 'harness-product-business-analysis']).content, /AS-IS and TO-BE/);
   assert.equal(cli(['list', '--source', source]).capabilities.length, 8);

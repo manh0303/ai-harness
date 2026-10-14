@@ -22,7 +22,7 @@ including reused public APIs and unavailable browser/native checks; retain the s
 | [documentation](../core/agents/documentation.md) | Verified sources and decisions | Source-linked document diff and quality evidence | Invent approval or unperformed verification |
 | [planner](../core/agents/planner.md) | Scope, approved requirements, repo map | OpenSpec design/tasks/test outline | Implement ngoài scope |
 | [implementer](../core/agents/implementer.md) | Spec, tasks, repo, adapter | Code slice và actual test evidence | Merge/deploy |
-| [test-engineer](../core/agents/test-engineer.md) | AC, diff, contracts | Test scenarios, executed results/gaps | Tuyên bố pass khi chưa chạy |
+| [test-engineer](../core/agents/test-engineer.md) | AC, diff, contracts | Actual user journeys, outcomes/evidence, real/mocked scope and blockers | Tuyên bố pass khi chưa chạy |
 | [security-reviewer](../core/agents/security-reviewer.md) | Auth/data scope/tools/migration | Threats, mitigations và review findings | Bỏ qua chính sách quyền |
 | [reviewer](../core/agents/reviewer.md) | Diff, spec, findings/evidence | Review recommendation và residual risk | Tự merge PR |
 
@@ -108,3 +108,8 @@ Use [Continuous development](continuous-development.md). Store baseline/tested r
 ## Agent-first routing and PM aliases
 
 [Canonical Project Manager](../core/agents/project-manager.md) owns delivery. Product/Delivery PM IDs are compatibility aliases; route by canonical_id, not separate workers. Analysis/Discovery agents use canonical Product contracts above. Preferred skills are explicit; optional perspectives need not be installed. See [Agent-first migration](agent-first.md).
+
+For end-user QA, the existing test-engineer uses Core harness-end-user-testing and
+[end-user acceptance](end-user-testing.md). Pass app entry/environment, actor references, AC surface,
+actual interactions/outcomes, redacted trace/screenshot/report digests, dependency scope and cleanup.
+These receipts do not supply business-owner UAT approval or model-compliance evaluation.

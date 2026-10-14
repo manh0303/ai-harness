@@ -131,3 +131,7 @@ carry short source/evidence handoffs. User preferences do not grant runtime perm
 ## Continuous changes
 
 After the first delivery, use [Continuous development](continuous-development.md) for each feature, bugfix, rule change or resume. Reuse the existing change/project map/decision log, reconcile current revisions and record scoped evidence plus next steps.
+
+For user-facing verification, load Core harness-end-user-testing and follow
+[End-user acceptance](end-user-testing.md). Exercise actual interface journeys; keep real/mocked
+scope and unavailable tool/account/environment gaps explicit before review.

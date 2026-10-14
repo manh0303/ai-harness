@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — End-user acceptance
+
+- Add Core end-user-testing skill/workflow and test-engineer/review routing to exercise real browser/device/CLI/API journeys.
+- Adaptive plans disclose surface/tool hints and missing context; preserve existing runners and actual host permissions.
+- Add optional schema-1 end-user targets/surface/journey and bounded binary attachments; mocks, unknown dependencies and wrong-interface evidence cannot verify full end-user AC.
+- Reject browser/mobile/CLI transport-only PASS; connect React/Next.js and React Native 1.4.0, evidence docs and unscored behavior cases.
+- No browser/LLM runner, installed dependency, model calls or distribution bump; actual execution remains in the authorized host.
+
 ## Unreleased — Guided start and portable configuration
 
 - Add start: short terminal intake, saved task/source/output choices, read-only non-TTY plan and host handoff.

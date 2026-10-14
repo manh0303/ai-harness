@@ -86,3 +86,8 @@ canonical owners and source-write scope. Record them in project-owned artifacts.
 `npx --yes @manhd_d/ai-harness artifacts` shows declarations. See [Artifact contract](artifact-contract.md).
 
 For successive features, bugfixes or a resumed session, give the host a normal request. It follows [Continuous development](continuous-development.md), rechecks the baseline and maintains only affected docs.
+
+## Test như người dùng
+
+Giao AI: “Test tính năng này như end user theo AC, thao tác trên giao diện thật, kiểm tra kết quả và
+lưu bằng chứng; báo BLOCKED nếu thiếu tool/môi trường.” [Hướng dẫn và setup cần có](end-user-testing.md).

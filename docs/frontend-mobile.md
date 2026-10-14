@@ -74,3 +74,10 @@ Không có trial ứng dụng/browser/native hoặc live-model benchmark trong n
 - [React Native testing](https://reactnative.dev/docs/testing-overview): tách JS component và native/device evidence.
 - [React Navigation auth flow](https://reactnavigation.org/docs/auth-flow/): chỉ áp dụng khi app đang dùng
   React Navigation; giữ version-specific auth/back behavior, không mặc định cài router đó.
+
+## End-user journeys
+
+React/Next.js and React Native module 1.4.0 connect Core harness-end-user-testing to applicable
+browser/device acceptance, existing runners and optional binary evidence.
+[End-user guide](end-user-testing.md) distinguishes native devices from browser viewport emulation,
+real/mocked dependencies and BLOCKED access; unit/build/API checks cannot replace required UI flows.
