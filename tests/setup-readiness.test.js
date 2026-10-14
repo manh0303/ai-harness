@@ -42,7 +42,7 @@ test('install/update preserve project and machine content and append a scoped ig
   install(root, SOURCE);
   assert.equal(read('.harness/environment.json'), JSON.stringify(emptyEnvironment()));
   assert.equal(read('.harness/machine.json'), before);
-  assert.equal(read('.harness/.gitignore'), '# Existing rule\ncache/\n!/machine.json\n/machine.json\n');
+  assert.equal(read('.harness/.gitignore'), '# Existing rule\ncache/\n!/machine.json\n/backups/\n/machine.json\n');
   assert.equal(check(root).status, 'ok');
   assert.deepEqual(install(root, SOURCE, { command: 'update' }).changes, []);
   assert.equal(read('.harness/machine.json'), before);
@@ -127,7 +127,7 @@ test('CLI init/dry-run/scaffold expose honest next steps and new drafts are bloc
   const dry = cli(['init', '--dry-run']);
   assert.match(dry.next_steps[0], /without --dry-run/);
   const result = cli(['init']);
-  assert.match(result.next_steps[0], /aih setup/);
+  assert.match(result.next_steps[0], /aih start/);
   const change = cli(['new-change', 'add-order']);
   assert.match(change.next_steps.join(' '), /decisions.json/);
   assert.ok(fs.existsSync(path.join(root, base, 'verification.json')));

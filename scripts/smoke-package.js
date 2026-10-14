@@ -23,7 +23,7 @@ try {
   const packageName = readJson(path.join(SOURCE, 'package.json')).name;
   const packed = parsePackMetadata(npm(['pack', '--ignore-scripts', '--json', '--pack-destination', temp]), packageName);
   const names = packed.files.map(f => f.path);
-  for (const required of ['LICENSE', 'bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/composition.js', 'cli/module-contract.js', 'cli/evaluation-contract.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'capabilities/product/capability.json', 'capabilities/devops/capability.json', 'capabilities/devops/evals/cases.json', 'capabilities/monetization/capability.json', 'capabilities/monetization/skills/harness-monetization-adsense-integration/SKILL.md', 'capabilities/monetization/templates/analytics-report.md', 'core/evals/composition.json', 'adapters/kubernetes/adapter.yaml', 'adapters/astro/adapter.yaml', 'adapters/astro/skills/harness-astro-islands/SKILL.md', 'capabilities/product/templates/brd.md', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
+  for (const required of ['cli/start.js', 'cli/start-config.js', 'cli/portable-config.js', 'docs/start.md', 'docs/configuration-backup.md', 'LICENSE', 'bin/aih.js', 'cli/harness.js', 'cli/adapters.js', 'cli/composition.js', 'cli/module-contract.js', 'cli/evaluation-contract.js', 'cli/adapter-schema.js', 'cli/capabilities.js', 'cli/files.js', 'capabilities/uiux/capability.json', 'capabilities/product/capability.json', 'capabilities/devops/capability.json', 'capabilities/devops/evals/cases.json', 'capabilities/monetization/capability.json', 'capabilities/monetization/skills/harness-monetization-adsense-integration/SKILL.md', 'capabilities/monetization/templates/analytics-report.md', 'core/evals/composition.json', 'adapters/kubernetes/adapter.yaml', 'adapters/astro/adapter.yaml', 'adapters/astro/skills/harness-astro-islands/SKILL.md', 'capabilities/product/templates/brd.md', 'scripts/score-eval.js', 'harness.yaml', 'core/skills/harness-tdd/SKILL.md',
     'core/workflows/continuous-development.md', 'docs/continuous-development.md', 'docs/examples/continuous-development.md',
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
@@ -67,6 +67,23 @@ try {
       fs.readFileSync(path.join(SOURCE, readJson(path.join(SOURCE, `capabilities/${owner}/capability.json`)).template_aliases?.[`templates/${type}.md`] ?? `capabilities/${owner}/templates/${type}.md`), 'utf8'));
   }
   assert.equal(JSON.parse(solutionRun(['check'])).status, 'ok');
+  const startPlan = JSON.parse(solutionRun(['start']));
+  assert.equal(startPlan.status, 'planned');
+  assert.ok(startPlan.host_prompt.includes('project-setup.md'));
+  const configBackup = JSON.parse(solutionRun(['backup', '--output', 'settings.json']));
+  assert.equal(configBackup.status, 'ok');
+  const portableTarget = path.join(temp, 'portable project'); fs.mkdirSync(portableTarget);
+  fs.copyFileSync(path.join(solutionTarget, 'settings.json'), path.join(portableTarget, 'settings.json'));
+  const packagedCli = path.join(prefix, 'lib/node_modules', packageName, 'bin/aih.js');
+  const portableCli = process.platform === 'win32' ? path.join(prefix, 'node_modules', packageName, 'bin/aih.js') : packagedCli;
+  const portableRun = args => JSON.parse(command(process.execPath, [portableCli, ...args], portableTarget));
+  assert.equal(portableRun(['restore', '--from', 'settings.json', '--transfer', '--dry-run']).status, 'planned');
+  assert.equal(fs.existsSync(path.join(portableTarget, '.harness/project.json')), false);
+  assert.equal(portableRun(['restore', '--from', 'settings.json', '--transfer']).status, 'ok');
+  assert.equal(portableRun(['init']).status, 'ok');
+  assert.equal(portableRun(['check']).status, 'ok');
+  assert.deepEqual(portableRun(['start']).installed_modules.capabilities, ['architecture', 'delivery']);
+
   assert.equal(JSON.parse(solutionRun(['verify', '--scope', 'all'])).executed, false);
   assert.ok(JSON.parse(solutionRun(['eval', '--scope', 'all'])).dataset.cases.some(c => c.id === 'capability/architecture/pattern-levels'));
   assert.deepEqual(JSON.parse(solutionRun(['update'])).changes, []);
@@ -230,5 +247,5 @@ try {
   assert.equal(localResult.status, 'ok');
   assert.equal(JSON.parse(npm(['exec', '--offline', '--', 'aih', 'check'], local)).status, 'ok');
   console.log(JSON.stringify({ status: 'ok', version: packed.version, package_files: names.length,
-    checks: ['npm pack assets', 'packaged and installed Core/BE/FE/mobile conventions', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'artifact seeds, routed docs and external host handoff', 'Architecture/Delivery capability drafts and isolated package installation', 'monetization bundle and advisory checks', 'Astro packaged detection and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'setup/doctor and structural readiness', 'idempotent update', 'local npm exec without network'] }, null, 2));
+    checks: ['npm pack assets', 'packaged and installed Core/BE/FE/mobile conventions', 'global aih shim', 'cwd default', 'all adapters and skills', 'selective UI/UX capability', 'product document bundle', 'artifact seeds, routed docs and external host handoff', 'Architecture/Delivery capability drafts and isolated package installation', 'monetization bundle and advisory checks', 'Astro packaged detection and skills', 'installed verify/eval', 'stack detection', 'new-change dotfile', 'setup/doctor and structural readiness', 'guided start, configuration backup/transfer/restore before init', 'idempotent update', 'local npm exec without network'] }, null, 2));
 } finally { fs.rmSync(temp, { recursive: true, force: true }); }

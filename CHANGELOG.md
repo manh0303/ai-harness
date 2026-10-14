@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Guided start and portable configuration
+
+- Add start: short terminal intake, saved task/source/output choices, read-only non-TTY plan and host handoff.
+- Add bounded configuration backup/restore, dry-run conflicts, explicit replacement and before-backup; transfer only module/model preferences with old repo autonomy removed.
+- Keep canonical user config paths, ignore local backups, preserve settings through update, and document config vs full-project recovery in all README entry points.
+- Validate archive/config/path safety before writes; add rollback/transfer/intake tests, package coverage and unscored host scenarios. No model/network calls or distribution bump.
+
 ## Unreleased — Kiro and clearer tool setup
 
 - Add Kiro to all README languages and a documented IDE/CLI/Web setup guide with optional native skill pointers.

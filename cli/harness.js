@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { loadStartConfig } from './start-config.js';
 import { checkpointPath, validateCheckpoint } from './checkpoint.js';
 import { readConfig } from './project-config.js';
 import { claudeReport, claudeBlock, linkClaude } from './claude.js';
@@ -14,7 +15,7 @@ import { resolveModules } from './composition.js';
 import { safe, readJson, manifest, encode, digest, stat, block, mergeAgents, payload, validateAdapters, validateCapabilities, assertSeparate, HarnessError, LOCK, CONFIG, VERSION, SLUG, isObject } from './files.js';
 export * from './files.js';
 
-function projectConfig(root, adapters, capabilities, required = false) {
+export function projectConfig(root, adapters, capabilities, required = false) {
   const filename = safe(root, CONFIG);
   if (required && !stat(filename)) throw new HarnessError(`Missing ${CONFIG}; restore it from Git`);
   const config = stat(filename) ? readJson(filename) : { schema_version: 1, adapters: adapters ?? [], capabilities: capabilities ?? [] };
@@ -120,7 +121,7 @@ function drift(root, lock) {
   }).map(([name]) => name);
 }
 
-function guard(root, operation) {
+export function guard(root, operation) {
   const filename = safe(root, '.harness-install.lock');
   let fd;
   try { fd = fs.openSync(filename, 'wx', 0o600); }
@@ -132,12 +133,12 @@ function guard(root, operation) {
   finally { fs.closeSync(fd); fs.unlinkSync(filename); }
 }
 
-export function atomicWrite(filename, data) {
+export function atomicWrite(filename, data, mode = 0o644) {
   fs.mkdirSync(path.dirname(filename), { recursive: true });
   const tmp = path.join(path.dirname(filename), `.harness-tmp-${randomUUID()}`);
   try {
     fs.writeFileSync(tmp, data, { flag: 'wx', mode: 0o600 });
-    fs.chmodSync(tmp, stat(filename) ? fs.statSync(filename).mode & 0o777 : 0o644);
+    fs.chmodSync(tmp, stat(filename) ? fs.statSync(filename).mode & 0o777 : mode);
     fs.renameSync(tmp, filename);
   } finally { fs.rmSync(tmp, { force: true }); }
 }
@@ -172,6 +173,7 @@ export function install(root, source, { command = 'init', adapters, capabilities
     if (command === 'update' && !hasLock) throw new HarnessError('Not installed; run init first');
     const old = hasLock ? loadLock(root) : null;
     const existingAgents = loadAgentConfig(root);
+    loadStartConfig(root);
     loadArtifactContract(root); // Validate project-owned declarations before planning any writes.
     if (agentPreset !== undefined && command !== 'init') throw new HarnessError('Agent preset is supported only by init');
     if (agentPreset !== undefined && existingAgents) throw new HarnessError('agents.json is project-owned; edit it explicitly instead of applying an init preset');
@@ -230,8 +232,8 @@ export function install(root, source, { command = 'init', adapters, capabilities
     // This does not remove an already tracked machine file from the Git index.
     const ignoreName = '.harness/.gitignore', ignorePath = safe(root, ignoreName);
     const ignore = stat(ignorePath) ? fs.readFileSync(ignorePath, 'utf8') : '';
-    if (ignore.trimEnd().split(/\r?\n/).at(-1) !== '/machine.json') {
-      changes[ignoreName] = Buffer.from(ignore + (ignore && !ignore.endsWith('\n') ? '\n' : '') + '/machine.json\n');
+    if (ignore.trimEnd().split(/\r?\n/).slice(-2).join('\n') !== '/backups/\n/machine.json') {
+      changes[ignoreName] = Buffer.from(ignore + (ignore && !ignore.endsWith('\n') ? '\n' : '') + '/backups/\n/machine.json\n');
     }
     const newLock = encode(lock);
     if (!hasLock || !fs.readFileSync(safe(root, LOCK)).equals(newLock)) changes[LOCK] = newLock;
@@ -245,6 +247,7 @@ export function check(root) {
   const lock = loadLock(root), config = projectConfig(root, undefined, undefined, true);
   const problems = drift(root, lock);
   loadArtifactContract(root);
+  loadStartConfig(root);
   loadAgentConfig(root); // Optional on legacy installs; validate user config without managing its bytes.
   if (JSON.stringify([...config.adapters].sort()) !== JSON.stringify([...lock.adapters].sort())) problems.push(`${CONFIG}: adapter selection changed; run update`);
   if (JSON.stringify([...(config.capabilities ?? [])].sort()) !== JSON.stringify([...(lock.capabilities ?? [])].sort())) problems.push(`${CONFIG}: capability selection changed; run update`);

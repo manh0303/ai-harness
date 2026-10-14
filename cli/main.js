@@ -1,3 +1,5 @@
+import { startPlan, saveStart, guidedStart } from './start.js';
+import { backupConfig, restoreConfig } from './portable-config.js';
 import { listAdapters, detect, verify, evaluate } from './adapters.js';
 import { listCapabilities, skillCatalog, readSkill } from './capabilities.js';
 import { resolveModules } from './composition.js';
@@ -29,6 +31,9 @@ Usage: aih <command> [options]
   update               Apply the installed CLI bundle to the project (no download)
   check                Check Harness file integrity, not application tests
   doctor               Check installation, configured paths and tool presence
+  start                Guide intake; reuse saved answers and hand off to your AI host
+  backup               Export user configuration (not docs/checkpoints/secrets)
+  restore              Restore --from backup; --transfer reuses modules/model preferences
   setup                Suggest first-run questions for the AI host (read-only)
   artifacts            Show input/output/storage and connection declarations (read-only)
   ready <id>           Check structural change readiness, not approval
@@ -36,6 +41,13 @@ Usage: aih <command> [options]
   new-doc <type>       Scaffold a locked capability template (default: product)
 
 Options:
+  --goal <type>       start: idea, docs, change, resume (saves with --task)
+  --task <text>       start: task description; --change supplies resume checkpoint ID
+  --input <path/url>  start: seed requirements only if no inputs declared
+  --output <path>     start: draft docs directory; backup: archive path
+  --from <file>       restore: project-relative archive file
+  --transfer          restore: only modules/agent models; omit old autonomy
+  --replace           restore: explicit replacement; automatic before-backup
   --target <directory> Project directory (default: current directory)
   --detect            init only: opt in to detected stack selection
   --stage <type>      ready only: implement (default) or review
@@ -56,7 +68,9 @@ Options:
   -h, --help          Show help
   -v, --version       Show installed CLI version
 
-Start: init → fill .harness/local.md → ask your AI host to read AGENTS.md.
+Start: init → start → open your AI host and send the returned host_prompt.
+User settings: .harness/; backup exports only documented user files.
+Restore config before init on a fresh project; --transfer excludes old sources/tasks.
 The host runs application tests; verify prints plans or validates supplied evidence.
 Update a global CLI with npm install -g @manhd_d/ai-harness@latest,
 then run aih update --dry-run, aih update, and aih check in the project.
@@ -95,7 +109,7 @@ export function main(argv = process.argv.slice(2)) {
   let args;
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
-      target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
+      goal: { type: 'string' }, task: { type: 'string' }, change: { type: 'string' }, input: { type: 'string' }, output: { type: 'string' }, from: { type: 'string' }, transfer: { type: 'boolean' }, replace: { type: 'boolean' }, target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
       'agent-preset': { type: 'string' }, host: { type: 'string' }, expected: { type: 'string' },
       'link-claude': { type: 'boolean' }, 'claude-skills': { type: 'boolean' }, adaptive: { type: 'boolean' }, detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' }, stage: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
@@ -109,9 +123,13 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (!['start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
     if (extra.length || (!['new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name !== undefined) || (['new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
+    if (command === 'start') for (const key of ['goal','task','change','input','output','host']) allowed.add(key);
+    if (command === 'backup') allowed.add('output');
+    if (command === 'restore') { for (const key of ['from','transfer','replace','dry-run']) allowed.add(key); if (!args.values.from) throw new Error('restore requires --from'); }
+    if (command === 'start' && !args.values.goal && ['task','change','input','output'].some(key => args.values[key] !== undefined)) throw new Error('start saving options require --goal');
     if (command === 'checkpoint') { allowed.add('report'); allowed.add('expected'); if (!args.values.report) throw new Error('checkpoint requires --report'); }
     if (command === 'new-doc') { allowed.add('capability'); allowed.add('report'); }
     if (command === 'verify') { allowed.add('adaptive'); allowed.add('report'); }
@@ -122,13 +140,18 @@ export function main(argv = process.argv.slice(2)) {
     if (['init','update'].includes(command)) { allowed.add('link-claude'); allowed.add('claude-skills'); }
     for (const key of Object.keys(args.values)) if (!allowed.has(key)) throw new Error(`--${key} is not supported for ${command}`);
     if (args.values.detect && args.values.adapters !== undefined) throw new Error('Choose either --detect or --adapters');
-    for (const key of ['target', 'source', 'adapters', 'capabilities', 'capability', 'report', 'agent-preset', 'host']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
+    for (const key of ['goal', 'task', 'change', 'input', 'output', 'from', 'target', 'source', 'adapters', 'capabilities', 'capability', 'report', 'agent-preset', 'host']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
   } catch (error) { console.error(JSON.stringify({ status: 'error', message: error.message })); return 2; }
   try {
     const { values, positionals: [command, name] } = args;
     const root = targetRoot(values.target ?? process.cwd());
     let result;
-    if (command === 'init' || command === 'update') {
+    if (command === 'start') {
+      if (!values.goal && process.stdin.isTTY && process.stdout.isTTY) return guidedStart(root, { host: values.host }).then(value => { console.log(JSON.stringify(value, null, 2)); return value.status === 'blocked' ? 1 : 0; }).catch(error => { console.error(JSON.stringify({ status: 'error', message: error.message })); return 1; });
+      result = values.goal ? saveStart(root, { goal: values.goal, task: values.task, changeId: values.change, input: values.input, output: values.output, host: values.host }) : startPlan(root, values.host);
+    } else if (command === 'backup') result = backupConfig(root, values.output);
+    else if (command === 'restore') result = restoreConfig(root, values.from, { dryRun: values['dry-run'], transfer: values.transfer, replace: values.replace });
+    else if (command === 'init' || command === 'update') {
       const source = targetRoot(values.source ?? SOURCE);
       const selection = values.detect ? detect(root, source).adapters : undefined;
       if (values.detect && !selection.length) throw new Error('No stack detected; choose --adapters explicitly or omit --detect for core only');
@@ -172,9 +195,9 @@ export function main(argv = process.argv.slice(2)) {
     else result = command === 'doctor' ? doctor(root) : check(root);
     if (command === 'init' || command === 'update') result.next_steps = values['dry-run']
       ? ['Review the proposed changes, then repeat without --dry-run.']
-      : ['Run aih setup; ask your AI host to read AGENTS.md and the project-setup workflow.',
+      : ['Run start with the same CLI (aih start or npx --yes @manhd_d/ai-harness start); open your AI host and send host_prompt.',
          'Review local.md/environment.json and artifacts.json/integrations.json; record input/output/storage/ownership, keep credentials in the host and personal paths in ignored machine.json.',
-         'Run aih doctor and review/commit the shared configuration and snapshot.'];
+         'Run doctor and review/commit shared configuration and snapshot. Use backup; copy its file outside the repo. See docs/configuration-backup.md.'];
     if (command === 'new-change') result.next_steps = [
       'Resolve consequential ambiguity with the user and record answers/sources in decisions.json.',
       'When artifact outputs are configured, record create/update/unchanged impact and source-write policy in artifact-impact.json.',

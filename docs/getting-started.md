@@ -1,6 +1,6 @@
 # Bắt đầu với AI Harness
 
-**Cài vào project → mở AI → giao việc → review kết quả.** Cần Node.js **22+** và một thư mục project. Với dự án mới, tạo thư mục/repository trước; Harness không tạo ứng dụng hay chạy model.
+**Cài vào project → start → mở AI làm việc → review kết quả.** Cần Node.js **22+** và một thư mục project. Với dự án mới, tạo thư mục/repository trước; Harness không tạo ứng dụng hay chạy model.
 
 ## 1. Cài vào project
 
@@ -31,9 +31,10 @@ npx --yes @manhd_d/ai-harness init --adapters java-spring --capabilities product
 Thêm `--capabilities uiux` khi cần UI/UX; `monetization` cho website có quảng cáo. [Danh mục đầy đủ](cli.md).
 Với project đã cài, đổi lựa chọn trong `.harness/project.json` rồi dùng `update`.
 
-## 2. Mở AI và giao việc
+## 2. Start và mở AI làm việc
 
-Mở thư mục project trong công cụ AI, rồi gửi:
+Chạy `npx --yes @manhd_d/ai-harness start`: trả lời mục tiêu/input/output còn thiếu, rồi gửi
+`host_prompt` từ kết quả vào AI tool đang mở project. [Luồng start](start.md). Nếu đã biết task, có thể gửi thẳng:
 
 > Đọc AGENTS.md và .harness/local.md. Khảo sát code, tài liệu và lệnh test hiện có;
 > ghi context còn thiếu vào .harness/local.md, chỉ hỏi phần chưa rõ.
@@ -65,7 +66,8 @@ Task nhỏ không cần bộ tài liệu đầy đủ. Không cần cài OpenSpe
 
 `check` kiểm tra file Harness; `verify` xuất checklist. Code cần **test của project** và review thực tế.
 
-Trước cập nhật, tạo branch và commit trạng thái hiện tại. Xem trước, áp dụng rồi kiểm tra:
+Trước cập nhật, tạo branch và commit trạng thái hiện tại. Chạy `npx --yes @manhd_d/ai-harness backup`
+và copy JSON được trả về ra nơi riêng ngoài repo. [Lưu ở đâu, cài lại và chuyển dự án](configuration-backup.md). Xem trước, áp dụng rồi kiểm tra:
 
 ```bash
 npx --yes @manhd_d/ai-harness@latest update --dry-run

@@ -170,3 +170,14 @@ correction for the release PR to include. No consumer migration or snapshot upda
 for these guides. Kiro skill pointers are optional, project-owned and not generated/updated by Harness;
 keep existing native configs. Claude agent-first flags are not in the 0.12.0 npm baseline: use the manual
 import or a reviewed version that supports them. See [Tool setup](tool-setup/README.md).
+
+## Guided start and portable user configuration (unreleased)
+
+Distribution remains release-PR owned. Project/lock/agent/artifact schemas stay 1; optional user-owned
+start.json and a separate allowlisted archive schema start at 1. update preserves user settings and
+adds backup-folder ignore with the managed intake workflow. Existing config paths are retained; no
+second user configuration directory is introduced. Run reviewed update --dry-run/update/check and
+re-export evals. New commands require a supporting CLI release. Restore before init on a fresh repo;
+transfer intentionally omits sources/tasks/state/autonomy. Unknown schema versions fail with no writes,
+not automatic migration. Roll back the consumer snapshot via Git and settings via before-backup.
+See [Configuration backup](configuration-backup.md).

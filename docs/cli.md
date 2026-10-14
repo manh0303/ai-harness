@@ -163,3 +163,20 @@ See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only
 ## Agent-first additions (unreleased)
 
 aih agents shows canonical IDs, skill preferences and model declarations. init --host claude-code seeds a native preset only when agents.json is absent. init/update --link-claude and --claude-skills opt in to managed import/wrappers; native settings remain user-owned. checkpoint <id> --report saves project-owned recovery state; --expected supplies prior digest for replacement. resume <id> is read-only. See [Agent-first guide](agent-first.md). No command launches agents, probes providers, merges or measures quota.
+
+## Start, backup và restore (bản nâng cấp này)
+
+| Lệnh | Hành vi |
+| --- | --- |
+| `aih start` | Terminal: intake ngắn; không TTY: read-only plan; trả host_prompt |
+| `aih start --goal docs --task "Implement requirements" --input docs/requirements --output docs/specs` | Lưu task và seed nguồn/output còn thiếu |
+| `aih backup [--output backups/config.json]` | Export 8 file cấu hình dùng chung; không ghi đè archive |
+| `aih restore --from config.json --dry-run` | Kiểm tra schema/digest và xem file/conflict trước ghi |
+| `aih restore --from config.json [--replace]` | Phục hồi cùng dự án, tự backup trước thay file khác nội dung |
+| `aih restore --from config.json --transfer` | Chuyển module/model; bỏ repo autonomy và nguồn/task/domain/command cũ |
+
+Tất cả nhận --target. Đường dẫn --from/--output tính từ project root. --host dùng với start;
+--change chỉ cho start --goal resume. Các flags sai command bị từ chối. Lệnh --dry-run thuộc restore
+không đổi target hoặc chờ stdin. Fresh repo restore trước init; installed repo update/check sau khi
+selection đổi. Đọc [Start](start.md) và [Configuration backup](configuration-backup.md) cho giới hạn,
+phục hồi checkpoint và rollback. Các lệnh không truy cập remote, chạy model, cấp quyền hay auto-merge.
