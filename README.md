@@ -14,7 +14,10 @@ Install/sign in to an AI tool below. Requires Node.js 22+. Run in your **project
 
 ```bash
 npx --yes @manhd_d/ai-harness init
+npx --yes @manhd_d/ai-harness start
 ```
+
+Run `start` for guided intake, then send its `host_prompt` to your AI tool. [Settings, backup & transfer](docs/configuration-backup.md).
 
 `npx` does not install a global `aih` command. Check the installation with
 `npx --yes @manhd_d/ai-harness check`; then open the same project in your AI tool.

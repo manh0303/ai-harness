@@ -2,6 +2,7 @@
 
 | File | Nội dung | Git |
 | --- | --- | --- |
+| `.harness/start.json` | Mục tiêu/task và ID checkpoint nếu tiếp tục | Commit |
 | `.harness/project.json` | Adapter/capability | Commit |
 | `.harness/agents.json` | Provider/model/reasoning theo role, execution preferences và host mappings | Commit |
 | `.harness/artifacts.json` | Input/output/storage, canonical ownership và source-write policy | Commit |
@@ -10,7 +11,7 @@
 | `.harness/environment.json` | Công cụ, lệnh, file cần có | Commit |
 | `.harness/machine.json` | Đường dẫn riêng của máy, tùy chọn | Ignore |
 
-Init/update tạo environment rỗng nếu chưa có và thêm `/machine.json` vào cuối
+Init/update tạo environment rỗng nếu chưa có và thêm `/backups/` và `/machine.json` vào cuối
 `.harness/.gitignore`. File đã được Git track vẫn được track: ignore không xóa khỏi index/history.
 CLI không tạo file machine và không đọc nội dung Maven settings. Không ghi mật khẩu/token vào các
 file Harness; credentials thuộc cơ chế quản lý riêng của công cụ.
@@ -91,3 +92,10 @@ local.md đã trả lời. Setup không phải wizard nhập liệu và không t
 Xem [Artifact contract](artifact-contract.md). `aih artifacts` báo khai báo; `aih setup` gợi ý hỏi
 nơi lưu docs/UI nếu chưa biết. Các file này project-owned và được bảo toàn khi update; chúng không
 kết nối MCP, cấp quyền hay chạy tool. Credentials và native host config nằm ngoài Git.
+
+## Backup và dùng lại
+
+Chạy `aih start` để lưu intake. File được bảo toàn khi update. Chạy `aih backup`, copy archive ngoài
+repo; `aih restore --from <file> --dry-run` xem trước phục hồi. Dùng --transfer ở repo mới để chỉ
+chuyển module/model, tránh nguồn/tiến độ cũ. [Hướng dẫn đầy đủ](configuration-backup.md) mô tả các
+file được lưu, những gì không có trong backup, conflict/backup-before-replace và cách cài lại.

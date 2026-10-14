@@ -156,3 +156,13 @@ The [continuous-development workflow](continuous-development.md) composes existi
 ## Agent-first changes (unreleased)
 
 Optional capability profiles declare asset_owner for a canonical owner; loading validates subset membership, and installation vendors canonical assets while exposing selected skills once. Optional agent/template aliases retain old IDs/routes. Root CLAUDE managed import and native skill wrappers are opt-in locked payloads; external native settings remain project-owned. Checkpoint commands store declarations/history and compute local drift without a runtime/state server. See [Agent-first migration](agent-first.md).
+
+## Guided intake and portable configuration
+
+start uses terminal prompts or a non-TTY plan with saved user-owned start.json; canonical source/output
+declarations remain artifacts.json. backup exports an allowlisted, bounded UTF-8 config archive only.
+restore validates schema/digests/configs/paths, previews conflicts, requires explicit replacement and
+saves a before-backup through the same installation guard/rollback machinery. Transfer copies only
+project/agent preferences and removes repository autonomy. No credentials, machine paths, locked
+payload, custom skills or checkpoint/document contents are exported. Full repo recovery remains Git
+and external-source backup. See [Configuration backup](configuration-backup.md).

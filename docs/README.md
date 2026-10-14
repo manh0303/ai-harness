@@ -45,3 +45,6 @@ See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only
 [Continuous development & living documentation](continuous-development.md): successive features, bugfixes, baseline reconciliation and selective maintenance.
 
 - [Agent-first delivery and 0.12 migration](agent-first.md): proportional roles, selective Product profiles, retired recipes, brownfield/Claude/Maven and checkpoint recovery.
+
+- [Start theo input hiện có](start.md)
+- [Lưu cấu hình, backup, cài lại và chuyển dự án](configuration-backup.md)

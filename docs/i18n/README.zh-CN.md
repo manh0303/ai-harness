@@ -12,7 +12,10 @@ Core workflows 可用于任何项目。Stack support 是可选的，不会自动
 
 ```bash
 npx --yes @manhd_d/ai-harness init
+npx --yes @manhd_d/ai-harness start
 ```
+
+运行 `start` 获取引导，然后将 `host_prompt` 发送给 AI 工具。[配置备份与项目迁移](../configuration-backup.md)。
 
 `npx` 不会安装全局 `aih` command。使用 `npx --yes @manhd_d/ai-harness check` 检查，然后在 AI tool 中打开同一项目。[通用 Setup](../tool-setup/README.md)。
 
