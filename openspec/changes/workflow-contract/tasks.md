@@ -7,7 +7,7 @@
 - [x] Add dynamic version guard, CI and same-tag npm/PyPI publishing.
 - [x] Refresh README/translations, six-host first session, architecture/migration and limits.
 - [x] Run final npm/Python required checks, review diff and record evidence.
-- [ ] Create feature PR with actual results and external setup/live-host limitations.
+- [x] Create feature PR with actual results and external setup/live-host limitations: https://github.com/manh0303/ai-harness/pull/53.
 
 ## After merge
 - [ ] Maintainer configures PyPI project/Trusted Publisher and environment before reviewed release publication.
