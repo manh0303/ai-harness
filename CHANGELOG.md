@@ -179,6 +179,16 @@
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.15.0](https://github.com/manh0303/ai-harness/compare/v0.14.0...v0.15.0) (2026-10-14)
+
+
+### Features
+
+* add actual end-user acceptance and journey evidence ([ee99fd6](https://github.com/manh0303/ai-harness/commit/ee99fd6825d46efb20e80ccb36cdec9e7b214b05))
+* add in-session Kiro onboarding and knowledge freshness ([8f2e68b](https://github.com/manh0303/ai-harness/commit/8f2e68b0b2200437096cc69ce5e8acae5b85002b))
+* add workflow contracts and offline pip distribution ([6cde81a](https://github.com/manh0303/ai-harness/commit/6cde81a0cc1c41922cce82458fbe88cca7913edd))
+* scaffold missing setup and persist scoped project decisions ([38877c8](https://github.com/manh0303/ai-harness/commit/38877c896e94a35a6d5407d2ab662538088cfd7b))
+
 ## [0.14.0](https://github.com/manh0303/ai-harness/compare/v0.13.0...v0.14.0) (2026-10-14)
 
 
