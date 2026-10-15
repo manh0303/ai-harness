@@ -1,5 +1,5 @@
 {
-  "name": "@manhd_d/ai-harness",
+  "name": "@manhd_d/notth",
   "version": "0.15.0",
   "description": "Reusable AI development rules, skills and workflows with a safe local installer",
   "type": "module",
@@ -12,7 +12,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/manh0303/ai-harness.git"
+    "url": "git+https://github.com/manh0303/notth.git"
   },
   "publishConfig": {
     "access": "public"

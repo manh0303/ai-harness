@@ -1,4 +1,6 @@
-# AI Harness
+# Notth
+
+Tên cũ: **AI Harness**. [Chuyển bản đã cài sang Notth](../notth-migration.md). Tên npm mới dùng được sau lần phát hành đầu tiên.
 
 [English](../../README.md) · **Tiếng Việt** · [简体中文](README.zh-CN.md) · [Español](README.es.md)
 
@@ -11,7 +13,7 @@ Core dùng được với mọi project; stack adapter là tùy chọn.
 Cần **Node.js 22+**. Chạy trong project root:
 
 ```bash
-npx --yes @manhd_d/ai-harness init --host codex
+npx --yes @manhd_d/notth init --host codex
 ```
 
 Chọn host: codex, claude-code, cursor, copilot, gemini-cli hoặc kiro.
@@ -31,7 +33,7 @@ aih init --host codex
 Cần thêm Python 3.9+, vẫn cần Node 22+; cùng CLI/assets, không gọi npm/npx.
 Offline: `python -m pip install --no-index --no-deps /path/to/package.whl`.
 [pip và cập nhật](../python-installation.md) · [Backup và chuyển dự án](../configuration-backup.md).
-`npx` không tạo global aih; dùng `npx --yes @manhd_d/ai-harness check` kiểm integrity.
+`npx` không tạo global aih; dùng `npx --yes @manhd_d/notth check` kiểm integrity.
 
 | AI tool | Setup |
 | --- | --- |

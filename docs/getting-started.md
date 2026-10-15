@@ -1,4 +1,4 @@
-# Bắt đầu với AI Harness
+# Bắt đầu với Notth
 
 **Cài vào project → start → mở AI làm việc → review kết quả.** Cần Node.js **22+** và một thư mục project. Với dự án mới, tạo thư mục/repository trước; Harness không tạo ứng dụng hay chạy model.
 
@@ -7,7 +7,7 @@
 Chạy tại thư mục gốc của project:
 
 ```bash
-npx --yes @manhd_d/ai-harness init --detect
+npx --yes @manhd_d/notth init --detect
 ```
 
 Lệnh nhận diện stack từ file ở thư mục gốc và cài hướng dẫn tương ứng. Nếu báo chưa nhận diện được, thay `--detect` theo bảng; bỏ `--detect` để chỉ cài quy tắc chung (Core):
@@ -25,7 +25,7 @@ Lệnh nhận diện stack từ file ở thư mục gốc và cài hướng dẫ
 Ví dụ vừa code Spring vừa viết tài liệu:
 
 ```bash
-npx --yes @manhd_d/ai-harness init --adapters java-spring --capabilities product
+npx --yes @manhd_d/notth init --adapters java-spring --capabilities product
 ```
 
 Thêm `--capabilities uiux` khi cần UI/UX; `monetization` cho website có quảng cáo. [Danh mục đầy đủ](cli.md).
@@ -63,7 +63,7 @@ Cấu hình model là tùy chọn trong `.harness/agents.json`; chọn model tư
 Với `product` đã cài, tạo bản nháp yêu cầu:
 
 ```bash
-npx --yes @manhd_d/ai-harness new-doc prd-lite
+npx --yes @manhd_d/notth new-doc prd-lite
 ```
 
 Tính năng cần spec riêng: dùng `new-change <id>`; [hướng dẫn spec](change-readiness.md).
@@ -73,24 +73,24 @@ Task nhỏ không cần bộ tài liệu đầy đủ. Không cần cài OpenSpe
 
 `check` kiểm tra file Harness; `verify` xuất checklist. Code cần **test của project** và review thực tế.
 
-Trước cập nhật, tạo branch và commit trạng thái hiện tại. Chạy `npx --yes @manhd_d/ai-harness backup`
+Trước cập nhật, tạo branch và commit trạng thái hiện tại. Chạy `npx --yes @manhd_d/notth backup`
 và copy JSON được trả về ra nơi riêng ngoài repo. [Lưu ở đâu, cài lại và chuyển dự án](configuration-backup.md). Xem trước, áp dụng rồi kiểm tra:
 
 ```bash
-npx --yes @manhd_d/ai-harness@latest update --dry-run
-npx --yes @manhd_d/ai-harness@latest update
-npx --yes @manhd_d/ai-harness@latest check
+npx --yes @manhd_d/notth@latest update --dry-run
+npx --yes @manhd_d/notth@latest update
+npx --yes @manhd_d/notth@latest check
 ```
 
 Review diff và chạy test project trước khi commit. Nếu có conflict, xem [cách xử lý](cli.md).
-Dùng thường xuyên có thể cài global: `npm install -g @manhd_d/ai-harness`, rồi dùng `aih` thay cho `npx --yes @manhd_d/ai-harness`. Nâng CLI global trước khi `aih update`.
+Dùng thường xuyên có thể cài global: `npm install -g @manhd_d/notth`, rồi dùng `aih` thay cho `npx --yes @manhd_d/notth`. Nâng CLI global trước khi `aih update`.
 
 [Tra cứu & ví dụ theo nhu cầu](README.md).
 
 ## Docs/UI destinations
 For idea-driven or existing-doc work, ask the AI to reuse or clarify input/output destinations,
 canonical owners and source-write scope. Record them in project-owned artifacts.json/integrations.json;
-`npx --yes @manhd_d/ai-harness artifacts` shows declarations. See [Artifact contract](artifact-contract.md).
+`npx --yes @manhd_d/notth artifacts` shows declarations. See [Artifact contract](artifact-contract.md).
 
 For successive features, bugfixes or a resumed session, give the host a normal request. It follows [Continuous development](continuous-development.md), rechecks the baseline and maintains only affected docs.
 

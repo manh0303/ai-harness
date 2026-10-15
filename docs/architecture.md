@@ -2,7 +2,7 @@
 
 Maintainer entry point: [Harness maintenance and impact matrix](harness-maintenance.md).
 
-AI Harness is a versioned instruction and workflow distribution framework. Its executable part is a
+Notth is a versioned instruction and workflow distribution framework. Its executable part is a
 local installer and integrity checker, with a separate opt-in conformance host driver.
 It is not an LLM gateway, an orchestration server or a sandbox.
 

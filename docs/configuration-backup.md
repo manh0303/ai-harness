@@ -1,7 +1,7 @@
 # Lưu cấu hình, backup và chuyển dự án
 
 Các lệnh dưới đây dùng `aih` khi đã cài global. Nếu dùng npx, thay `aih` bằng
-`npx --yes @manhd_d/ai-harness`. Những lệnh start/backup/restore thuộc bản nâng cấp này;
+`npx --yes @manhd_d/notth`. Những lệnh start/backup/restore thuộc bản nâng cấp này;
 chỉ dùng với bản đã phát hành có các lệnh đó, hoặc checkout/package đã review.
 
 ## Thông tin của bạn nằm ở đâu?

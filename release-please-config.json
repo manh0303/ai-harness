@@ -6,7 +6,7 @@
   "packages": {
     ".": {
       "release-type": "node",
-      "package-name": "@manhd_d/ai-harness",
+      "package-name": "@manhd_d/notth",
       "extra-files": [
         {
           "type": "json",

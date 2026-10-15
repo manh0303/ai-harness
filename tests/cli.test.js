@@ -224,3 +224,34 @@ test('edited Python 0.1 fixture refuses upgrade without overwrite', () => {
   fs.appendFileSync(path.join(project, '.harness/core/rules/context.md'), 'Custom');
   const before = snapshot(); run('update', [], 1); assert.deepEqual(snapshot(), before);
 });
+
+test('Notth updates legacy AI Harness ownership without duplicating blocks or losing user context', () => {
+  const manifestFile = path.join(source, 'harness.yaml');
+  const currentManifest = fs.readFileSync(manifestFile, 'utf8');
+  const legacyManifest = JSON.parse(currentManifest);
+  legacyManifest.name = 'ai-harness';
+  legacyManifest.distribution.npm = '@manhd_d/ai-harness';
+  fs.writeFileSync(manifestFile, JSON.stringify(legacyManifest));
+  const templateFile = path.join(source, 'templates/AGENTS.md');
+  const currentTemplate = fs.readFileSync(templateFile, 'utf8');
+  fs.writeFileSync(templateFile, currentTemplate.replace('## Notth ', '## AI Harness '));
+  write('AGENTS.md', '# Project instructions\nPreserve this prefix.\n');
+  run('init', ['--adapters', 'java-spring']);
+  fs.appendFileSync(path.join(project, 'AGENTS.md'), '\nPreserve this appendix.\n');
+  write('.harness/local.md', 'Reviewed project facts\n');
+  const config = fs.readFileSync(path.join(project, '.harness/project.json'));
+  fs.writeFileSync(manifestFile, currentManifest);
+  fs.writeFileSync(templateFile, currentTemplate);
+  run('update', ['--dry-run']);
+  run('update');
+  assert.equal(run('check').status, 'ok');
+  const agents = fs.readFileSync(path.join(project, 'AGENTS.md'), 'utf8');
+  assert.equal(agents.split('<!-- ai-harness:start -->').length - 1, 1);
+  assert.match(agents, /## Notth /);
+  assert.ok(agents.startsWith('# Project instructions\nPreserve this prefix.\n'));
+  assert.ok(agents.endsWith('\nPreserve this appendix.\n'));
+  assert.equal(fs.readFileSync(path.join(project, '.harness/local.md'), 'utf8'), 'Reviewed project facts\n');
+  assert.deepEqual(fs.readFileSync(path.join(project, '.harness/project.json')), config);
+  assert.ok(fs.existsSync(path.join(project, '.agents/skills/harness-start/SKILL.md')));
+  assert.deepEqual(run('update').changes, []);
+});

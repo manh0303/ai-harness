@@ -76,7 +76,7 @@ Node thiếu, và rebuild sdist offline. Không gọi npm để build/install wh
 
 Workflow [npm-publish.yml](../.github/workflows/npm-publish.yml) build/test cả hai kênh từ cùng tag
 Release Please, publish npm rồi publish PyPI bằng wheel đã kiểm. Maintainer cấu hình PyPI Trusted
-Publisher: owner `manh0303`, repository `ai-harness`, workflow `npm-publish.yml`, environment `pypi`.
+Publisher: owner `manh0303`, repository `notth`, workflow `npm-publish.yml`, environment `pypi`.
 Đặt environment review theo chính sách repo. Theo [PyPA guide](https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/).
 
 Hai registry không có transaction chung: npm có thể thành công còn PyPI lỗi. Rerun **job publish-pypi**

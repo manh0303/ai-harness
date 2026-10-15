@@ -26,7 +26,7 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | skill NAME | none | Read one installed, locked skill |
 
 All commands default --target to the current directory. --source defaults to the installed package.
-For a global install, upgrade the CLI with `npm install -g @manhd_d/ai-harness@latest` before
+For a global install, upgrade the CLI with `npm install -g @manhd_d/notth@latest` before
 `aih update --dry-run` and `aih update`. Update never fetches npm. `aih --version` reports the CLI
 version; `aih check` reports the project snapshot version. For a local install, update the local
 dependency and use `npx aih`. Application tests must be executed separately.

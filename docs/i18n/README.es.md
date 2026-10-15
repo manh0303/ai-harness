@@ -1,4 +1,6 @@
-# AI Harness
+# Notth
+
+Antes **AI Harness**. [Migración a Notth](../notth-migration.md). El nuevo nombre npm estará disponible tras la primera publicación revisada.
 
 [English](../../README.md) · [Tiếng Việt](README.vi.md) · [简体中文](README.zh-CN.md) · **Español**
 
@@ -11,7 +13,7 @@ Los Core workflows sirven para cualquier proyecto. El stack support es opcional 
 Requiere **Node.js 22+**. Ejecuta en la raíz del proyecto:
 
 ```bash
-npx --yes @manhd_d/ai-harness init --host codex
+npx --yes @manhd_d/notth init --host codex
 ```
 
 Host: codex, claude-code, cursor, copilot, gemini-cli o kiro.
@@ -31,7 +33,7 @@ aih init --host codex
 Necesita Python 3.9+ y Node.js 22+; incluye el mismo CLI y recursos, sin ejecutar npm/npx.
 Sin conexión: `python -m pip install --no-index --no-deps /path/to/package.whl`.
 [pip y actualizaciones](../python-installation.md) · [Backup](../configuration-backup.md).
-`npx` no crea un comando global aih; comprueba con `npx --yes @manhd_d/ai-harness check`.
+`npx` no crea un comando global aih; comprueba con `npx --yes @manhd_d/notth check`.
 
 | AI tool | Setup |
 | --- | --- |

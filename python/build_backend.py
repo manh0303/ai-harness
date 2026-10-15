@@ -37,16 +37,16 @@ def payload():
 
 def metadata():
     return ("Metadata-Version: 2.4\nName: manhd-ai-harness\nVersion: " + package()["version"] +
-            "\nSummary: AI Harness shared workflows and Node.js CLI, installable without npm\n"
+            "\nSummary: Notth shared workflows and Node.js CLI, installable without npm\n"
             "Requires-Python: >=3.9\nLicense-Expression: MIT\nLicense-File: LICENSE\n"
-            "Project-URL: Repository, https://github.com/manh0303/ai-harness\n"
+            "Project-URL: Repository, https://github.com/manh0303/notth\n"
             "Description-Content-Type: text/markdown\n\n" + (ROOT / "README.md").read_text(encoding="utf-8")).encode()
 
 
 def metadata_files():
     folder = NAME + "-" + package()["version"] + ".dist-info/"
     return {folder + "METADATA": metadata(),
-            folder + "WHEEL": b"Wheel-Version: 1.0\nGenerator: ai-harness-pep517\nRoot-Is-Purelib: true\nTag: py3-none-any\n",
+            folder + "WHEEL": b"Wheel-Version: 1.0\nGenerator: notth-pep517\nRoot-Is-Purelib: true\nTag: py3-none-any\n",
             folder + "entry_points.txt": b"[console_scripts]\naih = ai_harness.launcher:main\n",
             folder + "licenses/LICENSE": (ROOT / "LICENSE").read_bytes()}
 

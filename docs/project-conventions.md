@@ -58,7 +58,7 @@ scope cần quyết định của người dùng. Không cài lint/framework m�
 ## Update và giới hạn kiểm chứng
 
 Sau khi phiên bản chứa thay đổi được phát hành, nâng CLI rồi chạy `aih update --dry-run`, `aih update`,
-`aih check` trên nhánh consumer. Có thể kiểm thử trước bằng `--source /path/to/reviewed/ai-harness`.
+`aih check` trên nhánh consumer. Có thể kiểm thử trước bằng `--source /path/to/reviewed/notth`.
 Update giữ nguyên `.harness/local.md`, environment và các tài liệu dự án; host bổ sung thông tin còn
 thiếu vào file cũ thay vì ghi đè. Không có schema mới, auto-scaffold ứng dụng hay migration kiến trúc.
 

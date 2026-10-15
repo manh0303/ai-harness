@@ -1,4 +1,4 @@
-# AI Harness
+# Notth
 
 **English** · [Tiếng Việt](docs/i18n/README.vi.md) · [简体中文](docs/i18n/README.zh-CN.md) · [Español](docs/i18n/README.es.md)
 
@@ -8,12 +8,15 @@ Give an idea, existing docs or a change request to your AI coding tool. Harness 
 
 Works with any project through Core workflows. Optional stack support: Spring Boot, React/Next.js, React Native, Python, Astro and Kubernetes. Stack selection does not choose infrastructure or architecture.
 
+Previously **AI Harness**. [Existing installation → Notth](docs/notth-migration.md).
+The new npm name becomes installable after its first reviewed publication.
+
 ## Quick start
 
 Requires **Node.js 22+** and your AI coding tool. Run in your **project root**:
 
 ```bash
-npx --yes @manhd_d/ai-harness init --host codex
+npx --yes @manhd_d/notth init --host codex
 ```
 
 Set `--host` to `codex`, `claude-code`, `cursor`, `copilot`, `gemini-cli` or `kiro`.
@@ -23,7 +26,7 @@ In your first AI session, invoke **harness-start** if the host exposes it, or se
 
 The agent inspects the project, asks only missing questions and saves context. Kiro exposes
 `/harness-start`; native discovery varies by client. [Host guides](docs/tool-setup/README.md).
-`npx` does not create a global command; use `npx --yes @manhd_d/ai-harness check` to check integrity.
+`npx` does not create a global command; use `npx --yes @manhd_d/notth check` to check integrity.
 
 **pip / restricted networks** (included in the next reviewed release; PyPI publication requires maintainer setup):
 

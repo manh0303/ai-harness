@@ -1,6 +1,6 @@
-# Nâng cấp AI Harness không bỏ sót thành phần
+# Nâng cấp Notth không bỏ sót thành phần
 
-Đây là đầu mối dành cho người và AI sửa **repository AI Harness**, không phải quy trình phát triển
+Đây là đầu mối dành cho người và AI sửa **repository Notth**, không phải quy trình phát triển
 ứng dụng của consumer. Đọc tài liệu này trước khi sửa Harness. Giữ thông tin chuyên biệt ở tài liệu
 gốc được liên kết bên dưới; không sao chép quy tắc thành nhiều bản có thể mâu thuẫn.
 

@@ -64,7 +64,7 @@ Nếu dùng OpenSpec upstream, cài/pin CLI riêng và chạy `openspec validate
 
 ## 5. Lưu trữ và thay đổi về sau
 
-- `docs/discovery/` lưu ý tưởng và research đã ghi nguồn; `docs/product/` lưu tài liệu yêu cầu của **project**, không lưu trong source `ai-harness`.
+- `docs/discovery/` lưu ý tưởng và research đã ghi nguồn; `docs/product/` lưu tài liệu yêu cầu của **project**, không lưu trong source `notth`.
 - `openspec/` lưu technical change và trace ID. Review tài liệu, code và CI trên PR, sau đó con người quyết định merge.
 - Khi ý tưởng thay đổi, dùng `workflows/change-impact-analysis.md` và yêu cầu AI tạo diff; không tự ghi đè tài liệu approved.
 

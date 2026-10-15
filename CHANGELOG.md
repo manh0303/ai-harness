@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Notth rename
+
+- Rename the product to Notth, GitHub references to manh0303/notth and npm distribution to @manhd_d/notth.
+- Update metadata, release guards, translated onboarding and publisher/migration instructions.
+- Preserve aih, .harness, skill IDs, ownership markers, archives and the Python package name for compatibility; no automatic registry publication or deprecation.
+
 ## Unreleased — Workflow contracts and npm-independent pip distribution
 
 - Add schema-1 spec-to-code/Product idea-to-prd JSON contracts, offline graph/role/gate validation and Markdown drift checks; clarify contract/driver/evidence ownership.
