@@ -9,7 +9,8 @@ Give an idea, existing docs or a change request to your AI coding tool. Harness 
 Works with any project through Core workflows. Optional stack support: Spring Boot, React/Next.js, React Native, Python, Astro and Kubernetes. Stack selection does not choose infrastructure or architecture.
 
 Previously **AI Harness**. [Existing installation → Notth](docs/notth-migration.md).
-The new npm name becomes installable after its first reviewed publication.
+Registry commands require a published package containing the selected host support.
+If npm returns E404, use the [reviewed source/offline path](docs/getting-started.md#cài-từ-source-khi-registry-chưa-có-package).
 
 ## Quick start
 
@@ -26,11 +27,13 @@ In your first AI session, invoke **harness-start** if the host exposes it, or se
 
 > Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
 
-The agent inspects the project, asks only missing questions and saves context. Kiro exposes
+The agent inspects the project, asks only missing questions, saves context and continues your task.
+Review its changes and test results. In later sessions, describe the next task directly or ask to resume saved work.
+No terminal interview, model configuration or manual skill sequence is required. Kiro exposes
 `/harness-start`; native discovery varies by client. [Host guides](docs/tool-setup/README.md).
 `npx` does not create a global command; use `npx --yes @manhd_d/notth check` to check integrity.
 
-**pip / restricted networks** (included in the next reviewed release; PyPI publication requires maintainer setup):
+**pip / restricted networks** (requires a published wheel on PyPI; otherwise use a reviewed offline wheel):
 
 ```bash
 python -m pip install manhd-ai-harness

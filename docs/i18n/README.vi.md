@@ -1,6 +1,6 @@
 # Notth
 
-Tên cũ: **AI Harness**. [Chuyển bản đã cài sang Notth](../notth-migration.md). Tên npm mới dùng được sau lần phát hành đầu tiên.
+Tên cũ: **AI Harness**. [Chuyển bản đã cài sang Notth](../notth-migration.md). Lệnh npm cần package đã phát hành có hỗ trợ host bạn chọn. Nếu gặp E404, dùng [source/offline](../getting-started.md#cài-từ-source-khi-registry-chưa-có-package).
 
 [English](../../README.md) · **Tiếng Việt** · [简体中文](README.zh-CN.md) · [Español](README.es.md)
 
@@ -21,9 +21,12 @@ Session AI đầu tiên: gọi **harness-start** nếu host nhận diện; hoặ
 
 > Đọc .agents/skills/harness-start/SKILL.md và thực hiện cho project này. Task: [yêu cầu].
 
+AI khảo sát project, hỏi phần còn thiếu, lưu context rồi thực hiện task. Bạn review thay đổi và kết quả test.
+Phiên sau giao task trực tiếp hoặc yêu cầu tiếp tục việc đã lưu; không cần chạy interview terminal.
+
 Kiro có `/harness-start`; discovery tùy client. [Setup đa IDE](../tool-setup/README.md).
 
-**pip/offline** được bổ sung trong release tiếp theo, cần cấu hình PyPI publisher:
+**pip/offline**: lệnh dưới cần package đã có trên PyPI; nếu chưa có, dùng wheel offline đã review:
 
 ```bash
 python -m pip install manhd-ai-harness
@@ -43,6 +46,8 @@ Offline: `python -m pip install --no-index --no-deps /path/to/package.whl`.
 | **GitHub Copilot** | [Hướng dẫn](../tool-setup/copilot.md) |
 | **Gemini CLI** | [Hướng dẫn](../tool-setup/gemini-cli.md) |
 | **Kiro** | [Hướng dẫn](../tool-setup/kiro.md) |
+| **OpenCode** | [Hướng dẫn](../tool-setup/opencode.md) |
+| **Windsurf** | [Hướng dẫn](../tool-setup/windsurf.md) |
 
 [Docs & examples](../README.md) · [Getting started](../getting-started.md) · [Input/output](../artifact-contract.md) · [Agent configuration](../agent-configuration.md) · [Continuous development](../continuous-development.md) · [MIT](../../LICENSE)
 

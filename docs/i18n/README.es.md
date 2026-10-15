@@ -1,6 +1,6 @@
 # Notth
 
-Antes **AI Harness**. [Migración a Notth](../notth-migration.md). El nuevo nombre npm estará disponible tras la primera publicación revisada.
+Antes **AI Harness**. [Migración a Notth](../notth-migration.md). Los comandos npm requieren un paquete publicado; ante E404 usa [código fuente/offline](../getting-started.md#cài-từ-source-khi-registry-chưa-có-package).
 
 [English](../../README.md) · [Tiếng Việt](README.vi.md) · [简体中文](README.zh-CN.md) · **Español**
 
@@ -16,14 +16,14 @@ Requiere **Node.js 22+**. Ejecuta en la raíz del proyecto:
 npx --yes @manhd_d/notth init --host codex
 ```
 
-Host: codex, claude-code, cursor, copilot, gemini-cli o kiro.
+Host: codex, claude-code, cursor, copilot, gemini-cli, kiro, opencode o windsurf.
 En la primera sesión invoca harness-start; si el cliente no descubre el skill, envía:
 
 > Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
 
 Kiro ofrece `/harness-start`; el descubrimiento depende del cliente. [Guías](../tool-setup/README.md).
 
-**pip / sin conexión** se incluye en la próxima versión revisada; requiere configurar PyPI publisher:
+**pip / sin conexión**: requiere un paquete publicado en PyPI; si no existe, usa un wheel offline revisado:
 
 ```bash
 python -m pip install manhd-ai-harness
@@ -43,6 +43,8 @@ Sin conexión: `python -m pip install --no-index --no-deps /path/to/package.whl`
 | **GitHub Copilot** | [Guía](../tool-setup/copilot.md) |
 | **Gemini CLI** | [Guía](../tool-setup/gemini-cli.md) |
 | **Kiro** | [Guía](../tool-setup/kiro.md) |
+| **OpenCode** | [Guía](../tool-setup/opencode.md) |
+| **Windsurf** | [Guía](../tool-setup/windsurf.md) |
 
 [Docs y ejemplos](../README.md) · [Getting started](../getting-started.md) · [Input/output](../artifact-contract.md) · [Agent configuration](../agent-configuration.md) · [Continuous development](../continuous-development.md) · [MIT](../../LICENSE)
 

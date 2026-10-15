@@ -1,6 +1,8 @@
 # Start in two minutes
 
-Install in the project root: `aih init --host <your-tool>`.
+Install in the project root: `npx --yes @manhd_d/notth init --host codex`.
+Replace codex with your tool. With pip/global/offline, use your existing CLI instead.
+The commands below use `aih`; npx users substitute `npx --yes @manhd_d/notth`.
 Choose kiro, codex, claude-code, cursor, copilot, gemini-cli, opencode or windsurf.
 In your AI session invoke harness-start if exposed, or ask it to read
 `.agents/skills/harness-start/SKILL.md`. Describe the task directly.

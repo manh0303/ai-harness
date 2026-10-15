@@ -1,16 +1,19 @@
 # Bắt đầu với Notth
 
-**Cài vào project → start → mở AI làm việc → review kết quả.** Cần Node.js **22+** và một thư mục project. Với dự án mới, tạo thư mục/repository trước; Harness không tạo ứng dụng hay chạy model.
+**Cài với tool đã chọn → mở chat → giao task → review kết quả.** Cần Node.js **22+** và một thư mục project. Với dự án mới, tạo thư mục/repository trước; Harness không tạo ứng dụng hay chạy model.
 
 ## 1. Cài vào project
 
-Chạy tại thư mục gốc của project:
+Chạy tại thư mục gốc của project. Lệnh npm cần package đã được phát hành có hỗ trợ host bạn chọn;
+nếu gặp E404, dùng [source/offline bên dưới](#cài-từ-source-khi-registry-chưa-có-package):
 
 ```bash
-npx --yes @manhd_d/notth init --detect
+npx --yes @manhd_d/notth init --host codex
 ```
 
-Lệnh nhận diện stack từ file ở thư mục gốc và cài hướng dẫn tương ứng. Nếu báo chưa nhận diện được, thay `--detect` theo bảng; bỏ `--detect` để chỉ cài quy tắc chung (Core):
+Thay `codex` bằng tool bạn dùng: `kiro`, `claude-code`, `cursor`, `copilot`, `gemini-cli`, `opencode` hoặc `windsurf`. Chỉ chọn một tool. Lệnh trên cài Core dùng chung.
+
+Adapter là tùy chọn: thêm `--detect` để nhận diện stack từ file gốc, hoặc chọn theo bảng. Nếu không nhận diện được, dùng Core hoặc chọn adapter thủ công; không cần chạy lại init nếu đã cài thành công.
 
 | Project / nhu cầu | Tham số cho `init` |
 | --- | --- |
@@ -25,15 +28,15 @@ Lệnh nhận diện stack từ file ở thư mục gốc và cài hướng dẫ
 Ví dụ vừa code Spring vừa viết tài liệu:
 
 ```bash
-npx --yes @manhd_d/notth init --adapters java-spring --capabilities product
+npx --yes @manhd_d/notth init --host kiro --adapters java-spring --capabilities product
 ```
 
 Thêm `--capabilities uiux` khi cần UI/UX; `monetization` cho website có quảng cáo. [Danh mục đầy đủ](cli.md).
 Với project đã cài, đổi lựa chọn trong `.harness/project.json` rồi dùng `update`.
 
-## 2. Start và mở AI làm việc
+## 2. Mở chat và giao task
 
-Chọn `--host codex|claude-code|cursor|copilot|gemini-cli|kiro` khi init. Trong session AI đầu tiên,
+Mở cùng thư mục project trong tool đã chọn. Trong session AI đầu tiên,
 gọi **harness-start** nếu client nhận diện skill; hoặc gửi cùng prompt cho mọi host:
 
 > Đọc .agents/skills/harness-start/SKILL.md và thực hiện onboarding cho project này.
@@ -49,7 +52,7 @@ Cần Python 3.9+ và Node 22+, không cần npm; xem [pip/offline](python-insta
 
 Bạn có thể giao ý tưởng, tài liệu BA hoặc task code. Không cần gọi từng agent/skill.
 Với web/mobile, giao màn hình hoặc tính năng theo common/API/state/navigation hiện có; [skills đã có](frontend-mobile.md).
-Xem [setup theo AI tool](tool-setup/README.md) cho Codex, Claude Code, Cursor, Copilot, Gemini CLI và Kiro:
+Xem [setup theo AI tool](tool-setup/README.md) cho từng tool:
 phân biệt cài tool, cài Harness và kiểm tra instructions đã được đọc.
 Lệnh `setup` chỉ xuất gợi ý thiết lập, không phải bước bắt buộc để bắt đầu.
 
@@ -98,3 +101,25 @@ For successive features, bugfixes or a resumed session, give the host a normal r
 
 Giao AI: “Test tính năng này như end user theo AC, thao tác trên giao diện thật, kiểm tra kết quả và
 lưu bằng chứng; báo BLOCKED nếu thiếu tool/môi trường.” [Hướng dẫn và setup cần có](end-user-testing.md).
+
+## Cài từ source khi registry chưa có package
+
+Tải source của commit/tag đã review từ [repository](https://github.com/manh0303/notth),
+giải nén **ngoài project đích**. Source dùng Node built-ins, không cần `npm install`.
+Trong terminal của project đích, gọi CLI bằng đường dẫn tuyệt đối tới source:
+
+```powershell
+# Windows PowerShell: thay đường dẫn bằng nơi bạn đã giải nén source
+node 'D:\tools\notth\bin\aih.js' init --host kiro
+node 'D:\tools\notth\bin\aih.js' check
+```
+
+```bash
+# macOS/Linux: thay đường dẫn bằng nơi bạn đã giải nén source
+node /path/to/notth/bin/aih.js init --host codex
+node /path/to/notth/bin/aih.js check
+```
+
+Chọn host của bạn; project đã cài dùng `update --host <tool> --dry-run`, rồi `update --host <tool>`
+và `check` với cùng CLI. Mở chat theo bước 2 và cho AI biết lệnh Node/offline này để tái sử dụng.
+Không cần tạo shim `aih.cmd`, cài global hoặc truy cập npm/PyPI cho cách này.

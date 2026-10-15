@@ -270,3 +270,10 @@ legacy ${ENV_NAME} still works. Knowledge is optional project-owned docs, absent
 Core grouped verification reuses checkpoint/evidence, no process runner or new third-party skill.
 Review update --dry-run/update/check; re-export eval datasets after changed bundle/cases.
 See [Reusable workflows](reusable-workflows.md). Live-host compliance remains NOT_RUN.
+
+## First-session guidance (unreleased)
+
+Install/update next_steps now directs every host to harness-start in chat. Terminal start remains
+optional and unchanged. No schema/module/distribution version change; reviewed update refreshes
+the packaged QUICKSTART. Existing tasks/configuration are preserved. Roll back via the matching
+consumer snapshot/CLI. Live host loading remains NOT_RUN.

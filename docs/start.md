@@ -1,11 +1,21 @@
 # Bắt đầu một nhiệm vụ
 
-**Kiro: init --host kiro → session đầu tiên → /harness-start.**
-Kiro tự khảo sát và hỏi trong chat; [cài/upgrade/offline](tool-setup/kiro.md).
-`start --host kiro` trả plan, không phỏng vấn trong terminal. Session sau kiểm tra freshness
-và chỉ bổ sung context bị ảnh hưởng. [Seed và contracts](session-onboarding.md).
+**Mọi tool: init --host <tool> → mở chat trong cùng project → harness-start.**
+[Cài đặt lần đầu](getting-started.md) · [Chọn tool](tool-setup/README.md).
 
-**Host khác: init → start → làm việc trong AI tool.** Sau cài đặt, chạy trong project root:
+Gọi skill nếu client nhận diện (Kiro: `/harness-start`), hoặc gửi:
+
+> Đọc .agents/skills/harness-start/SKILL.md và thực hiện cho project này. Task: [yêu cầu].
+
+AI khảo sát project, hỏi phần quan trọng còn thiếu, lưu context và tiếp tục task đã được giao.
+Session sau giao task trực tiếp; khi tiếp tục việc cũ, AI đối chiếu trạng thái và evidence trước.
+Không cần chạy thêm interview trong terminal.
+
+## Tùy chọn: chọn task bằng terminal
+
+Dùng khi bạn muốn lưu yêu cầu trước khi mở chat. `npx` không tạo lệnh global `aih`;
+trong các ví dụ bên dưới, thay `aih` bằng `npx --yes @manhd_d/notth` nếu cài qua npx,
+hoặc dùng đúng lệnh offline/pip hiện có.
 
 ```bash
 npx --yes @manhd_d/notth start

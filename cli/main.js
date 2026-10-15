@@ -247,7 +247,7 @@ export function main(argv = process.argv.slice(2)) {
     else result = command === 'doctor' ? doctor(root, values.skill) : check(root);
     if (command === 'init' || command === 'update') result.next_steps = values['dry-run']
       ? ['Review the proposed changes, then repeat without --dry-run.']
-      : [values.host === 'kiro' ? 'Open this project in Kiro. In your first chat select /harness-start; the agent asks only missing questions and saves context.' : 'Run start with the same CLI (aih start or npx --yes @manhd_d/notth start); open your AI host and send host_prompt.',
+      : [values.host === 'kiro' ? 'Open this project in Kiro. In your first chat select /harness-start; the agent asks only missing questions and saves context.' : 'Open this project in your AI tool. In your first chat invoke harness-start, or ask it to read .agents/skills/harness-start/SKILL.md and describe your task; the agent asks only missing questions and saves context.',
          'Review local.md/environment.json and artifacts.json/integrations.json; record input/output/storage/ownership, keep credentials in the host and personal paths in ignored machine.json.',
          'Run doctor and review/commit shared configuration and snapshot. Use backup; copy its file outside the repo. See docs/configuration-backup.md.'];
     if (command === 'new-change') result.next_steps = [
