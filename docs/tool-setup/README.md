@@ -31,10 +31,18 @@ Install/sign in through its official guide, open this same project and follow th
 | **Cursor** | [Install](https://cursor.com/docs) | `AGENTS.md`; native `.agents/skills` | [Setup](cursor.md) |
 | **GitHub Copilot** | [Install](https://docs.github.com/en/copilot) | Client-specific instructions; CLI native `.agents/skills` | [Setup](copilot.md) |
 | **Gemini CLI** | [Install](https://geminicli.com/docs/) | `GEMINI.md` import; native `.agents/skills` alias | [Setup](gemini-cli.md) |
+| **OpenCode** | [Install](https://opencode.ai/docs/) | `AGENTS.md`; native `.agents/skills` | [Setup](opencode.md) |
+| **Windsurf** | [Install](https://docs.windsurf.com/) | Root/scoped `AGENTS.md`; canonical skill fallback | [Setup](windsurf.md) |
 | **Kiro** | [IDE / CLI](https://kiro.dev/docs/getting-started/installation/) | `init --host kiro`; first session `/harness-start`, managed wrappers + SessionStart | [Setup](kiro.md) |
 
 Existing instructions/settings remain yours. Do not replace host configs or copy the whole Harness into
 them. Host/version/account capabilities vary; these guides are not live-client compatibility results.
+
+Choose one tool, for example `init --host kiro` or `init --host claude-code`.
+On existing installs use `update --host <tool> --dry-run`, then repeat without `--dry-run`.
+Only the selected tool's bridge is added; previously managed bridges are preserved on updates.
+Claude selection creates its import/wrappers; Copilot/Gemini selection adds managed instruction blocks.
+See [ownership, switching tools and new-project migration](../tool-portability.md).
 
 ## 3. Start the first session
 

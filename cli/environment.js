@@ -60,9 +60,13 @@ export function loadEnvironment(root) {
   return { configured: true, shared, machine };
 }
 
-function expand(value, env) {
+function expand(value, env, files = {}) {
   const missing = [];
-  const resolved = value.replace(/\$\{([A-Za-z_][A-Za-z0-9_]*)\}/g, (_, key) => {
+  const withFiles = value.replace(/\$\{files\.([a-z][a-z0-9]*(?:-[a-z0-9]+)*)\}/g, (_, key) => {
+    if (!own(files, key)) { missing.push('files.' + key); return ''; }
+    return files[key];
+  });
+  const resolved = withFiles.replace(/\$\{([A-Za-z_][A-Za-z0-9_]*)\}/g, (_, key) => {
     if (!own(env, key) || !validText(env[key])) { missing.push(key); return ''; }
     return env[key];
   });
@@ -103,8 +107,9 @@ export function environmentReport(root, env = process.env) {
       missing_variables: expanded.missing });
   }
   // Arguments are references only; do not execute or print resolved values.
+  const files = Object.fromEntries(Object.entries(shared.files).map(([id, value]) => [id, machine?.files?.[id]?.path ?? value.path]));
   for (const [id, command] of Object.entries(shared.commands)) {
-    const args = command.args.map(a => expand(a, env));
+    const args = command.args.map(a => expand(a, env, files));
     const missing = [...new Set(args.flatMap(a => a.missing))];
     entries.push({ group: 'commands', id, source: 'project', required: shared.tools[command.tool].required !== false,
       status: missing.length ? 'missing-env' : args.some(a => a.invalid) ? 'invalid-reference' : 'declared',

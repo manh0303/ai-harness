@@ -19,7 +19,9 @@ Requires **Node.js 22+** and your AI coding tool. Run in your **project root**:
 npx --yes @manhd_d/notth init --host codex
 ```
 
-Set `--host` to `codex`, `claude-code`, `cursor`, `copilot`, `gemini-cli` or `kiro`.
+Set `--host` to `codex`, `claude-code`, `cursor`, `copilot`, `gemini-cli`, `kiro`, `opencode` or `windsurf`.
+Choose the one tool you use; Notth installs only its required bridge.
+[Shared setup and migration](docs/tool-portability.md).
 In your first AI session, invoke **harness-start** if the host exposes it, or send:
 
 > Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
@@ -52,10 +54,12 @@ Harness owns workflow contracts and evidence formats; hosts or separate drivers 
 | **Cursor** | IDE Agent | [Install](https://cursor.com/docs) | [Guide](docs/tool-setup/cursor.md) |
 | **GitHub Copilot** | IDE Agent or CLI | [Install](https://docs.github.com/en/copilot) | [Guide](docs/tool-setup/copilot.md) |
 | **Gemini CLI** | Project terminal | [Install](https://geminicli.com/docs/) | [Guide](docs/tool-setup/gemini-cli.md) |
+| **OpenCode** | Terminal / IDE | [Install](https://opencode.ai/docs/) | [Guide](docs/tool-setup/opencode.md) |
+| **Windsurf** | IDE Cascade | [Install](https://docs.windsurf.com/) | [Guide](docs/tool-setup/windsurf.md) |
 | **Kiro** | IDE, CLI or connected Web workspace | [Install](https://kiro.dev/docs/getting-started/installation/) | [Guide](docs/tool-setup/kiro.md) |
 
 Local/cloud execution and external inputs depend on the host's actual access. MCP/connector/API connections can supply docs, designs, tickets and evidence under project source policies.
 
-[Getting started](docs/getting-started.md) · [Docs & examples](docs/README.md) · [Input/output](docs/artifact-contract.md) · [Agent configuration](docs/agent-configuration.md) · [Continuous development](docs/continuous-development.md)
+[Daily use & recovery](docs/reusable-workflows.md) · [Getting started](docs/getting-started.md) · [Docs & examples](docs/README.md) · [Input/output](docs/artifact-contract.md) · [Agent configuration](docs/agent-configuration.md) · [Continuous development](docs/continuous-development.md)
 
 [Contributing](CONTRIBUTING.md) · [Harness maintenance](docs/harness-maintenance.md) · [MIT](LICENSE)

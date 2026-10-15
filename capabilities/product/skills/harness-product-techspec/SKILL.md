@@ -33,3 +33,6 @@ Source revisions, requirement IDs, contracts, actual execution evidence and limi
 
 ## Handoff
 Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+
+## Incremental verification and recovery
+For multi-step checks follow `.harness/core/workflows/recoverable-verification.md`: start a draft early, update only affected sections after each observed group, include applicable related-flow tests and persist checkpoint/evidence references. Resume reconciles code/config/fixtures/external revisions and uncertain operations before trusting prior PASS results. Process tools and startup commands come from the actual host/project; no specific IDE, service topology or database mutation is implied.

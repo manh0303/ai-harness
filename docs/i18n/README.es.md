@@ -45,3 +45,5 @@ Sin conexión: `python -m pip install --no-index --no-deps /path/to/package.whl`
 | **Kiro** | [Guía](../tool-setup/kiro.md) |
 
 [Docs y ejemplos](../README.md) · [Getting started](../getting-started.md) · [Input/output](../artifact-contract.md) · [Agent configuration](../agent-configuration.md) · [Continuous development](../continuous-development.md) · [MIT](../../LICENSE)
+
+Elegir cliente y migración de proyecto: [Guía](../tool-portability.md).

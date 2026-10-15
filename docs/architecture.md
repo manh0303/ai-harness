@@ -206,3 +206,22 @@ core:orchestrator is a role, not an engine. JSON contracts currently cover spec-
 Product idea-to-prd; validation/entry readiness neither executes stages nor authenticates approval.
 See [workflow contracts](workflow-contract.md), [conformance driver](conformance-runner.md), and
 [pip/offline distribution](python-installation.md). The non-goal remains: no LLM gateway or server.
+
+## Portable host bridges
+
+init/update accepts one host ID selected by the user; canonical Harness bodies remain in the locked snapshot
+and exposed .agents/skills. Kiro/Claude wrappers point at those bodies. Copilot and Gemini
+use standard managed blocks in their native entry files; Claude keeps its existing import markers.
+Lock drift checks only owned blocks; outside text survives updates. Host-native settings,
+custom skills and external OpenSpec commands are project-owned. No symlink or machine-root
+command is generated. See [Tool portability](tool-portability.md).
+
+## Reusable project workflow
+
+status/changes read local declarations; start --change selects an existing proposal or checkpoint,
+and start --clear removes only saved intake after a config backup. No second task-state database or
+process runner is introduced. Optional knowledge is a source-linked index in the project's actual docs,
+not a mandated .harness tree; knowledge.json remains only a hash cache. Core recoverable-verification
+uses existing checkpoint/evidence contracts and actual host process support. Product 1.8.0 connects
+incremental TechSpec and related flows. `${files.<id>}` in command args reuses project/machine file
+paths without executable interpolation or shell execution. See [Reusable workflows](reusable-workflows.md).

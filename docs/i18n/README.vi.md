@@ -16,7 +16,7 @@ Cần **Node.js 22+**. Chạy trong project root:
 npx --yes @manhd_d/notth init --host codex
 ```
 
-Chọn host: codex, claude-code, cursor, copilot, gemini-cli hoặc kiro.
+Chọn host: codex, claude-code, cursor, copilot, gemini-cli, kiro, opencode hoặc windsurf.
 Session AI đầu tiên: gọi **harness-start** nếu host nhận diện; hoặc gửi:
 
 > Đọc .agents/skills/harness-start/SKILL.md và thực hiện cho project này. Task: [yêu cầu].
@@ -45,3 +45,5 @@ Offline: `python -m pip install --no-index --no-deps /path/to/package.whl`.
 | **Kiro** | [Hướng dẫn](../tool-setup/kiro.md) |
 
 [Docs & examples](../README.md) · [Getting started](../getting-started.md) · [Input/output](../artifact-contract.md) · [Agent configuration](../agent-configuration.md) · [Continuous development](../continuous-development.md) · [MIT](../../LICENSE)
+
+Chọn tool hoặc chuyển project: [Hướng dẫn](../tool-portability.md).

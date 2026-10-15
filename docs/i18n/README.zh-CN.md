@@ -45,3 +45,5 @@ aih init --host codex
 | **Kiro** | [使用指南](../tool-setup/kiro.md) |
 
 [Docs 与示例](../README.md) · [Getting started](../getting-started.md) · [Input/output](../artifact-contract.md) · [Agent configuration](../agent-configuration.md) · [Continuous development](../continuous-development.md) · [MIT](../../LICENSE)
+
+多工具和新项目迁移：[指南](../tool-portability.md)。

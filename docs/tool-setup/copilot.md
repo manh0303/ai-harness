@@ -8,17 +8,12 @@
 
 ## Load instructions
 
-Instruction support differs by client. VS Code documents `AGENTS.md`; do not assume every IDE behaves
-the same way. For a client needing a bridge, add this to the existing
-`.github/copilot-instructions.md` (create it if absent, preserving other instructions):
+Use `init --host copilot` (existing install: `update --host copilot`) with a supporting
+reviewed CLI. It appends a managed block to `.github/copilot-instructions.md`, preserving team
+instructions outside the block. The block asks Copilot to read applicable `AGENTS.md`;
+it is not an automatic content import. Support for `AGENTS.md` alone differs by client.
 
-```markdown
-Read the applicable AGENTS.md and .harness/local.md before implementation.
-Use only the relevant installed skill from .agents/skills and report actual verification.
-```
-
-This is a request to read files, not a content import. Run the
-[read-only setup prompt](README.md#3-check-loading-then-give-a-task) and compare with actual files.
+Run the [loading check](README.md#3-start-the-first-session) and inspect actual files.
 
 ## Check skills
 

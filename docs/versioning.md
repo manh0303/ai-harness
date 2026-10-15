@@ -245,3 +245,28 @@ Release Please-owned, continuing the existing version sequence. CLI aih, .harnes
 skills, ownership markers, config/archive schemas and Python distribution manhd-ai-harness remain
 compatible. [Migration and first publication](notth-migration.md) covers switching global/local
 packages, rollback, Trusted Publishers and deferring old-package deprecation until verification.
+
+## Portable tool support (unreleased)
+
+Distribution version remains Release Please-owned; project/lock/config schemas stay 1.
+A supporting CLI accepts one init/update --host ID; only the chosen tool bridge is added. Selecting claude-code now
+opts into both managed import and wrappers; legacy individual flags remain. Selecting copilot
+or gemini-cli adds managed instruction blocks. Existing plain init is unchanged. Updates retain
+previously owned bridges and preserve user text outside blocks, project config/state and native settings.
+Older CLIs do not recognize locks containing new Copilot/Gemini paths; use the supporting CLI
+for check/update. Roll back the consumer installation commit together with its matching lock/CLI.
+No source ZIP, internal URL, model setting or third-party skill is imported automatically.
+See [Tool portability](tool-portability.md). Live host loading remains unverified.
+
+## Reusable project workflows (unreleased)
+
+Distribution version stays Release Please-owned. Product advances to 1.8.0; no stack adapter version
+or project/lock/evidence schema changes. start schema 1 additively permits change_id with goal=change;
+older CLIs reject that combination. Select a supporting CLI before using it; rollback restores the
+previous start config/consumer snapshot together. New commands status/changes are read-only;
+start --clear backs up before removing intake and is idempotent. Existing user tasks/docs/configs are
+preserved on reviewed update. `${files.<id>}` args require the supporting CLI/host resolution procedure;
+legacy ${ENV_NAME} still works. Knowledge is optional project-owned docs, absent from config backup.
+Core grouped verification reuses checkpoint/evidence, no process runner or new third-party skill.
+Review update --dry-run/update/check; re-export eval datasets after changed bundle/cases.
+See [Reusable workflows](reusable-workflows.md). Live-host compliance remains NOT_RUN.

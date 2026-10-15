@@ -121,6 +121,18 @@
         "Isolated actor/data/cleanup; required missing tools/account/environment explicitly BLOCKED or NOT_RUN"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "recoverable-project-work",
+      "title": "Review grouped recovery and optional knowledge authority",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Host/project-specific process and fixture ownership; bounded readiness and cleanup",
+        "Incremental actual evidence/draft updates and baseline-aware checkpoint/side-effect reconciliation",
+        "Source-linked optional knowledge; no copied domain or mandatory extra document tree"
+      ],
+      "execution": "manual"
     }
   ]
 }

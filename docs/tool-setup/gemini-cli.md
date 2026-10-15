@@ -3,9 +3,10 @@
 ## Install and open
 
 1. Install/sign in using [official Gemini CLI docs](https://geminicli.com/docs/).
-2. Run [common setup](README.md) in your project root.
-3. In the existing root `GEMINI.md`, add the following line outside code fences. Create the file if
-   absent; preserve its other content:
+2. Run `init --host gemini-cli` with a supporting reviewed CLI (see [common setup](README.md)).
+   It adds a managed `@./AGENTS.md` import to root `GEMINI.md`, preserving other text.
+3. For older CLIs, manually add the following line outside code fences to root `GEMINI.md`.
+   Create it if absent; preserve its other content:
 
 ```markdown
 @./AGENTS.md
@@ -19,7 +20,7 @@ Gemini uses `GEMINI.md` by default. Inside its chat, run `/memory reload`, then 
 to check imported instructions. It also discovers workspace `.agents/skills` as a native alias:
 use `/skills reload` and `/skills list` to inspect them.
 
-Run the [read-only setup prompt](README.md#3-check-loading-then-give-a-task).
+Run the [read-only setup prompt](README.md#3-start-the-first-session).
 Do not duplicate skills into `.gemini/skills` or replace existing settings.
 
 ## Optional configuration

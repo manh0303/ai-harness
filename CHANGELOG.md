@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased — Reusable project workflows
+
+- Add read-only status/changes, existing-proposal selection through start --change, and backed-up start --clear without archive/process side effects.
+- Add optional source-linked knowledge and a compact packaged quickstart; reuse project docs and existing source declarations.
+- Add host/stack-neutral grouped verification with owned process handling, incremental evidence/TechSpec and baseline-aware checkpoint recovery.
+- Support declared file references in command args through project/machine overrides; preserve legacy environment variables.
+- Advance Product to 1.8.0; keep distribution release-owned and record live-host evaluation as NOT_RUN.
+
+## Unreleased — Portable tool support
+
+- Support selecting one AI tool with init/update --host; install only its required bridge and retain installed bridges on later updates.
+- Claude host selection installs its import/wrappers; Copilot and Gemini receive managed blocks preserving surrounding user instructions.
+- Add OpenCode/Windsurf guides, shared-source and Windows pointer migration, and a packaged new-project setup guide.
+- Keep Kiro agent hooks path-independent, native settings/custom skills project-owned, and live-host loading unverified.
+
 ## Unreleased — Notth rename
 
 - Rename the product to Notth, GitHub references to manh0303/notth and npm distribution to @manhd_d/notth.

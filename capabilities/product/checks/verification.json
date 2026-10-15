@@ -57,7 +57,8 @@
       "evidence": [
         "Applicable project methods and actual host limitations",
         "Requirement-linked raw evidence, business assertions and owned cleanup",
-        "Static UNVERIFIED claims and affected-section source policy"
+        "Static UNVERIFIED claims and affected-section source policy",
+        "Incremental sections, related-flow outcomes and checkpoint links; stale groups rerun before retaining PASS"
       ],
       "execution": "manual"
     },

@@ -12,8 +12,8 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | resolve | --source; --adapters a,b; --capabilities a,b | Validate module selection and compatibility; read-only |
 | verify | --scope adapters/core/capabilities/all or --adaptive or --report file | Advisory checks, metadata plan or evidence consistency; executed false, no subprocesses |
 | eval | --scope adapters/core/capabilities/all; --report FILE | Emit unscored template or aggregate reviewed report; no model calls |
-| init | --detect OR --adapters a,b; --capabilities a,b; --agent-preset recommended/economy/custom; --source; --dry-run; --allow-major | Install a snapshot and seed project agent preferences; exact rerun without explicit preset is idempotent |
-| update | --host kiro (optional); --source; --dry-run; --allow-major | Update unedited owned files and seed missing project files |
+| init | --host ID (optional); --detect OR --adapters a,b; --capabilities a,b; --agent-preset recommended/economy/custom; --source; --dry-run; --allow-major | Install a snapshot and seed project agent preferences; exact rerun without explicit preset is idempotent |
+| update | --host ID (optional); --source; --dry-run; --allow-major | Update unedited owned files and seed missing project files |
 | check | none | Compare installed files/block with lock and selection; no writes |
 | doctor | --skill NAME (optional) | check plus configured environment/path diagnostics and generic PATH hints; no execution |
 | setup | --host; --apply [--dry-run]; --greenfield | Read-only by default; --apply creates missing user config from installed templates without reinstalling the snapshot |
@@ -177,7 +177,7 @@ aih agents shows canonical IDs, skill preferences and model declarations. init -
 | `aih restore --from config.json --transfer` | Chuyển module/model; bỏ repo autonomy và nguồn/task/domain/command cũ |
 
 Tất cả nhận --target. Đường dẫn --from/--output tính từ project root. --host dùng với start;
---change chỉ cho start --goal resume. Các flags sai command bị từ chối. Lệnh --dry-run thuộc restore
+--change dùng cho start --goal change (proposal có sẵn) hoặc resume (checkpoint có sẵn). Các flags sai command bị từ chối. Lệnh --dry-run thuộc restore
 không đổi target hoặc chờ stdin. Fresh repo restore trước init; installed repo update/check sau khi
 selection đổi. Đọc [Start](start.md) và [Configuration backup](configuration-backup.md) cho giới hạn,
 phục hồi checkpoint và rollback. Các lệnh không truy cập remote, chạy model, cấp quyền hay auto-merge.
@@ -215,3 +215,29 @@ New commands require supporting reviewed source/release.
 `--workflow idea-to-prd` requires Product. Legacy implement/review without --workflow retain behavior.
 [Contract and approvals](workflow-contract.md). Runner stays separate: [conformance](conformance-runner.md).
 All CLI commands also work through [pip/offline](python-installation.md); Node.js 22+ still required.
+
+## AI tool selection
+
+Choose one host: `aih init --host kiro` or `aih init --host claude-code`, for example.
+Supported guides cover kiro, codex, claude-code, cursor, copilot, gemini-cli, opencode and windsurf.
+Fresh installation adds only the selected tool's required bridge. Codex/Cursor/OpenCode/Windsurf
+reuse AGENTS.md without duplicate rules. Claude selection enables import/wrappers; legacy
+individual flags remain supported. Unknown safe IDs remain valid for custom hosts without a bridge.
+When changing tool, use `update --host <tool>`; existing managed bridges and project state are preserved.
+Model defaults follow the selected host on fresh install; existing agents.json is never converted.
+See [Tool portability](tool-portability.md) for ownership, migration and validation limits.
+
+## Daily orientation and recoverable work
+
+| Command | Effect |
+| --- | --- |
+| `aih status` | Read-only task/modules/change/task declarations and checkpoint freshness/side-effect guidance |
+| `aih changes` | Read-only local change list, bounded to 100 with a truncation flag; excludes archive |
+| `aih start --goal change --change <id> --task <text>` | Save an existing proposal selection without requiring a checkpoint |
+| `aih start --clear` | Back up config, remove saved intake only; preserve changes/evidence/docs/processes |
+
+No automatic archive, task sync, service start or semantic completion inference. Existing resume
+still requires a real checkpoint. All support the same npm/pip/offline invocation.
+Command arguments may reference declared `${files.<id>}`; doctor resolves machine overrides and
+`${ENV_NAME}` for reference checks only, without printing values or running commands.
+See [Reusable workflows](reusable-workflows.md) and [Project configuration](project-configuration.md).

@@ -8,7 +8,9 @@ Chỉ đọc phần phù hợp với công việc đang làm.
 | Cần làm gì? | Đọc ở đâu? |
 | --- | --- |
 | Tra lệnh, chọn module, xử lý conflict | [CLI](cli.md) · [Adapters](adapters.md) |
-| Kết nối công cụ AI | [Codex, Claude Code, Cursor, Copilot, Gemini CLI, Kiro](tool-setup/README.md) |
+| Kết nối công cụ AI | [Codex, Claude Code, Cursor, Copilot, Gemini CLI, Kiro, OpenCode, Windsurf](tool-setup/README.md) |
+| Task/status, knowledge và test có lưu tiến độ | [Reusable workflows](reusable-workflows.md) |
+| Đổi tool hoặc chuyển sang dự án mới | [Tool portability](tool-portability.md) |
 | Chọn model và cách chạy agent | [Agent configuration](agent-configuration.md) |
 | Khai báo build/test, Maven/JDK riêng | [Project configuration](project-configuration.md) |
 | Áp dụng coding conventions | [Project conventions](project-conventions.md) |

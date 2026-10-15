@@ -102,7 +102,7 @@ Nếu chưa thấy `/harness-start`, mở session mới, kiểm tra **Agent Stee
 > Đọc AGENTS.md và .agents/skills/harness-start/SKILL.md, thực hiện onboarding trong session này.
 > Tự khảo sát project, giữ quyết định đã có và chỉ hỏi phần còn thiếu.
 
-Dùng [read-only loading check](README.md#3-check-loading-then-give-a-task) khi cần.
+Dùng [read-only loading check](README.md#3-start-the-first-session) khi cần.
 Khi dùng Kiro Specs, khai báo canonical documents và write scope trong
 [Artifact contracts](../artifact-contract.md). Với propose ngoài Harness, dùng
 `aih change-sidecars <id>` để thêm sidecar còn thiếu, giữ nguyên file cũ.

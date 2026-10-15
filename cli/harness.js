@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { HOST_BRIDGES, isHostBridge } from './host-bridges.js';
 import { localContext } from './knowledge.js';
 import { kiroPayload, KIRO_HOOK } from './kiro.js';
 import { requirementReport } from './skill-requirements.js';
@@ -99,7 +100,7 @@ export function bundle(source, config) {
 }
 
 function managedName(name) {
-  return name === 'AGENTS.md' || name === 'CLAUDE.md' || name === KIRO_HOOK || ['.harness/core/', '.harness/adapters/', '.harness/capabilities/', '.harness/integrations/', '.harness/templates/', '.agents/skills/harness-', '.claude/skills/harness-', '.kiro/skills/harness-'].some(prefix => name.startsWith(prefix));
+  return name === 'AGENTS.md' || name === 'CLAUDE.md' || isHostBridge(name) || name === KIRO_HOOK || ['.harness/core/', '.harness/adapters/', '.harness/capabilities/', '.harness/integrations/', '.harness/templates/', '.agents/skills/harness-', '.claude/skills/harness-', '.kiro/skills/harness-'].some(prefix => name.startsWith(prefix));
 }
 
 export function loadLock(root) {
@@ -184,6 +185,7 @@ export function transaction(root, changes, writer = atomicWrite) {
 
 export function install(root, source, { command = 'init', adapters, capabilities, agentPreset, dryRun = false, allowMajor = false, host, linkClaude: linkClaudeOpt = false, claudeSkills = false, writer } = {}) {
   assertSeparate(root, source);
+  if (host !== undefined && (typeof host !== 'string' || !SLUG.test(host))) throw new HarnessError('Invalid host ID; choose one tool');
   return guard(root, () => {
     const hasLock = Boolean(stat(safe(root, LOCK)));
     if (command === 'update' && !hasLock) throw new HarnessError('Not installed; run init first');
@@ -202,12 +204,12 @@ export function install(root, source, { command = 'init', adapters, capabilities
     const existingClaude = stat(claudePath) ? fs.readFileSync(claudePath) : Buffer.alloc(0);
     if (existingClaude.length > 1024 * 1024) throw new HarnessError('CLAUDE.md exceeds 1 MiB');
     let linkedClaude;
-    if (linkClaudeOpt || old?.files[claudeName]) {
+    if (linkClaudeOpt || host === 'claude-code' || old?.files[claudeName]) {
       linkedClaude = linkClaude(existingClaude);
       const owned = claudeBlock(linkedClaude);
       if (owned) { files[claudeName] = owned; lock.files[claudeName] = digest(owned); }
     }
-    if (claudeSkills || Object.keys(old?.files ?? {}).some(p => p.startsWith('.claude/skills/harness-'))) {
+    if (claudeSkills || host === 'claude-code' || Object.keys(old?.files ?? {}).some(p => p.startsWith('.claude/skills/harness-'))) {
       for (const [name, data] of Object.entries(files).filter(([p]) => /^\.agents\/skills\/harness-[a-z0-9-]+\/SKILL\.md$/.test(p))) {
         const id = name.split('/')[2], description = data.toString().match(/^description: (.+)$/m)?.[1] ?? 'Load canonical Harness instructions.';
         const destination = '.claude/skills/' + id + '/SKILL.md';
@@ -217,6 +219,12 @@ export function install(root, source, { command = 'init', adapters, capabilities
     }
     if (host === 'kiro' || Object.keys(old?.files ?? {}).some(p => p.startsWith('.kiro/skills/harness-'))) {
       for (const [name, data] of Object.entries(kiroPayload(files))) { files[name] = data; lock.files[name] = digest(data); }
+    }
+    for (const [id, bridge] of Object.entries(HOST_BRIDGES)) {
+      if (host !== id && !old?.files[bridge.path]) continue;
+      const data = Buffer.from('<!-- ai-harness:start -->\n' + bridge.body + '\n<!-- ai-harness:end -->');
+      files[bridge.path] = data;
+      lock.files[bridge.path] = digest(data);
     }
     lock.files = Object.fromEntries(Object.entries(lock.files).sort(([a],[b]) => a.localeCompare(b)));
     lock.bundle_sha256 = digest(encode(lock.files));
@@ -236,7 +244,7 @@ export function install(root, source, { command = 'init', adapters, capabilities
       if (present === null || !present.equals(data)) {
         const filename = safe(root, name);
         const existing = stat(filename) ? fs.readFileSync(filename) : Buffer.alloc(0);
-        changes[name] = name === 'AGENTS.md' ? mergeAgents(existing, data) : name === 'CLAUDE.md' ? linkedClaude : data;
+        changes[name] = name === 'AGENTS.md' || isHostBridge(name) ? mergeAgents(existing, data) : name === 'CLAUDE.md' ? linkedClaude : data;
       }
     }
     if (old) for (const name of Object.keys(old.files)) if (!Object.hasOwn(files, name)) changes[name] = null;

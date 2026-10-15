@@ -2,7 +2,7 @@
 
 | File | Nội dung | Git |
 | --- | --- | --- |
-| `.harness/start.json` | Mục tiêu/task và ID checkpoint nếu tiếp tục | Commit |
+| `.harness/start.json` | Mục tiêu/task và ID change/proposal hoặc checkpoint khi có | Commit |
 | `.harness/project.json` | Adapter/capability | Commit |
 | `.harness/agents.json` | Provider/model/reasoning theo role, execution preferences và host mappings | Commit |
 | `.harness/artifacts.json` | Input/output/storage, canonical ownership và source-write policy | Commit |
@@ -33,7 +33,7 @@ Cấu hình chung:
     "maven-settings": { "path": "${PROJECT_MAVEN_SETTINGS}", "required": true }
   },
   "commands": {
-    "test": { "tool": "maven", "args": ["-s", "${PROJECT_MAVEN_SETTINGS}", "verify"] }
+    "test": { "tool": "maven", "args": ["-s", "${files.maven-settings}", "verify"] }
   }
 }
 ```
@@ -45,6 +45,9 @@ Máy Windows của bạn có thể đặt `.harness/machine.json`:
   "schema_version": 1,
   "tools": {
     "maven": { "executable": "D:\\tools\\apache-maven\\bin\\mvn.cmd" }
+  },
+  "files": {
+    "maven-settings": { "path": "C:\\Users\\YourName\\.m2\\settings-company.xml" }
   }
 }
 ```
@@ -74,9 +77,11 @@ tự chạy lệnh, đổi JAVA_HOME, sửa settings.xml hay tải dependency.
 - Đường dẫn machine ưu tiên đường dẫn project; project ưu tiên gợi ý adapter. Không fallback khi
   đường dẫn được chọn không dùng được. Paths tương đối tính từ project root; executable không
   chứa separator được tìm trên PATH. Paths tuyệt đối phải phù hợp OS của host.
-- Chỉ cú pháp ${ENV_NAME} tham chiếu biến môi trường hiện tại. Không tự đọc .env, không mở rộng
-  `~` hay shell substitution. Command arguments chỉ được kiểm tra tham chiếu biến; giá trị trong
-  files không tự thay thế arguments. Nếu settings dùng trong args, dùng cùng biến môi trường như ví dụ.
+- `${ENV_NAME}` tham chiếu biến môi trường. Command args còn hỗ trợ `${files.<id>}` trỏ file đã
+  khai báo: ưu tiên machine override, sau đó project path, rồi mở rộng biến môi trường trong path.
+  Ví dụ `${files.maven-settings}` tránh lặp đường dẫn riêng máy. Tham chiếu thiếu/sai báo lỗi trong
+  doctor; không mở rộng lồng file-reference. Không đọc .env, mở rộng `~` hay shell substitution.
+  Đây là kiểm tra tham chiếu; host phải resolve cùng quy tắc khi thực thi, CLI không chạy lệnh.
 - `files` dành cho file (settings, config), không phải thư mục JDK. Dùng biến JAVA_HOME của host
   hoặc khai báo executable Java trực tiếp. Doctor không xác nhận Java/Maven version.
 - `aih check` kiểm tra snapshot; `aih doctor` kiểm tra thêm environment. Dự án cũ chưa có

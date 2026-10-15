@@ -23,3 +23,5 @@ For proportional checks and evidence integrity, use `.harness/core/workflows/ada
 - Required: `harness-verification`
 - Optional: `harness-tdd`, `harness-ai-evaluation`, `harness-end-user-testing`
 Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.
+
+For grouped checks/processes and interrupted work, apply `.harness/core/workflows/recoverable-verification.md`; hand off owned process/fixture identity, current baseline, saved evidence and groups requiring revalidation.

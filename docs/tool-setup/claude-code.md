@@ -21,7 +21,7 @@ if absent and keep existing content:
 
 An import inside `.claude/CLAUDE.md` uses `@../AGENTS.md` instead.
 In Claude's chat, use `/context` to inspect loaded memory files, then run the
-[read-only setup prompt](README.md#3-check-loading-then-give-a-task).
+[read-only setup prompt](README.md#3-start-the-first-session).
 Organization policies may restrict loading; an import does not bypass them.
 
 ## Skills
@@ -30,10 +30,11 @@ Claude's native project skills live in `.claude/skills`, not Harness's `.agents/
 The basic setup works by asking Claude to read the needed canonical skill.
 For native slash invocation, use a small pointer wrapper rather than copying the skill body.
 
-The agent-first CLI adds opt-in `init/update --link-claude` for a managed import and
-`--claude-skills` for wrappers. These flags are unreleased from the 0.12.0 npm baseline:
-use them only with a reviewed source/new release that supports them. Without either flag,
-Harness does not edit Claude files. See [Agent-first guide](../agent-first.md).
+With a supporting reviewed CLI, `init/update --host claude-code` creates the managed
+`CLAUDE.md` import and native skill wrappers together, preserving existing content/settings.
+Existing `--link-claude` and `--claude-skills` flags still allow selecting either bridge separately.
+Without Claude selection or those flags, no new Claude bridge is created. Once installed,
+bridges are retained on updates. See [Tool portability](../tool-portability.md).
 
 ## Optional configuration
 

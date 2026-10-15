@@ -23,3 +23,5 @@ changed source and any relevant scoped instructions, update only affected contex
 Save partial observations after each useful step; do not fabricate completion or a confidence score.
 Continue the authorized task when its relevant facts are sufficient; do not make exhaustive discovery
 a gate for a small fix. Semantic understanding and token/time savings require actual host measurement.
+
+For repeated multi-module/domain discovery, use `.harness/core/workflows/project-knowledge.md` to maintain optional source-linked context at existing canonical docs destinations; no mandatory knowledge tree or full-repository interview.

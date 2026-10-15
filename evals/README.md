@@ -70,3 +70,7 @@ Seven Core continuous-* cases cover approved feature, minimal bugfix, contract-a
 headless transcripts and a different judge model, with 3–5 trials and pass rates. Assertions are
 optional deterministic observations; missing declared assertion scores are rejected. No host execution
 is triggered by aih eval. Read-only driver trials do not prove action/tool permission compliance.
+
+[Supported-tool loading protocol](host-portability.md) covers shared context, native bridges and Windows pointers; status NOT_RUN.
+
+Core recoverable-project-verification and optional-knowledge-authority cases cover host/project independence, incremental evidence and stale-group recovery. They remain unscored until actual host trials.
