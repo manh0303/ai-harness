@@ -1,4 +1,4 @@
-# Set up AI Harness in your AI tool
+# Set up Notth in your AI tool
 
 Harness installs project instructions; it does not install an IDE, start an AI model or connect accounts.
 You need Node.js 22+, your chosen AI tool and a project folder. pip additionally needs Python 3.9+;
@@ -6,11 +6,11 @@ see [pip/offline setup](../python-installation.md). npm and pip use the same onb
 
 ## 1. Install Harness in your project
 
-Open a terminal in the **project root** (the folder you open in your IDE), not in the ai-harness source repo:
+Open a terminal in the **project root** (the folder you open in your IDE), not in the Notth source repo:
 
 ```bash
-npx --yes @manhd_d/ai-harness init
-npx --yes @manhd_d/ai-harness check
+npx --yes @manhd_d/notth init
+npx --yes @manhd_d/notth check
 ```
 
 For a new app, create its repository/folder first. Core works with any stack.
@@ -18,7 +18,7 @@ Use `init --detect` instead of `init` to select supported stacks, or choose opti
 in [Getting started](../getting-started.md). For an existing Harness installation, use the update steps below.
 
 `npx` does not install a global `aih` command. Optional: run
-`npm install -g @manhd_d/ai-harness`, then use `aih` instead of `npx --yes @manhd_d/ai-harness`.
+`npm install -g @manhd_d/notth`, then use `aih` instead of `npx --yes @manhd_d/notth`.
 
 ## 2. Open your AI tool
 
@@ -59,9 +59,9 @@ not automatically created native agents. See [Agent configuration](../agent-conf
 Commit your current project state on a branch. Review and apply the new snapshot:
 
 ```bash
-npx --yes @manhd_d/ai-harness@latest update --dry-run
-npx --yes @manhd_d/ai-harness@latest update
-npx --yes @manhd_d/ai-harness@latest check
+npx --yes @manhd_d/notth@latest update --dry-run
+npx --yes @manhd_d/notth@latest update
+npx --yes @manhd_d/notth@latest check
 ```
 
 Review the diff, run project tests and restart/reload your AI session if needed. With a global install,

@@ -174,8 +174,8 @@ test('Monetization capability and end-to-end publisher guides stay discoverable'
 
 test('tool setup uses Core-first npx commands and keeps host verification explicit', () => {
   const common = read('docs/tool-setup/README.md');
-  assert.match(common, /npx --yes @manhd_d\/ai-harness init\n/);
-  assert.match(common, /npx --yes @manhd_d\/ai-harness check/);
+  assert.match(common, /npx --yes @manhd_d\/notth init\n/);
+  assert.match(common, /npx --yes @manhd_d\/notth check/);
   assert.match(common, /npx.*does not install a global/);
   assert.match(common, /project root/);
   assert.doesNotMatch(common, /^aih init --adapters java-spring/m);

@@ -1,4 +1,4 @@
-# Pull Request review checklist (AI Harness)
+# Pull Request review checklist (Notth)
 
 This guide replaces the historical adapter-only feature-PR notes. See [Full SDLC](end-to-end-workflow.md) and [release policy](release-policy.md) for the current multi-module workflow.
 

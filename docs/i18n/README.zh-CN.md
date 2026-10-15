@@ -1,4 +1,6 @@
-# AI Harness
+# Notth
+
+原名 **AI Harness**。[迁移到 Notth](../notth-migration.md)。新 npm 包名在首次审核发布后可用。
 
 [English](../../README.md) · [Tiếng Việt](README.vi.md) · **简体中文** · [Español](README.es.md)
 
@@ -11,7 +13,7 @@ Core workflows 可用于任何项目。Stack support 是可选的，不会自动
 需要 **Node.js 22+**。在项目根目录运行：
 
 ```bash
-npx --yes @manhd_d/ai-harness init --host codex
+npx --yes @manhd_d/notth init --host codex
 ```
 
 host 可选 codex、claude-code、cursor、copilot、gemini-cli 或 kiro。
@@ -31,7 +33,7 @@ aih init --host codex
 需要 Python 3.9+ 和 Node.js 22+；使用相同 CLI/资源，不调用 npm/npx。
 离线：`python -m pip install --no-index --no-deps /path/to/package.whl`。
 [pip 与更新](../python-installation.md) · [备份](../configuration-backup.md)。
-`npx` 不创建全局 aih；用 `npx --yes @manhd_d/ai-harness check` 检查文件完整性。
+`npx` 不创建全局 aih；用 `npx --yes @manhd_d/notth check` 检查文件完整性。
 
 | AI tool | Setup |
 | --- | --- |

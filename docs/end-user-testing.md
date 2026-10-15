@@ -73,7 +73,7 @@ aih skill harness-end-user-testing
 aih verify --report verification/report.json
 ```
 
-Nếu dùng npx, thay `aih` bằng `npx --yes @manhd_d/ai-harness`. Adaptive plan có
+Nếu dùng npx, thay `aih` bằng `npx --yes @manhd_d/notth`. Adaptive plan có
 `end_user_acceptance` với gợi ý surface/tools, context còn cần và host_prompt. Đây là metadata plan,
 chưa có thao tác thật. Host cần đọc scoped source và tool runtime để chọn đúng test.
 

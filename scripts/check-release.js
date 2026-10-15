@@ -15,7 +15,7 @@ const pyproject = fs.readFileSync(path.join(SOURCE, 'pyproject.toml'), 'utf8');
 if (!pyproject.includes('dynamic = ["version"]') || !pyproject.includes('name = "manhd-ai-harness"')) throw new Error('Python version must be derived from package.json');
 if (/^version\s*=/m.test(pyproject)) throw new Error('Do not duplicate the distribution version in pyproject.toml');
 if (!VERSION.test(versions[0])) throw new Error('Invalid release semver');
-if (pkg.name !== '@manhd_d/ai-harness' || lock.name !== pkg.name || lock.packages?.['']?.name !== pkg.name) throw new Error('npm package name or scope mismatch');
+if (pkg.name !== '@manhd_d/notth' || lock.name !== pkg.name || lock.packages?.['']?.name !== pkg.name) throw new Error('npm package name or scope mismatch');
 if (pkg.publishConfig?.access !== 'public') throw new Error('npm distribution must be public');
 const releaseManifest = readJson(path.join(SOURCE, '.release-please-manifest.json'));
 if (releaseManifest['.'] !== versions[0]) throw new Error('Release Please manifest version mismatch');

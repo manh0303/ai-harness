@@ -8,7 +8,7 @@ và chỉ bổ sung context bị ảnh hưởng. [Seed và contracts](session-on
 **Host khác: init → start → làm việc trong AI tool.** Sau cài đặt, chạy trong project root:
 
 ```bash
-npx --yes @manhd_d/ai-harness start
+npx --yes @manhd_d/notth start
 ```
 
 Terminal tương tác hỏi mục tiêu và task, input còn thiếu, nơi lưu draft docs khi cần.

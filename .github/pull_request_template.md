@@ -2,7 +2,7 @@
 What concrete problem does this solve, and how does behavior change?
 
 ## Change impact
-Follow [Harness maintenance](https://github.com/manh0303/ai-harness/blob/main/docs/harness-maintenance.md).
+Follow [Harness maintenance](https://github.com/manh0303/notth/blob/main/docs/harness-maintenance.md).
 Link the OpenSpec change and its impact table, or fill the table below for a small change.
 Use `done`, `pending`, or `not-applicable` with evidence or a specific reason for every row.
 If using a linked table, remove this duplicate table and keep a direct link to the reviewed record.

@@ -35,7 +35,7 @@ Doctor only enforces declared required environment entries; empty or absent conf
 Existing changes need decision/evidence sidecars only when using the new ready command.
 
 ## Consumer update
-For global npm installs, first run `npm install -g @manhd_d/ai-harness@latest`.
+For global npm installs, first run `npm install -g @manhd_d/notth@latest`.
 For local installs, update the local dependency and use `npx aih`.
 `aih --version` identifies the CLI; `aih check` identifies the installed project snapshot.
 `aih update` applies the installed CLI bundle (or explicit `--source`), without fetching releases.
@@ -237,3 +237,11 @@ snapshots automatically. Revert consumer snapshot/config via Git/backup; choose 
 launcher in PATH. Downgrades still refuse; restore the matching prior snapshot for rollback.
 PyPI Trusted Publisher configuration is a maintainer prerequisite outside this PR; feature merge does
 not publish. See [pip guide](python-installation.md), [workflow guide](workflow-contract.md).
+
+## Notth rename (unreleased)
+
+GitHub moves to manh0303/notth and npm to @manhd_d/notth. Distribution version remains
+Release Please-owned, continuing the existing version sequence. CLI aih, .harness, harness-*
+skills, ownership markers, config/archive schemas and Python distribution manhd-ai-harness remain
+compatible. [Migration and first publication](notth-migration.md) covers switching global/local
+packages, rollback, Trusted Publishers and deferring old-package deprecation until verification.

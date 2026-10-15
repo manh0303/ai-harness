@@ -108,6 +108,6 @@
     "stages"
   ],
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/manh0303/ai-harness/workflow.schema.json",
+  "$id": "https://github.com/manh0303/notth/workflow.schema.json",
   "description": "Shape contract. Consumers also validate unique stage IDs, registered owners, transitions, forward DAG and approval sources."
 }

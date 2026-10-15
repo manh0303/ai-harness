@@ -1,4 +1,4 @@
-# Working on ai-harness
+# Working on Notth
 
 This repository distributes instructions, adapters, a local installer and a separate opt-in conformance driver. It is not a model runtime.
 Read README.md, docs/architecture.md, docs/versioning.md, and the relevant OpenSpec change.

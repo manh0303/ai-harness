@@ -1,6 +1,6 @@
 # Documentation workflows — developer idea or existing BA documentation
 
-AI Harness intentionally supports **two entry points feeding one engineering pipeline**. The Product capability supplies role contracts, skills and drafts to an authorized AI host; the `aih` CLI never performs conversations, web research, ingestion, writes to Confluence or automatic approval.
+Notth intentionally supports **two entry points feeding one engineering pipeline**. The Product capability supplies role contracts, skills and drafts to an authorized AI host; the `aih` CLI never performs conversations, web research, ingestion, writes to Confluence or automatic approval.
 
 ## Bắt đầu nhanh — ví dụ đầy đủ
 
@@ -34,7 +34,7 @@ This is not an automatic document-writing command: each `new-doc` simply copies 
 
 | Artifact | Canonical location | Notes |
 | --- | --- | --- |
-| Harness roles, skills, workflows, templates | `ai-harness/capabilities/product/` | Versioned framework source; not real customer requirements |
+| Harness roles, skills, workflows, templates | `notth/capabilities/product/` | Versioned framework source; not real customer requirements |
 | Original developer idea and evidence summary | Consumer `docs/discovery/` | Project-owned, Git versioned; `idea.md`, `research.md` |
 | Project product artifacts | Consumer `docs/product/` | BRD/PRD/PRD-lite/SRS/UC/backlog/AC/traceability |
 | Source enterprise Confluence/BA documents | Existing authorized external system | Canonical source; keep URLs/revisions and permission scope, avoid copying confidential content |

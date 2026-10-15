@@ -16,7 +16,7 @@ test('release-please bootstraps the already published v0.6.0', () => {
   assert.equal(config['include-v-in-tag'], true);
   assert.equal(config['include-component-in-tag'], false);
   assert.equal(config.packages['.']['release-type'], 'node');
-  assert.equal(config.packages['.']['package-name'], '@manhd_d/ai-harness');
+  assert.equal(config.packages['.']['package-name'], '@manhd_d/notth');
   assert.deepEqual(config.packages['.']['extra-files'], [
     {type: 'json', path: 'harness.yaml', jsonpath: '$.version'}
   ]);

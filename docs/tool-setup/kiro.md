@@ -9,7 +9,7 @@ Cần reviewed source/release chứa tính năng này; không mặc định npm 
 Cần Node.js 22+ và Kiro đã đăng nhập. Chạy tại project root:
 
 ```bash
-npx --yes @manhd_d/ai-harness init --host kiro
+npx --yes @manhd_d/notth init --host kiro
 ```
 
 Thêm `--adapters java-spring` cho Spring, `--adapters react-nextjs` cho React/Next.js
@@ -38,19 +38,19 @@ aih update --host kiro
 aih check
 ```
 
-Nếu dùng npx, thay `aih` bằng `npx --yes @manhd_d/ai-harness@<reviewed-version>`.
+Nếu dùng npx, thay `aih` bằng `npx --yes @manhd_d/notth@<reviewed-version>`.
 `update` dùng bundle của CLI đang chạy, không tự tải bản mới. Thêm bridge vào snapshot
 đã cài bằng `update --host kiro`, không chạy lại init với selection mới.
 
 Offline Windows: thay đường dẫn bằng bundle mới chứa tính năng này:
 
 ```powershell
-& 'D:\ai-harness-reviewed\aih.cmd' update --host kiro --dry-run
-& 'D:\ai-harness-reviewed\aih.cmd' update --host kiro
-& 'D:\ai-harness-reviewed\aih.cmd' check
+& 'D:\notth-reviewed\aih.cmd' update --host kiro --dry-run
+& 'D:\notth-reviewed\aih.cmd' update --host kiro
+& 'D:\notth-reviewed\aih.cmd' check
 ```
 
-Checkout không có shim: gọi `node 'D:\ai-harness-reviewed\bin\aih.js'` rồi thêm subcommand.
+Checkout không có shim: gọi `node 'D:\notth-reviewed\bin\aih.js'` rồi thêm subcommand.
 Cho Kiro biết cách gọi CLI offline này; không cần global `aih` hoặc API key riêng.
 
 ## Thông tin được lưu

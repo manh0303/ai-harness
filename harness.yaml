@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "name": "ai-harness",
+  "name": "notth",
   "version": "0.15.0",
   "adapters": [
     "java-spring",
@@ -26,7 +26,7 @@
     "discovery"
   ],
   "distribution": {
-    "npm": "@manhd_d/ai-harness",
+    "npm": "@manhd_d/notth",
     "pypi": "manhd-ai-harness",
     "python": ">=3.9",
     "node": ">=22",

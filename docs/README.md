@@ -1,4 +1,4 @@
-# Tra cứu AI Harness
+# Tra cứu Notth
 
 Mới bắt đầu: [Cài đặt và giao task đầu tiên](getting-started.md).
 Chỉ đọc phần phù hợp với công việc đang làm.

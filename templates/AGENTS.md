@@ -1,5 +1,5 @@
 <!-- ai-harness:start -->
-## AI Harness {{version}}
+## Notth {{version}}
 
 Always read .harness/core/rules/foundations.md, .harness/core/policies/security.md and .harness/core/policies/permissions.md.
 Before edits read .harness/local.md and .harness/core/rules/project-conventions.md; preserve approved design and user content.

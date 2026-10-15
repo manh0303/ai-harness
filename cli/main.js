@@ -89,7 +89,7 @@ Kiro exposes /harness-start; other clients can read .agents/skills/harness-start
 User settings: .harness/; backup exports only documented user files.
 Restore config before init on a fresh project; --transfer excludes old sources/tasks.
 The host runs application tests; verify prints plans or validates supplied evidence.
-Update a global CLI with npm install -g @manhd_d/ai-harness@latest,
+Update a global CLI with npm install -g @manhd_d/notth@latest,
 then run aih update --dry-run, aih update, and aih check in the project.
 
 Examples:
@@ -233,7 +233,7 @@ export function main(argv = process.argv.slice(2)) {
     else result = command === 'doctor' ? doctor(root, values.skill) : check(root);
     if (command === 'init' || command === 'update') result.next_steps = values['dry-run']
       ? ['Review the proposed changes, then repeat without --dry-run.']
-      : [values.host === 'kiro' || Object.keys(loadLock(root).files).some(p => p.startsWith('.kiro/skills/harness-')) ? 'Open this project in Kiro. In your first chat select /harness-start; the agent asks only missing questions and saves context.' : 'Run start with the same CLI (aih start or npx --yes @manhd_d/ai-harness start); open your AI host and send host_prompt.',
+      : [values.host === 'kiro' || Object.keys(loadLock(root).files).some(p => p.startsWith('.kiro/skills/harness-')) ? 'Open this project in Kiro. In your first chat select /harness-start; the agent asks only missing questions and saves context.' : 'Run start with the same CLI (aih start or npx --yes @manhd_d/notth start); open your AI host and send host_prompt.',
          'Review local.md/environment.json and artifacts.json/integrations.json; record input/output/storage/ownership, keep credentials in the host and personal paths in ignored machine.json.',
          'Run doctor and review/commit shared configuration and snapshot. Use backup; copy its file outside the repo. See docs/configuration-backup.md.'];
     if (command === 'new-change') result.next_steps = [
