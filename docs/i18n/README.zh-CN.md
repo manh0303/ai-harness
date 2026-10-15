@@ -1,6 +1,6 @@
 # Notth
 
-原名 **AI Harness**。[迁移到 Notth](../notth-migration.md)。新 npm 包名在首次审核发布后可用。
+原名 **AI Harness**。[迁移到 Notth](../notth-migration.md)。npm 命令需要已发布的包；遇到 E404 请使用[源码/离线安装](../getting-started.md#cài-từ-source-khi-registry-chưa-có-package)。
 
 [English](../../README.md) · [Tiếng Việt](README.vi.md) · **简体中文** · [Español](README.es.md)
 
@@ -16,14 +16,14 @@ Core workflows 可用于任何项目。Stack support 是可选的，不会自动
 npx --yes @manhd_d/notth init --host codex
 ```
 
-host 可选 codex、claude-code、cursor、copilot、gemini-cli 或 kiro。
+host 可选 codex、claude-code、cursor、copilot、gemini-cli、kiro、opencode 或 windsurf。
 首次 AI 会话调用 harness-start；如果客户端未发现技能，请发送：
 
 > Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
 
 Kiro 提供 `/harness-start`；原生发现因客户端而异。[多 IDE 指南](../tool-setup/README.md)。
 
-**pip / 离线安装**将在下一次审核后的版本中提供，首次发布需要配置 PyPI publisher：
+**pip / 离线安装**：以下命令需要 PyPI 已发布软件包；否则使用已审核的离线 wheel：
 
 ```bash
 python -m pip install manhd-ai-harness
@@ -43,6 +43,8 @@ aih init --host codex
 | **GitHub Copilot** | [使用指南](../tool-setup/copilot.md) |
 | **Gemini CLI** | [使用指南](../tool-setup/gemini-cli.md) |
 | **Kiro** | [使用指南](../tool-setup/kiro.md) |
+| **OpenCode** | [使用指南](../tool-setup/opencode.md) |
+| **Windsurf** | [使用指南](../tool-setup/windsurf.md) |
 
 [Docs 与示例](../README.md) · [Getting started](../getting-started.md) · [Input/output](../artifact-contract.md) · [Agent configuration](../agent-configuration.md) · [Continuous development](../continuous-development.md) · [MIT](../../LICENSE)
 

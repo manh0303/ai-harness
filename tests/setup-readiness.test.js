@@ -127,7 +127,8 @@ test('CLI init/dry-run/scaffold expose honest next steps and new drafts are bloc
   const dry = cli(['init', '--dry-run']);
   assert.match(dry.next_steps[0], /without --dry-run/);
   const result = cli(['init']);
-  assert.match(result.next_steps[0], /aih start/);
+  assert.match(result.next_steps[0], /first chat.*harness-start/);
+  assert.doesNotMatch(result.next_steps[0], /Run start/);
   const change = cli(['new-change', 'add-order']);
   assert.match(change.next_steps.join(' '), /decisions.json/);
   assert.ok(fs.existsSync(path.join(root, base, 'verification.json')));

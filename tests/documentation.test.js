@@ -172,9 +172,9 @@ test('Monetization capability and end-to-end publisher guides stay discoverable'
   assert.match(read('docs/architecture.md'), /Advertising monetization capability/);
 });
 
-test('tool setup uses Core-first npx commands and keeps host verification explicit', () => {
+test('tool setup uses host-selected Core-first npx commands and keeps host verification explicit', () => {
   const common = read('docs/tool-setup/README.md');
-  assert.match(common, /npx --yes @manhd_d\/notth init\n/);
+  assert.match(common, /npx --yes @manhd_d\/notth init --host codex\n/);
   assert.match(common, /npx --yes @manhd_d\/notth check/);
   assert.match(common, /npx.*does not install a global/);
   assert.match(common, /project root/);

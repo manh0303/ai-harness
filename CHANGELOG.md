@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Simple first session
+
+- Align README, translated host lists, getting-started, packaged quickstart and CLI install/update handoff around one selected host and harness-start in chat.
+- Keep terminal start as an optional intake path; explain npx versus aih and preserve existing configuration/command behavior.
+
+
 ## Unreleased — Reusable project workflows
 
 - Add read-only status/changes, existing-proposal selection through start --change, and backed-up start --clear without archive/process side effects.

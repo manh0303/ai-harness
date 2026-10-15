@@ -6,15 +6,19 @@ see [pip/offline setup](../python-installation.md). npm and pip use the same onb
 
 ## 1. Install Harness in your project
 
+Registry commands require a published supporting package. If unavailable, use the
+[source/offline path](../getting-started.md#cài-từ-source-khi-registry-chưa-có-package) with the same host and chat flow.
+
 Open a terminal in the **project root** (the folder you open in your IDE), not in the Notth source repo:
 
 ```bash
-npx --yes @manhd_d/notth init
+npx --yes @manhd_d/notth init --host codex
 npx --yes @manhd_d/notth check
 ```
 
+Replace `codex` with your one tool: `claude-code`, `cursor`, `copilot`, `gemini-cli`, `kiro`, `opencode` or `windsurf`.
 For a new app, create its repository/folder first. Core works with any stack.
-Use `init --detect` instead of `init` to select supported stacks, or choose optional adapters/capabilities
+Optionally add `--detect` to the same init command to select supported stacks, or choose adapters/capabilities
 in [Getting started](../getting-started.md). For an existing Harness installation, use the update steps below.
 
 `npx` does not install a global `aih` command. Optional: run

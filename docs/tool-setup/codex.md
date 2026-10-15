@@ -34,7 +34,7 @@ Checked 2026-10-13; no logged-in Codex client or live-agent smoke was run.
 ## Common first-session onboarding
 
 npm and pip/offline use the same `aih init --host codex` bundle and canonical harness-start.
-Invoke the native skill when available (Kiro: `/harness-start`), or send:
+Invoke harness-start when your client exposes it, or send:
 
 > Read .agents/skills/harness-start/SKILL.md and follow it for this project. My task: [task].
 
