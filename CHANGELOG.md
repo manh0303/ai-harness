@@ -206,6 +206,18 @@
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.17.0](https://github.com/manh0303/notth/compare/v0.16.0...v0.17.0) (2026-10-15)
+
+
+### Features
+
+* support reusable project workflows across AI tools ([07cd549](https://github.com/manh0303/notth/commit/07cd5492daa99b94d98e9b05c7a6a5857406ffe6))
+
+
+### Bug Fixes
+
+* simplify first-session setup across AI tools ([9f56129](https://github.com/manh0303/notth/commit/9f56129316eef6a1be726be55ddf84a677f407b2))
+
 ## [0.16.0](https://github.com/manh0303/notth/compare/v0.15.0...v0.16.0) (2026-10-15)
 
 
