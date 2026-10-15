@@ -31,3 +31,5 @@ not a fresh BRD, architecture pack or planning interview.
    Return gaps to the owning role; role documents do not launch agents or self-approve decisions.
 10. Review implementation against accepted scope/design and actual tests. Model behavior evaluations,
     manual review and application checks are separate evidence. Structural ready is not approval.
+
+When consequential uncertainty remains, stress-test assumptions with targeted counterexamples and failure scenarios before accepting design. Use relevant installed skills when available; do not require external grilling/domain-modeling skills or a quiz for clear small fixes. Capture vocabulary and source-linked decisions in existing docs, following `.harness/core/workflows/project-knowledge.md` when a reusable map is useful.

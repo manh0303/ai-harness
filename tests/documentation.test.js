@@ -179,11 +179,11 @@ test('tool setup uses Core-first npx commands and keeps host verification explic
   assert.match(common, /npx.*does not install a global/);
   assert.match(common, /project root/);
   assert.doesNotMatch(common, /^aih init --adapters java-spring/m);
-  for (const host of ['codex', 'claude-code', 'cursor', 'copilot', 'gemini-cli', 'kiro']) {
+  for (const host of ['codex', 'claude-code', 'cursor', 'copilot', 'gemini-cli', 'kiro', 'opencode', 'windsurf']) {
     const guide = read('docs/tool-setup/' + host + '.md');
     assert.ok(common.includes('](' + host + '.md)'));
     assert.match(guide, /\[common setup\]\(README.md\)/);
-    assert.ok(guide.includes('README.md#3-check-loading-then-give-a-task'));
+    assert.ok(guide.includes('README.md#3-start-the-first-session'));
     assert.match(guide, /Official references/);
     assert.match(guide, /no logged-in/i);
   }
@@ -201,5 +201,5 @@ test('Kiro setup distinguishes canonical reading from native discovery and prese
   assert.match(guide, /session.*harness-start/);
   assert.match(guide, /IDE 1\.x \/ CLI V3/);
   assert.match(guide, /canonical.*write scope/);
-  assert.match(read('docs/tool-setup/claude-code.md'), /unreleased from the 0\.12\.0 npm baseline/);
+  assert.match(read('docs/tool-setup/claude-code.md'), /supporting reviewed CLI/);
 });

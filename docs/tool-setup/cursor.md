@@ -12,7 +12,7 @@ Cursor supports root/nested `AGENTS.md` and project `.agents/skills`; no extra r
 Preserve existing `.cursor/rules` and inspect their scope if instructions conflict.
 
 Open **Customize → Skills** to inspect discovered skills, then run the
-[read-only setup prompt](README.md#3-check-loading-then-give-a-task). If an installed skill is missing,
+[read-only setup prompt](README.md#3-start-the-first-session). If an installed skill is missing,
 reload the session or ask Agent to read its exact canonical file.
 
 ## Optional configuration

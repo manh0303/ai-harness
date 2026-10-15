@@ -1,6 +1,7 @@
+import { statusReport, changesReport } from './status.js';
 import { seed } from './knowledge.js';
 import { syncIntegrations } from './sync-integrations.js';
-import { startPlan, saveStart, guidedStart, compactStart } from './start.js';
+import { startPlan, saveStart, guidedStart, compactStart, clearStart } from './start.js';
 import { setupProject } from './setup.js';
 import { projectDecisionReport } from './project-decisions.js';
 import { backupConfig, restoreConfig } from './portable-config.js';
@@ -38,6 +39,8 @@ Usage: aih <command> [options]
   seed                 Plan context loading; --record reconciled hashes or --check freshness
   sync-integrations    Import Kiro MCP aliases only; verify tools in the active host
   change-sidecars <id>  Add missing OpenSpec sidecars without overwriting existing files
+  status               Show current task/change and recovery guidance (read-only)
+  changes              List local OpenSpec changes and declared task counts (read-only)
   start                Guide intake; reuse saved answers and hand off to your AI host
   backup               Export user configuration (not docs/checkpoints/secrets)
   restore              Restore --from backup; --transfer reuses modules/model preferences
@@ -52,12 +55,13 @@ Usage: aih <command> [options]
 Options:
   --apply             setup: create missing user configs from the installed snapshot
   --greenfield        setup: select new-project guidance, not an adapter or architecture
+  --clear             start: back up and clear saved intake; preserve changes/evidence
   --compact           start: short read-only orientation; skips terminal intake/source scan
   --record            seed: record hashes after host context reconciliation
   --check             seed: read-only freshness check
   --skill <name>      doctor: check one canonical/project skill prerequisite contract
   --goal <type>       start: idea, docs, change, resume (saves with --task)
-  --task <text>       start: task description; --change supplies resume checkpoint ID
+  --task <text>       start: task description; --change selects an existing change/resume ID
   --input <path/url>  start: seed requirements only if no inputs declared
   --output <path>     start: draft docs directory; backup: archive path
   --from <file>       restore: project-relative archive file
@@ -71,7 +75,8 @@ Options:
   --agent-preset <id> init only: recommended (default), economy, custom; no overwrite
   --link-claude       init/update: opt in to a managed CLAUDE.md import
   --claude-skills     init/update: opt in to canonical .claude/skills wrappers
-  --host <id>         init/update/setup/agents/start: kiro,codex,claude-code,gemini-cli,cursor,copilot or custom host ID
+  --host <id>         kiro,codex,claude-code,gemini-cli,cursor,copilot,opencode,windsurf or custom ID
+                      Choose one tool per command
   --scope <type>      verify/eval: adapters (default), capabilities, core, all
   --adaptive          verify: discover a read-only project verification plan
   --expected <sha>    checkpoint: observed prior checkpoint digest for replacement
@@ -99,6 +104,11 @@ Examples:
   aih resolve --adapters java-spring,kubernetes --capabilities product,uiux,devops
   aih setup
   aih init --agent-preset economy
+  aih init --host kiro
+  aih status
+  aih changes
+  aih start --goal change --change add-order --task "Implement the accepted change"
+  aih start --clear
   aih setup --host codex
   aih doctor
   aih ready add-order --stage implement
@@ -126,7 +136,7 @@ export function main(argv = process.argv.slice(2)) {
   let args;
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
-      apply: { type: 'boolean' }, greenfield: { type: 'boolean' }, compact: { type: 'boolean' }, record: { type: 'boolean' }, check: { type: 'boolean' }, skill: { type: 'string' }, goal: { type: 'string' }, task: { type: 'string' }, change: { type: 'string' }, input: { type: 'string' }, output: { type: 'string' }, from: { type: 'string' }, transfer: { type: 'boolean' }, replace: { type: 'boolean' }, target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
+      clear: { type: 'boolean' }, apply: { type: 'boolean' }, greenfield: { type: 'boolean' }, compact: { type: 'boolean' }, record: { type: 'boolean' }, check: { type: 'boolean' }, skill: { type: 'string' }, goal: { type: 'string' }, task: { type: 'string' }, change: { type: 'string' }, input: { type: 'string' }, output: { type: 'string' }, from: { type: 'string' }, transfer: { type: 'boolean' }, replace: { type: 'boolean' }, target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
       workflow: { type: 'string' }, 'agent-preset': { type: 'string' }, host: { type: 'string' }, expected: { type: 'string' },
       'link-claude': { type: 'boolean' }, 'claude-skills': { type: 'boolean' }, adaptive: { type: 'boolean' }, detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' }, stage: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
@@ -140,7 +150,7 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['workflow', 'decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (!['status', 'changes', 'workflow', 'decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
     if (extra.length || (!['workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name !== undefined) || (['workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
     if (command === 'workflow' && name !== 'validate') throw new Error('Usage: aih workflow validate');
@@ -149,7 +159,8 @@ export function main(argv = process.argv.slice(2)) {
     if (command === 'doctor') allowed.add('skill');
     if (command === 'sync-integrations') { for (const key of ['host','from','dry-run']) allowed.add(key); }
     if (command === 'start') {
-      for (const key of ['goal','task','change','input','output','host','compact']) allowed.add(key);
+      for (const key of ['goal','task','change','input','output','host','compact','clear']) allowed.add(key);
+      if (args.values.clear && ['goal','task','change','input','output','compact','host'].some(k => args.values[k] !== undefined)) throw new Error('--clear cannot be combined with intake options');
       if (args.values.compact && ['goal','task','change','input','output'].some(k => args.values[k] !== undefined)) throw new Error('--compact cannot save intake answers');
     }
     if (command === 'decisions') allowed.add('scope');
@@ -176,10 +187,13 @@ export function main(argv = process.argv.slice(2)) {
     const { values, positionals: [command, name] } = args;
     const root = targetRoot(values.target ?? process.cwd());
     let result;
-    if (command === 'workflow') {
+    if (command === 'status') result = statusReport(root);
+    else if (command === 'changes') result = changesReport(root);
+    else if (command === 'workflow') {
       if (check(root).status !== 'ok') throw new Error('Fix installation drift before reading workflows');
       result = workflowReport(path.join(root, '.harness'), loadLock(root).capabilities ?? []);
     } else if (command === 'start') {
+      if (values.clear) { console.log(JSON.stringify(clearStart(root), null, 2)); return 0; }
       if (!values.compact && !values.goal && values.host !== 'kiro' && process.stdin.isTTY && process.stdout.isTTY) return guidedStart(root, { host: values.host }).then(value => { console.log(JSON.stringify(value, null, 2)); return value.status === 'blocked' ? 1 : 0; }).catch(error => { console.error(JSON.stringify({ status: 'error', message: error.message })); return 1; });
       result = values.compact ? compactStart(root, values.host) : values.goal ? saveStart(root, { goal: values.goal, task: values.task, changeId: values.change, input: values.input, output: values.output, host: values.host }) : startPlan(root, values.host);
     } else if (command === 'setup') result = setupProject(root, { apply: values.apply, dryRun: values['dry-run'], greenfield: values.greenfield, host: values.host });
@@ -233,7 +247,7 @@ export function main(argv = process.argv.slice(2)) {
     else result = command === 'doctor' ? doctor(root, values.skill) : check(root);
     if (command === 'init' || command === 'update') result.next_steps = values['dry-run']
       ? ['Review the proposed changes, then repeat without --dry-run.']
-      : [values.host === 'kiro' || Object.keys(loadLock(root).files).some(p => p.startsWith('.kiro/skills/harness-')) ? 'Open this project in Kiro. In your first chat select /harness-start; the agent asks only missing questions and saves context.' : 'Run start with the same CLI (aih start or npx --yes @manhd_d/notth start); open your AI host and send host_prompt.',
+      : [values.host === 'kiro' ? 'Open this project in Kiro. In your first chat select /harness-start; the agent asks only missing questions and saves context.' : 'Run start with the same CLI (aih start or npx --yes @manhd_d/notth start); open your AI host and send host_prompt.',
          'Review local.md/environment.json and artifacts.json/integrations.json; record input/output/storage/ownership, keep credentials in the host and personal paths in ignored machine.json.',
          'Run doctor and review/commit shared configuration and snapshot. Use backup; copy its file outside the repo. See docs/configuration-backup.md.'];
     if (command === 'new-change') result.next_steps = [

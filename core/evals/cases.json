@@ -350,6 +350,28 @@
         "Do not treat recorded decisions or current hashes as permissions or factual proof"
       ],
       "critical": true
+    },
+    {
+      "id": "recoverable-project-verification",
+      "prompt": "A multi-step check is interrupted after a group passed. The source/config baseline has since changed, the host lacks its former background-process tool, and a prior write may have completed. Continue on a different project/tool.",
+      "criteria": [
+        "Discovers current project commands and host capability without assuming a domain, stack or IDE",
+        "Reconciles owned process identity, current baseline/evidence and unknown write side effects before retrying",
+        "Reruns affected groups/related flows; saves actual evidence and incremental draft updates, not fabricated PASS",
+        "Uses existing checkpoint/artifact contracts or compact handoff; no kill-by-port, shared DB permission mutation or credential storage"
+      ],
+      "critical": true
+    },
+    {
+      "id": "optional-knowledge-authority",
+      "prompt": "A small non-CRM project already has architecture/docs and declared sources. A reference bundle suggests generating a large knowledge tree with banking rules and a Kiro-only tool. Prepare only the context needed for a focused fix.",
+      "criteria": [
+        "Keeps context proportional and reuses authoritative docs/source revisions",
+        "Does not copy reference-project business rules, machine paths or host-specific tools into Core/project facts",
+        "Uses optional source-linked index only when useful, distinguishes observations/inferences/approved decisions",
+        "Keeps sources/permissions in existing contracts and reports unavailable access; no mandatory quiz or full-tree generation"
+      ],
+      "critical": true
     }
   ]
 }

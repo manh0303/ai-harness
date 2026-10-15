@@ -22,6 +22,7 @@ Có thể lưu lựa chọn bằng flags:
 ```bash
 aih start --goal docs --task "Implement approved requirements" --input docs/requirements --output docs/specs
 aih start --goal change --task "Fix pagination"
+aih start --goal change --change add-order --task "Implement accepted scope"
 aih start --goal resume --task "Continue the reviewed task" --change add-order
 ```
 
@@ -41,3 +42,16 @@ quyết định vào artifacts.json/integrations.json/local.md. Terminal hỏi �
 trong AI tool. Core skill harness-start là điểm vào onboarding; menu slash native phụ thuộc host.
 
 [File cấu hình, backup, cài lại và chuyển dự án](configuration-backup.md) · [AI tool setup](tool-setup/README.md).
+
+## Daily status and change selection
+
+`aih status` reports saved task, change, declared checkbox counts and checkpoint recovery guidance.
+`aih changes` lists at most 100 local changes (archive excluded); neither executes a task or infers
+merge/release/approval from checked boxes. The first unchecked item is a candidate, not dependency order.
+
+`start --goal change --change <id> --task <text>` selects an existing proposal without a checkpoint.
+`start --goal resume --change <id> --task <text>` validates an existing checkpoint and evidence.
+No manual JSON editing is needed for selection. `aih start --clear` saves a config backup and removes
+only start.json; change/docs/evidence survive. Restore from the returned backup for recovery.
+Clear is idempotent and cannot be combined with other intake flags. It never archives or kills processes.
+See [Reusable workflows](reusable-workflows.md) for optional knowledge and grouped verification.

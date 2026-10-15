@@ -37,9 +37,10 @@ try {
     'docs/solution-workflow.md', 'docs/tool-setup/README.md']) {
     assert.ok(names.includes(required), `Missing solution asset: ${required}`);
   }
-  for (const host of ['codex', 'claude-code', 'cursor', 'copilot', 'gemini-cli', 'kiro']) {
+  for (const host of ['codex', 'claude-code', 'cursor', 'copilot', 'gemini-cli', 'kiro', 'opencode', 'windsurf']) {
     assert.ok(names.includes(`docs/tool-setup/${host}.md`), `Missing host guide: ${host}`);
   }
+  for (const name of ['cli/status.js','cli/host-bridges.js','templates/SETUP.md','templates/QUICKSTART.md','templates/knowledge-index.md','core/workflows/project-knowledge.md','core/workflows/recoverable-verification.md','docs/reusable-workflows.md','docs/tool-portability.md']) assert.ok(names.includes(name), 'Missing portability asset: ' + name);
   const workflowSchemas = JSON.parse(fs.readFileSync(path.join(SOURCE, 'core/workflows/spec-to-code.workflow.json')));
   assert.equal(workflowSchemas.schema_version, 1);
   const conventionAssets = ['core/rules/project-conventions.md',
@@ -85,6 +86,15 @@ try {
   const portableCli = process.platform === 'win32' ? path.join(prefix, 'node_modules', packageName, 'bin/aih.js') : packagedCli;
   const portableRun = args => JSON.parse(command(process.execPath, [portableCli, ...args], portableTarget));
   for (const asset of ['cli/knowledge.js','cli/structured.js','cli/kiro.js','cli/skill-requirements.js','cli/sync-integrations.js','core/skills/harness-start/SKILL.md','templates/local.md','docs/session-onboarding.md']) assert.ok(names.includes(asset), 'Missing session asset: ' + asset);
+  for (const [host, bridge] of [['claude-code','CLAUDE.md'],['copilot','.github/copilot-instructions.md'],['gemini-cli','GEMINI.md'],['opencode',null],['windsurf',null]]) {
+    const hostTarget = path.join(temp, host + ' project'); fs.mkdirSync(hostTarget);
+    const hostRun = args => JSON.parse(command(process.execPath, [portableCli, ...args], hostTarget));
+    assert.equal(hostRun(['init','--host',host]).status,'ok');
+    if (bridge) assert.ok(fs.existsSync(path.join(hostTarget,bridge)));
+    assert.ok(!fs.existsSync(path.join(hostTarget,'.kiro/skills/harness-start/SKILL.md')));
+    assert.deepEqual(hostRun(['update']).changes,[]);
+    assert.equal(hostRun(['check']).status,'ok');
+  }
   const kiroTarget = path.join(temp, 'kiro project'); fs.mkdirSync(kiroTarget);
   const kiroRun = args => JSON.parse(command(process.execPath, [portableCli, ...args], kiroTarget));
   assert.equal(kiroRun(['init','--host','kiro']).status,'ok');
@@ -109,6 +119,15 @@ try {
   assert.equal(kiroRun(['seed','--check']).freshness,'current');
   assert.deepEqual(kiroRun(['update']).changes,[]);
   assert.equal(kiroRun(['check']).status,'ok');
+  assert.equal(kiroRun(['status']).executed,false);
+  assert.deepEqual(kiroRun(['changes']).changes,[]);
+  assert.equal(kiroRun(['new-change','sample-change']).status,'ok');
+  assert.equal(kiroRun(['start','--goal','change','--change','sample-change','--task','Implement sample']).saved.change_id,'sample-change');
+  assert.equal(kiroRun(['status']).change,'sample-change');
+  assert.ok(kiroRun(['start','--clear']).backup);
+  assert.equal(kiroRun(['status']).task,null);
+  assert.ok(fs.existsSync(path.join(kiroTarget,'openspec/changes/sample-change/proposal.md')));
+
 
   assert.equal(portableRun(['restore', '--from', 'settings.json', '--transfer', '--dry-run']).status, 'planned');
   assert.equal(fs.existsSync(path.join(portableTarget, '.harness/project.json')), false);

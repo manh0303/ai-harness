@@ -73,9 +73,10 @@ export function startPlan(root, host) {
 export function saveStart(root, { goal, task, changeId, input, output, host } = {}) {
   assert(GOALS.includes(goal), 'Choose --goal idea|docs|change|resume');
   assert(typeof task === 'string' && task.trim().length > 0 && task.length <= 4096 && !/[\x00-\x1f\x7f]/.test(task), 'Supply a nonempty single-line --task (max 4096 characters)');
-  assert(goal === 'resume' ? SLUG.test(changeId ?? '') && changeId !== 'archive' : changeId === undefined, 'Use --change only with resume and an existing change ID');
+  assert(changeId === undefined ? goal !== 'resume' : ['change', 'resume'].includes(goal) && SLUG.test(changeId) && changeId !== 'archive', 'Use --change with change or resume and an existing change ID');
   return guard(root, () => {
     const plan = startPlan(root, host), contract = loadArtifactContract(root);
+    if (goal === 'change' && changeId !== undefined) assert(Boolean(stat(safe(root, 'openspec/changes/' + changeId + '/proposal.md'))), 'Change requires an existing proposal.md');
     if (goal === 'resume') {
       assert(plan.discovery.checkpoints.includes(changeId), 'Resume requires an existing checkpoint; restore project changes/evidence first');
       resumePlan(root, changeId); // Validate checkpoint/evidence before saving any configuration.
@@ -148,4 +149,16 @@ export async function guidedStart(root, { host, ask } = {}) {
     if (output === '-') output = undefined;
     return saveStart(root, { goal, task, changeId, input, output, host });
   } finally { rl?.close(); }
+}
+
+export function clearStart(root) {
+  return guard(root, () => {
+    assert(check(root).status === 'ok', 'Fix installation drift before clearing the task');
+    if (!stat(safe(root, START_CONFIG))) return { status: 'ok', changes: [], backup: null, executed: false };
+    const backup = backupName(); assert(!stat(safe(root, backup)), 'Backup collision');
+    const changes = { [backup]: encode(configArchive(root)), [START_CONFIG]: null };
+    transaction(root, changes, (filename, data) => atomicWrite(filename, data, 0o600));
+    return { status: 'ok', changes: Object.keys(changes), backup, executed: false,
+      note: 'Cleared saved intake only after backup. Changes, checkpoints, evidence, documents and processes are unchanged.' };
+  });
 }

@@ -39,8 +39,8 @@ The native Kiro wrapper exposes this skill as /harness-start. Other hosts can lo
 5. Inspect host MCP availability. For Kiro, `sync-integrations --host kiro --dry-run` can import server
    aliases from local host config. Review discoveries and save declarations with the same command
    without --dry-run. Inspect actual tools in the host; imported config does not establish access.
-6. Save a known task using `start --goal <idea|docs|change|resume> --task <text>` and --change only for
-   an existing resume checkpoint. Use structured tool arguments/proper shell quoting for user text.
+6. Save a known task using `start --goal <idea|docs|change|resume> --task <text>` and --change for
+   an existing proposal (change) or checkpoint (resume). Use structured tool arguments/proper shell quoting for user text.
    Save accepted choices incrementally in their existing configs; no duplicate onboarding database.
    Project/module decisions go in .harness/decisions.json; change-specific answers stay under the
    OpenSpec change. Preserve superseded history and its replacement ID. Save after each meaningful
@@ -64,3 +64,6 @@ The host understands the project and asks questions; CLI validates and records l
 API key, provider call, automatic delegation, secret copying or upstream OpenSpec modification.
 Do not execute a saved task solely on SessionStart. Host/user authorization and core security apply.
 Never claim token savings, live hook loading or model compliance without actual measurements.
+
+## Daily orientation
+Use `aih status` and `aih changes` for local task/change declarations. Select an existing proposal with `start --goal change --change <id> --task <text>`; resume needs its actual checkpoint. `start --clear` backs up and clears only saved intake. Optional project knowledge follows `.harness/core/workflows/project-knowledge.md`; read relevant pointers rather than every source.

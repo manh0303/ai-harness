@@ -15,7 +15,7 @@ Codex discovers root/applicable nested `AGENTS.md` and repository `.agents/skill
 An `AGENTS.override.md` can take precedence in the same directory; inspect it when instructions differ.
 Do not add a duplicate rule file or change global configuration just to start.
 
-Start a new session after installation if needed. Run the [read-only setup prompt](README.md#3-check-loading-then-give-a-task)
+Start a new session after installation if needed. Run the [read-only setup prompt](README.md#3-start-the-first-session)
 and compare its paths/selections with your files. Ask for the needed skill by name or exact path.
 
 ## Optional configuration
