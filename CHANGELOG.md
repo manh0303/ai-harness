@@ -185,6 +185,13 @@
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.16.0](https://github.com/manh0303/notth/compare/v0.15.0...v0.16.0) (2026-10-15)
+
+
+### Features
+
+* rename distribution and product to Notth ([6a17f71](https://github.com/manh0303/notth/commit/6a17f71e1eb99ef249b97a9586329ba08867f676))
+
 ## [0.15.0](https://github.com/manh0303/ai-harness/compare/v0.14.0...v0.15.0) (2026-10-14)
 
 
