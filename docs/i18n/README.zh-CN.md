@@ -49,3 +49,9 @@ aih init --host codex
 [Docs 与示例](../README.md) · [Getting started](../getting-started.md) · [Input/output](../artifact-contract.md) · [Agent configuration](../agent-configuration.md) · [Continuous development](../continuous-development.md) · [MIT](../../LICENSE)
 
 多工具和新项目迁移：[指南](../tool-portability.md)。
+
+## 日常使用
+
+首次加载入口后，直接说“修复这个错误”“添加这个功能”或“继续已保存的任务”。AI 根据影响选择 Quick/Standard/Full 深度；用户无需选择角色或审批阶段。结果应说明已完成事项、阻碍和下一步。
+
+[简短提示与故障处理](../simple-use.md)。支持此功能的源码或发行版可用 `aih start --chat --format human` 和 `aih status --format human`。JSON 仍为默认；main 中的新参数不代表已在注册表发布。

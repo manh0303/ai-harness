@@ -123,3 +123,5 @@ node /path/to/notth/bin/aih.js check
 Chọn host của bạn; project đã cài dùng `update --host <tool> --dry-run`, rồi `update --host <tool>`
 và `check` với cùng CLI. Mở chat theo bước 2 và cho AI biết lệnh Node/offline này để tái sử dụng.
 Không cần tạo shim `aih.cmd`, cài global hoặc truy cập npm/PyPI cho cách này.
+
+[Short task prompts and human-readable orientation](simple-use.md): chat is the primary path across hosts; terminal interview remains optional and backward compatible.

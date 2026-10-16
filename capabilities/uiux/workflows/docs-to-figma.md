@@ -1,5 +1,7 @@
 # Documents to Figma — review-gated workflow
 
+First use [design delivery](design-delivery.md) to scope sections and choose the authorized output. Use the Figma steps below only for a selected Figma deliverable; otherwise follow that workflow and relevant tool-neutral skills.
+
 ## Purpose
 Translate permitted Confluence pages, PRDs, stories, PDFs and screenshots into source-traceable, editable Figma designs. These are AI-agent instructions; the CLI does not itself run agents, RAG or MCP.
 

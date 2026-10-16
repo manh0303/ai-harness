@@ -104,3 +104,5 @@ For changed public journeys or an explicit end-user testing request, apply
 `.harness/core/workflows/end-user-acceptance.md` and `harness-end-user-testing`: exercise the actual
 interface, distinguish real/mocked dependencies, and include user-facing outcome evidence or concrete
 BLOCKED/NOT_RUN reasons before completion. API/unit/build success cannot replace required browser/device flows.
+
+Use [task experience](task-experience.md) for the canonical Quick/Standard/Full decision table, minimum context, scoped approvals and concise next-action handoff.

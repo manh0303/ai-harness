@@ -33,3 +33,5 @@ then project-owned extensions in declared order. Extensions specialize domain fa
 permissions or weaken core security. Missing extensions block that role; reconcile contradictory facts
 with the owner. Before a selected skill use aih doctor --skill <name> for declared requires; verify MCP
 access/tools in the actual host even when local prerequisites pass.
+
+Use [task experience](task-experience.md) for the canonical Quick/Standard/Full decision table, minimum context, scoped approvals and concise next-action handoff.

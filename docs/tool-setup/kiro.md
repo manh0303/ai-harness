@@ -127,3 +127,5 @@ Invoke the native skill when available (Kiro: `/harness-start`), or send:
 
 Reuse saved answers; do not start a second terminal interview. Client-specific imports/discovery above
 still apply. [pip/offline prerequisites and updates](../python-installation.md).
+
+For the shared task-first flow, see [simple use](../simple-use.md). On a supporting CLI, `start --chat --host <your-host> --format human` never opens a terminal interview. Native discovery still requires a real client check.

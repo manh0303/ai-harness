@@ -74,3 +74,5 @@ is triggered by aih eval. Read-only driver trials do not prove action/tool permi
 [Supported-tool loading protocol](host-portability.md) covers shared context, native bridges and Windows pointers; status NOT_RUN.
 
 Core recoverable-project-verification and optional-knowledge-authority cases cover host/project independence, incremental evidence and stale-group recovery. They remain unscored until actual host trials.
+
+[New-user paired live scenarios](new-user-experience.md) cover minimal UI, small fixes, permissions, missing tools, clone, resume and offline use. Status remains NOT_RUN until observed.

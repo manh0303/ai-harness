@@ -1,6 +1,7 @@
 import { statusReport, changesReport } from './status.js';
 import { seed } from './knowledge.js';
 import { syncIntegrations } from './sync-integrations.js';
+import { renderResult } from './presentation.js';
 import { startPlan, saveStart, guidedStart, compactStart, clearStart } from './start.js';
 import { setupProject } from './setup.js';
 import { projectDecisionReport } from './project-decisions.js';
@@ -56,6 +57,8 @@ Options:
   --apply             setup: create missing user configs from the installed snapshot
   --greenfield        setup: select new-project guidance, not an adapter or architecture
   --clear             start: back up and clear saved intake; preserve changes/evidence
+  --format <format>   init/update/start/status/changes: human or json (default json)
+  --chat              start: read-only chat orientation on every host; no interview
   --compact           start: short read-only orientation; skips terminal intake/source scan
   --record            seed: record hashes after host context reconciliation
   --check             seed: read-only freshness check
@@ -136,7 +139,7 @@ export function main(argv = process.argv.slice(2)) {
   let args;
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
-      clear: { type: 'boolean' }, apply: { type: 'boolean' }, greenfield: { type: 'boolean' }, compact: { type: 'boolean' }, record: { type: 'boolean' }, check: { type: 'boolean' }, skill: { type: 'string' }, goal: { type: 'string' }, task: { type: 'string' }, change: { type: 'string' }, input: { type: 'string' }, output: { type: 'string' }, from: { type: 'string' }, transfer: { type: 'boolean' }, replace: { type: 'boolean' }, target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
+      format: { type: 'string' }, chat: { type: 'boolean' }, clear: { type: 'boolean' }, apply: { type: 'boolean' }, greenfield: { type: 'boolean' }, compact: { type: 'boolean' }, record: { type: 'boolean' }, check: { type: 'boolean' }, skill: { type: 'string' }, goal: { type: 'string' }, task: { type: 'string' }, change: { type: 'string' }, input: { type: 'string' }, output: { type: 'string' }, from: { type: 'string' }, transfer: { type: 'boolean' }, replace: { type: 'boolean' }, target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
       workflow: { type: 'string' }, 'agent-preset': { type: 'string' }, host: { type: 'string' }, expected: { type: 'string' },
       'link-claude': { type: 'boolean' }, 'claude-skills': { type: 'boolean' }, adaptive: { type: 'boolean' }, detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' }, stage: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
@@ -153,14 +156,17 @@ export function main(argv = process.argv.slice(2)) {
     if (!['status', 'changes', 'workflow', 'decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
     if (extra.length || (!['workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name !== undefined) || (['workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
+    if (['init','update','start','status','changes'].includes(command)) allowed.add('format');
+    if (args.values.format !== undefined && !['human','json'].includes(args.values.format)) throw new Error('--format must be human or json');
     if (command === 'workflow' && name !== 'validate') throw new Error('Usage: aih workflow validate');
     if (command === 'ready') allowed.add('workflow');
     if (command === 'seed') { allowed.add('record'); allowed.add('check'); if (args.values.record && args.values.check) throw new Error('Choose --record or --check'); }
     if (command === 'doctor') allowed.add('skill');
     if (command === 'sync-integrations') { for (const key of ['host','from','dry-run']) allowed.add(key); }
     if (command === 'start') {
-      for (const key of ['goal','task','change','input','output','host','compact','clear']) allowed.add(key);
-      if (args.values.clear && ['goal','task','change','input','output','compact','host'].some(k => args.values[k] !== undefined)) throw new Error('--clear cannot be combined with intake options');
+      for (const key of ['goal','task','change','input','output','host','compact','clear','chat']) allowed.add(key);
+      if (args.values.clear && ['goal','task','change','input','output','compact','host','chat'].some(k => args.values[k] !== undefined)) throw new Error('--clear cannot be combined with intake options');
+      if (args.values.chat && ['goal','task','change','input','output','compact','clear'].some(k => args.values[k] !== undefined)) throw new Error('--chat is read-only and cannot be combined with intake options');
       if (args.values.compact && ['goal','task','change','input','output'].some(k => args.values[k] !== undefined)) throw new Error('--compact cannot save intake answers');
     }
     if (command === 'decisions') allowed.add('scope');
@@ -186,6 +192,7 @@ export function main(argv = process.argv.slice(2)) {
   try {
     const { values, positionals: [command, name] } = args;
     const root = targetRoot(values.target ?? process.cwd());
+    const print = result => console.log(values.format === 'human' ? renderResult(command, result, values) : JSON.stringify(result, null, 2));
     let result;
     if (command === 'status') result = statusReport(root);
     else if (command === 'changes') result = changesReport(root);
@@ -193,9 +200,9 @@ export function main(argv = process.argv.slice(2)) {
       if (check(root).status !== 'ok') throw new Error('Fix installation drift before reading workflows');
       result = workflowReport(path.join(root, '.harness'), loadLock(root).capabilities ?? []);
     } else if (command === 'start') {
-      if (values.clear) { console.log(JSON.stringify(clearStart(root), null, 2)); return 0; }
-      if (!values.compact && !values.goal && values.host !== 'kiro' && process.stdin.isTTY && process.stdout.isTTY) return guidedStart(root, { host: values.host }).then(value => { console.log(JSON.stringify(value, null, 2)); return value.status === 'blocked' ? 1 : 0; }).catch(error => { console.error(JSON.stringify({ status: 'error', message: error.message })); return 1; });
-      result = values.compact ? compactStart(root, values.host) : values.goal ? saveStart(root, { goal: values.goal, task: values.task, changeId: values.change, input: values.input, output: values.output, host: values.host }) : startPlan(root, values.host);
+      if (values.clear) { print(clearStart(root)); return 0; }
+      if (!values.chat && !values.compact && !values.goal && values.host !== 'kiro' && process.stdin.isTTY && process.stdout.isTTY) return guidedStart(root, { host: values.host }).then(value => { print(value); return value.status === 'blocked' ? 1 : 0; }).catch(error => { console.error(JSON.stringify({ status: 'error', message: error.message })); return 1; });
+      result = (values.chat || values.compact) ? compactStart(root, values.host) : values.goal ? saveStart(root, { goal: values.goal, task: values.task, changeId: values.change, input: values.input, output: values.output, host: values.host }) : startPlan(root, values.host);
     } else if (command === 'setup') result = setupProject(root, { apply: values.apply, dryRun: values['dry-run'], greenfield: values.greenfield, host: values.host });
     else if (command === 'decisions') { if (check(root).status !== 'ok') throw new Error('Fix installation drift before reading decisions'); result = projectDecisionReport(root, values.scope); }
     else if (command === 'seed') result = seed(root, { record: values.record, checkOnly: values.check });
@@ -256,7 +263,12 @@ export function main(argv = process.argv.slice(2)) {
       'Fill the change documents, then run aih ready ' + name + ' --stage implement.',
       'After implementation, record actual verification evidence and run aih ready ' + name + ' --stage review.'];
     if (command === 'new-doc') result.next_steps = ['Populate the draft from authorized sources; clarify missing decisions before implementation.'];
-    console.log(JSON.stringify(result, null, 2));
+    if (['init','update'].includes(command) && !values['dry-run']) {
+      const installed = loadLock(root);
+      result.onboarding = { adapters: installed.adapters, capabilities: installed.capabilities ?? [],
+        prompt: 'Read .agents/skills/harness-start/SKILL.md and use Notth for this task: [your task].' };
+    }
+    print(result);
     return ['error', 'fail', 'blocked'].includes(result.status) ? 1 : 0;
   } catch (error) { console.error(JSON.stringify({ status: 'error', message: error.message })); return 1; }
 }

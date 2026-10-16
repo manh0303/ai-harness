@@ -65,3 +65,5 @@ No manual JSON editing is needed for selection. `aih start --clear` saves a conf
 only start.json; change/docs/evidence survive. Restore from the returned backup for recovery.
 Clear is idempotent and cannot be combined with other intake flags. It never archives or kills processes.
 See [Reusable workflows](reusable-workflows.md) for optional knowledge and grouped verification.
+
+[Short task prompts and human-readable orientation](simple-use.md): chat is the primary path across hosts; terminal interview remains optional and backward compatible.

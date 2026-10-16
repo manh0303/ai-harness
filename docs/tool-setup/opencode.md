@@ -17,3 +17,5 @@ Checked 2026-10-15; no logged-in client or live-agent smoke was run:
 
 - [Rules and precedence](https://opencode.ai/docs/rules/)
 - [Skill discovery](https://opencode.ai/docs/skills/)
+
+For the shared task-first flow, see [simple use](../simple-use.md). On a supporting CLI, `start --chat --host <your-host> --format human` never opens a terminal interview. Native discovery still requires a real client check.

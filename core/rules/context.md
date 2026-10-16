@@ -26,3 +26,5 @@ Read project-wide/applicable module decisions in .harness/decisions.json before 
 by active change decisions. Reuse confirmed choices while applicable, retain superseded history,
 and revisit affected assumptions when sources or scope change. Label observations, inferences and
 confirmed choices separately; a hash or self-assigned confidence number is not evidence of truth.
+
+Use task-experience.md in Core workflows for minimum task-relevant context. seed reports changed_sources already; do not add a parallel cache. Measure actual host reads/tokens before claiming savings.

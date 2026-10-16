@@ -60,3 +60,5 @@ Xem [Project configuration](project-configuration.md) cho schema và ví dụ Ma
 CLI tests kiểm tra đọc/ghi/backup/validation/install; tests không chứng minh AI tuân thủ hay hook
 nạp đúng trên mọi client. Theo [live protocol](../evals/host-portability.md) và đánh giá các case
 recoverable/knowledge trong `aih eval --scope all` bằng host thực tế; hiện NOT_RUN.
+
+[Short task prompts and human-readable orientation](simple-use.md): chat is the primary path across hosts; terminal interview remains optional and backward compatible.

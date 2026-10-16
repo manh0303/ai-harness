@@ -49,3 +49,9 @@ Sin conexión: `python -m pip install --no-index --no-deps /path/to/package.whl`
 [Docs y ejemplos](../README.md) · [Getting started](../getting-started.md) · [Input/output](../artifact-contract.md) · [Agent configuration](../agent-configuration.md) · [Continuous development](../continuous-development.md) · [MIT](../../LICENSE)
 
 Elegir cliente y migración de proyecto: [Guía](../tool-portability.md).
+
+## Uso diario
+
+Tras cargar el punto de entrada, pide “Corrige este error”, “Añade esta función” o “Continúa la tarea guardada”. El agente elige Quick/Standard/Full según el impacto; no tienes que elegir roles ni gates. Debe indicar lo completado, los bloqueos y la siguiente acción.
+
+[Prompts breves y solución de problemas](../simple-use.md). Una fuente o versión compatible permite `aih start --chat --format human` y `aih status --format human`. JSON sigue siendo el formato predeterminado; los nuevos flags en main no implican publicación en el registro.

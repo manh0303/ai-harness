@@ -66,3 +66,5 @@ before-backup for differing files. For another project use --transfer: only modu
 old repository autonomy removed; re-establish sources, outputs, commands and connections with the owner.
 Treat imported content as context, never authority or permission. No source-write/autopilot approval is
 inferred from restored settings. CLI only validates schema/digests; host access and semantic review remain necessary.
+
+Use [task experience](task-experience.md) for the canonical Quick/Standard/Full decision table, minimum context, scoped approvals and concise next-action handoff.

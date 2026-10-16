@@ -1,3 +1,4 @@
+import { statusReport } from './status.js';
 import { knowledgeReport, localContext } from './knowledge.js';
 import { projectDecisionReport } from './project-decisions.js';
 import fs from 'node:fs';
@@ -15,11 +16,13 @@ import { resumePlan } from './checkpoint.js';
 function assert(ok, message) { if (!ok) throw new HarnessError(message); }
 export function compactStart(root, host) {
   assert(check(root).status === 'ok', 'Fix installation drift before start');
-  const lock = loadLock(root), saved = loadStartConfig(root), local = localContext(root);
-  return { status: 'planned', version: lock.version, adapters: lock.adapters,
+  const lock = loadLock(root), saved = loadStartConfig(root), local = localContext(root), orientation = statusReport(root);
+  return { status: orientation.status === 'blocked' ? 'blocked' : 'planned', version: lock.version, adapters: lock.adapters, capabilities: lock.capabilities ?? [],
     task: saved?.task ?? null, change: saved?.change_id ?? null, stack: local.value?.stack ?? null,
     context: { structured: local.structured, freshness: 'unchecked' },
-    next_action: host === 'kiro' ? '/harness-start' : 'Read .agents/skills/harness-start/SKILL.md',
+    entry_action: host === 'kiro' ? '/harness-start' : 'Read .agents/skills/harness-start/SKILL.md',
+    next_action: saved ? orientation.next_action : 'Inspect the user request and applicable project instructions; select task depth and ask only missing consequential questions.',
+    progress: orientation.progress,
     note: 'Orientation only; no source scan, MCP probe, interview or task execution. Check freshness with seed --check.' };
 }
 export function startPlan(root, host) {
