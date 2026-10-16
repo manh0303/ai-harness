@@ -5,7 +5,7 @@
 - [x] Wire entry point → workflow → implementation → visual/interaction review.
 - [x] Add docs, migration, behavioral cases and install/update/ownership tests.
 - [x] Run full tests, validation and real package smoke; record results.
-- [ ] Review diff and open PR; human review/merge remains required.
+- [x] Review diff and open PR #61; human review/merge remains required.
 
 ## Optional live evaluation
 NOT_RUN: paired old/new host design generation and Stitch MCP. Requires actual rendered artifacts,
