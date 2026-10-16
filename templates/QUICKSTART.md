@@ -22,3 +22,11 @@ Project context belongs in local.md and existing docs; optional knowledge is sou
 For tests that span groups/processes, use installed Core recoverable-verification.md, persist
 actual evidence and update docs incrementally. Resume re-runs groups with invalidated evidence.
 Installer/check commands never start services, archive changes, merge or publish.
+
+## One request, appropriate depth
+
+After loading harness-start, describe the outcome directly: “Fix this bug”, “Add filtered export”,
+or “Continue the saved task”. The agent selects Quick/Standard/Full by impact; users do not select
+roles or gates. For this supporting CLI: `aih start --chat --format human` is read-only across hosts;
+`aih status --format human` shows declarations and next action. JSON remains the default.
+Init installs workflows and skill entry points; it does not author project requirements/documents.

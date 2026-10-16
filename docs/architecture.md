@@ -225,3 +225,11 @@ not a mandated .harness tree; knowledge.json remains only a hash cache. Core rec
 uses existing checkpoint/evidence contracts and actual host process support. Product 1.8.0 connects
 incremental TechSpec and related flows. `${files.<id>}` in command args reuses project/machine file
 paths without executable interpolation or shell execution. See [Reusable workflows](reusable-workflows.md).
+
+## Task-first presentation and design delivery
+
+presentation.js renders optional human CLI summaries; JSON remains default. start --chat is a read-only
+entry for all hosts, with entry_action distinct from the next task action. status derives progress from
+existing task/checkpoint declarations; it does not query GitHub or authenticate delivery. No new state
+store or runtime is added. Core task-experience owns depth/minimum-context/approval/handoff rules.
+UIUX 1.1.0 adds a tool-neutral design-delivery workflow while retaining Figma IDs/routes.

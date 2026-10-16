@@ -140,7 +140,7 @@ test('compact start avoids source discovery and CLI rejects accidental saving/un
   const root = project(t, { host: 'kiro' });
   write(root, '.harness/local.md', '# Legacy context\n');
   const before = snapshot(root), compact = compactStart(root, 'kiro');
-  assert.equal(compact.context.freshness, 'unchecked'); assert.equal(compact.next_action, '/harness-start');
+  assert.equal(compact.context.freshness, 'unchecked'); assert.equal(compact.entry_action, '/harness-start'); assert.notEqual(compact.next_action, compact.entry_action);
   assert.equal(compact.project_decisions, undefined); assert.deepEqual(snapshot(root), before);
   assert.equal(cli(root, ['start', '--compact', '--host', 'kiro']).task, null);
   assert.match(cli(root, ['setup', '--greenfield']).workflow, /greenfield-setup/);

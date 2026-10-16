@@ -22,3 +22,5 @@ description: Create a traceable inventory of screens, reusable components and in
 ## Constraints
 - Do not build Figma screens before the scope and UX plan are approved.
 - Avoid embedding real customer data in mockups.
+
+For tool-neutral scope/output selection, read `.harness/capabilities/uiux/workflows/design-delivery.md`. Verify actual output type and required/omitted sections; never equate a preview with an editable design.

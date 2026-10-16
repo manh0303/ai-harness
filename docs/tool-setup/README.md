@@ -86,3 +86,5 @@ through the host, then record source/output policies in [Artifact contracts](../
 
 Official discovery references checked 2026-10-13; native login, cloud access and live-agent behavior
 were not tested here.
+
+For the shared task-first flow, see [simple use](../simple-use.md). On a supporting CLI, `start --chat --host <your-host> --format human` never opens a terminal interview. Native discovery still requires a real client check.

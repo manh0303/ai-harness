@@ -15,3 +15,5 @@ consumer and each actual supported tool/version/account; retain redacted session
 Record host/version, surface, source revision, installed lock, relevant native settings, expected/observed,
 trace paths and PASS/FAIL/BLOCKED. Verify outcomes from actual file reads and host context UI;
 agent self-report alone is insufficient. No automatic provider calls or compliance score is supplied.
+
+For task-level paired trials and cold-start scenarios see [new-user experience](new-user-experience.md). A file bridge PASS does not upgrade live status.

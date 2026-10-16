@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "uiux",
-  "description": "Evidence-grounded product requirements to reviewed, editable Figma designs.",
+  "description": "Scope user journeys and create reviewed designs with the authorized available design tool or code preview.",
   "skills": [
     "harness-uiux-requirements-analysis",
     "harness-uiux-user-flow",
@@ -12,9 +12,10 @@
   ],
   "workflows": [
     "workflows/docs-to-figma.md",
-    "workflows/idea-to-figma.md"
+    "workflows/idea-to-figma.md",
+    "workflows/design-delivery.md"
   ],
-  "module_version": "1.0.1",
+  "module_version": "1.1.0",
   "recommends": [
     "capability:product"
   ],

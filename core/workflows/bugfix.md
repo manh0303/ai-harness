@@ -9,3 +9,5 @@
 4. Repair the cause with a minimal diff; verify the regression and adjacent boundary conditions.
 5. Review blast radius, backward compatibility and rollback. Add a change spec when behavior changes.
 6. Open a PR with the reproduction command, evidence before/after and remaining uncertainty.
+
+Use [task experience](task-experience.md) for the canonical Quick/Standard/Full decision table, minimum context, scoped approvals and concise next-action handoff.

@@ -19,3 +19,5 @@ Without Product, UI/UX retains its own provisional evidence-extraction process.
 ## Full SDLC handoff
 
 See [Full SDLC](../../docs/end-to-end-workflow.md), [Skill matrix](../../docs/skill-matrix.md) and [Full-stack web walkthrough](../../docs/examples/fullstack-web.md). UI/UX hands off reviewed screen specs/design tokens and optional Figma node IDs. Figma writes still need explicit approval and a configured host connector.
+
+For tool-neutral scope/output selection, read `.harness/capabilities/uiux/workflows/design-delivery.md`. Verify actual output type and required/omitted sections; never equate a preview with an editable design.

@@ -52,3 +52,9 @@ Offline: `python -m pip install --no-index --no-deps /path/to/package.whl`.
 [Docs & examples](../README.md) · [Getting started](../getting-started.md) · [Input/output](../artifact-contract.md) · [Agent configuration](../agent-configuration.md) · [Continuous development](../continuous-development.md) · [MIT](../../LICENSE)
 
 Chọn tool hoặc chuyển project: [Hướng dẫn](../tool-portability.md).
+
+## Dùng hằng ngày
+
+Sau khi AI đã đọc điểm vào, chỉ cần nói “Sửa lỗi này”, “Thêm tính năng này” hoặc “Tiếp tục việc đã lưu”. AI chọn độ sâu Quick/Standard/Full theo ảnh hưởng; bạn không phải chọn role hay gate. Báo cáo phải có phần đã xong, blocker và bước tiếp theo.
+
+[Bắt đầu, prompt ngắn và xử lý lỗi](../simple-use.md). Với source/release có hỗ trợ: `aih start --chat --format human` để định hướng trong chat, `aih status --format human` để xem tiến độ. JSON vẫn là mặc định. Các flag mới chưa được coi là đã phát hành chỉ vì có trên main.

@@ -16,3 +16,5 @@ Use the [loading check](README.md#3-start-the-first-session) and compare with ac
 Checked 2026-10-15; no logged-in client or live-agent smoke was run:
 
 - [AGENTS.md and scope](https://docs.windsurf.com/windsurf/cascade/agents-md)
+
+For the shared task-first flow, see [simple use](../simple-use.md). On a supporting CLI, `start --chat --host <your-host> --format human` never opens a terminal interview. Native discovery still requires a real client check.

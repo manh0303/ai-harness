@@ -40,7 +40,7 @@ function snapshot() {
   walk(project); return files;
 }
 
-test('registered UI/UX capability has validated skills and two workflows', () => {
+test('registered UI/UX capability preserves Figma workflows and adds neutral design delivery', () => {
   const registered = listCapabilities(source);
   assert.equal(registered.length, 8);
   assert.equal(registered.find(c => c.id === 'devops').skills.length, 6);
@@ -48,7 +48,7 @@ test('registered UI/UX capability has validated skills and two workflows', () =>
   assert.ok(registered.some(c => c.id === 'uiux'));
   assert.ok(registered.some(c => c.id === 'product'));
   assert.equal(registered[0].skills.length, 6);
-  assert.equal(loadCapability(source, 'uiux').workflows.length, 2);
+  assert.deepEqual(loadCapability(source, 'uiux').workflows, ['workflows/docs-to-figma.md', 'workflows/idea-to-figma.md', 'workflows/design-delivery.md']);
   assert.deepEqual(snapshot(), {});
 });
 

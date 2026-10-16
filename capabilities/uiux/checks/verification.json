@@ -9,7 +9,9 @@
       "evidence": [
         "Approval status and named reviewer",
         "Source references and versioned evidence",
-        "Unrun steps clearly identified"
+        "Unrun steps clearly identified",
+        "Required/excluded sections and chosen output type",
+        "Actual editable file or preview evidence; unavailable tools and substitutions disclosed"
       ],
       "execution": "manual"
     }

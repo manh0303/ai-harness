@@ -170,3 +170,5 @@ Product → Architecture → Delivery → Core/adapter uses [Solution workflow](
 ## Selective Product profiles
 
 Analysis exposes 11 and Discovery 5 canonical Product skills. IDs and source ownership stay Product; selecting both or the compatibility product bundle exposes each skill once. Profiles add module choices, not duplicate skill IDs. Canonical assets are vendored for valid shared references; this is selective context, not a smaller npm download.
+
+UI/UX tasks first select output using the [tool-neutral design workflow](../capabilities/uiux/workflows/design-delivery.md); existing Figma skill IDs remain compatible.

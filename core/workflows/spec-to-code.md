@@ -53,3 +53,5 @@ clarification/readiness stages to create missing metadata, decisions, verificati
 sidecars. Existing files remain unchanged; Harness does not patch the upstream OpenSpec CLI.
 
 Machine contract: spec-to-code.workflow.json. Use explicit `aih ready <id> --workflow spec-to-code --stage implement` to require a recorded review-spec approval; legacy implement/review calls retain their structural behavior. Approval records declare an external review, not authenticated identity or permission.
+
+Use [task experience](task-experience.md) for the canonical Quick/Standard/Full decision table, minimum context, scoped approvals and concise next-action handoff.

@@ -45,9 +45,22 @@ export function statusReport(root) {
     try { recovery = resumePlan(root, saved.change_id); }
     catch (error) { if (!(error instanceof HarnessError)) throw error; recovery = { status: 'blocked', next_action: 'Reconcile checkpoint and evidence before resuming.' }; }
   }
+  const blockers = recovery?.blockers ?? (recovery?.status === 'blocked' ? ['Checkpoint or evidence requires reconciliation.'] : []);
+  const operations = recovery?.operations_to_reconcile ?? [];
+  let next = !saved ? 'Describe your task in AI chat; load harness-start if needed.'
+    : active?.tasks.first_unchecked ? 'Reconcile dependencies, then consider: ' + active.tasks.first_unchecked
+    : active?.tasks.checked ? 'Review acceptance criteria and actual verification evidence; checked tasks do not prove delivery.'
+    : 'Inspect the saved request and relevant source; select task depth and start the authorized slice.';
+  if (recovery) next = recovery.next_action;
+  if (recovery?.revalidate_required) next = 'Reconcile changed baseline files and invalidate affected evidence before continuing.';
+  if (operations.length) next = 'Check actual remote state before retrying operations: ' + operations.map(op => op.id).join(', ');
+  if (blockers.length) next = 'Resolve or scope around recorded blockers: ' + blockers.join('; ');
+  const progress = { phase: recovery?.phase ?? 'unknown', source: recovery ? 'checkpoint declaration' : 'local task declarations',
+    blockers, next_owner: saved ? 'agent; identify any owner decision after reconciliation' : 'user',
+    merge: 'unknown', deployment: 'unknown', live_verification: 'unknown' };
   return { status: recovery?.status === 'blocked' ? 'blocked' : 'ok', executed: false,
     version: lock.version, adapters: lock.adapters, capabilities: lock.capabilities ?? [], task: saved?.task ?? null,
-    goal: saved?.goal ?? null, change: saved?.change_id ?? null, tasks: active?.tasks ?? null, recovery,
-    next_action: recovery?.next_action ?? (saved ? 'Read relevant context and reconcile current requirements/code before continuing the saved task.' : 'Give your task to harness-start in your chosen AI tool.'),
+    goal: saved?.goal ?? null, change: saved?.change_id ?? null, tasks: active?.tasks ?? null, recovery, progress,
+    next_action: next,
     note: 'Read-only orientation. First unchecked task is a candidate, not a dependency decision. No process, model, MCP or remote state is inspected.' };
 }

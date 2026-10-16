@@ -277,3 +277,17 @@ Install/update next_steps now directs every host to harness-start in chat. Termi
 optional and unchanged. No schema/module/distribution version change; reviewed update refreshes
 the packaged QUICKSTART. Existing tasks/configuration are preserved. Roll back via the matching
 consumer snapshot/CLI. Live host loading remains NOT_RUN.
+
+## Simple task experience (unreleased)
+
+No distribution bump in the feature PR. New --format human|json on init/update/start/status/changes
+and start --chat require the supporting CLI. Default JSON, bare start TTY behavior, schemas and saved
+user data remain compatible. Status/compact fields are additive; compact next_action now describes
+work inside the session, with entry_action retaining the invocation hint. Core adds task-experience;
+UIUX module advances to 1.1.0 without removing Figma IDs. Package allowlists already include cli/*.js,
+Core workflows and capabilities. Update on a branch using the matching CLI, inspect dry-run, then
+update/check. Rollback restores the consumer snapshot/lock and matching CLI; never hand-edit hashes.
+Live host evaluations remain NOT_RUN until actual transcript evidence exists.
+
+Historical “unreleased” notes above describe development changes; they are not a registry inventory.
+Use reviewed release tags and package contents to establish availability, not headings or main alone.

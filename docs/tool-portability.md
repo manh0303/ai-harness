@@ -89,3 +89,5 @@ Chạy `aih check` và mở session mới. Gọi harness-start nếu host expose
 So sánh với project.json/start.json thực tế. Claude: `/context`; Gemini: `/memory reload`, `/memory show`;
 Kiro: Agent Steering & Skills. Tests/package smoke kiểm tra file, ownership, drift, rollback và
 đường đọc; chưa chứng minh native discovery, hook activation hay model tuân thủ trên host thật.
+
+[Short task prompts and human-readable orientation](simple-use.md): chat is the primary path across hosts; terminal interview remains optional and backward compatible.

@@ -6,6 +6,7 @@ Before edits read .harness/local.md and .harness/core/rules/project-conventions.
 Context selection: .harness/core/rules/context.md. Discover agent/skill descriptions with aih agents / aih skills.
 
 Use .harness/core/workflows/agent-routing.md to choose only relevant roles/skills.
+Choose task depth using .harness/core/workflows/task-experience.md; users describe outcomes, not roles or gates.
 Small clear tasks: scoped source + conventions + relevant skill + actual checks + concise handoff.
 New/consequential or resumed work: .harness/core/workflows/continuous-development.md; reconcile baseline/checkpoint.
 Open design choices: .harness/core/workflows/solution-framing.md + SA; present alternatives and ask the owner.

@@ -8,6 +8,7 @@ The current user request, AGENTS.md, project-owned .harness/ configuration and a
 The native Kiro wrapper exposes this skill as /harness-start. Other hosts can load this canonical skill.
 
 ## Procedure
+First apply `.harness/core/workflows/task-experience.md`: select depth by impact. For a small task, do only task-relevant setup below; do not turn all steps into a mandatory interview.
 1. Read AGENTS.md and the installed project-setup workflow. Identify the installed CLI invocation
    already used by the user (npm/pip aih, npx, or offline node/aih.cmd); reuse it without downloading
    or requiring another installation. Run `start --compact --host <current-host>` for a read-only orientation in any host, or read the same local configs
@@ -36,7 +37,7 @@ The native Kiro wrapper exposes this skill as /harness-start. Other hosts can lo
    .harness/core/workflows/greenfield-setup.md. Classify mode per affected module. Save observations
    with sources, mark inferences/unknowns explicitly, and distinguish user-confirmed choices. Do not
    force technology/CI/MCP interviews before they are relevant to the task.
-5. Inspect host MCP availability. For Kiro, `sync-integrations --host kiro --dry-run` can import server
+5. Only when this task needs external sources/actions, inspect host MCP availability. For Kiro, `sync-integrations --host kiro --dry-run` can import server
    aliases from local host config. Review discoveries and save declarations with the same command
    without --dry-run. Inspect actual tools in the host; imported config does not establish access.
 6. Save a known task using `start --goal <idea|docs|change|resume> --task <text>` and --change for
@@ -46,7 +47,7 @@ The native Kiro wrapper exposes this skill as /harness-start. Other hosts can lo
    OpenSpec change. Preserve superseded history and its replacement ID. Save after each meaningful
    answer so interruption resumes from partial context; a completed hash cache is not required to
    preserve a useful observation or confirmed answer.
-   Run doctor (and doctor --skill <name> before a selected skill). Resolve relevant missing fields,
+   Run doctor for initial environment setup, or doctor --skill <name> for the selected skill. Resolve only relevant missing fields,
    then `seed --record` after reconciling the inspected sources. If interrupted, preserve partial facts;
    do not mark uninspected sources as complete. The next invocation continues from saved facts.
 7. Show a short summary: task, stack/build, approved exceptions, sources, blockers and next action.
@@ -67,3 +68,7 @@ Never claim token savings, live hook loading or model compliance without actual 
 
 ## Daily orientation
 Use `aih status` and `aih changes` for local task/change declarations. Select an existing proposal with `start --goal change --change <id> --task <text>`; resume needs its actual checkpoint. `start --clear` backs up and clears only saved intake. Optional project knowledge follows `.harness/core/workflows/project-knowledge.md`; read relevant pointers rather than every source.
+
+Use compactStart entry_action only to enter the skill, not as a next step once already inside it.
+For a saved task without a checkpoint, reconcile files/task notes directly; do not require --goal resume.
+When multiple changes are plausible and none is selected, ask which one rather than choosing by name order.

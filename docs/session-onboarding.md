@@ -213,3 +213,5 @@ Lưu raw transcript/command output và diff trước/sau (redacted), outcome PAS
 host không cung cấp usage ghi unknown; không ước lượng thành số đo. So sánh cold start và session
 sau trên cùng fixture/model/host, ghi số lần chạy và biến động; chưa có baseline thì không công bố
 “18K → 2K” hoặc “45 phút → 5 phút”. Core eval scenarios tiếp tục unscored cho tới khi chạy thật.
+
+[Short task prompts and human-readable orientation](simple-use.md): chat is the primary path across hosts; terminal interview remains optional and backward compatible.

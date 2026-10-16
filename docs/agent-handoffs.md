@@ -113,3 +113,5 @@ For end-user QA, the existing test-engineer uses Core harness-end-user-testing a
 [end-user acceptance](end-user-testing.md). Pass app entry/environment, actor references, AC surface,
 actual interactions/outcomes, redacted trace/screenshot/report digests, dependency scope and cleanup.
 These receipts do not supply business-owner UAT approval or model-compliance evaluation.
+
+Every handoff uses [task experience](../core/workflows/task-experience.md): completed scope, current work, blockers and next owner/action, with separate implementation/verification/merge/deployment evidence.

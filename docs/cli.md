@@ -241,3 +241,13 @@ still requires a real checkpoint. All support the same npm/pip/offline invocatio
 Command arguments may reference declared `${files.<id>}`; doctor resolves machine overrides and
 `${ENV_NAME}` for reference checks only, without printing values or running commands.
 See [Reusable workflows](reusable-workflows.md) and [Project configuration](project-configuration.md).
+
+## Task-first output (supporting source/release required)
+
+init/update/start/status/changes accept `--format human|json`; omitted means JSON for compatibility.
+Human output summarizes relevant results, preserves warnings and does not infer execution. Errors
+remain JSON and exit codes unchanged. Unsupported commands reject --format before any write.
+`start --chat` gives read-only compact orientation on every host. It cannot be combined with saving,
+clear or compact flags; use `--goal ... --task ...` to save. Bare start's existing TTY interview remains.
+Compact/chat adds entry_action separately from next_action and capabilities/progress. Status adds
+progress with declared phase, blockers and unknown remote delivery state. No persisted schema changes.

@@ -1,5 +1,7 @@
 # Idea to Figma — lightweight workflow
 
+First use [design delivery](design-delivery.md) to scope sections and choose the authorized output. Use the Figma steps below only for a selected Figma deliverable; otherwise follow that workflow and relevant tool-neutral skills.
+
 1. Record problem, target users, platforms, desired MVP and assumptions as a product brief.
 2. Run the requirements-analysis skill on the brief; mark generated requirements as suggestions.
 3. Run user-flow and screen-planning skills; collect decisions from the product owner.

@@ -33,20 +33,19 @@ No terminal interview, model configuration or manual skill sequence is required.
 `/harness-start`; native discovery varies by client. [Host guides](docs/tool-setup/README.md).
 `npx` does not create a global command; use `npx --yes @manhd_d/notth check` to check integrity.
 
-**pip / restricted networks** (requires a published wheel on PyPI; otherwise use a reviewed offline wheel):
+## Daily use
 
-```bash
-python -m pip install manhd-ai-harness
-aih init --host codex
-```
+After the first-session entry point is loaded, describe the outcome:
 
-Requires Python 3.9+ **and Node.js 22+**. The wheel bundles the same JavaScript CLI and assets;
-it never calls npm or `npx`. Offline: `python -m pip install --no-index --no-deps /path/to/package.whl`.
-[Offline install & update](docs/python-installation.md) · [Settings & backup](docs/configuration-backup.md).
+- “Fix this bug and show the regression check.”
+- “Add filtered export; preserve current permissions and prepare a PR.”
+- “Continue the saved task and tell me what remains.”
 
-Use `init --detect` for stack detection. Your host runs tests and controls tools, delegation and permissions.
-Harness owns workflow contracts and evidence formats; hosts or separate drivers execute them.
-[Workflow contracts](docs/workflow-contract.md) · [Conformance runner](docs/conformance-runner.md).
+The agent chooses the necessary depth, reuses confirmed decisions and reports completed work,
+blockers and the next action. You do not need to select roles or gates.
+
+[Short prompts & troubleshooting](docs/simple-use.md) · [pip/offline](docs/python-installation.md) · [Settings & backup](docs/configuration-backup.md).
+Python installation still requires Node.js 22+; it does not call npm. Registry availability must be verified.
 
 ## Where it runs
 
