@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Contextual UI design quality
+
+- UIUX 1.2.0 adds discoverable contextual design-direction and optional external-design handoff skills; retains existing Figma routes.
+- Read and selectively maintain one project-owned DESIGN.md or existing master; inspect actual previews, fix and recheck rather than treating build success as visual acceptance.
+- Pin reviewed UI UX Pro Max and Google Stitch source references with prerequisites, ownership, offline fallback and explicit non-bundling; no external code/runtime dependencies added.
+- Add install/update/ownership tests, behavioral scenarios and an unrun paired visual evaluation recipe. No measured aesthetic improvement or live MCP compliance claimed.
+
 ## Unreleased — Simple task experience
 
 - Add opt-in human output for init/update/start/status/changes and read-only start --chat on every host; preserve JSON and existing terminal behavior.

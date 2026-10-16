@@ -21,9 +21,16 @@ and workflows for Figma requests; this workflow does not install Penpot, Figma o
 4. If a required tool is unavailable, explain the concrete blocker and offer a feasible alternative.
    If editable design was required, get agreement before substituting code/spec output. Proceed with
    independent authorized work. Never call a screenshot an editable file or mark a missing artifact done.
-5. Load only relevant installed UI skills. Name the skill actually used and its output briefly.
+5. Load `harness-uiux-design-direction` for the compact brief, existing-system discovery and contextual
+   visual choices. Read `harness-uiux-design-system` to maintain one canonical DESIGN.md or existing
+   equivalent. New screens read it before implementation; small fixes update only affected decisions.
+   Use `harness-uiux-external-design` for optional reviewed UI UX Pro Max/Google Stitch skill handoff.
+   Stitch is an additional editable-design route: authorized MCP, actual project/screen references and
+   inspected output are required. No available service is required for an accepted code preview.
+   Load only relevant installed UI skills. Name the skill actually used and its output briefly.
    External UI UX Pro Max or other design skills require an available reviewed source/version and
    applicable permissions; this bundle does not include or automatically download them.
-6. Apply tokens, responsive behavior, accessibility and motion preferences; review the actual result.
+6. Apply tokens, responsive behavior, accessibility and motion preferences; use
+   `harness-uiux-design-review` to inspect the actual result, fix findings and recheck affected views.
    Report approved vs proposed changes, viewport evidence, remaining gaps and next action/owner.
    Store results at the existing canonical destination; no duplicate design master.

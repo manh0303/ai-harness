@@ -233,3 +233,8 @@ entry for all hosts, with entry_action distinct from the next task action. statu
 existing task/checkpoint declarations; it does not query GitHub or authenticate delivery. No new state
 store or runtime is added. Core task-experience owns depth/minimum-context/approval/handoff rules.
 UIUX 1.1.0 adds a tool-neutral design-delivery workflow while retaining Figma IDs/routes.
+
+UIUX 1.2.0 adds contextual direction and optional external-skill handoffs. Canonical project DESIGN.md
+or existing design master is host-maintained, never installer-owned. The pinned upstream inventory is
+documentation, not a second executable plugin registry; no downloads, Python or service calls enter
+cli/. Local NOTTH instructions work without external libraries; render/MCP execution remains host-owned.

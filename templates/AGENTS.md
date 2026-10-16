@@ -19,6 +19,7 @@ Read project-owned .harness/decisions.json if present before asking; reuse appli
 project/module decisions, not proposed/superseded answers. Missing configs in a cloned snapshot:
 setup --apply scaffolds only user files. Use seed.md for existing modules, greenfield-setup.md for new work.
 Docs/UI/source outputs: .harness/core/workflows/artifact-contract.md with artifacts.json/integrations.json and source-write policy.
+UI tasks: if uiux is installed, first read .harness/capabilities/uiux/workflows/design-delivery.md; reuse the canonical DESIGN.md or existing design master. Missing optional skills do not authorize installation.
 End-user journeys: .harness/core/workflows/end-user-acceptance.md + harness-end-user-testing; real interface evidence or explicit blockers.
 Implementation: .harness/core/workflows/spec-to-code.md. Verification/review: .harness/core/workflows/adaptive-verification.md and harness-review.
 

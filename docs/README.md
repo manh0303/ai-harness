@@ -18,6 +18,7 @@ Chỉ đọc phần phù hợp với công việc đang làm.
 | Đi từ yêu cầu đến vận hành | [Full SDLC](end-to-end-workflow.md) · [BA/PO/SA/PM](solution-workflow.md) |
 | Spec trước code / review | [Change readiness](change-readiness.md) · [OpenSpec](openspec.md) |
 | Tra skill và bàn giao agent | [Skill matrix](skill-matrix.md) · [Agent handoffs](agent-handoffs.md) |
+| Thiết kế UI, giảm rập khuôn, dùng Stitch/Pro Max tùy chọn | [UI design](ui-design.md) |
 | Kiểm tra code và đánh giá kết quả AI | [Verification](verification.md) · [Behavioral evaluations](../evals/README.md) |
 
 [Code React/Next.js & React Native/Expo](frontend-mobile.md) · [Monetization capability](../capabilities/monetization/README.md).

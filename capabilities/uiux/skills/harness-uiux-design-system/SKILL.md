@@ -10,11 +10,19 @@ description: Define semantic design tokens and reusable components before genera
 - Platform accessibility requirements and supported themes.
 
 ## Procedure
+0. Use `harness-uiux-design-direction` when the visual direction is open. Locate the canonical
+   DESIGN.md or existing brand/token master first; inspect its revision and actual components.
+   Do not create a parallel master. For a new system only, use the outline in
+   `.harness/capabilities/uiux/templates/design-system.md` as project-owned data; the installer
+   never creates or overwrites the project's DESIGN.md. Small fixes need only an affected-section note.
 1. Inspect existing components and tokens before creating new ones.
 2. Define foundations: type scale, semantic colors, spacing, radius, elevation and motion.
 3. Define component variants and accessible interactive states.
 4. Resolve responsive breakpoints and platform-specific behavior.
 5. Document token-to-component mappings and request approval for brand changes.
+6. Update the canonical document selectively with accepted decisions, sources, exclusions, responsive
+   and interaction states. Label assumptions/proposals. Pass its path/revision to implementation and
+   design review; resolve code/design drift rather than declaring generated documentation authoritative.
 
 ## Output
 - Theme/token decisions, component inventory and reuse guidance.

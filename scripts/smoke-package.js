@@ -180,6 +180,14 @@ try {
     : command(bin, ['init', '--capabilities', 'uiux'], uiuxTarget);
   assert.equal(JSON.parse(uiuxOut).status, 'ok');
   assert.ok(fs.existsSync(path.join(uiuxTarget, '.agents/skills/harness-uiux-figma-design/SKILL.md')));
+  for (const relative of [
+    '.agents/skills/harness-uiux-design-direction/SKILL.md',
+    '.agents/skills/harness-uiux-external-design/SKILL.md',
+    '.harness/capabilities/uiux/integrations/design-skills.md',
+    '.harness/capabilities/uiux/templates/design-system.md',
+    '.harness/capabilities/uiux/evals/visual-comparison.md',
+  ]) assert.ok(fs.existsSync(path.join(uiuxTarget, relative)), `Missing UI design asset: ${relative}`);
+  assert.ok(!fs.existsSync(path.join(uiuxTarget, 'DESIGN.md')), 'Installer must not create a project design master');
   const astroTarget = path.join(temp, 'astro project'); fs.mkdirSync(astroTarget);
   fs.writeFileSync(path.join(astroTarget, 'package.json'), JSON.stringify({ private:true,
     dependencies: { astro: '^5', '@astrojs/react': '^4', 'react-dom': '^19' } }));
