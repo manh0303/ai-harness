@@ -10,6 +10,18 @@ Link approved or provisional requirement IDs and authoritative source revisions.
 ## Applicable design and contracts
 UNVERIFIED: inspect scoped code. Include only relevant architecture, business rules, UI flows, API/error/data/auth/integration contracts, compatibility and operational concerns.
 
+## Risk-selected details (include only relevant subsections)
+
+- Baseline/impact: reused modules/components and public contracts changed; source revisions.
+- API: input/output/error schema, validation, authorization, limits and compatibility.
+- Data: ownership, schema/constraints/indexes, query shape, migration/backfill and vendor assumptions.
+- Runtime: success/failure paths, transaction boundary, concurrency invariant, conflict handling.
+- Integration: timeout, retry ownership/bounds, idempotency/replay, ordering and partial failure.
+- Operations: redacted logs/metrics, rollout dependencies, feature exposure and recovery/rollback limits.
+- Tasks: vertical slices with observable outcome, intended files, prerequisites, test boundary and done condition.
+
+Link canonical ADRs/design documents. These are prompts for analysis, not mandatory infrastructure.
+
 ## Verification
 Link requirement → scenario → actual evidence. Record PASSED/FAILED/BLOCKED/NOT_RUN and VERIFIED/UNVERIFIED coverage. Static inspection is not runtime proof.
 

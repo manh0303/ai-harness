@@ -13,6 +13,15 @@ Observed symptom, expected result, redacted reproduction data and environment.
 3. List ranked hypotheses with distinguishing predictions; test one at a time.
 4. Repair the supported cause and keep a regression test.
 5. Verify adjacent cases and explain the causal chain.
+## Engineering depth
+Before patching, distinguish observations from hypotheses: inspected revision, exact expected/observed
+result, minimal reproducer, logs/trace across the failing boundary, and one falsifiable prediction per
+hypothesis. Change one cause variable at a time. If repeated attempts fail, stop speculative patching,
+revisit assumptions and checkpoint evidence; propose a deeper investigation rather than widening scope.
+For races use coordinated requests/barriers and assert the invariant/final state; for flaky failures
+record attempts and failures, not a single lucky rerun. Remove temporary diagnostics after validation.
+Diagnosis-only requests stop at cause/evidence and proposed remedy; implementation needs authorization.
+
 ## Output
 Reproduction, supported cause, minimal patch, before/after evidence and unresolved limitations.
 ## Constraints

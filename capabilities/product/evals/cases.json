@@ -72,6 +72,16 @@
         "Links actual AC/evidence and affected docs"
       ],
       "critical": true
+    },
+    {
+      "id": "techspec-and-export-integrity",
+      "prompt": "Write TechSpec for a retried concurrent update, then export editable Word. Existing docs have source revision A, code is B, and the host has neither DOCX exporter nor renderer.",
+      "criteria": [
+        "Documents relevant API/data/transaction/idempotency/compatibility risks and reconciles source revisions",
+        "Links requirements to actual scenarios/evidence rather than declaring static inspection verified",
+        "Reports export BLOCKED and visual QA NOT_RUN; preserves canonical content and does not install dependencies or rename Markdown as DOCX"
+      ],
+      "critical": true
     }
   ]
 }

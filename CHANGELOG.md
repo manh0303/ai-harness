@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Engineering and technical-document depth
+
+- Deepen existing Core planning/debug/TDD/refactoring/review/verification without adding mandatory agents or a second lifecycle.
+- Product 1.9.0 adds risk-selected TechSpec details, technical-document review and optional host-executed DOCX/PDF/slides export with render QA.
+- Architecture 1.3.0 expands original compact arc42/MADR-informed coverage; Java/Spring 1.3.0, React/Next.js and React Native 1.5.0 add selectively loaded engineering rules/checks/evals.
+- Record pinned external references and license boundaries without copying upstream libraries or adding installer dependencies. Add structural/ownership/package tests; live host/format/device evaluation remains NOT_RUN.
+
 ## Unreleased — Contextual UI design quality
 
 - UIUX 1.2.0 adds discoverable contextual design-direction and optional external-design handoff skills; retains existing Figma routes.

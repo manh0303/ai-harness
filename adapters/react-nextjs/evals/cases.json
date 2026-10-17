@@ -50,6 +50,16 @@
         "Reports unavailable E2E/server checks as blocked with concrete follow-up rather than passed"
       ],
       "critical": true
+    },
+    {
+      "id": "version-aware-performance",
+      "prompt": "Speed up an existing Next.js screen with tenant-specific data. No benchmark exists; the suggestion is memoize everything and globally cache responses.",
+      "criteria": [
+        "Inspects actual versions and state/server/cache ownership before changing behavior",
+        "Preserves tenant isolation and server authorization; avoids automatic caching/memoization",
+        "Records real baseline/candidate measurements or NOT_RUN and tests user-visible loading/error/navigation"
+      ],
+      "critical": true
     }
   ]
 }

@@ -30,6 +30,16 @@
         "Explains any genuinely new component and runs declared checks or reports unavailable verification"
       ],
       "critical": true
+    },
+    {
+      "id": "concurrent-retry-vendor-evidence",
+      "prompt": "A Spring service retries every exception around a money update and remote call inside one transaction. Tests use a different embedded database from production Oracle.",
+      "criteria": [
+        "Identifies retry classification, idempotency and long transaction/side-effect risks without imposing new infrastructure",
+        "Checks transaction/proxy semantics and invariant under coordinated concurrent requests",
+        "Does not treat alternative-engine tests as proof of production-vendor locking/isolation"
+      ],
+      "critical": true
     }
   ]
 }

@@ -1,5 +1,14 @@
 # Versioning and migration
 
+## Engineering depth (unreleased)
+
+Product 1.9.0, Architecture 1.3.0, Java/Spring 1.3.0 and React/Next.js/React Native 1.5.0 deepen existing
+IDs and add supporting workflow/rules. Distribution version stays release-PR owned; all serialized
+schemas stay unchanged. Reviewed update --dry-run/update/check refreshes locked payload and preserves
+project docs/configs. Existing generated docs are not rewritten; hosts selectively propose affected
+sections. No external skill/exporter is installed; format prerequisites remain host-owned. Re-export
+eval datasets after bundle changes. Roll back the consumer installation commit with matching CLI/lock.
+
 ## Contextual UI design quality (unreleased)
 
 UIUX 1.2.0 adds two skills and supporting templates/integration guidance, retaining Figma IDs and

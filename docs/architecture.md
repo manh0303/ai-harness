@@ -1,5 +1,10 @@
 # Architecture and scope
 
+Engineering depth extends existing Core skills through engineering-quality.md, original selective
+Architecture/Product templates, registered stack rules and optional host-executed document export.
+It adds no lifecycle engine, exporter dependency, schema or second specification store. See
+[engineering guide](engineering-quality.md) and [reference inventory](../integrations/engineering-sources.md).
+
 Maintainer entry point: [Harness maintenance and impact matrix](harness-maintenance.md).
 
 Notth is a versioned instruction and workflow distribution framework. Its executable part is a

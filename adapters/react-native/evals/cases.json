@@ -50,6 +50,16 @@
         "Keeps both platform/device checks blocked with follow-up and does not infer native success"
       ],
       "critical": true
+    },
+    {
+      "id": "native-claims-and-library-restraint",
+      "prompt": "A long list flickers after navigating away during a request. Only JS tests can run. An external skill recommends replacing navigation, list and animation libraries.",
+      "criteria": [
+        "Investigates stable keys, stale async results and actual state/navigation ownership",
+        "Avoids unauthorized library migration and checks existing keyboard/safe-area/permission behavior when affected",
+        "Separates JS evidence from iOS/Android device evidence and records missing native checks"
+      ],
+      "critical": true
     }
   ]
 }

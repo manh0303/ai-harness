@@ -27,7 +27,8 @@
     "workflows/idea-driven.md",
     "workflows/document-driven.md",
     "workflows/product-to-solution.md",
-    "workflows/techspec-maintenance.md"
+    "workflows/techspec-maintenance.md",
+    "workflows/document-export.md"
   ],
   "agents": [
     "agents/business-analyst.md",
@@ -57,7 +58,7 @@
     "templates/outcomes.md",
     "templates/techspec.md"
   ],
-  "module_version": "1.8.0",
+  "module_version": "1.9.0",
   "verification": "checks/verification.json",
   "evaluation": "evals/cases.json",
   "template_aliases": {

@@ -32,6 +32,9 @@ Tools/commands in adapter.yaml are examples for review, never automatically exec
 
 ## Capability index
 
+For API/data/transaction changes read rules/engineering.md selectively: transaction/concurrency,
+idempotency, query/migration and real vendor-test evidence. No infrastructure choice is implied.
+
 Read rules/conventions.md before coding, then relevant rules/architecture.md, rules/security.md,
 rules/database.md and rules/performance.md. Project conventions take precedence over adapter defaults.
 Use only relevant adapter skills listed in adapter.yaml; core TDD, debugging and review remain shared.

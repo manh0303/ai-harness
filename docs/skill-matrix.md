@@ -135,6 +135,10 @@
 
 ## Quy tắc phối hợp
 
+Coding và technical docs áp dụng [engineering quality](engineering-quality.md): nâng sâu skill IDs hiện
+có thay vì thêm workflow cạnh tranh. Optional export đi qua Product document-review và document-export;
+Core-only không tự cài Product/Architecture hoặc exporter. Stack rules/engineering.md chỉ nạp khi liên quan.
+
 - `product` → `uiux`: chỉ chuyển approved BRD/PRD và stable IDs; không tự duyệt hộ stakeholder.
 - `uiux` → `react-nextjs` / `react-native`: dùng screen specs/design tokens được duyệt, không suy đoán design chỉ từ screenshot.
 - `harness-spec` → technology skills: OpenSpec tasks có acceptance scenarios, test boundaries và NFRs.

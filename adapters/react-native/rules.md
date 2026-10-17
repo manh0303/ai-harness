@@ -21,6 +21,9 @@ OTA compatibility, signing and store deployment need their own reviewed release 
 
 ## Capability index
 
+For navigation/list/native behavior read rules/engineering.md with actual project/platform versions.
+Keep JS, simulator and real-device evidence separate; no mandatory native library replacement.
+
 Read rules/conventions.md before coding, then relevant rules/architecture.md, rules/security.md,
 rules/database.md and rules/performance.md. Project conventions take precedence over adapter defaults.
 Use only relevant adapter skills listed in adapter.yaml; core TDD, debugging and review remain shared.

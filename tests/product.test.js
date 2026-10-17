@@ -47,7 +47,7 @@ test('Product is independently registered with role/template contracts; UI/UX sc
   assert.equal(product.skills.length, 16);
   assert.equal(product.agents.length, 5);
   assert.equal(product.templates.length, 19);
-  assert.equal(product.workflows.length, 7);
+  assert.equal(product.workflows.length, 8);
   assert.deepEqual(uiux.agents, []);
   assert.deepEqual(uiux.templates, []);
   assert.equal(loadCapability(source, 'product').id, 'product');

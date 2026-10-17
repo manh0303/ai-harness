@@ -17,7 +17,8 @@
     "rules/security.md",
     "rules/database.md",
     "rules/performance.md",
-    "rules/conventions.md"
+    "rules/conventions.md",
+    "rules/engineering.md"
   ],
   "skills": [
     "harness-react-native-offline-sync",
@@ -27,5 +28,5 @@
   ],
   "verification": "checks/verification.yaml",
   "evaluation": "evals/cases.json",
-  "module_version": "1.4.0"
+  "module_version": "1.5.0"
 }

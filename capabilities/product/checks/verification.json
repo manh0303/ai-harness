@@ -72,6 +72,18 @@
         "Feedback deduplicated and proposed until accepted; no automatic scope expansion"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "engineering-depth",
+      "title": "Risk-selected engineering and document integrity review",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Inspected revision, conventions, reuse and vertical slice with observable done condition",
+        "Relevant invariant/contract/compatibility risks mapped to actual scenarios and real/mocked evidence",
+        "Canonical document/ADR facts and proposals reconciled; render/device/export gaps explicitly NOT_RUN or BLOCKED"
+      ],
+      "execution": "manual"
     }
   ]
 }

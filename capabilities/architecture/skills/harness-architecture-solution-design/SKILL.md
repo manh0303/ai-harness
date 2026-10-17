@@ -17,6 +17,13 @@ Reviewed scope, NFR scenarios, context/module map, approved ADRs, team/toolchain
 6. Define retries/timeouts/idempotency, transaction/consistency policy and observability where needed; record consequential choices in ADRs and agree them before affected code.
 7. Hand vertical implementation slices and verification boundaries to Delivery/Core and stack-specific adapters.
 
+## Engineering depth
+For an architecture overview, use the compact coverage in templates/overview.md: goals/constraints,
+context, responsibilities, runtime success/failure sequences, deployment, crosscutting policies,
+quality drivers, decisions and risks. This is an original arc42-informed outline, not a claim of full
+arc42 conformance. Select affected views; omit irrelevant sections with a reason instead of filling
+unknowns with invented systems. Reconcile diagrams, code boundaries and actual deployment declarations.
+
 ## Output
 docs/architecture/solution-design.md, linked ADRs and OpenSpec design/tasks, with explicit alternatives and accepted scope.
 
