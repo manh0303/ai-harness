@@ -53,7 +53,7 @@ Next gate + named human approver:
 
 1. **BA → PM/PO:** `SRC` → `BR/FR/NFR`, AS-IS/TO-BE, constraints, source versions, unknowns.
 2. **PO/requirements-reviewer → designer:** approved `PRD/US/AC` và requirement IDs; nếu chưa duyệt, designer chỉ chuẩn bị draft.
-3. **Designer → planner/implementer:** `SCR` → design tokens + Figma node references (nếu có), error/empty/loading states, UX decision log.
+3. **Designer → planner/implementer:** `SCR` → canonical DESIGN.md hoặc master hiện có + revision, tokens/components, actual preview/Figma/Penpot/Stitch references (nếu có), error/empty/loading states, accepted/proposed decisions. Implementer đọc lại master trước code; design-review kiểm tra render và interaction thực tế, sửa rồi recheck. Optional external skills phải ghi nguồn/version đã dùng hoặc NOT_RUN, không mặc định đã cài.
 4. **Planner → implementer:** `openspec/changes/<id>/`, approved scope, API/data contracts, tests, affected Git roots.
 5. **Implementer → test-engineer/security-reviewer:** bounded diff + tests + migrations + permissions, exact commands and outputs.
 6. **Reviewers → maintainer:** severity-ranked findings, CI evidence, PR link, known risks. AI không tự approve/merge.

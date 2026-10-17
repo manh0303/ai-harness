@@ -1,6 +1,6 @@
-# Skill matrix — 68 skills, 15 nhóm module
+# Skill matrix — 70 skills, 15 nhóm module
 
-Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (8 Core, 42 capability, 18 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 68 skill vào prompt.
+Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (8 Core, 44 capability, 18 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 70 skill vào prompt.
 
 **Cách dùng:** `aih skills` xem skills đã cài, sau đó `aih skill harness-...` lấy nội dung. Danh mục này mô tả chức năng; **không** có nghĩa `aih` thực thi skills hoặc agent. Tech adapters và capabilities chỉ xuất hiện trong consumer khi được chọn; Core dùng chung.
 
@@ -9,7 +9,7 @@
 | Discovery → Product | `product` | Source register, BRD/PRD, AC, backlog, traceability |
 | Product → Solution | `architecture` | Context, NFR, module/data/contracts, ADR, architecture review |
 | Solution → Delivery | `delivery` | Value slices, dependencies, owned risks and scope-change assessment |
-| UX → Figma | `uiux` | Flows, screen specs, tokens, design review |
+| UX → design/preview | `uiux` | Flows, canonical design decisions, screen specs, tokens, visual/interaction review |
 | Spec → Code → Review | Core + adapter theo stack | OpenSpec, tests, changes, review evidence |
 | Release → Operate | `devops`, `kubernetes` khi phù hợp | CI, container, manifests, rollout và SLO plan |
 | Traffic → Publisher Revenue | `monetization` (optional) | SEO growth, AdSense readiness, UX/consent checks, Page RPM review |
@@ -60,11 +60,13 @@
 
 | [`harness-product-techspec`](../capabilities/product/skills/harness-product-techspec/SKILL.md) | Technical docs | Requirements, code, contracts and evidence | Selective TechSpec |
 
-## UI/UX capability (6)
+## UI/UX capability (8)
 
 | Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
 | --- | --- | --- | --- |
-| [`harness-uiux-design-review`](../capabilities/uiux/skills/harness-uiux-design-review/SKILL.md) | Design review | Kiểm tra Figma về coverage và accessibility | Findings gắn requirement/node |
+| [`harness-uiux-design-review`](../capabilities/uiux/skills/harness-uiux-design-review/SKILL.md) | Design review | Kiểm tra render, interaction và canonical decisions | Findings, fixes/recheck và actual artifact references |
+| [`harness-uiux-design-direction`](../capabilities/uiux/skills/harness-uiux-design-direction/SKILL.md) | UI mới hoặc hướng thị giác còn mở | Brief, kế thừa và chọn phong cách theo bối cảnh | Canonical design source, direction và preview thật nếu có |
+| [`harness-uiux-external-design`](../capabilities/uiux/skills/harness-uiux-external-design/SKILL.md) | Cần kiến thức/provider bên ngoài | Reviewed UI UX Pro Max / Google Stitch handoff | Actual source/version/output hoặc local fallback với giới hạn |
 | [`harness-uiux-design-system`](../capabilities/uiux/skills/harness-uiux-design-system/SKILL.md) | UI system | Token ngữ nghĩa, component reuse | Design tokens và component inventory |
 | [`harness-uiux-figma-design`](../capabilities/uiux/skills/harness-uiux-figma-design/SKILL.md) | Design | Tạo frame editable khi host có Figma và quyền ghi | Figma node/screen mapping |
 | [`harness-uiux-requirements-analysis`](../capabilities/uiux/skills/harness-uiux-requirements-analysis/SKILL.md) | UX intake | Trích xuất yêu cầu UI có nguồn nếu cần | UI requirement IDs, unknowns |

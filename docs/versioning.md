@@ -1,5 +1,14 @@
 # Versioning and migration
 
+## Contextual UI design quality (unreleased)
+
+UIUX 1.2.0 adds two skills and supporting templates/integration guidance, retaining Figma IDs and
+schema 1. Distribution version remains Release Please-owned. Reviewed update --dry-run/update/check
+preserves project DESIGN.md, local settings and separately installed upstream skills. No external
+code is bundled or downloaded. Upstream pins identify inspected sources, not enforced installations.
+Re-export evals for the new bundle; live host/visual comparisons remain NOT_RUN. Roll back the consumer
+snapshot/lock commit with its matching CLI; external skill upgrades are separate reviewed changes.
+
 Maintainer entry point: [Harness maintenance and impact matrix](harness-maintenance.md).
 
 Framework version is in harness.yaml and package.json; keep both and package-lock.json synchronized. Use three-part SemVer releases and Git tags vX.Y.Z after review.

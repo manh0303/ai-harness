@@ -8,14 +8,16 @@
     "harness-uiux-screen-planning",
     "harness-uiux-design-system",
     "harness-uiux-figma-design",
-    "harness-uiux-design-review"
+    "harness-uiux-design-review",
+    "harness-uiux-design-direction",
+    "harness-uiux-external-design"
   ],
   "workflows": [
     "workflows/docs-to-figma.md",
     "workflows/idea-to-figma.md",
     "workflows/design-delivery.md"
   ],
-  "module_version": "1.1.0",
+  "module_version": "1.2.0",
   "recommends": [
     "capability:product"
   ],

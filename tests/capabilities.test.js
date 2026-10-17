@@ -47,7 +47,7 @@ test('registered UI/UX capability preserves Figma workflows and adds neutral des
   assert.equal(loadCapability(source, 'devops').workflows.length, 2);
   assert.ok(registered.some(c => c.id === 'uiux'));
   assert.ok(registered.some(c => c.id === 'product'));
-  assert.equal(registered[0].skills.length, 6);
+  assert.equal(registered.find(c => c.id === 'uiux').skills.length, 8);
   assert.deepEqual(loadCapability(source, 'uiux').workflows, ['workflows/docs-to-figma.md', 'workflows/idea-to-figma.md', 'workflows/design-delivery.md']);
   assert.deepEqual(snapshot(), {});
 });

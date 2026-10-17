@@ -45,6 +45,7 @@ The agent chooses the necessary depth, reuses confirmed decisions and reports co
 blockers and the next action. You do not need to select roles or gates.
 
 [Short prompts & troubleshooting](docs/simple-use.md) · [pip/offline](docs/python-installation.md) · [Settings & backup](docs/configuration-backup.md).
+[UI design, previews & optional design skills](docs/ui-design.md).
 Python installation still requires Node.js 22+; it does not call npm. Registry availability must be verified.
 
 ## Where it runs

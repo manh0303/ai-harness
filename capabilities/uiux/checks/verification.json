@@ -11,7 +11,11 @@
         "Source references and versioned evidence",
         "Unrun steps clearly identified",
         "Required/excluded sections and chosen output type",
-        "Actual editable file or preview evidence; unavailable tools and substitutions disclosed"
+        "Actual editable file or preview evidence; unavailable tools and substitutions disclosed",
+        "Canonical DESIGN.md or existing design master path/revision read by implementer and reviewer",
+        "Contextual typography, density, content and layout rationale; no imposed universal aesthetic",
+        "Actual viewport/interaction findings, fixes and rechecks; build success is not visual approval",
+        "External skill/provider commit and prerequisite evidence, or explicit NOT_RUN/BLOCKED fallback"
       ],
       "execution": "manual"
     }

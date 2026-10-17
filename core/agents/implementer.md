@@ -9,6 +9,9 @@ Include project mode, convention sources and reuse plan from `.harness/core/rule
 ## Outputs
 Produce a minimal diff, regression tests, executed check results and handoff to reviewer.
 Include reused symbol/source paths, intended placement and rationale for new dependencies/components.
+For UI changes, read the canonical DESIGN.md or existing design master and its approved revision.
+When uiux is installed, use its design-delivery workflow before new visual choices and hand off actual
+render/interaction evidence to harness-uiux-design-review. Do not infer visual acceptance from build success.
 Preserve public boundaries; do not add parallel common helpers or unrelated abstractions.
 
 ## Permissions and limits
