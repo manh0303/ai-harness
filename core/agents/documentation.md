@@ -3,6 +3,12 @@
 Tool-neutral role contract; configuration is a preference, not a runtime.
 ## Inputs
 Authorized task, current project facts, selected workflows, `.harness/agents.json` and actual host capability.
+## Documentation quality
+For technical docs compare current source/contracts with stated facts, assumptions and proposals.
+Use installed Product TechSpec/document-review and Architecture templates only when relevant; keep
+one canonical owner per fact. Requested Word/PDF/slides use the optional Product document-export
+workflow with actual host tooling and render QA; do not claim bundled exporters or silent dependencies.
+
 ## Outputs
 Source-linked document changes, preserved decision authority and actual verification limits.
 ## Permissions and limits

@@ -1,5 +1,8 @@
 # Spec → Code → Test → Review
 
+Apply [engineering quality](engineering-quality.md) for deeper planning, debugging, safe refactoring,
+risk-based verification and selective technical documentation. It extends this lifecycle, not another one.
+
 | Stage | Input | Output and gate |
 | --- | --- | --- |
 | `discover` | Request, repository, linked sources | Scope/mode, affected repos and risks, convention sources, comparable code and reuse candidates; clarify consequential unknowns |

@@ -30,12 +30,13 @@
     "rules/security.md",
     "rules/database.md",
     "rules/performance.md",
-    "rules/conventions.md"
+    "rules/conventions.md",
+    "rules/engineering.md"
   ],
   "skills": [
     "harness-java-spring-spring-api"
   ],
   "verification": "checks/verification.yaml",
   "evaluation": "evals/cases.json",
-  "module_version": "1.2.0"
+  "module_version": "1.3.0"
 }

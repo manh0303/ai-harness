@@ -40,6 +40,16 @@
         "Continues independent authorized work and records conflict/blocker in existing decisions/impact"
       ],
       "critical": true
+    },
+    {
+      "id": "compact-architecture-no-invention",
+      "prompt": "Document an existing small service. Deployment topology and SLA are unknown, and an accepted ADR already covers persistence. A template lists many sections.",
+      "criteria": [
+        "Uses selective context/runtime/deployment/quality views and labels unknown topology instead of inventing it",
+        "Links accepted decisions instead of duplicating or rewriting them",
+        "Uses task notes for trivial choices and records actual authority before accepting new consequential decisions"
+      ],
+      "critical": true
     }
   ]
 }

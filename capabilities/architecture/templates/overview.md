@@ -18,6 +18,15 @@ NFR scenario links, top trade-offs, unknowns and owner decisions; minimal viable
 ## Operating reality
 Toolchain, deployment/observability/recovery constraints and authorized environments, linked to DevOps.
 
+## Runtime and deployment views (when affected)
+Important success/failure sequences, trust/process boundaries, nodes/artifacts and external dependencies.
+Identify actual source/deployment declarations; hypothetical views stay proposed. Keep diagrams scoped.
+
+## Crosscutting policies and risks (when affected)
+Authentication/authorization, consistency, error handling, observability and recovery ownership.
+Link accepted ADRs and quality scenarios, unresolved risks/technical debt and project glossary.
+Use this compact arc42-informed coverage selectively, not a mandatory twelve-section document.
+
 
 ## Review and handoff
 Record actual owner decisions, unresolved consequential questions, verification performed/skipped,

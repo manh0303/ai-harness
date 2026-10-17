@@ -16,6 +16,15 @@ Approved/provisional requirements, code revision, applicable contracts, existing
 5. For existing documents, propose affected section changes and retain unaffected user edits. Compare observed source revision and before/after contracts; record artifact-impact. Source read-only means no write; propose means reviewable patch; write still requires actual host authorization and concurrency checks.
 6. Route a new draft with `aih new-doc techspec`, optionally `--report verification/report.json`. The CLI refuses overwrite and hands external destinations to the host; it does not publish or automatically update sources.
 
+## Engineering depth
+For consequential features read the expanded template sections selectively: API/error/auth contract,
+schema/constraint/index/migration, success/failure sequence, transaction/concurrency invariant,
+external timeout/retry/idempotency, diagnostic signals, compatibility and rollout/recovery. Explain
+why each included section matters; mark unknown choices proposed. No database section for a static
+calculator. Link architecture/ADR sources instead of duplicating accepted decisions.
+Derive vertical implementation slices with test boundary and done conditions, then pass scoped code
+to Core/adapter skills. The spec documents business invariants, not an invented architecture.
+
 ## Output
 Selective draft TechSpec, traceability, evidence and affected-section maintenance proposal.
 

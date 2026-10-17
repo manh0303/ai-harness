@@ -30,6 +30,11 @@ UI/UX và DevOps hiện **không khai báo role agents chuyên biệt**; dùng w
 
 ## Handoff contract tối thiểu
 
+Engineering handoff adds only relevant evidence: inspected/reused paths, vertical-slice done condition,
+invariant/contract risks and requirement → scenario → actual result. Technical docs carry canonical
+revision and FACT/proposal/UNKNOWN; requested exports carry actual render QA or NOT_RUN. See
+[engineering quality](engineering-quality.md). No extra worker or source publication is implied.
+
 ~~~text
 Change ID:
 Source repository + Git root:

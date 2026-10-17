@@ -19,6 +19,15 @@ For changed public journeys or an explicit end-user request, load harness-end-us
 6. Capture redacted raw observations, digests, executed command/tool, revision, timestamp/environment, expected/observed, error category and fixture cleanup. Record cost/tokens only from actual measurements. Use the report contract in the guide and `aih verify --report` for consistency validation.
 7. Report requirement coverage VERIFIED only with linked passing evidence; otherwise UNVERIFIED. Review raw execution independently and hand affected documentation to Product TechSpec maintenance.
 
+## Engineering depth
+Create a compact risk-to-evidence matrix in the existing task/report: requirement ID → risk → scenario
+→ test layer → real/mocked dependencies → revision/evidence/result. Prioritize distinguishing outcomes
+over duplicating every test at every layer. Public contract changes need consumer/compatibility checks;
+data invariants need actual vendor integration/concurrency evidence when semantics matter. Code coverage
+alone is not acceptance. Changed requirements invalidate their old evidence even if code is unchanged.
+For performance record workload, baseline/candidate environment and measurements; never infer faster
+execution from a recommended pattern. Reuse recoverable-verification checkpoints for long checks.
+
 ## Output
 Proportional verification plan, PASSED/FAILED/BLOCKED/NOT_RUN scenario report, VERIFIED/UNVERIFIED requirement coverage and unresolved limitations.
 

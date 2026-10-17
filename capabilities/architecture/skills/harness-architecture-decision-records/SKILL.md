@@ -16,6 +16,12 @@ Decision question, actual drivers/evidence, options, current ADRs and stakeholde
 5. Link requirement/NFR IDs, module/contracts and OpenSpec change. Preserve superseded history and update the project map.
 6. For a trivial reversible choice, a task note is enough; do not manufacture an ADR for every edit.
 
+## Engineering depth
+Use the original MADR-informed ADR outline for consequential choices: decision question/context,
+drivers, viable alternatives, chosen option/owner evidence, positive/negative consequences and
+validation/reconsideration. If scope changes, supersede/link rather than silently rewriting an accepted
+decision. Do not manufacture options, measurements or an approval to satisfy the template.
+
 ## Output
 A project-owned ADR, e.g. docs/architecture/decisions/adr-001.md, linked from project-map and active OpenSpec design.
 

@@ -17,6 +17,16 @@ description: Review generated BRD/PRD/stories for traceability, completeness, co
 5. Record completeness and coverage measures with denominator and caveats; list evidence that was unavailable.
 6. Leave documents in `pending-review` until named humans explicitly approve; suggest next actions without auto-approving.
 
+## Engineering depth
+For technical docs additionally compare API/schema/sequence/deployment diagrams with inspected source
+revision. Label FACT, INTERPRETATION/proposal and UNKNOWN; static inspection cannot prove runtime behavior.
+Detect duplicated owners, contradictory values, broken source links and stale exports. Update affected
+sections only, preserving unrelated edits and accepted history. Review examples/commands for actual
+prerequisites and safe placeholders; do not advertise unmeasured results.
+If Word/PDF/slides are requested, follow `.harness/capabilities/product/workflows/document-export.md`.
+Separate substantive review, actual rendered layout QA and business acceptance. Missing render tooling
+means visual QA NOT_RUN, not a fabricated screenshot or automatic dependency installation.
+
 ## Output
 - `docs/product/review-report.md` with severity, source evidence, owner and disposition.
 - Gate recommendation: ready-for-human-review / rework-required (never approved by AI).

@@ -22,6 +22,7 @@ Docs/UI/source outputs: .harness/core/workflows/artifact-contract.md with artifa
 UI tasks: if uiux is installed, first read .harness/capabilities/uiux/workflows/design-delivery.md; reuse the canonical DESIGN.md or existing design master. Missing optional skills do not authorize installation.
 End-user journeys: .harness/core/workflows/end-user-acceptance.md + harness-end-user-testing; real interface evidence or explicit blockers.
 Implementation: .harness/core/workflows/spec-to-code.md. Verification/review: .harness/core/workflows/adaptive-verification.md and harness-review.
+Coding/technical-doc depth: .harness/core/workflows/engineering-quality.md; load only the task's relevant skill and selected stack guidance.
 
 {{adapters}}
 {{capabilities}}

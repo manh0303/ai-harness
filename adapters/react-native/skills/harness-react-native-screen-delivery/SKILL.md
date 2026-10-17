@@ -11,6 +11,8 @@ Task/AC and screen/flow notes, API contract, actual Expo/bare setup and router/v
 platforms, and existing navigation/theme/client/storage/test paths.
 
 ## Procedure
+Read `.harness/adapters/react-native/rules/engineering.md` for navigation, list rendering, keyboard/
+safe-area/permission and interrupted-request concerns; do not infer native success from JS tests.
 1. Apply `.harness/core/rules/project-conventions.md` and selected adapter rules. Inspect a comparable
    screen and public navigation/UI/client/state APIs. Preserve Expo/bare, native architecture and
    existing router; ask only consequential unresolved platform or business choices with recommendations.

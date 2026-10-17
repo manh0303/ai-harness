@@ -16,6 +16,14 @@ Base/head diff, change spec, selected adapters and test evidence.
 6. Re-run a focused check when possible. Keep unverified concerns explicitly labeled.
 7. For full changes, inspect decisions.json and real verification.json evidence, then use
    aih ready <id> --stage review. A ready result is not proof, approval or permission to merge.
+## Engineering depth
+Before findings, separate requirement compliance from engineering risk. Check accepted contracts,
+unrelated scope, transaction/concurrency invariants, duplicate/retry safety, data migrations and
+old/new consumer compatibility where relevant. Review test assertions, not just test count/coverage.
+Do not invent line-level evidence or treat a hypothetical risk as a reproduced bug. For review feedback,
+inspect the actual claim before applying it; explain unsupported advice and record accepted fixes with
+focused rechecks. Distinguish your own review from an independent reviewer or human sign-off.
+
 ## Output
 Findings ordered by severity; requirement coverage; actual checks; residual risk; review recommendation.
 ## Constraints

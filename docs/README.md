@@ -5,6 +5,8 @@ Chỉ đọc phần phù hợp với công việc đang làm.
 
 ## Sử dụng
 
+[Coding, TechSpec, kiến trúc và xuất tài liệu](engineering-quality.md): sáu nhóm năng lực, dùng theo task.
+
 | Cần làm gì? | Đọc ở đâu? |
 | --- | --- |
 | Tra lệnh, chọn module, xử lý conflict | [CLI](cli.md) · [Adapters](adapters.md) |
