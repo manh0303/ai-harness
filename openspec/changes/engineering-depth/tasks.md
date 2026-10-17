@@ -4,7 +4,7 @@
 - [x] Implement deeper Core coding, Architecture, TechSpec, stack rules, verification and document/export instructions.
 - [x] Wire manifests/entrypoints, source pins, docs, migration and structural/behavioral checks.
 - [x] Complete full tests, validation, release metadata and real package smoke; review final diff.
-- [ ] Open reviewed feature PR; human review/merge required, no publish.
+- [x] Open feature PR #62; human review/merge required, no publish.
 
 ## NOT_RUN live evaluation recipe
 Run baseline/candidate in the same host/model/tools and fixture revisions on: intermittent duplicate
